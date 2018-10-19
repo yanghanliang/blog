@@ -22,9 +22,6 @@
 </template>
 
 <script>
-// 导入发送请求的模块
-import axios from 'axios'
-
 export default {
   name: 'edit',
   data() {
@@ -35,7 +32,7 @@ export default {
   },
   mounted() {
     this.user_id = this.$route.params.user_id
-    axios.get(`http://localhost:3000/data/${this.user_id}`)
+    this.$http.get(`http://localhost:3000/data/${this.user_id}`)
       .then((response) => {
         this.list = response.data
       })
@@ -45,7 +42,7 @@ export default {
   },
   methods: {
     edit() {
-      axios.patch(`http://localhost:3000/data/${this.user_id}`, this.list)
+      this.$http.patch(`http://localhost:3000/data/${this.user_id}`, this.list)
         .then((response) => {
           if (response.status === 200) {
             this.$router.push({ name: 'listUser' })

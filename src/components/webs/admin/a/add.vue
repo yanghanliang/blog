@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'add',
   data() {
@@ -24,10 +22,10 @@ export default {
   },
   methods: {
     addUser() {
-      axios.post('http://localhost:3000/data', this.formData)
+      this.$http.post('http://localhost:3000/data', this.formData)
         .then((response) => {
           if (response.status === 201) {
-            this.$router.push({name: 'list'})
+            this.$router.push({name: 'listUser'})
           }
         })
         .catch((error) => {

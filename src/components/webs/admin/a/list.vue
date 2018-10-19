@@ -20,9 +20,6 @@
 </template>
 
 <script>
-// 导入 axios 用于发送请求
-import axios from 'axios'
-
 export default {
   name: 'a',
   data() {
@@ -36,7 +33,7 @@ export default {
   methods: {
     // 获取数据渲染页面
     loadData() {
-      axios.get('http://localhost:3000/data')
+      this.$http.get('http://localhost:3000/data')
         .then((response) => {
           this.lists = response.data // 获取数据
         })
@@ -51,7 +48,7 @@ export default {
         return
       }
 
-      axios.delete(`http://localhost:3000/data/${id}`)
+      this.$http.delete(`http://localhost:3000/data/${id}`)
         .then((response) => {
           if (response.status === 200) {
             console.log('删除成功')
