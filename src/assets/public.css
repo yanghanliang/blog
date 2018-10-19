@@ -1,0 +1,30 @@
+/* header-start */
+header {
+    height: 50px;
+    line-height: 50px;
+    background-color: red;
+}
+
+.header_left {
+    float: left;
+}
+
+.header_right {
+    float: right;
+}
+/* header-end */
+
+/* content-start */
+.content {
+    width: 1200px;
+    margin: 0 auto;
+}
+/* content-end */
+
+/* footer-start */
+footer {
+    height: 50px;
+    line-height: 50px;
+    background-color: blue;
+}
+/* footer-end */
