@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/webs/index/index'
-import admin from '@/components/webs/admin/index'
 
 // admin-start
+import login from '@/views/login'
+import admin from '@/components/webs/admin/index'
 import listUser from '@/components/webs/admin/a/list'
 import addUser from '@/components/webs/admin/a/add'
 import editUser from '@/components/webs/admin/a/edit'
@@ -15,6 +16,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/index',
       name: 'index',
       component: index
     },
