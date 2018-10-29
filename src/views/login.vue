@@ -26,33 +26,29 @@ export default {
     }
   },
   methods: {
-    login() {
-      this.$http.post('http://localhost:3001/login', this.form)
-        .then((req, res) => {
-          if (req.data.state === 200) {
-            // 弹出提示框
-            this.$message({
-              type: 'success',
-              message: req.data.msg,
-              center: true
-            })
-
-            // 保存 token
-            window.sessionStorage.setItem('token', req.data.token)
-
-            // 跳转页面
-          } else {
-            // 弹出提示框
-            this.$message({
-              type: 'error',
-              message: req.data.msg,
-              center: true
-            })
-          }
+    async login() {
+      const data = await this.$http.post('http://localhost:3001/login', this.form)
+      // 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
+      if (data.data.status === 200) {
+        // 弹出提示框
+        this.$message({
+          type: 'success',
+          message: data.data.msg,
+          center: true
         })
-        .catch((error) => {
-          console.log(error)
+
+        // 保存 token
+        sessionStorage.setItem('token', data.data.token)
+
+        // 跳转页面
+      } else {
+        // 弹出提示框
+        this.$message({
+          type: 'error',
+          message: data.data.msg,
+          center: true
         })
+      }
     }
   }
 }
