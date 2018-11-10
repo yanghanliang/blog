@@ -170,11 +170,6 @@ export default {
       const data = await this.$http.get('index') // 发送请求,获取文章数据
       this.article = data.data // 将获取到的数据赋值给 vue
     }
-  },
-  filters: {
-    dateFrm: function(time) {
-      return moment(time).format('YYYY-MM-DD') 
-    }
   }
 }
 </script>
@@ -210,7 +205,7 @@ export default {
 .content_left {
     float: left;
     width: 8.4rem;
-    height: 10rem;
+    min-height: 10rem;
 }
 
 /* cl_box-start */

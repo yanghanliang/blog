@@ -30,8 +30,8 @@ Vue.use(MyAxios)
 Vue.use(ElementUI)
 
 // 调用时间格式化 moment
-Vue.filter('formatDate', function(date, formateStr){
-  return moment(date).format(formateStr) 
+Vue.filter('formatDate', function (date, formateStr) {
+  return moment(date).format(formateStr)
 })
 
 Vue.config.productionTip = false
