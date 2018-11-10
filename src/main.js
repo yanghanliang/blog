@@ -8,6 +8,12 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+// 引入 moment 格式化时间
+import moment from 'moment'
+
+// 引入字体图标
+import './assets/iconfont.css'
+
 // 引入自己的重置样式
 import './assets/reset.css'
 
@@ -20,8 +26,13 @@ import MyAxios from './plugins/myAxios'
 // 调用发送请求的插件
 Vue.use(MyAxios)
 
-// 调用发送请求的插件
+// 调用 element
 Vue.use(ElementUI)
+
+// 调用时间格式化 moment
+Vue.filter('formatDate', function(date, formateStr){
+  return moment(date).format(formateStr) 
+})
 
 Vue.config.productionTip = false
 

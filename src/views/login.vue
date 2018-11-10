@@ -1,8 +1,9 @@
 <template>
     <div class="login">
         <el-form class="login-form" ref="form" label-position="top" :model="form" label-width="80px">
+            <h2>用户登录</h2>
             <el-form-item label="用户名">
-                <el-input v-model="form.username" autofocus></el-input>
+                <el-input v-model="form.username" autofocus="autofocus"></el-input>
             </el-form-item>
             <el-form-item label="密码">
                 <el-input v-model="form.password" @keyup.enter.native="login"></el-input>
@@ -27,7 +28,7 @@ export default {
   },
   methods: {
     async login() {
-      const data = await this.$http.post('http://localhost:3001/login', this.form)
+      const data = await this.$http.post('login', this.form)
       // 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
       if (data.data.status === 200) {
         // 弹出提示框
@@ -41,6 +42,7 @@ export default {
         sessionStorage.setItem('token', data.data.token)
 
         // 跳转页面
+        this.$router.push({ name: 'admin' })
       } else {
         // 弹出提示框
         this.$message({

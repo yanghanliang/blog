@@ -1,8 +1,14 @@
+/* 100px = 1rem */
 html,body,#app {
 	height: 100%;
+	font-size: 100px;
 }
 
-body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dd,dt {
+div {
+	font-size: 14px;
+}
+
+body,p,ul,ol,li,dl,dd,dt {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -27,13 +33,13 @@ button {
 	background-color: #fff; /*去除默认背景颜色*/
 }
 
-a{
-	text-decoration: none;
-	color: #53635d;
+a {
+	color: #096;
 	font-size: 14px;
+	text-decoration: none;
 }
 
-a:hover {
+a[href]:hover {
 	color: #007bff;
 }
 
@@ -43,12 +49,6 @@ img,input {
 	border: 0 none;
 	outline-style:none; 
 }
-
-/* .form_input {
-	
-} */
-
-
 
 /*清除浮动*/
 .clearfix::after {

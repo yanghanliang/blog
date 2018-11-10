@@ -3,10 +3,46 @@
         <header><h1>后台首页</h1></header>
         <div class="content clearfix">
             <ul class="content_left">
-                <router-link to="/admin/listUser" tag="li" active-class="hover"><a>a</a></router-link>
-                <router-link to="/admin/b" tag="li" active-class="hover"><a>b</a></router-link>
+                <!-- <router-link to="/admin/listUser" tag="li" active-class="hover"><a>a</a></router-link>
+                <router-link to="/admin/b" tag="li" active-class="hover"><a>b</a></router-link> -->
                 <!-- <li><a href="#">a</a></li> -->
                 <!-- <li><a href="#">b</a></li> -->
+                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                    <el-radio-button :label="false">展开</el-radio-button>
+                    <el-radio-button :label="true">收起</el-radio-button>
+                    </el-radio-group>
+                    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                    <el-submenu index="1">
+                        <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">导航一</span>
+                        </template>
+                        <el-menu-item-group>
+                        <span slot="title">分组一</span>
+                        <el-menu-item index="1-1">选项1</el-menu-item>
+                        <el-menu-item index="1-2">选项2</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group title="分组2">
+                        <el-menu-item index="1-3">选项3</el-menu-item>
+                        </el-menu-item-group>
+                        <el-submenu index="1-4">
+                        <span slot="title">选项4</span>
+                        <el-menu-item index="1-4-1">选项1</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-menu-item index="2">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">导航二</span>
+                    </el-menu-item>
+                    <el-menu-item index="3" disabled>
+                        <i class="el-icon-document"></i>
+                        <span slot="title">导航三</span>
+                    </el-menu-item>
+                    <el-menu-item index="4">
+                        <i class="el-icon-setting"></i>
+                        <span slot="title">导航四</span>
+                    </el-menu-item>
+                </el-menu>
             </ul>
             <right-content></right-content>
         </div>
@@ -20,34 +56,70 @@ import RightContent from '@/components/webs/admin/RightContent'
 
 export default {
   name: 'admin',
+  data() {
+    return {
+      isCollapse: true
+    }
+  },
   components: {
     RightContent
+  },
+  beforeCreate() {
+    const token = sessionStorage.getItem('token')
+    if (!token) {
+      // 弹出提示
+      this.$message({
+        type: 'error',
+        message: '您还没有登录, 请先登录!',
+        center: true
+      })
+
+      // 跳转到登录页面
+      this.$router.push({ name: 'login' })
+    }
+  },
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath)
+    }
   }
 }
 </script>
 
 <style scoped>
+header > h1 {
+  margin: 0;
+}
+
 .content_left {
-    float: left;
-    width: 336px;
-    height: 800px;
-    background-color: #999;
+  float: left;
+  width: 336px;
+  height: 800px;
+  background-color: #999;
 }
 
 .content_left li a {
-    width: 100%;
-    height: 30px;
-    display: block;
-    color: #ffffff;
-    line-height: 30px;
-    background-color: #666;
+  width: 100%;
+  height: 30px;
+  display: block;
+  color: #ffffff;
+  line-height: 30px;
+  background-color: #666;
 }
 
 .content_left li a:hover {
-    background-color: blue;
+  background-color: blue;
 }
 
 .content_left .hover a {
-    background-color: blue;
+  background-color: blue;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>
