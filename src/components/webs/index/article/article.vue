@@ -1,10 +1,10 @@
 <template>
-    <div>wo hen shuai</div>
+  <div>wo hen shuai</div>
 </template>
 
 <script>
 export default {
-  name: 'my'
+  name: 'articles'
 }
 </script>
 

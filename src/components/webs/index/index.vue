@@ -40,7 +40,7 @@
                             <i class="icon">&#xe609;</i>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
-                        <a href="http://">阅读原文</a>
+                        <router-link :to="{ name: 'articles' }">阅读原文</router-link>
                     </div>
                 </div>
                 <div class="cl_box">
@@ -122,11 +122,9 @@
                     <img class="s_bg" src="../../../assets/images/index/banner.png" alt="背景墙的图片">
                     <img class="s_head_portrait" src="../../../assets/images/index/avatar.jpg" alt="头像">
                     <div class="s_content">
-                        <h2>yangmm | xxx</h2>
-                        <h3>- hhhhh -</h3>
-                        <p>
-                            用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。
-                        </p>
+                        <h2>{{ personal_information.alias }} | {{ personal_information.name }}</h2>
+                        <h3>- {{ personal_information.occupation }} -</h3>
+                        <p>{{ personal_information.synopsis }}</p>
                     </div>
                 </div>
                 <!-- 还不知道放什么 -->
@@ -159,7 +157,8 @@ export default {
   name: 'index',
   data() {
     return {
-      article: [] // 文章数据
+      article: [], // 文章数据
+      personal_information: {} // 个人信息数据
     }
   },
   created() {
@@ -167,8 +166,9 @@ export default {
   },
   methods: {
     async loadData() {
-      const data = await this.$http.get('index') // 发送请求,获取文章数据
-      this.article = data.data // 将获取到的数据赋值给 vue
+      const data = await this.$http.get('index') // 发送请求,获取数据
+      this.article = data.data.article // 将获取到的文章数据赋值给 vue
+      this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
     }
   }
 }

@@ -6,7 +6,7 @@ body {
 header {
     height: 50px;
     line-height: 50px;
-    background-color: red;
+    background-color: #101010;
 }
 
 .header_left {
@@ -29,6 +29,6 @@ header {
 footer {
     height: 50px;
     line-height: 50px;
-    background-color: blue;
+    background-color: #101010;
 }
 /* footer-end */

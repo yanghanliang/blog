@@ -10,19 +10,30 @@ import addUser from '@/components/webs/admin/a/add'
 import editUser from '@/components/webs/admin/a/edit'
 // admin-end
 
+// index-start
+import articles from '@/components/webs/index/article/article'
+// index-end
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: login
+      name: 'index',
+      component: index,
+      children: [
+        {
+          path: 'articles',
+          name: 'articles',
+          component: articles
+        }
+      ]
     },
     {
-      path: '/index',
-      name: 'index',
-      component: index
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/admin',
