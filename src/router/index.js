@@ -11,7 +11,7 @@ import editUser from '@/components/webs/admin/a/edit'
 // admin-end
 
 // index-start
-import articles from '@/components/webs/index/article/article'
+import articleDetails from '@/components/webs/index/article/articleDetails'
 // index-end
 
 Vue.use(Router)
@@ -21,14 +21,12 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index,
-      children: [
-        {
-          path: 'articles',
-          name: 'articles',
-          component: articles
-        }
-      ]
+      component: index
+    },
+    {
+      path: 'articleDetails',
+      name: 'articleDetails',
+      component: articleDetails
     },
     {
       path: '/login',

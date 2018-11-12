@@ -18,17 +18,26 @@ npm run dev
 
 + main.js 是入口文件, 可在它里面调用自己的"样式"
 
+## 1. 功能介绍
+
+##  login 页面
+  + 密码框回车登录
+    + 验证用户名和密码
+  + 输入框自动获取焦点
+  + 点击登录
+    + 验证用户名和密码
+
 ***
 
 
-## 1. vue 中事件修饰符的使用
+## 2. vue 中事件修饰符的使用
 + <el-input v-model="form.password" @keyup.enter.native="login"></el-input>
 	+ @keyup.enter 是vue 封装的事件,添加 .native 可以将它转化为 DOM 原生的事件
 
 
 ***
 
-## 2. 自定义指令(踩过的坑)
+## 3. 自定义指令(踩过的坑)
 
 + focus
 

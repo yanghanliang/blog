@@ -40,7 +40,7 @@
                             <i class="icon">&#xe609;</i>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
-                        <router-link :to="{ name: 'articles' }">阅读原文</router-link>
+                        <router-link :to="{ name: 'articleDetails' }">阅读原文</router-link>
                     </div>
                 </div>
                 <div class="cl_box">
@@ -378,5 +378,4 @@ export default {
 /* s_box-end */
 /* smg-end */
 /* content_right-end */
-
 </style>
