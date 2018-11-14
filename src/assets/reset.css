@@ -4,17 +4,38 @@ html,body,#app {
 	font-size: 100px;
 }
 
+@media (max-width: 1400px){
+    html {
+		font-size: 70px;
+    }
+}
+
+@media (min-width: 1000px){
+    html {
+		font-size: 100px;
+    }
+}
+
 div {
 	font-size: 14px;
 }
 
-body,p,ul,ol,li,dl,dd,dt {
+body,p,ul,dl,dd,dt {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	border: 0 none;
 	font-size: 14px;
 	color: #333333;
+	font-family: PingFangSC-Regular,微软雅黑,宋体;
+}
+
+ol,li {
+	margin: 0;
+	/* padding: 0; */
+	border: 0 none;
+	font-size: 14px;
+	/* color: #333333; */
 	font-family: PingFangSC-Regular,微软雅黑,宋体;
 }
 
@@ -67,24 +88,17 @@ img,input {
 
 /*版心*/
 .w {
-	width: 1190px;
+	width: 12rem;
 	margin: 0 auto;
+	overflow: hidden;
+	text-align: center;
 }
 
-.w3 {
-	width: 1160px;
-	margin: 0 auto;
-}
-
-.w4 {
-	width: 1200px;
-	margin: 0 auto;
-}
 /* 公共样式抽取 */
 .button {
 	color: #fff;
-	padding: 4px 12px;
-	border-radius: 4px;
+	padding: 0.04rem 0.12rem;
+	border-radius: 0.04rem;
 }
 
 .color_blue {

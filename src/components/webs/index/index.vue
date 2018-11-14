@@ -1,19 +1,6 @@
 <template>
     <div class="container">
-        <header class="clearfix">
-            <div class="header_left">logo(首页)</div>
-            <ul class="header_right">
-                <li>
-                <a href="#">关于我</a>
-                </li>
-                <li>
-                <a href="#">学习笔记</a>
-                </li>
-                <li>
-                <a href="#">资源共享</a>
-                </li>
-            </ul>
-        </header>
+        <my-header></my-header>
 
         <div class="search"><input type="search" placeholder="请输入您要搜索的内容" autofocus></div>
 
@@ -21,7 +8,7 @@
             <div class="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
-                        <img src="../../../assets/images/index/text02.jpg" alt="">
+                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
                         <div class="clbt_right">
                             <h2>{{ data.title }}</h2>
                             <p>
@@ -45,7 +32,7 @@
                 </div>
                 <div class="cl_box">
                     <div class="clb_top clearfix">
-                        <img src="../../../assets/images/index/text02.jpg" alt="">
+                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
                         <div class="clbt_right">
                             <h2>陌上花开,可缓缓归易</h2>
                             <p>
@@ -69,7 +56,7 @@
                 </div>
                 <div class="cl_box">
                     <div class="clb_top clearfix">
-                        <img src="../../../assets/images/index/text02.jpg" alt="">
+                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
                         <div class="clbt_right">
                             <h2>陌上花开,可缓缓归易</h2>
                             <p>
@@ -93,7 +80,7 @@
                 </div>
                 <div class="cl_box">
                     <div class="clb_top clearfix">
-                        <img src="../../../assets/images/index/text02.jpg" alt="">
+                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
                         <div class="clbt_right">
                             <h2>陌上花开,可缓缓归易</h2>
                             <p>
@@ -119,8 +106,8 @@
             <div class="content_right">
                 <div class="synopsis">
                     <!-- s_bg 背景 -->
-                    <img class="s_bg" src="../../../assets/images/index/banner.png" alt="背景墙的图片">
-                    <img class="s_head_portrait" src="../../../assets/images/index/avatar.jpg" alt="头像">
+                    <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
+                    <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
                     <div class="s_content">
                         <h2>{{ personal_information.alias }} | {{ personal_information.name }}</h2>
                         <h3>- {{ personal_information.occupation }} -</h3>
@@ -128,7 +115,7 @@
                     </div>
                 </div>
                 <!-- 还不知道放什么 -->
-                <div class="smg">
+                <!-- <div class="smg">
                     <div class="s_title">
                         <h2>标签云</h2>
                         <div class="st_line"></div>
@@ -144,17 +131,30 @@
                         <a href="#">三星</a>
                         <a href="#">华维荣耀</a>
                     </div>
-                </div>
+                </div> -->
+                <category></category>
             </div>
         </div>
 
-        <footer>页脚部分</footer>
+        <my-footer></my-footer>
     </div>
 </template>
 
 <script>
+// 导入 header
+import myHeader from '@/components/webs/public/myHeader'
+// 导入 footer
+import myFooter from '@/components/webs/public/myFooter'
+// 导入 category
+import category from '@/components/webs/public/category'
+
 export default {
   name: 'index',
+  components: {
+    myHeader,
+    myFooter,
+    category
+  },
   data() {
     return {
       article: [], // 文章数据
@@ -175,31 +175,23 @@ export default {
 </script>
 
 <style scoped>
-/* header_right-start */
-.header_right>li {
-    display: inline-block;
-}
-
-.header_right>li {
-    margin-right: 0.16rem;
-}
-
-.header_right>li:nth-last-child(1) {
-    margin-right: 1rem;
-}
-/* header_right-end */
-
 /* search-start */
 .search {
     width: 200px;
     height: 36px;
-    margin: 0 auto;
+    margin: 0.2rem auto;
     text-indent: 25px;
     line-height: 36px;
     border-radius: 50%;
     border: 1px solid darkgray;
 }
 /* search-end */
+
+/* content-start */
+.content {
+    width: 1200px;
+    margin: 0 auto;
+}
 
 /* content_left-start */
 .content_left {
@@ -214,6 +206,7 @@ export default {
     height: 2rem;
     padding: 0.2rem;
     margin-bottom: 0.1rem;
+    border-radius: 0.05rem;
     background-color: #fff;
 }
 
@@ -294,88 +287,6 @@ export default {
     padding: 10px 30px;
 }
 /* synopsis-end */
-
-/* smg-start */
-.content_right .smg {
-    margin-top: 0.1rem;
-}
-
-.content_right .smg .s_title {
-    height: 0.5rem;
-    position: relative;
-    background-color: #ffffff;
-}
-
-.content_right .smg .s_title h2 {
-    margin-left: 10px;
-    line-height: 0.5rem;
-}
-
-.content_right .smg .s_title .st_line {
-    width: 0%;
-    height: 2px;
-    bottom: 0px;
-    position: absolute;
-    transition:all 1s linear;
-}
-
-.content_right .smg:hover .st_line {
-    width: 100%;
-    /* Safari 5.1 - 6.0 */
-    background: -webkit-repeating-linear-gradient(left top, red, orange, yellow, green, blue, indigo, violet);
-    /* Opera 11.1 - 12.0 */
-    background: -o-repeating-linear-gradient(left top, red, orange, yellow, green, blue, indigo, violet);
-    /* Firefox 3.6 - 15 */
-    background: -moz-repeating-linear-gradient(left top, red, orange, yellow, green, blue, indigo, violet);
-    /* 标准的语法 */
-    background: repeating-linear-gradient(left top, red, orange, yellow, green, blue, indigo, violet);
-}
-
-/* s_box-start */
-.content_right .smg .s_box  {
-    margin-top: 2px;
-    padding: 0 20px 20px;
-    background-color: #fff;
-}
-
-.content_right .smg .s_box a {
-    float: left;
-    height: 24px;
-    color: #fff;
-    padding: 3px 10px;
-    line-height: 24px;
-    border-radius: 8px;
-    margin: 10px 10px 0 0;
-}
-
-.smg .s_box a:nth-child(2n+1) {
-    background-color: #3299BB;
-}
-.smg .s_box a:nth-child(2n+2) {
-    background-color: #036564;
-}
-.smg .s_box a:nth-child(2n+3) {
-    background-color: #EB6841;
-}
-.smg .s_box a:nth-child(2n+4) {
-    background-color: #FE4365;
-}
-.smg .s_box a:nth-child(2n+5) {
-    background-color: #FC9D9A;
-}
-.smg .s_box a:nth-child(2n+6) {
-    background-color: #EDC951;
-}
-.smg .s_box a:nth-child(2n+7) {
-    background-color: #C8C8A9;
-}
-.smg .s_box a:nth-child(2n+8) {
-    background-color: #83AF9B;
-}
-.smg .s_box a:nth-child(2n+9) {
-    background-color: #3299BB;
-}
-/* s_box-end */
-/* smg-end */
 /* content_right-end */
+/* content-end */
 </style>

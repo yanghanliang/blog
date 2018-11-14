@@ -23,11 +23,17 @@ import './assets/public.css'
 // 导入发送请求的插件
 import MyAxios from './plugins/myAxios'
 
+// highlight.js代码高亮指令
+import Highlight from './plugins/highlight'
+
 // 调用发送请求的插件
 Vue.use(MyAxios)
 
 // 调用 element
 Vue.use(ElementUI)
+
+// 调用 highlight.js 代码高亮插件
+Vue.use(Highlight)
 
 // 调用时间格式化 moment
 Vue.filter('formatDate', function (date, formateStr) {
