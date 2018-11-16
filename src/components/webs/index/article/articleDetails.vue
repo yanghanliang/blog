@@ -20,27 +20,7 @@
         </el-breadcrumb>
 
         <div class="content clearfix scrollbar">
-          <div class="left">
-            <h1>nodejs中的async模块学习 <i class="icon" title="原创">&#xe612;</i></h1>
-            <section>
-              <h2>8个3D视觉效果的HTML5动画欣赏</h2>
-              <p>现在的网页中应用了越来越多的3D应用，特别是基于HTML5 Canvas的动画特效，让用户有一种非常震撼的视觉体验。本文收集了8个非常炫酷的3D视觉效果的HTML5动画，都有源代码分享，你可以学习你感兴趣的HTML5动画，一起来看看。</p>
-            </section>
-            <section>
-              <h2>1、CSS3飘带状3D菜单 菜单带小图标</h2>
-              <p>这次我们要来分享一款很特别的CSS3菜单，菜单的外观是飘带状的，并且每一个菜单项有一个精美的小图标，鼠标滑过菜单项时，菜单项就会向上凸起，像是飘带飘动一样，形成非常酷的3D视觉效果。这款CSS3飘带状3D菜单非常适合作一些活动页面的菜单导航。</p>
-            </section>
-            <section>
-              <h2>1、Javascript 代码高亮</h2>
-                  <pre v-highlightA>
-                    <code>
-var box = document.querySelect('.box')
-box.onclick = function() {
-    console.log("hh")
-}
-                      </code>
-                  </pre>
-            </section>
+          <div class="left" ref="articleContent">
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -79,6 +59,16 @@ export default {
     myHeader,
     myFooter,
     category
+  },
+  created() {
+    this.loadData()
+  },
+  methods: {
+    async loadData() {
+      const data = await this.$http.get(`articleDetakils/${this.$route.params.articleId}`)
+      this.$refs.articleContent.innerHTML = data.data[0].content
+      this.code_highlight(this.$refs.articleContent) // 代码高亮
+    }
   }
 }
 </script>
@@ -124,20 +114,22 @@ export default {
   border: 1px solid #ebebeb;
 }
 
-.content .left h1>i {
+.content .left >>> h1>i {
   cursor: default;
 }
 
-.content .left section {
+.content .left >>> section {
+  text-align: left;
   margin-bottom: 0.6rem;
 }
 
-.content .left section h2 {
+.content .left >>> section h2 {
   text-align: left;
 }
 
-.content .left p {
+.content .left >>> p {
   text-align: left;
+  line-height: 24px;
 }
 /* left-end */
 

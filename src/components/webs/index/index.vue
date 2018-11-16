@@ -12,7 +12,7 @@
                         <div class="clbt_right">
                             <h2>{{ data.title }}</h2>
                             <p>
-                                {{ data.content }}
+                                {{ data.synopsis }}
                             </p>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             <i class="icon">&#xe609;</i>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
-                        <router-link :to="{ name: 'articleDetails' }">阅读原文</router-link>
+                        <router-link :to="'/articleDetails/'+data.id">阅读原文</router-link>
                     </div>
                 </div>
                 <div class="cl_box">
