@@ -8,6 +8,7 @@ import admin from '@/components/webs/admin/index'
 import listUser from '@/components/webs/admin/a/list'
 import addUser from '@/components/webs/admin/a/add'
 import editUser from '@/components/webs/admin/a/edit'
+import markdown from '@/components/webs/admin/markdown'
 // admin-end
 
 // index-start
@@ -52,6 +53,11 @@ export default new Router({
           path: 'editUser/:user_id',
           name: 'editUser',
           component: editUser
+        },
+        {
+          path: 'markdown',
+          name: 'markdown',
+          component: markdown
         }
       ]
     }

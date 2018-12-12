@@ -185,6 +185,10 @@ export default {
     border-radius: 50%;
     border: 1px solid darkgray;
 }
+
+.search>input {
+    background-color: transparent;
+}
 /* search-end */
 
 /* content-start */

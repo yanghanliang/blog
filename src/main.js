@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+// 插件-start
 // 引入 element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -11,20 +12,25 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入 moment 格式化时间
 import moment from 'moment'
 
-// 引入字体图标
-import './assets/iconfont.css'
-
-// 引入自己的重置样式
-import './assets/reset.css'
-
-// 引入前后台需要的公共样式
-import './assets/public.css'
-
 // 导入发送请求的插件
 import MyAxios from './plugins/myAxios'
 
 // highlight.js代码高亮指令
 import Highlight from './plugins/highlight'
+
+// 导入 markdown
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// 插件-end
+
+// myStyle - start
+// 引入字体图标
+import './assets/iconfont.css'
+// 引入自己的重置样式
+import './assets/reset.css'
+// 引入前后台需要的公共样式
+import './assets/public.css'
+// myStyle - end
 
 // 调用发送请求的插件
 Vue.use(MyAxios)
@@ -34,6 +40,9 @@ Vue.use(ElementUI)
 
 // 调用 highlight.js 代码高亮插件
 Vue.use(Highlight)
+
+// 调用 markdown
+Vue.use(mavonEditor)
 
 // 调用时间格式化 moment
 Vue.filter('formatDate', function (date, formateStr) {
