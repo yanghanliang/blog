@@ -8,7 +8,7 @@ import admin from '@/components/webs/admin/index'
 import listUser from '@/components/webs/admin/a/list'
 import addUser from '@/components/webs/admin/a/add'
 import editUser from '@/components/webs/admin/a/edit'
-import markdown from '@/components/webs/admin/markdown'
+import addArticle from '@/components/webs/admin/article/addArticle'
 // admin-end
 
 // index-start
@@ -55,9 +55,9 @@ export default new Router({
           component: editUser
         },
         {
-          path: 'markdown',
-          name: 'markdown',
-          component: markdown
+          path: 'addArticle',
+          name: 'addArticle',
+          component: addArticle
         }
       ]
     }

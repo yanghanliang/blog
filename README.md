@@ -229,6 +229,17 @@ export default {
 }
 ```
 
+## 字符串拼接
+
+```js
+
+var startIndex = str.indexOf('_0"')
+var middleIndex = str.indexOf('</h', startIndex) // 找到需要的拼接点
+var startStr = str.substr(0, middleIndex)
+var middleStr = str.substr(middleIndex)
+this.form.content = startStr + '<i class="icon original" title="原创">&#xe612;</i>' + middleStr
+
+```
 
 ## mavonEditor
 
@@ -243,3 +254,7 @@ export default {
 -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-transition: all 0.3s linear 0s;\n  transition: all 0.3s linear 0s;\n  background: #fff;\n  z-index: 1500;\n
 
 ```
+
+##
+里层div的高度始终与外层div的高度一样
+解决方案: 利用绝对定位;top的值为0,bottom的值也为0 即可让里层div的高度与外层的高度一样

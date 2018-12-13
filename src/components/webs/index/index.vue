@@ -168,6 +168,7 @@ export default {
     async loadData() {
       const data = await this.$http.get('index') // 发送请求,获取数据
       this.article = data.data.article // 将获取到的文章数据赋值给 vue
+      console.log(this.article)
       this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
     }
   }

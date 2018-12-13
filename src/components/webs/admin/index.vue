@@ -2,7 +2,7 @@
     <div>
         <header><h1>后台首页</h1></header>
         <div class="content clearfix">
-            <ul class="content_left">
+            <div class="content_left">
                 <!-- <router-link to="/admin/listUser" tag="li" active-class="hover"><a>a</a></router-link>
                 <router-link to="/admin/b" tag="li" active-class="hover"><a>b</a></router-link> -->
                 <!-- <li><a href="#">a</a></li> -->
@@ -25,7 +25,7 @@
                         </template>
                         <el-menu-item-group>
                             <span slot="title">javaScript</span>
-                            <el-menu-item index="/admin/markdown">选项1</el-menu-item>
+                            <el-menu-item index="/admin/addArticle">添加文章</el-menu-item>
                             <el-menu-item index="1-2">选项2</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group title="HTML">
@@ -49,7 +49,7 @@
                         <span slot="title">导航四</span>
                     </el-menu-item> -->
                 </el-menu>
-            </ul>
+            </div>
             <right-content></right-content>
         </div>
         <footer>底部内容区域</footer>
@@ -100,11 +100,25 @@ header > h1 {
   margin: 0;
 }
 
+.content {
+  position: relative;
+  background: url(../../../assets/backgroundImages/m8.jpg) no-repeat top;
+  /* background-size:contain; */
+}
+
 .content_left {
   float: left;
-  /* width: 336px; */
-  height: 800px;
-  background-color: #999;
+  top: 0px;
+  bottom: 0px;
+  position: absolute;
+  background-color: #fff;
+}
+
+.content::before {
+  content: '';
+  float: left;
+  min-width: 139px;
+  min-height: 526px;
 }
 
 .content_left li a {

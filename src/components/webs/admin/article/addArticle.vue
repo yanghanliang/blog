@@ -2,7 +2,7 @@
   <div class="content_right">
     <h4>添加文章</h4>
     <el-form ref="form" :model="form" label-width="80px">
-         <el-form-item label="文章标题">
+         <el-form-item label="文章标题" class="box">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="文章分类">
@@ -62,15 +62,24 @@ export default {
 
 <style scoped>
 .content_right {
-  width: 12.17rem;
   float: right;
+  width: 11.45rem;
+  color: #b1bdd4;
 }
 
 .content_right>h4 {
   text-indent: 0.12rem;
 }
 
-.content_right .el-textarea {
+.content_right .el-textarea,.el-select {
   width: 5rem;
+}
+
+.box {
+  width: 580px;
+}
+
+.el-form-item >>> .el-form-item__label {
+  color: #b1bdd4;
 }
 </style>
