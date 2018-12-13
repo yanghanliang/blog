@@ -15,9 +15,6 @@ import moment from 'moment'
 // 导入发送请求的插件
 import MyAxios from './plugins/myAxios'
 
-// highlight.js代码高亮指令
-import Highlight from './plugins/highlight'
-
 // 导入 markdown
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -37,9 +34,6 @@ Vue.use(MyAxios)
 
 // 调用 element
 Vue.use(ElementUI)
-
-// 调用 highlight.js 代码高亮插件
-Vue.use(Highlight)
 
 // 调用 markdown
 Vue.use(mavonEditor)

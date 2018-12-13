@@ -62,13 +62,10 @@ export default {
     category
   },
   data() {
-      return {//value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-        value: `<blockquote>
-                                <p>你好</p>
-                                </blockquote>
-                                <p><code>java</code></p>`,
-        defaultData: "preview"
-      };
+    return { // value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
+      value: '',
+      defaultData: 'preview'
+    }
   },
   created() {
     this.loadData()
@@ -78,11 +75,17 @@ export default {
       const data = await this.$http.get(`articleDetakils/${this.$route.params.articleId}`)
       // this.$refs.articleContent.innerHTML = data.data[0].content
       // console.log(data.data[0].content)
+      // var str = data.data[0].content
+      // var start_index = str.indexOf('_0"')
+      // var middle_index = str.indexOf('</h', start_index)
+      // var start_str = str.substr(0, middle_index)
+      // var middle_str = str.substr(middle_index)
+      // this.value = start_str + '<i class="icon" title="原创">&#xe612;</i>' + middle_str
       this.value = data.data[0].content
       // this.code_highlight(this.$refs.articleContent) // 代码高亮
     },
     changeData(value, render) {
-      console.log(render);
+      console.log(render)
     }
   }
 }
@@ -123,10 +126,17 @@ export default {
   padding: 0.2rem;
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
   border-radius: 0.05rem;
   background-color: #fff;
   margin: 0 0.2rem 0.2rem 0;
   border: 1px solid #ebebeb;
+}
+
+.content .left>.original {
+  top: 20px;
+  right: 200px;
+  position: absolute;
 }
 
 .content .left >>> h1>i {

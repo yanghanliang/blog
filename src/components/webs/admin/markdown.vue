@@ -41,9 +41,18 @@ export default {
   },
   methods: {
     changeData(value, render) {
-      this.form.content = render
+      var str = render
+      var startIndex = str.indexOf('_0"')
+      var middleIndex = str.indexOf('</h', startIndex)
+      var startStr = str.substr(0, middleIndex)
+      var middleStr = str.substr(middleIndex)
+      this.form.content = startStr + '<i class="icon original" title="原创">&#xe612;</i>' + middleStr
+      console.log(this.form.content)
     },
     async addArticle() {
+      // console.log(mavonEditor)
+      // console.log(markdownValue )
+      // console.log(this.form.content)
       const data = await this.$http.post('addArticle', this.form)
       console.log(data)
     }

@@ -228,3 +228,18 @@ export default {
   }
 }
 ```
+
+
+## mavonEditor
+
+> https://blog.csdn.net/wn1245343496/article/details/82147850 参考文档
+
+> 去除加载时的 transition 效果
+
++ 找到 node_modules/mavon-editor/dist/mavon-editor.js
++ 搜索下面这段代码，然后删除 transition 属性即可
+
+```
+-ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-transition: all 0.3s linear 0s;\n  transition: all 0.3s linear 0s;\n  background: #fff;\n  z-index: 1500;\n
+
+```
