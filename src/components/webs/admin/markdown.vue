@@ -41,8 +41,6 @@ export default {
   },
   methods: {
     changeData(value, render) {
-      console.log('render', render)
-      console.log('value', value)
       this.form.content = render
     },
     async addArticle() {
