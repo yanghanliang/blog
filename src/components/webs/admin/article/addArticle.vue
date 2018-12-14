@@ -10,6 +10,7 @@
             <el-option label="javaScript" value="javaScript"></el-option>
             <el-option label="CSS" value="CSS"></el-option>
             <el-option label="HTML" value="HTML"></el-option>
+            <el-option label="JavaScript | Vue" value="JavaScript | Vue"></el-option>
           </el-select>
         </el-form-item>
         <!-- 简介 -->
@@ -41,20 +42,32 @@ export default {
   },
   methods: {
     changeData(value, render) {
-      var str = render
-      var startIndex = str.indexOf('_0"')
-      var middleIndex = str.indexOf('</h', startIndex)
-      var startStr = str.substr(0, middleIndex)
-      var middleStr = str.substr(middleIndex)
-      this.form.content = startStr + '<i class="icon original" title="原创">&#xe612;</i>' + middleStr
-      console.log(this.form.content)
+      let str = render
+      let startIndex = str.indexOf('_0"')
+      let middleIndex = str.indexOf('</h', startIndex)
+      let startStr = str.substr(0, middleIndex)
+      let middleStr = str.substr(middleIndex)
+      let content = startStr + '&nbsp;<i class="icon" title="原创">&#xe612;</i>' + middleStr
+      // 转义 单引号(否则会报服务器错误，这段代码本应该在服务端处理，但考虑到自己穷，所以还是客户端处理吧)
+      this.form.content = content.replace(/[']+/g, '&apos;')
     },
     async addArticle() {
-      // console.log(mavonEditor)
-      // console.log(markdownValue )
-      // console.log(this.form.content)
       const data = await this.$http.post('addArticle', this.form)
-      console.log(data)
+      if (data.data.status === 200) {
+        // 弹出提示框
+        this.$message({
+          type: 'success',
+          message: data.data.msg,
+          center: true
+        })
+      } else {
+        // 弹出提示框
+        this.$message({
+          type: 'error',
+          message: data.data.msg,
+          center: true
+        })
+      }
     }
   }
 }
