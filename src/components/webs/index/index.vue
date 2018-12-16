@@ -1,10 +1,18 @@
 <template>
-    <div class="container">
-        <my-header></my-header>
+  <div class="container">
+      <my-header></my-header>
 
-        <div class="search"><input type="search" placeholder="请输入您要搜索的内容" autofocus></div>
+      <!-- <div class="search"><input v-model="searchData" @keyup.enter="searchFn" type="search" placeholder="请输入您要搜索的内容" autofocus></div> -->
+      <el-input
+        placeholder="请输入您要搜索的内容"
+        v-model="searchData"
+        @keyup.enter.native="searchFn"
+        @clear="searchClear"
+        clearable
+        class="search">
+      </el-input>
 
-        <div class="content clearfix">
+      <div class="content clearfix">
             <div class="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
@@ -134,10 +142,10 @@
                 </div> -->
                 <category></category>
             </div>
-        </div>
+      </div>
 
-        <my-footer></my-footer>
-    </div>
+      <my-footer></my-footer>
+  </div>
 </template>
 
 <script>
@@ -158,7 +166,8 @@ export default {
   data() {
     return {
       article: [], // 文章数据
-      personal_information: {} // 个人信息数据
+      personal_information: {}, // 个人信息数据
+      searchData: '' // 搜索内容
     }
   },
   created() {
@@ -168,8 +177,29 @@ export default {
     async loadData() {
       const data = await this.$http.get('index') // 发送请求,获取数据
       this.article = data.data.article // 将获取到的文章数据赋值给 vue
-      console.log(this.article)
       this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
+    },
+    async searchFn() {
+        console.log(1)
+      // 搜索内容
+      const { data } = await this.$http.post('searchData', { searchData: this.searchData })
+      if (data.status === 200) {
+        this.article = data.data // 显示内容
+      } else {
+        // 给出提示
+        this.$message({
+          message: data.msg + '即将跳转百度搜索!',
+          type: 'warrning',
+          data: this.searchData, // 把数据存储在这
+          duration: 1000, // 缩短时间，提高用户体验
+          onClose: function(message) { // 参数为message实例,所以想要获取数据,则必须将数据以以上方式存储
+            window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
+          }
+        })
+      }
+    },
+    searchClear() { // 点击清除输入框内容时
+      this.loadData() // 重新获取数据
     }
   }
 }
@@ -178,17 +208,14 @@ export default {
 <style scoped>
 /* search-start */
 .search {
-    width: 200px;
-    height: 36px;
-    margin: 0.2rem auto;
-    text-indent: 25px;
-    line-height: 36px;
-    border-radius: 50%;
-    border: 1px solid darkgray;
+    width: 400px;
+    margin: 20px auto;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.search>input {
-    background-color: transparent;
+.search >>> input {
+    border-radius: 20px;
 }
 /* search-end */
 

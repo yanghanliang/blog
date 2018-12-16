@@ -20,14 +20,19 @@ div {
 	font-size: 14px;
 }
 
-body,p,ul,dl,dd,dt {
+p,ul,dl,dd,dt {
 	margin: 0;
-	padding: 0 !important;
+	padding: 0;
 	list-style: none;
 	border: 0 none;
 	font-size: 14px;
 	color: #333333;
 	font-family: PingFangSC-Regular,微软雅黑,宋体;
+}
+
+body {
+	margin: 0;
+	padding: 0 !important;
 }
 
 ol,li {
