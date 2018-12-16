@@ -14,4 +14,16 @@ export default {
   width: 11.45rem;
   color: #b1bdd4;
 }
+
+.el-breadcrumb {
+  margin-top: 20px;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #9a9a9a;
+}
+
+.el-breadcrumb__inner.is-link {
+  color: #d6d6d6;
+}
 </style>
