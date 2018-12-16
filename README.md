@@ -312,3 +312,8 @@ var mousewheel = function mousewheel(element, callback) {
 ## 表格
 
 > 使用 element-ui 想让表格出现滚动条,必须给每一个列都设置宽度
+
+## 遇到过这个问题
+
+我的情况是: 当dialog出现时, 页面右边缩小了5px, 看起来像是楼主所说的抖动了一下.然后我看了一下页面的样式,发现body多了样式样式,padding-right:5px 和 overflow: hidden.
+然后我就在全局设置body的padding-right:0 !important 就好了!
