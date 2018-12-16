@@ -22,7 +22,7 @@ div {
 
 body,p,ul,dl,dd,dt {
 	margin: 0;
-	padding: 0;
+	padding: 0 !important;
 	list-style: none;
 	border: 0 none;
 	font-size: 14px;
@@ -126,6 +126,7 @@ html::-webkit-scrollbar-thumb {
 	border-radius: 5px;
 	background-color: #e2e2e28c;
 	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+
 }
 
 html::-webkit-scrollbar-thumb:hover {

@@ -64,12 +64,23 @@
         label="操作"
         width="100">
         <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row.id)" type="text" size="small">查看</el-button>
+            <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
             <router-link :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
             <!-- <el-button to="/articleList/1" type="text" size="small">编辑</el-button> -->
         </template>
       </el-table-column>
     </el-table>
+    <!-- 删除的弹窗 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <span>您确定删除此文章吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="deleteData">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,7 +89,9 @@ export default {
   data() {
     return {
       tableData: null,
-      search: ''
+      search: '',
+      dialogVisible: false,
+      id: ''
     }
   },
   created() {
@@ -86,7 +99,7 @@ export default {
   },
   methods: {
     async getData() { // 获取文章列表数据
-      const {data} = await this.$http.get('articleList') // 发送请求
+      const { data } = await this.$http.get('articleList') // 发送请求
       let tableData = [] // 保存表格数据
       for (let i = 0; i < data.length; i++) {
         let rowData = data[i] // 获取一行的数据
@@ -111,8 +124,38 @@ export default {
       }
       return str
     },
-    handleClick(data) {
-      console.log(data)
+    deleteArticle(id) {
+      this.dialogVisible = true // 显示弹窗
+      this.id = id // 保存 id
+    },
+    async deleteData() {
+      this.dialogVisible = false // 隐藏弹窗
+      const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
+      if (data.status === 200) {
+        this.deleteTableData(this.id)
+        // 弹出提示框
+        this.$message({
+          type: 'success',
+          message: data.msg,
+          center: true
+        })
+      } else {
+        // 弹出提示框
+        this.$message({
+          type: 'error',
+          message: data.msg,
+          center: true
+        })
+      }
+    },
+    deleteTableData(id) { // 删除表格数据
+      const data = this.tableData // 获取表格数据
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].id === id) { // 找到删除的数据
+          data.splice(i, 1) // 删除数据
+          break // 跳出当前循环
+        }
+      }
     }
   }
 }
@@ -129,5 +172,9 @@ export default {
 
 .content_right .dataTableBox {
   box-shadow: 1px 2px 13px -4px black;
+}
+
+.el-dialog__wrapper {
+  overflow: hidden;
 }
 </style>
