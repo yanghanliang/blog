@@ -5,10 +5,11 @@ import index from '@/components/webs/index/index'
 // admin-start
 import login from '@/views/login'
 import admin from '@/components/webs/admin/index'
-import listUser from '@/components/webs/admin/a/list'
-import addUser from '@/components/webs/admin/a/add'
-import editUser from '@/components/webs/admin/a/edit'
+// import listUser from '@/components/webs/admin/a/list'
+// import addUser from '@/components/webs/admin/a/add'
+// import editUser from '@/components/webs/admin/a/edit'
 import addArticle from '@/components/webs/admin/article/addArticle'
+import articleList from '@/components/webs/admin/article/articleList'
 // admin-end
 
 // index-start
@@ -39,24 +40,34 @@ export default new Router({
       name: 'admin',
       component: admin,
       children: [
-        {
-          path: 'listUser',
-          name: 'listUser',
-          component: listUser
-        },
-        {
-          path: 'addUser',
-          name: 'addUser',
-          component: addUser
-        },
-        {
-          path: 'editUser/:user_id',
-          name: 'editUser',
-          component: editUser
-        },
+        // {
+        //   path: 'listUser',
+        //   name: 'listUser',
+        //   component: listUser
+        // },
+        // {
+        //   path: 'addUser',
+        //   name: 'addUser',
+        //   component: addUser
+        // },
+        // {
+        //   path: 'editUser/:user_id',
+        //   name: 'editUser',
+        //   component: editUser
+        // },
         {
           path: 'addArticle',
           name: 'addArticle',
+          component: addArticle
+        },
+        {
+          path: 'articleList',
+          name: 'articleList',
+          component: articleList
+        },
+        {
+          path: 'addArticle/:articleId',
+          name: 'editArticle',
           component: addArticle
         }
       ]

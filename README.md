@@ -258,3 +258,57 @@ this.form.content = startStr + '<i class="icon original" title="原创">&#xe612;
 ##
 里层div的高度始终与外层div的高度一样
 解决方案: 利用绝对定位;top的值为0,bottom的值也为0 即可让里层div的高度与外层的高度一样
+
+
+##
+
++ 浏览器提示：
+
+element-ui.common.js?ccbf:10621 [Violation] Added non-passive event listener to a scroll-blocking 'mousewheel' event. Consider marking event handler as 'passive' to make the page more responsive. See https://www.chromestatus.com/feature/5745543795965952
+
++ 进入上面的网站查看 ：
+
+被动事件监听器： 
+在EventListenerOptions字典中公开“被动”布尔值。实现关于调度被动EventListeners的行为，以便在执行被动注册的回调内部调用preventDefault只会向控制台生成警告。可用于显着提高滚动性能。
+
+解决：
+http://www.it1352.com/818517.html
+
+简而言之：
+document.addEventListener（'touchstart'，handler，true）;
+变成这样： 
+document.addEventListener（'touchstart'，handler，{capture：true}）;
+因为在您的情况下，您将触发器的事件监听器附加到它应该是这样的：
+document.addEventListener（'touchstart'，handler，{passive：true}）; 
+
+
+我是找到提示的文件
++ node_modules/element-ui/lib/element-ui.common.js
+
+找到这个方法（10619行
+var mousewheel = function mousewheel(element, callback) {
+  if (element && element.addEventListener) {
+    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', function (event) {
+      var normalized = (0, _normalizeWheel2.default)(event);
+      callback && callback.apply(this, [event, normalized]);
+    });
+  }
+};
+
+改为：
+
+var mousewheel = function mousewheel(element, callback) {
+  if (element && element.addEventListener) {
+    element.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', function (event) {
+      var normalized = (0, _normalizeWheel2.default)(event);
+      callback && callback.apply(this, [event, normalized]);
+    }, {passive:true});
+  }
+};
+
+就不会有提示了
+
+
+## 表格
+
+> 使用 element-ui 想让表格出现滚动条,必须给每一个列都设置宽度

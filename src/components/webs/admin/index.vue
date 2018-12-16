@@ -24,9 +24,9 @@
                             <span slot="title">文章</span>
                         </template>
                         <el-menu-item-group>
-                            <span slot="title">javaScript</span>
+                <!-- <span slot="title">javaScript</span> -->
                             <el-menu-item index="/admin/addArticle">添加文章</el-menu-item>
-                            <el-menu-item index="1-2">选项2</el-menu-item>
+                <el-menu-item index="/admin/articleList">文章列表</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group title="HTML">
                             <el-menu-item index="1-3">选项3</el-menu-item>
@@ -36,6 +36,24 @@
                             <el-menu-item index="1-4-1">选项1</el-menu-item>
                         </el-submenu>
                     </el-submenu>
+            <!-- <el-submenu index="2">
+                  <template slot="title">
+                      <i class="icon">&#xe63a;</i>
+                      <span slot="title">分类</span>
+                  </template>
+                  <el-menu-item-group>
+                      <span slot="title">javaScript</span>
+                      <el-menu-item index="/admin/addArticle">添加文章</el-menu-item>
+                      <el-menu-item index="2-2">选项2</el-menu-item>
+                  </el-menu-item-group>
+                  <el-menu-item-group title="HTML">
+                      <el-menu-item index="2-3">选项3</el-menu-item>
+                  </el-menu-item-group>
+                  <el-submenu index="1-4">
+                      <span slot="title">CSS</span>
+                      <el-menu-item index="2-4-1">选项1</el-menu-item>
+                  </el-submenu>
+            </el-submenu> -->
                     <!-- <el-menu-item index="2">
                         <i class="el-icon-menu"></i>
                         <span slot="title">导航二</span>
