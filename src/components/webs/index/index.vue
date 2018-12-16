@@ -6,6 +6,7 @@
       <el-input
         placeholder="请输入您要搜索的内容"
         v-model="searchData"
+        :autofocus="true"
         @keyup.enter.native="searchFn"
         @clear="searchClear"
         clearable
@@ -180,7 +181,6 @@ export default {
       this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
     },
     async searchFn() {
-        console.log(1)
       // 搜索内容
       const { data } = await this.$http.post('searchData', { searchData: this.searchData })
       if (data.status === 200) {

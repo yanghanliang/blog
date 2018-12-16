@@ -57,9 +57,7 @@ export default {
       let middleIndex = str.indexOf('</h', startIndex)
       let startStr = str.substr(0, middleIndex)
       let middleStr = str.substr(middleIndex)
-      let content = startStr + '&nbsp;<i class="icon" title="原创">&#xe612;</i>' + middleStr
-      // 转义 单引号(否则会报服务器错误，这段代码本应该在服务端处理，但考虑到自己穷，所以还是客户端处理吧)
-      this.form.content = content.replace(/[']+/g, '&apos;')
+      this.form.content = startStr + '&nbsp;<i class="icon" title="原创">&#xe612;</i>' + middleStr
     },
     async addArticle() {
       const data = await this.$http[this.type](this.url, this.form)
@@ -110,5 +108,10 @@ export default {
 
 .el-form-item >>> .el-form-item__label {
   color: #b1bdd4;
+}
+
+.el-form-item >>> .el-textarea__inner {
+  min-height: 80px !important;
+  font: 400 13.3333px Arial;
 }
 </style>

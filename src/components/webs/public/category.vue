@@ -53,13 +53,15 @@ export default {
 .category:hover .st_line {
     width: 100%;
     /* Safari 5.1 - 6.0 */
-    background: -webkit-repeating-linear-gradient(left top, red, orange, indigo, violet);
+    background: -webkit-repeating-linear-gradient(left top, #00cdfb, #c1e2dc, #f500cc, #fe4365);
     /* Opera 11.1 - 12.0 */
-    background: -o-repeating-linear-gradient(left top, red, orange, indigo, violet);
+    background: -o-repeating-linear-gradient(left top, #00cdfb, #c1e2dc, #f500cc, #fe4365);
     /* Firefox 3.6 - 15 */
-    background: -moz-repeating-linear-gradient(left top, red, orange, indigo, violet);
+    background: -moz-repeating-linear-gradient(left top, #00cdfb, #c1e2dc, #f500cc, #fe4365);
     /* 标准的语法 */
-    background: repeating-linear-gradient(left top, red, orange, indigo, violet);
+    background: repeating-linear-gradient(left top, #00cdfb, #c1e2dc, #f500cc, #fe4365);
+    /* #00cdfb, #c1e2dc, #f500cc, #fe4365 */
+    /* red, orange, indigo, violet */
 }
 
 /* s_box-start */

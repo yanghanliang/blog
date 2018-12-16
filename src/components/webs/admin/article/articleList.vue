@@ -62,10 +62,11 @@
       <el-table-column
         fixed="right"
         label="操作"
+        align="center"
         width="100">
         <template slot-scope="scope">
             <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
-            <router-link :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
+            <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
             <!-- <el-button to="/articleList/1" type="text" size="small">编辑</el-button> -->
         </template>
       </el-table-column>
@@ -176,5 +177,10 @@ export default {
 
 .el-dialog__wrapper {
   overflow: hidden;
+}
+
+.cell .edit {
+  color: #409EFF;
+  font-size: 12px;
 }
 </style>

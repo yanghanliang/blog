@@ -119,7 +119,6 @@ header > h1 {
 }
 
 .content {
-  height: 525px;
   position: relative;
   background: url(../../../assets/backgroundImages/m8.jpg) no-repeat top;
 }
