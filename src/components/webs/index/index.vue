@@ -9,7 +9,6 @@
         v-model="searchData"
         :autofocus="true"
         @input="searchFn"
-        @clear="searchClear"
         clearable
         class="search">
       </el-input>
@@ -198,9 +197,6 @@ export default {
           }
         })
       }
-    },
-    searchClear() { // 点击清除输入框内容时
-      this.loadData() // 重新获取数据
     }
   }
 }
