@@ -16,7 +16,7 @@ export default {
 }
 
 .el-breadcrumb {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .el-breadcrumb__item:last-child .el-breadcrumb__inner {

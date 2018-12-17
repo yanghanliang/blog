@@ -6,15 +6,8 @@
       <el-breadcrumb-item>项目详细信息</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-row class="tab_switch">
-      <el-button type="info" plain>项目成员信息</el-button>
-      <el-button type="info" plain>项目软硬件信息</el-button>
-      <el-button type="info" plain>组网拓扑图</el-button>
-      <el-button type="info" plain>机柜布局</el-button>
-      <el-button type="info" plain>配电情况</el-button>
-    </el-row>
-
     <!-- dataTable -->
+      <!-- height="407" -->
     <el-table
       :data="tableData"
       class="dataTable">
@@ -82,6 +75,16 @@
         <el-button type="primary" @click="deleteData">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分页 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="clickPage"
+      :current-page="currentPage"
+      :page-sizes="[2, 4, 6, 8]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -89,10 +92,13 @@
 export default {
   data() {
     return {
-      tableData: null,
-      search: '',
-      dialogVisible: false,
-      id: ''
+      tableData: null, // 表格中的所有数据
+      search: '', // 搜索框中的数据
+      dialogVisible: false, // 弹窗(显示||隐藏)
+      id: '',
+      total: 0, // 文章表中所有的条数
+      currentPage: 1, // 当前页码
+      pageSize: 6 // 每页显示的条数(和后端数据接口一致)
     }
   },
   created() {
@@ -101,9 +107,11 @@ export default {
   methods: {
     async getData() { // 获取文章列表数据
       const { data } = await this.$http.get('articleList') // 发送请求
+      const listData = data.data // 列表数据
+      this.total = data.getArticleNumber // 获取表数据的总条数
       let tableData = [] // 保存表格数据
-      for (let i = 0; i < data.length; i++) {
-        let rowData = data[i] // 获取一行的数据
+      for (let i = 0; i < listData.length; i++) {
+        let rowData = listData[i] // 获取一行的数据
         // 将一行数据转化为对象,并追加到表格数据中
         tableData.push({
           title: this.stitchingString(rowData.title),
@@ -125,19 +133,22 @@ export default {
       }
       return str
     },
-    deleteArticle(id) {
+    deleteArticle(id) { // 点击删除按钮时执行
       this.dialogVisible = true // 显示弹窗
       this.id = id // 保存 id
     },
-    async deleteData() {
+    async deleteData() { // 删除数据(在删除弹窗里,点击确定按钮时执行)
       this.dialogVisible = false // 隐藏弹窗
       const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
-      if (data.status === 200) {
-        this.deleteTableData(this.id)
+      this.total = data.getArticleNumber
+      if (data.deleteData.status === 200) {
+        // 为了减轻服务器压力,所做的js优化(使用分页后不行了)
+        // this.deleteTableData(this.id)
+        this.getData()
         // 弹出提示框
         this.$message({
           type: 'success',
-          message: data.msg,
+          message: data.deleteData.msg,
           center: true
         })
       } else {
@@ -157,16 +168,27 @@ export default {
           break // 跳出当前循环
         }
       }
+    },
+    handleSizeChange(val) { // 每页条数改变时执行
+      this.pageSize = val // 更新每页条数
+      this.paging() // 获取分页数据并渲染
+    },
+    clickPage(val) { // 点击页码
+      this.currentPage = val // 更新当前页码
+      this.paging() // 获取分页数据并渲染
+    },
+    async paging() { // 分页
+      const currentNumber = (this.currentPage - 1) * this.pageSize // 当前第几条 = (当前页-1) * 每页条数
+      const { data } = await this.$http.get(`paging/${currentNumber}/${this.pageSize}`)
+      if (data.status === 200) {
+        this.tableData = data.data // 重新赋值
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-.content_right .tab_switch {
-  margin: 20px auto;
-}
-
 .dataTable {
     width: 1100px;
 }
@@ -182,5 +204,15 @@ export default {
 .cell .edit {
   color: #409EFF;
   font-size: 12px;
+}
+
+/* 分页 */
+.content_right >>> .el-pagination__jump,.content_right >>> .el-pagination__total {
+  color: #ffffff;
+}
+
+.el-pagination {
+  margin-top: 10px;
+  text-align: center;
 }
 </style>
