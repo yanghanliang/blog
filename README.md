@@ -327,3 +327,17 @@ var mousewheel = function mousewheel(element, callback) {
 ```js
  window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank') // 在新窗口中打开链接
 ```
+
++ @keyup.enter.native="searchFn"  回车时才执行
++ @input="searchFn" 为了提高用户体验我使用了,input值一改变就去执行
+  + element中input的change事件是移除焦点才触发
+
+```
+
+想要变成输入就出发：
+解决：
+使用@input
+
+```
+
+

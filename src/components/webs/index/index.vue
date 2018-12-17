@@ -3,11 +3,12 @@
       <my-header></my-header>
 
       <!-- <div class="search"><input v-model="searchData" @keyup.enter="searchFn" type="search" placeholder="请输入您要搜索的内容" autofocus></div> -->
+    <!-- @keyup.enter.native="searchFn" -->
       <el-input
         placeholder="请输入您要搜索的内容"
         v-model="searchData"
         :autofocus="true"
-        @keyup.enter.native="searchFn"
+        @input="searchFn"
         @clear="searchClear"
         clearable
         class="search">
