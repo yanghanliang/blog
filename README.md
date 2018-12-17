@@ -341,3 +341,38 @@ var mousewheel = function mousewheel(element, callback) {
 ```
 
 
+## 路由
+
+要解决的问题是在进入页面或加载某一父级路由时默认加载其某一特定路由． 
+进入 /admin 时,默认进入他下面的字路由 articleList
+
+加上 redirect: '/admin/articleList', 
+
+设置redirect属性为对应子路由路径, 即转发到默认的子路由路径即可
+
+```router/index.js
+
+{
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+      redirect: '/admin/articleList', // 加上这行代码即可
+      children: [
+        {
+          path: 'addArticle',
+          name: 'addArticle',
+          component: addArticle
+        },
+        {
+          path: 'articleList',
+          name: 'articleList',
+          component: articleList
+        },
+        {
+          path: 'addArticle/:articleId',
+          name: 'editArticle',
+          component: addArticle
+        }
+      ]
+
+```

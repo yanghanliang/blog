@@ -39,6 +39,7 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: admin,
+      redirect: '/admin/articleList',
       children: [
         // {
         //   path: 'listUser',
