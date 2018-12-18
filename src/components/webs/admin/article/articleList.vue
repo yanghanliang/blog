@@ -10,9 +10,11 @@
       <!-- height="407" -->
     <el-table
       :data="tableData"
+      :default-sort = "{prop: 'createtime', order: 'descending'}"
       class="dataTable">
       <el-table-column
         fixed
+        sortable
         prop="title"
         label="文章标题"
         width="300">
@@ -20,6 +22,7 @@
       <el-table-column
         prop="type"
         label="分类"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
@@ -30,29 +33,34 @@
       <el-table-column
         prop="createtime"
         label="创建时间"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
         prop="updatetime"
         label="更新时间"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
         prop="read"
         label="阅读数"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
         prop="praise"
         label="点赞"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
         prop="original"
         label="原创0,转载1"
+        sortable
         width="180">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         fixed="right"
         label="操作"
         align="center"
@@ -60,7 +68,23 @@
         <template slot-scope="scope">
             <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
             <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
-            <!-- <el-button to="/articleList/1" type="text" size="small">编辑</el-button> -->
+        </template>
+      </el-table-column> -->
+      <el-table-column
+        fixed="right"
+        align="center"
+        label="操作"
+        width="200">
+        <template slot-scope="scope">
+          <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
+          <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
+        </template>
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="searchData"
+            size="mini"
+            @input="searchFn"
+            placeholder="输入关键字搜索"/>
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +117,7 @@ export default {
   data() {
     return {
       tableData: null, // 表格中的所有数据
-      search: '', // 搜索框中的数据
+      searchData: '', // 搜索框中的数据
       dialogVisible: false, // 弹窗(显示||隐藏)
       id: '',
       total: 0, // 文章表中所有的条数
@@ -182,6 +206,20 @@ export default {
       const { data } = await this.$http.get(`paging/${currentNumber}/${this.pageSize}`)
       if (data.status === 200) {
         this.tableData = data.data // 重新赋值
+      }
+    },
+    async searchFn() {
+      // 搜索内容
+      const { data } = await this.$http.post('searchData', { searchData: this.searchData })
+      if (data.status === 200) {
+        this.tableData = data.data // 显示内容
+        this.total = data.data.length // 修改总条数
+      } else {
+        // 给出提示
+        this.$message({
+          message: data.msg,
+          type: 'warrning'
+        })
       }
     }
   }

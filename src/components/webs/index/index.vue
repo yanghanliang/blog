@@ -8,7 +8,8 @@
         placeholder="请输入您要搜索的内容"
         v-model="searchData"
         :autofocus="true"
-        @input="searchFn"
+        @input="searchInput"
+        @keyup.enter.native="searchEnter"
         clearable
         class="search">
       </el-input>
@@ -168,7 +169,8 @@ export default {
     return {
       article: [], // 文章数据
       personal_information: {}, // 个人信息数据
-      searchData: '' // 搜索内容
+      searchData: '', // 搜索内容
+      lock: true // 锁,为了手动防止删除搜索时,跳转到搜索页面
     }
   },
   created() {
@@ -180,12 +182,12 @@ export default {
       this.article = data.data.article // 将获取到的文章数据赋值给 vue
       this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
     },
-    async searchFn() {
-      // 搜索内容
+    async searchFn() { // 搜索内容
       const { data } = await this.$http.post('searchData', { searchData: this.searchData })
       if (data.status === 200) {
         this.article = data.data // 显示内容
-      } else {
+      } else if (this.lock) {
+        this.lock = false // 关闭锁
         // 给出提示
         this.$message({
           message: data.msg + '即将跳转百度搜索!',
@@ -196,6 +198,22 @@ export default {
             window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
           }
         })
+      }
+    },
+    searchInput() { // 输入搜索
+      // 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
+      if (!/[0-9a-zA-Z]+/.test(this.searchData)) { // 如果输入有数字字母则不执行
+        this.searchFn() // 搜索内容
+      }
+    },
+    searchEnter() { // 回车搜索
+      this.searchFn() // 搜索内容
+    }
+  },
+  watch: {
+    searchData: function(newQuestion, oldQuestion) {
+      if (newQuestion.length > oldQuestion.length) { // 在搜索框中写入数据时开启"没有数据自动跳转搜索"
+        this.lock = true // 开启锁
       }
     }
   }

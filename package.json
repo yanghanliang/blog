@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.4.8",
+    "element-ui": "^2.4.11",
     "mavon-editor": "^2.6.17",
     "moment": "^2.23.0",
     "vue": "^2.5.2",
