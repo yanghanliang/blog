@@ -20,7 +20,7 @@
         width="300">
       </el-table-column>
       <el-table-column
-        prop="type"
+        prop="classname"
         label="分类"
         sortable
         width="180">
@@ -139,7 +139,7 @@ export default {
         // 将一行数据转化为对象,并追加到表格数据中
         tableData.push({
           title: this.stitchingString(rowData.title),
-          type: rowData.type,
+          classname: rowData.classname,
           synopsis: rowData.synopsis,
           createtime: rowData.createtime,
           updatetime: rowData.updatetime === null ? '暂未更新' : rowData.updatetime,
