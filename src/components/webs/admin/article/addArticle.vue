@@ -6,11 +6,11 @@
         <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item label="文章分类">
-        <el-select v-model="form.type" placeholder="请选择分类">
-        <el-option label="javaScript" value="javaScript"></el-option>
+        <el-select v-model="form.classname" placeholder="请选择分类">
+        <!-- <el-option label="javaScript" value="javaScript"></el-option>
         <el-option label="CSS" value="CSS"></el-option>
-        <el-option label="HTML" value="HTML"></el-option>
-        <el-option label="JavaScript | Vue" value="JavaScript | Vue"></el-option>
+        <el-option label="HTML" value="HTML"></el-option> -->
+          <el-option v-for="category in categoryData" :label="category.classname" :value="category.id" :key="category.id"></el-option>
         </el-select>
       </el-form-item>
       <!-- 简介 -->
@@ -32,19 +32,20 @@ export default {
     return {
       form: {
         title: '',
-        type: '',
+        classname: '',
         synopsis: '',
         content: '',
         id: ''
       },
-      // value: '',
       defaultData: 'preview',
       buttonText: '添加文章',
       url: 'addArticle',
-      type: 'post'
+      type: 'post',
+      categoryData: ''
     }
   },
   created() {
+    this.getCategoryData() // 获取分类数据
     const articleId = this.$route.params.articleId
     if (articleId) {
       this.getEditData(articleId)
@@ -88,6 +89,10 @@ export default {
       this.buttonText = '修改文章'
       this.url = `editArticle/${articleId}` // 修改url
       this.type = 'put' // 修改请求类型
+    },
+    async getCategoryData() { // 获取分类数据
+      const { data } = await this.$http.get('category')
+      this.categoryData = data
     }
   }
 }

@@ -34,13 +34,13 @@
         prop="createtime"
         label="创建时间"
         sortable
-        width="180">
+        width="300">
       </el-table-column>
       <el-table-column
         prop="updatetime"
         label="更新时间"
         sortable
-        width="180">
+        width="300">
       </el-table-column>
       <el-table-column
         prop="read"
