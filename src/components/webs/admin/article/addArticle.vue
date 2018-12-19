@@ -31,22 +31,21 @@ export default {
   data() {
     return {
       form: {
-        title: '',
-        classname: '',
-        synopsis: '',
-        content: '',
-        id: ''
+        title: '', // 文章标题
+        classname: '', // 文章类名
+        synopsis: '', // 文章描述
+        content: '', // 文章内容
+        id: '' // 文章 id(修改时才用到)
       },
-      defaultData: 'preview',
-      buttonText: '添加文章',
-      url: 'addArticle',
-      type: 'post',
-      categoryData: ''
+      buttonText: '添加文章', // 默认提交按钮文字
+      url: 'addArticle', // 默认提交地址
+      type: 'post', // 默认请求方式
+      categoryData: '' // 分页数据
     }
   },
   created() {
     this.getCategoryData() // 获取分类数据
-    const articleId = this.$route.params.articleId
+    const articleId = this.$route.params.articleId // 获取路由参数
     if (articleId) {
       this.getEditData(articleId)
     }
@@ -60,7 +59,7 @@ export default {
       let middleStr = str.substr(middleIndex)
       this.form.content = startStr + '&nbsp;<i class="icon" title="原创">&#xe612;</i>' + middleStr
     },
-    async addArticle() {
+    async addArticle() { // 点击添加文章||修改文章时执行
       const data = await this.$http[this.type](this.url, this.form)
       if (data.data.status === 200) {
         // 弹出提示框
@@ -80,10 +79,10 @@ export default {
         })
       }
     },
-    async getEditData(articleId) {
+    async getEditData(articleId) { // 获取修改数据
       const { data } = await this.$http.get(`articleDetakils/${articleId}`)
       this.form.title = data[0].title
-      this.form.type = data[0].type
+      this.form.classname = data[0].classname
       this.form.synopsis = data[0].synopsis
       this.form.content = data[0].content
       this.buttonText = '修改文章'

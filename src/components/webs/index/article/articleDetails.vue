@@ -21,7 +21,7 @@
 
         <div class="content clearfix scrollbar">
           <div class="left" ref="articleContent">
-            <mavon-editor v-html="value" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" @change="changeData" />
+            <mavon-editor v-model="value" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -83,9 +83,6 @@ export default {
       // this.value = start_str + '<i class="icon" title="原创">&#xe612;</i>' + middle_str
       this.value = data.data[0].content
       // this.code_highlight(this.$refs.articleContent) // 代码高亮
-    },
-    changeData(value, render) {
-      console.log(render)
     }
   }
 }
@@ -123,14 +120,10 @@ export default {
   width: 62%;
   height: 100%;
   float: left;
-  padding: 0.2rem;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  border-radius: 0.05rem;
-  background-color: #fff;
   margin: 0 0.2rem 0.2rem 0;
-  border: 1px solid #ebebeb;
 }
 
 .content .left>.original {
@@ -155,6 +148,10 @@ export default {
 .content .left >>> p {
   text-align: left;
   line-height: 24px;
+}
+
+.content .left >>> .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+  background-color: #fff;
 }
 /* left-end */
 
