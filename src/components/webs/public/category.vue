@@ -5,6 +5,7 @@
             <div class="st_line"></div>
         </div>
         <div class="s_box clearfix">
+            <a href="#" v-for="value in categoryData" :key="value.id">{{ value.classname }}</a>
             <a href="#">陌上花开</a>
             <a href="#">校园生活</a>
             <a href="#">html5</a>
@@ -32,8 +33,7 @@ export default {
   methods: {
     async getCategoryData() { // 获取分类数据
       const { data } = await this.$http.get('category') // 发送请求
-      this.categoryData = data.categoryData // 将获取到的数据绑定到 vue 中
-      console.log(this.categoryData)
+      this.categoryData = data // 将获取到的数据绑定到 vue 中
     }
   }
 }
