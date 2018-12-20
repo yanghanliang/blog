@@ -10,6 +10,8 @@
       <!-- height="407" -->
     <el-table
       :data="tableData"
+      sortable="custom"
+      @sort-change="sortChange"
       :default-sort = "{prop: 'createtime', order: 'descending'}"
       class="dataTable">
       <el-table-column
@@ -122,7 +124,9 @@ export default {
       id: '',
       total: 0, // 文章表中所有的条数
       currentPage: 1, // 当前页码
-      pageSize: 6 // 每页显示的条数(和后端数据接口一致)
+      pageSize: 6, // 每页显示的条数(和后端数据接口一致)
+      sortField: 'createtime', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
+      orderBy: 'descending' // 排序方式
     }
   },
   created() {
@@ -130,26 +134,9 @@ export default {
   },
   methods: {
     async getData() { // 获取文章列表数据
-      const { data } = await this.$http.get('articleList') // 发送请求
-      const listData = data.data // 列表数据
+      const { data } = await this.$http.get(`articleList/${this.sortField}/${this.orderBy}/${this.pageSize}`) // 发送请求
       this.total = data.getArticleNumber // 获取表数据的总条数
-      let tableData = [] // 保存表格数据
-      for (let i = 0; i < listData.length; i++) {
-        let rowData = listData[i] // 获取一行的数据
-        // 将一行数据转化为对象,并追加到表格数据中
-        tableData.push({
-          title: this.stitchingString(rowData.title),
-          classname: rowData.classname,
-          synopsis: rowData.synopsis,
-          createtime: rowData.createtime,
-          updatetime: rowData.updatetime === null ? '暂未更新' : rowData.updatetime,
-          read: rowData.read,
-          praise: rowData.praise,
-          original: rowData.original,
-          id: rowData.id
-        })
-      }
-      this.tableData = tableData // 渲染表格数据
+      this.tableData = data.data // 渲染表格数据
     },
     stitchingString(str) { // 字符串拼接
       if (str.length > 26) {
@@ -221,14 +208,37 @@ export default {
           type: 'warrning'
         })
       }
+    },
+    async sortChange(column) { // 排序方式改变时执行(文档说明)
+      // 因为第一次页面加载就执行此函数,故做此判断,减少请求,优化代码(自己测试得出)
+      if (this.sortField !== column.prop || this.orderBy !== column.order) {
+        this.sortField = column.prop // 修改排序字段
+        this.orderBy = column.order // 修改排序方式
+        const data = await this.$http.get(`getOrderData/${this.sortField}/${this.orderBy}/${this.pageSize}`)
+        this.tableData = data.data // 渲染表格数据
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+/* reset-el-breadcrumb-style */
+.el-breadcrumb {
+  margin: 15px 0;
+}
+
+.el-breadcrumb >>> .el-breadcrumb__inner.is-link {
+  color: #a1c0ff;
+}
+
+.el-breadcrumb >>> .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #dedede;
+}
+/* reset-el-breadcrumb-style */
+
 .dataTable {
-    width: 1100px;
+  width: 1100px;
 }
 
 .content_right .dataTableBox {

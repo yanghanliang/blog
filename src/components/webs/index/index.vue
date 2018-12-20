@@ -119,9 +119,9 @@
                     <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
                     <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
                     <div class="s_content">
-                        <h2>{{ personal_information.alias }} | {{ personal_information.name }}</h2>
-                        <h3>- {{ personal_information.occupation }} -</h3>
-                        <p>{{ personal_information.synopsis }}</p>
+                        <h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
+                        <h3>- {{ personalInformation.occupation }} -</h3>
+                        <p>{{ personalInformation.synopsis }}</p>
                     </div>
                 </div>
                 <!-- 还不知道放什么 -->
@@ -168,7 +168,7 @@ export default {
   data() {
     return {
       article: [], // 文章数据
-      personal_information: {}, // 个人信息数据
+      personalInformation: {}, // 个人信息数据
       searchData: '', // 搜索内容
       lock: true // 锁,为了手动防止删除搜索时,跳转到搜索页面
     }
@@ -178,9 +178,9 @@ export default {
   },
   methods: {
     async loadData() {
-      const data = await this.$http.get('index') // 发送请求,获取数据
-      this.article = data.data.article // 将获取到的文章数据赋值给 vue
-      this.personal_information = data.data.personal_information // 将获取到的个人信息数据赋值给 vue
+      const { data } = await this.$http.get('index') // 发送请求,获取数据
+      this.article = data.article // 将获取到的文章数据赋值给 vue
+      this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
     },
     async searchFn() { // 搜索内容
       const { data } = await this.$http.post('searchData', { searchData: this.searchData })

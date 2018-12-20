@@ -8,7 +8,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .content_right {
   float: right;
   width: 11.45rem;

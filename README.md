@@ -306,6 +306,24 @@ var mousewheel = function mousewheel(element, callback) {
   }
 };
 
+
+
++ 浏览器提示
+[Violation] Added non-passive event listener to a scroll-blocking 'touchmove' event. Consider marking event handler as 'passive' to make the page more responsive. See https://www.chromestatus.com/feature/5745543795965952
+
++ node_modules/element-ui/lib/utils/popup/popup-manager.js
+
+modalDom.addEventListener('touchmove', function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+});
+
+modalDom.addEventListener('touchmove', function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+}, {passive: true});
+
+
 就不会有提示了
 
 

@@ -20,7 +20,22 @@
 
 <script>
 export default {
-  name: 'category'
+  name: 'category',
+  data() {
+    return {
+      categoryData: []
+    }
+  },
+  created() {
+    this.getCategoryData() // 获取分类数据
+  },
+  methods: {
+    async getCategoryData() { // 获取分类数据
+      const { data } = await this.$http.get('category') // 发送请求
+      this.categoryData = data.categoryData // 将获取到的数据绑定到 vue 中
+      console.log(this.categoryData)
+    }
+  }
 }
 </script>
 
