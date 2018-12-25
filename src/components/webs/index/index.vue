@@ -29,7 +29,7 @@
                     <div class="clb_bottom clearfix">
                         <div class="clbb_left">
                             <i class="icon">&#xe606;</i>
-                            <a href="#">{{ data.type }}</a>
+                            <a href="#">{{ data.classname }}</a>
                             &nbsp;
                             <i class="icon">&#xe613;</i>
                             <a>{{ data.createtime | formatDate('YYYY-MM-DD')}}</a>
@@ -256,7 +256,8 @@ export default {
         // scrollHeight 元素的总高度
         if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.abc) { // 判断是否
           that.abc = false
-          const { data } = await that.$http.get(`paging/${that.currentPage}/${that.pageSize}`)
+        //   /getOrderData/:sortField/:orderBy/:number
+          const { data } = await that.$http.get(`getOrderData/updatetime//${that.currentPage}/${that.pageSize}`)
           if (data.status === 200) {
             for (var i = 0; i < data.data.length; i++) {
               that.article.push(data.data[i]) // 将获取到的文章数据赋值给 vue

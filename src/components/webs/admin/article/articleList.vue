@@ -107,7 +107,7 @@
       @current-change="clickPage"
       :current-page="currentPage"
       :page-sizes="[2, 4, 6, 8]"
-      :page-size="pageSize"
+      :page-size="sortData.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
@@ -124,9 +124,11 @@ export default {
       id: '',
       total: 0, // 文章表中所有的条数
       currentPage: 1, // 当前页码
-      pageSize: 6, // 每页显示的条数(和后端数据接口一致)
-      sortField: 'createtime', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
-      orderBy: 'descending' // 排序方式
+      sortData: {
+        sortField: 'createtime', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
+        orderBy: 'descending', // 排序方式
+        pageSize: 6 // 每页显示的条数(和后端数据接口一致)
+      }
     }
   },
   created() {
@@ -134,7 +136,7 @@ export default {
   },
   methods: {
     async getData() { // 获取文章列表数据
-      const { data } = await this.$http.get(`articleList/${this.sortField}/${this.orderBy}/${this.pageSize}`) // 发送请求
+      const { data } = await this.$http.get(`articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`) // 发送请求
       this.total = data.getArticleNumber // 获取表数据的总条数
       this.tableData = data.data // 渲染表格数据
     },
@@ -181,7 +183,7 @@ export default {
       }
     },
     handleSizeChange(val) { // 每页条数改变时执行
-      this.pageSize = val // 更新每页条数
+      this.sortData.pageSize = val // 更新每页条数
       this.paging() // 获取分页数据并渲染
     },
     clickPage(val) { // 点击页码
@@ -189,8 +191,8 @@ export default {
       this.paging() // 获取分页数据并渲染
     },
     async paging() { // 分页
-      const currentNumber = (this.currentPage - 1) * this.pageSize // 当前第几条 = (当前页-1) * 每页条数
-      const { data } = await this.$http.get(`paging/${currentNumber}/${this.pageSize}`)
+      const currentNumber = (this.currentPage - 1) * this.sortData.pageSize // 当前第几条 = (当前页-1) * 每页条数
+      const { data } = await this.$http.get(`paging/${currentNumber}/${this.sortData.pageSize}`)
       if (data.status === 200) {
         this.tableData = data.data // 重新赋值
       }
@@ -211,10 +213,11 @@ export default {
     },
     async sortChange(column) { // 排序方式改变时执行(文档说明)
       // 因为第一次页面加载就执行此函数,故做此判断,减少请求,优化代码(自己测试得出)
-      if (this.sortField !== column.prop || this.orderBy !== column.order) {
-        this.sortField = column.prop // 修改排序字段
-        this.orderBy = column.order // 修改排序方式
-        const data = await this.$http.get(`getOrderData/${this.sortField}/${this.orderBy}/${this.pageSize}`)
+      if (this.sortData.sortField !== column.prop || this.sortData.orderBy !== column.order) {
+        this.sortData.sortField = column.prop // 修改排序字段
+        this.sortData.orderBy = column.order // 修改排序方式
+        // `getOrderData/${this.sortField}/${this.orderBy}/${this.pageSize}`
+        const data = await this.$http.post('getOrderData', this.sortData)
         this.tableData = data.data // 渲染表格数据
       }
     }
