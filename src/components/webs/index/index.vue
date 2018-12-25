@@ -15,7 +15,7 @@
       </el-input>
 
       <div class="content clearfix">
-            <div class="content_left">
+            <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
                         <img src="../../../assets/index/index/images/text02.jpg" alt="">
@@ -40,7 +40,7 @@
                         <router-link :to="'/articleDetails/'+data.id">阅读原文</router-link>
                     </div>
                 </div>
-                <div class="cl_box">
+                <!-- <div class="cl_box">
                     <div class="clb_top clearfix">
                         <img src="../../../assets/index/index/images/text02.jpg" alt="">
                         <div class="clbt_right">
@@ -111,7 +111,7 @@
                         </div>
                         <a href="http://">阅读原文</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="content_right">
                 <div class="synopsis">
@@ -170,15 +170,22 @@ export default {
       article: [], // 文章数据
       personalInformation: {}, // 个人信息数据
       searchData: '', // 搜索内容
-      lock: true // 锁,为了手动防止删除搜索时,跳转到搜索页面
+      lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
+      currentPage: 5, // 当前页（由于默认第一次获取5条数据，所以从5开始
+      pageSize: 5, // 每页条数
+      abc: true
     }
   },
   created() {
     this.loadData()
   },
+  mounted() {
+    this.scroll()
+  },
   methods: {
     async loadData() {
       const { data } = await this.$http.get('index') // 发送请求,获取数据
+      console.log(data.article)
       this.article = data.article // 将获取到的文章数据赋值给 vue
       this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
     },
@@ -208,6 +215,57 @@ export default {
     },
     searchEnter() { // 回车搜索
       this.searchFn() // 搜索内容
+    },
+    scroll() { // 页面滚到
+      const ele = this.$refs.content_left // 获取左边容器
+      const that = this // 保存 this
+      //   function getScrollTop() {
+      //     var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0
+      //     if (document.body) {
+      //       bodyScrollTop = document.body.scrollTop
+      //     }
+      //     if (document.getElementsByClassName('content_left')) {
+      //       documentScrollTop = document.getElementsByClassName('content_left').scrollTop
+      //     }
+      //     scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop
+      //     return scrollTop
+      //   }
+      //   // 文档的总高度
+      //   function getScrollHeight() {
+      //     var scrollHeight = 0, eleScrollHeight = 0, documentScrollHeight = 0
+      //     eleScrollHeight = ele.scrollHeight
+
+      //     if (document.getElementsByClassName('content_left')) {
+      //       documentScrollHeight = document.getElementsByClassName('content_left').scrollHeight
+      //     }
+      //     scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight
+      //     return scrollHeight
+      //   }
+      //   function getWindowHeight() {
+      //     var windowHeight = 0
+      //     if (document.compatMode == 'CSS1Compat') {
+      //       windowHeight = document.getElementsByClassName('content_left').clientHeight
+      //     } else {
+      //       windowHeight = document.body.clientHeight
+      //     }
+      //     return windowHeight
+      //   }
+      ele.onscroll = async function() {
+        // clientHeight 可见区域的高度（不加边线）
+        // scrollTop 滚动条卷上去的高度
+        // scrollHeight 元素的总高度
+        if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.abc) { // 判断是否
+          that.abc = false
+          const { data } = await that.$http.get(`paging/${that.currentPage}/${that.pageSize}`)
+          if (data.status === 200) {
+            for (var i = 0; i < data.data.length; i++) {
+              that.article.push(data.data[i]) // 将获取到的文章数据赋值给 vue
+            }
+            that.currentPage += 5
+            that.abc = true
+          }
+        }
+      }
     }
   },
   watch: {
@@ -244,7 +302,13 @@ export default {
 .content_left {
     float: left;
     width: 8.4rem;
-    min-height: 10rem;
+    /* min-height: 10rem; */
+    height: 7rem;
+    overflow-y: scroll;
+}
+
+.content_left::-webkit-scrollbar {
+    display: none;
 }
 
 /* cl_box-start */

@@ -394,3 +394,10 @@ modalDom.addEventListener('touchmove', function (event) {
       ]
 
 ```
+
+
+
+## js获取各种高度总结
+
++ https://blog.csdn.net/leileibrother/article/details/78686250
+
