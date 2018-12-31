@@ -408,3 +408,10 @@ modalDom.addEventListener('touchmove', function (event) {
 + 排序
 + 搜索
 
+## 判断是否置底
+
+this.scrollTop + this.clientHeight >= this.scrollHeight
+
++ clientHeight 可见区域的高度（不加边线）
++ scrollTop 滚动条卷上去的高度
++ scrollHeight 元素的总高度

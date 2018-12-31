@@ -40,6 +40,7 @@
                         <router-link :to="'/articleDetails/'+data.id">阅读原文</router-link>
                     </div>
                 </div>
+                <div v-if="pageData.tips !== ''" class="tips">{{ pageData.tips }}</div>
                 <!-- <div class="cl_box">
                     <div class="clb_top clearfix">
                         <img src="../../../assets/index/index/images/text02.jpg" alt="">
@@ -176,6 +177,7 @@ export default {
         pageSize: 5, // 每页条数
         orderBy: 'descending', // 排序方式
         lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
+        tips: '' // 提示
       }
     }
   },
@@ -188,7 +190,6 @@ export default {
   methods: {
     async loadData() {
       const { data } = await this.$http.get('index') // 发送请求,获取数据
-      console.log(data.article)
       this.article = data.article // 将获取到的文章数据赋值给 vue
       this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
     },
@@ -222,52 +223,21 @@ export default {
     scroll() { // 页面滚到
       const ele = this.$refs.content_left // 获取左边容器
       const that = this // 保存 this
-      //   function getScrollTop() {
-      //     var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0
-      //     if (document.body) {
-      //       bodyScrollTop = document.body.scrollTop
-      //     }
-      //     if (document.getElementsByClassName('content_left')) {
-      //       documentScrollTop = document.getElementsByClassName('content_left').scrollTop
-      //     }
-      //     scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop
-      //     return scrollTop
-      //   }
-      //   // 文档的总高度
-      //   function getScrollHeight() {
-      //     var scrollHeight = 0, eleScrollHeight = 0, documentScrollHeight = 0
-      //     eleScrollHeight = ele.scrollHeight
-
-      //     if (document.getElementsByClassName('content_left')) {
-      //       documentScrollHeight = document.getElementsByClassName('content_left').scrollHeight
-      //     }
-      //     scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight
-      //     return scrollHeight
-      //   }
-      //   function getWindowHeight() {
-      //     var windowHeight = 0
-      //     if (document.compatMode == 'CSS1Compat') {
-      //       windowHeight = document.getElementsByClassName('content_left').clientHeight
-      //     } else {
-      //       windowHeight = document.body.clientHeight
-      //     }
-      //     return windowHeight
-      //   }
       ele.onscroll = async function() {
         // clientHeight 可见区域的高度（不加边线）
         // scrollTop 滚动条卷上去的高度
         // scrollHeight 元素的总高度
-        if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.pageData.lock) { // 判断是否
-          that.abc = false
-          // /getOrderData/:sortField/:orderBy/:number
-          // const { data } = await that.$http.get(`getOrderData/updatetime/${that.currentPage}/${that.pageSize}`)
+        if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.pageData.lock) { // 判断是否置底
+          that.pageData.lock = false // 关闭
           const { data } = await that.$http.post(`paging`, that.pageData)
           if (data.status === 200) {
             for (var i = 0; i < data.data.length; i++) {
               that.article.push(data.data[i]) // 将获取到的文章数据赋值给 vue
             }
-            that.pageData.currentPage += 1
-            that.pageData.lock = true
+            that.pageData.currentPage += 1 // 加一页
+            that.pageData.lock = true // 开启
+          } else {
+            that.pageData.tips = data.msg // 当没有数据时, 添加一条提示信息
           }
         }
       }
@@ -286,20 +256,20 @@ export default {
 <style scoped>
 /* search-start */
 .search {
-    width: 400px;
-    margin: 20px auto;
+    width: 4rem;
+    margin: 0.2rem auto;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .search >>> input {
-    border-radius: 20px;
+    border-radius: 0.2rem;
 }
 /* search-end */
 
 /* content-start */
 .content {
-    width: 1200px;
+    width: 12rem;
     margin: 0 auto;
 }
 
@@ -337,7 +307,7 @@ export default {
     float: left;
     width: 2.4rem;
     height: 1.6rem;
-    border-radius: 5px;
+    border-radius: 0.05rem;
 }
 
 .cl_box .clb_top .clbt_right {
@@ -362,6 +332,13 @@ export default {
 }
 /* clb_bottom-end */
 /* cl_box-end */
+.content_left .tips {
+    padding: 0.1rem;
+    color: #26b3ae;
+    text-align: center;
+    border-radius: 0.05rem;
+    background-color: #e6e6e6;
+}
 /* content_left-end */
 
 /* content_right-start */
@@ -399,8 +376,8 @@ export default {
 
 .synopsis .s_content p {
     color: #888;
-    line-height: 26px;
-    padding: 10px 30px;
+    line-height: 0.26rem;
+    padding: 0.1rem 0.3rem;
 }
 /* synopsis-end */
 /* content_right-end */
