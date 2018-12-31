@@ -256,7 +256,7 @@ export default {
         // scrollHeight 元素的总高度
         if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.abc) { // 判断是否
           that.abc = false
-        //   /getOrderData/:sortField/:orderBy/:number
+          // /getOrderData/:sortField/:orderBy/:number
           const { data } = await that.$http.get(`getOrderData/updatetime//${that.currentPage}/${that.pageSize}`)
           if (data.status === 200) {
             for (var i = 0; i < data.data.length; i++) {

@@ -36,12 +36,14 @@
         prop="createtime"
         label="创建时间"
         sortable
+        :formatter="dateFormat"
         width="300">
       </el-table-column>
       <el-table-column
         prop="updatetime"
         label="更新时间"
         sortable
+        :formatter="dateFormat"
         width="300">
       </el-table-column>
       <el-table-column
@@ -83,7 +85,7 @@
         </template>
         <template slot="header" slot-scope="scope">
           <el-input
-            v-model="searchData"
+            v-model="sortData.searchData"
             size="mini"
             @input="searchFn"
             placeholder="输入关键字搜索"/>
@@ -105,7 +107,7 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="clickPage"
-      :current-page="currentPage"
+      :current-page="sortData.currentPage"
       :page-sizes="[2, 4, 6, 8]"
       :page-size="sortData.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
@@ -115,20 +117,24 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
       tableData: null, // 表格中的所有数据
-      searchData: '', // 搜索框中的数据
       dialogVisible: false, // 弹窗(显示||隐藏)
       id: '',
       total: 0, // 文章表中所有的条数
-      currentPage: 1, // 当前页码
       sortData: {
         sortField: 'createtime', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
         orderBy: 'descending', // 排序方式
-        pageSize: 6 // 每页显示的条数(和后端数据接口一致)
-      }
+        pageSize: 6, // 每页显示的条数(和后端数据接口一致)
+        currentNumber: 0, // 当前第几条 = (当前页-1) * 每页条数
+        currentPage: 1, // 当前页码
+        searchData: '' // 搜索框中的数据
+      },
+      retainTotal: 0 // 保留文章表中所有的条数
     }
   },
   created() {
@@ -138,6 +144,7 @@ export default {
     async getData() { // 获取文章列表数据
       const { data } = await this.$http.get(`articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`) // 发送请求
       this.total = data.getArticleNumber // 获取表数据的总条数
+      this.retainTotal = data.getArticleNumber // 保留表数据的总条数
       this.tableData = data.data // 渲染表格数据
     },
     stitchingString(str) { // 字符串拼接
@@ -187,39 +194,47 @@ export default {
       this.paging() // 获取分页数据并渲染
     },
     clickPage(val) { // 点击页码
-      this.currentPage = val // 更新当前页码
+      this.sortData.currentPage = val // 更新当前页码
       this.paging() // 获取分页数据并渲染
     },
     async paging() { // 分页
-      const currentNumber = (this.currentPage - 1) * this.sortData.pageSize // 当前第几条 = (当前页-1) * 每页条数
-      const { data } = await this.$http.get(`paging/${currentNumber}/${this.sortData.pageSize}`)
-      if (data.status === 200) {
+      const { data } = await this.$http.post('paging', this.sortData)
+      console.log(data)
+      if (data.status === 200 && this.sortData.searchData === '') {
+        this.total = this.retainTotal // 修改总条数
         this.tableData = data.data // 重新赋值
+      } else {
+        this.tableData = data.getData.data // 重新赋值
+        this.total = data.getNumber // 修改总条数
+        if (data.getData.status !== 200) {
+          // 给出提示
+          this.$message({
+            message: data.getData.msg,
+            type: 'warrning'
+          })
+        }
       }
     },
-    async searchFn() {
-      // 搜索内容
-      const { data } = await this.$http.post('searchData', { searchData: this.searchData })
-      if (data.status === 200) {
-        this.tableData = data.data // 显示内容
-        this.total = data.data.length // 修改总条数
-      } else {
-        // 给出提示
-        this.$message({
-          message: data.msg,
-          type: 'warrning'
-        })
-      }
+    searchFn() { // 搜索内容
+      this.paging()
     },
     async sortChange(column) { // 排序方式改变时执行(文档说明)
       // 因为第一次页面加载就执行此函数,故做此判断,减少请求,优化代码(自己测试得出)
       if (this.sortData.sortField !== column.prop || this.sortData.orderBy !== column.order) {
         this.sortData.sortField = column.prop // 修改排序字段
         this.sortData.orderBy = column.order // 修改排序方式
-        // `getOrderData/${this.sortField}/${this.orderBy}/${this.pageSize}`
-        const data = await this.$http.post('getOrderData', this.sortData)
-        this.tableData = data.data // 渲染表格数据
+        this.paging() // 调用分页的方法
       }
+    },
+    // 时间格式化
+    dateFormat: function (row, column) {
+      // column.property 列字段名称
+      // row[column.property] 对应的数据
+      var date = row[column.property]
+      if (date == null) {
+        return '暂无更新'
+      }
+      return moment(date).format('YYYY年-MM月-DD日 HH时:mm分:ss秒 星期E')
     }
   }
 }
