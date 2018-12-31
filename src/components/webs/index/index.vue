@@ -171,9 +171,12 @@ export default {
       personalInformation: {}, // 个人信息数据
       searchData: '', // 搜索内容
       lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
-      currentPage: 5, // 当前页（由于默认第一次获取5条数据，所以从5开始
-      pageSize: 5, // 每页条数
-      abc: true
+      pageData: {
+        currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
+        pageSize: 5, // 每页条数
+        orderBy: 'descending', // 排序方式
+        lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
+      }
     }
   },
   created() {
@@ -254,16 +257,17 @@ export default {
         // clientHeight 可见区域的高度（不加边线）
         // scrollTop 滚动条卷上去的高度
         // scrollHeight 元素的总高度
-        if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.abc) { // 判断是否
+        if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.pageData.lock) { // 判断是否
           that.abc = false
           // /getOrderData/:sortField/:orderBy/:number
-          const { data } = await that.$http.get(`getOrderData/updatetime//${that.currentPage}/${that.pageSize}`)
+          // const { data } = await that.$http.get(`getOrderData/updatetime/${that.currentPage}/${that.pageSize}`)
+          const { data } = await that.$http.post(`paging`, that.pageData)
           if (data.status === 200) {
             for (var i = 0; i < data.data.length; i++) {
               that.article.push(data.data[i]) // 将获取到的文章数据赋值给 vue
             }
-            that.currentPage += 5
-            that.abc = true
+            that.pageData.currentPage += 1
+            that.pageData.lock = true
           }
         }
       }
