@@ -5,7 +5,7 @@
             <div class="st_line"></div>
         </div>
         <div class="s_box clearfix">
-            <a href="#" v-for="value in categoryData" :key="value.id">{{ value.classname }}</a>
+            <a href="javascript:;" @click="getData(value.classname)" v-for="value in categoryData" :key="value.id">{{ value.classname }}</a>
             <a href="#">陌上花开</a>
             <a href="#">校园生活</a>
             <a href="#">html5</a>
@@ -15,6 +15,7 @@
             <a href="#">阳光</a>
             <a href="#">三星</a>
             <a href="#">华维荣耀</a>
+            <a href="#">{{ csdata }}</a>
         </div>
     </div>
 </template>
@@ -22,6 +23,7 @@
 <script>
 export default {
   name: 'category',
+  props: ['csdata'],
   data() {
     return {
       categoryData: []
@@ -34,6 +36,26 @@ export default {
     async getCategoryData() { // 获取分类数据
       const { data } = await this.$http.get('category') // 发送请求
       this.categoryData = data // 将获取到的数据绑定到 vue 中
+    },
+    getData(content) {
+      if (this.$route.name === 'index') {
+        this.getArticleCategoryData(content)
+      } else {
+        this.$router.push({ name: 'index' })
+        this.getArticleCategoryData(content)
+      }
+    },
+    async getArticleCategoryData(content) {
+      const { data } = await this.$http.get(`articleCategory/${content}`)
+      if (data.getData.status === 200) {
+        data.classname = content // 把点击的值传给父组件
+        this.$emit('click', data)
+      } else {
+        this.$message({
+          message: '接口有点问题!',
+          type: 'warrning'
+        })
+      }
     }
   }
 }

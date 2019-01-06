@@ -415,3 +415,29 @@ this.scrollTop + this.clientHeight >= this.scrollHeight
 + clientHeight 可见区域的高度（不加边线）
 + scrollTop 滚动条卷上去的高度
 + scrollHeight 元素的总高度
+
+
+## 监听对象中的某个特定值
+
+data() {
+  return {
+    pageData: {
+      currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
+      pageSize: 5, // 每页条数
+      orderBy: 'descending', // 排序方式
+      lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
+      tips: '', // 提示
+      searchData: '' // 搜索内容
+    }
+  }
+},
+computed: { // 配合 switch 监听对象中某一特定值
+  searchData() {
+    return this.pageData.searchData
+  }
+},
+watch: {
+    searchData: function(newQuestion, oldQuestion) { // 配合计算属性,监听对象中特定的值
+      this.pageData.lock = true
+    }
+  }

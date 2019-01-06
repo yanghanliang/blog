@@ -2,11 +2,9 @@
   <div class="container">
       <my-header></my-header>
 
-      <!-- <div class="search"><input v-model="searchData" @keyup.enter="searchFn" type="search" placeholder="请输入您要搜索的内容" autofocus></div> -->
-    <!-- @keyup.enter.native="searchFn" -->
       <el-input
         placeholder="请输入您要搜索的内容"
-        v-model="searchData"
+        v-model="pageData.searchData"
         :autofocus="true"
         @input="searchInput"
         @keyup.enter.native="searchEnter"
@@ -41,78 +39,6 @@
                     </div>
                 </div>
                 <div v-if="pageData.tips !== ''" class="tips">{{ pageData.tips }}</div>
-                <!-- <div class="cl_box">
-                    <div class="clb_top clearfix">
-                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
-                        <div class="clbt_right">
-                            <h2>陌上花开,可缓缓归易</h2>
-                            <p>
-                                用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...
-                            </p>
-                        </div>
-                    </div>
-                    <div class="clb_bottom clearfix">
-                        <div class="clbb_left">
-                            <i class="icon">&#xe606;</i>
-                            <a href="#">CSS3|Html5</a>
-                            &nbsp;
-                            <i class="icon">&#xe613;</i>
-                            <a>2018-05-04</a>
-                            &nbsp;
-                            <i class="icon">&#xe609;</i>
-                            <a>浏览（<span>0</span>）</a>
-                        </div>
-                        <a href="http://">阅读原文</a>
-                    </div>
-                </div>
-                <div class="cl_box">
-                    <div class="clb_top clearfix">
-                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
-                        <div class="clbt_right">
-                            <h2>陌上花开,可缓缓归易</h2>
-                            <p>
-                                用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...
-                            </p>
-                        </div>
-                    </div>
-                    <div class="clb_bottom clearfix">
-                        <div class="clbb_left">
-                            <i class="icon">&#xe606;</i>
-                            <a href="#">CSS3|Html5</a>
-                            &nbsp;
-                            <i class="icon">&#xe613;</i>
-                            <a>2018-05-04</a>
-                            &nbsp;
-                            <i class="icon">&#xe609;</i>
-                            <a>浏览（<span>0</span>）</a>
-                        </div>
-                        <a href="http://">阅读原文</a>
-                    </div>
-                </div>
-                <div class="cl_box">
-                    <div class="clb_top clearfix">
-                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
-                        <div class="clbt_right">
-                            <h2>陌上花开,可缓缓归易</h2>
-                            <p>
-                                用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...
-                            </p>
-                        </div>
-                    </div>
-                    <div class="clb_bottom clearfix">
-                        <div class="clbb_left">
-                            <i class="icon">&#xe606;</i>
-                            <a href="#">CSS3|Html5</a>
-                            &nbsp;
-                            <i class="icon">&#xe613;</i>
-                            <a>2018-05-04</a>
-                            &nbsp;
-                            <i class="icon">&#xe609;</i>
-                            <a>浏览（<span>0</span>）</a>
-                        </div>
-                        <a href="http://">阅读原文</a>
-                    </div>
-                </div> -->
             </div>
             <div class="content_right">
                 <div class="synopsis">
@@ -125,25 +51,7 @@
                         <p>{{ personalInformation.synopsis }}</p>
                     </div>
                 </div>
-                <!-- 还不知道放什么 -->
-                <!-- <div class="smg">
-                    <div class="s_title">
-                        <h2>标签云</h2>
-                        <div class="st_line"></div>
-                    </div>
-                    <div class="s_box clearfix">
-                        <a href="#">陌上花开</a>
-                        <a href="#">校园生活</a>
-                        <a href="#">html5</a>
-                        <a href="#">SumSung</a>
-                        <a href="#">青春</a>
-                        <a href="#">温暖</a>
-                        <a href="#">阳光</a>
-                        <a href="#">三星</a>
-                        <a href="#">华维荣耀</a>
-                    </div>
-                </div> -->
-                <category></category>
+                <category @click="cs" :csdata="csData"></category>
             </div>
       </div>
 
@@ -170,15 +78,16 @@ export default {
     return {
       article: [], // 文章数据
       personalInformation: {}, // 个人信息数据
-      searchData: '', // 搜索内容
       lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
       pageData: {
         currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
         pageSize: 5, // 每页条数
         orderBy: 'descending', // 排序方式
         lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
-        tips: '' // 提示
-      }
+        tips: '', // 提示
+        searchData: '' // 搜索内容
+      },
+      csData: 'cc'
     }
   },
   created() {
@@ -187,6 +96,11 @@ export default {
   mounted() {
     this.scroll()
   },
+  computed: { // 配合 switch 监听对象中某一特定值
+    searchData() {
+      return this.pageData.searchData
+    }
+  },
   methods: {
     async loadData() {
       const { data } = await this.$http.get('index') // 发送请求,获取数据
@@ -194,33 +108,41 @@ export default {
       this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
     },
     async searchFn() { // 搜索内容
-      const { data } = await this.$http.post('searchData', { searchData: this.searchData })
-      if (data.status === 200) {
-        this.article = data.data // 显示内容
+      const { data } = await this.$http.post('searchData', { searchData: this.pageData.searchData })
+      if (data.getData.status === 200) {
+        this.article = data.getData.data // 显示内容
+        // 给出提示
+        this.$message({
+          message: `搜索到与 "${this.pageData.searchData}" 相关的数据共有 ${data.getNumber} 条!`,
+          type: 'success'
+        })
       } else if (this.lock) {
         this.lock = false // 关闭锁
         // 给出提示
         this.$message({
           message: data.msg + '即将跳转百度搜索!',
           type: 'warrning',
-          data: this.searchData, // 把数据存储在这
+          data: this.pageData.searchData, // 把数据存储在这
           duration: 1000, // 缩短时间，提高用户体验
           onClose: function(message) { // 参数为message实例,所以想要获取数据,则必须将数据以以上方式存储
             window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
           }
         })
       }
+      this.$refs.content_left.scrollTop = 0 // 重置内容元素向上卷曲的距离
+      this.pageData.currentPage = 2 // 重置当前页
+      this.pageData.tips = '' // 重置提示
     },
     searchInput() { // 输入搜索
       // 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
-      if (!/[0-9a-zA-Z]+/.test(this.searchData)) { // 如果输入有数字字母则不执行
+      if (!/[0-9a-zA-Z]+/.test(this.pageData.searchData)) { // 如果输入有数字字母则不执行
         this.searchFn() // 搜索内容
       }
     },
     searchEnter() { // 回车搜索
       this.searchFn() // 搜索内容
     },
-    scroll() { // 页面滚到
+    scroll() { // 页面滚到底部(懒加载)
       const ele = this.$refs.content_left // 获取左边容器
       const that = this // 保存 this
       ele.onscroll = async function() {
@@ -230,24 +152,43 @@ export default {
         if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.pageData.lock) { // 判断是否置底
           that.pageData.lock = false // 关闭
           const { data } = await that.$http.post(`paging`, that.pageData)
-          if (data.status === 200) {
-            for (var i = 0; i < data.data.length; i++) {
-              that.article.push(data.data[i]) // 将获取到的文章数据赋值给 vue
+          if (data.getData.status === 200) {
+            for (var i = 0; i < data.getData.data.length; i++) {
+              that.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
             }
             that.pageData.currentPage += 1 // 加一页
             that.pageData.lock = true // 开启
           } else {
-            that.pageData.tips = data.msg // 当没有数据时, 添加一条提示信息
+            that.pageData.tips = data.getData.msg // 当没有数据时, 添加一条提示信息
           }
         }
+      }
+    },
+    cs(data) {
+      this.pageData.lock = true // 开启懒加载
+      this.$refs.content_left.scrollTop = 0 // 重置内容元素向上卷曲的距离
+      this.pageData.currentPage = 2 // 重置当前页
+      this.pageData.tips = '' // 重置提示
+      if (data.getData.status === 200) {
+        this.article = data.getData.data // 更新文章数据
+        this.pageData.classname = data.classname // 携带上 classname
+        // 给出提示
+        this.$message({
+          message: `搜索到与 "${this.pageData.classname}" 相关的数据共有 ${data.getNumber} 条!`,
+          type: 'success'
+        })
+      } else {
+        // 给出提示
+        this.$message({
+          message: '暂无数据!',
+          type: 'info'
+        })
       }
     }
   },
   watch: {
-    searchData: function(newQuestion, oldQuestion) {
-      if (newQuestion.length > oldQuestion.length) { // 在搜索框中写入数据时开启"没有数据自动跳转搜索"
-        this.lock = true // 开启锁
-      }
+    searchData: function(newQuestion, oldQuestion) { // 配合计算属性,监听对象中特定的值
+      this.pageData.lock = true
     }
   }
 }

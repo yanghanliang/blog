@@ -49,14 +49,6 @@ export default {
     }
   },
   methods: {
-    changeData(value, render) {
-      let str = render
-      let startIndex = str.indexOf('_0"')
-      let middleIndex = str.indexOf('</h', startIndex)
-      let startStr = str.substr(0, middleIndex)
-      let middleStr = str.substr(middleIndex)
-      this.form.content = startStr + '&nbsp;<i class="icon" title="原创">&#xe612;</i>' + middleStr
-    },
     async addArticle() { // 点击添加文章||修改文章时执行
       // 如果没有修改类名，那么 this.form.classname 是字符串类型，则取原来的值
       // 如果修改了类名， 那么 this.form.classname 是数字类型，则取当前的值
