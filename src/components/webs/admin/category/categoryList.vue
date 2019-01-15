@@ -5,14 +5,24 @@
             height="400"
             :data="tableData">
             <el-table-column
+                type="index"
+                width="50">
+            </el-table-column>
+            <el-table-column
                 prop="classname"
                 label="类名"
                 width="180">
             </el-table-column>
             <el-table-column
-                prop="pid"
                 label="层级"
                 width="180">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.pid === 0">一级</span>
+                    <span v-else-if="scope.row.pid === 1">二级</span>
+                    <span v-else-if="scope.row.pid === 2">三级</span>
+                    <span v-else-if="scope.row.pid === 3">四级</span>
+                    <span v-else-if="scope.row.pid === 4">五级</span>
+                </template>
             </el-table-column>
             <el-table-column
                 label="操作"
@@ -51,7 +61,7 @@ export default {
 }
 
 .category_list .el-table {
-    width: 460px;
+    width: 525px;
     margin: 100px auto;
 }
 </style>
