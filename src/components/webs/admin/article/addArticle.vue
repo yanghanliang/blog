@@ -14,7 +14,7 @@
       <el-form-item label="文章简介">
         <el-input type="textarea" v-model="form.synopsis"></el-input>
       </el-form-item>
-      <mavon-editor v-model="form.content" :subfield="true" @change="changeData"/>
+      <mavon-editor v-model="form.content" :subfield="true"/>
       <el-form-item style="margin-top: 22px;">
         <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
         <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>

@@ -10,10 +10,13 @@ import admin from '@/components/webs/admin/index'
 // import editUser from '@/components/webs/admin/a/edit'
 import addArticle from '@/components/webs/admin/article/addArticle'
 import articleList from '@/components/webs/admin/article/articleList'
+import addCategory from '@/components/webs/admin/category/addCategory'
+import categoryList from '@/components/webs/admin/category/categoryList'
 // admin-end
 
 // index-start
 import articleDetails from '@/components/webs/index/article/articleDetails'
+import catalogList from '@/components/webs/index/catalog/catalogList'
 // index-end
 
 Vue.use(Router)
@@ -24,6 +27,11 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
+    },
+    {
+      path: '/catalogList',
+      name: 'catalogList',
+      component: catalogList
     },
     {
       path: '/articleDetails/:articleId',
@@ -70,6 +78,16 @@ export default new Router({
           path: 'addArticle/:articleId',
           name: 'editArticle',
           component: addArticle
+        },
+        {
+          path: 'addCategory',
+          name: 'addCategory',
+          component: addCategory
+        },
+        {
+          path: 'categoryList',
+          name: 'categoryList',
+          component: categoryList
         }
       ]
     }

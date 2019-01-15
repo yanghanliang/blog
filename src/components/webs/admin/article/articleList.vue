@@ -199,7 +199,6 @@ export default {
     },
     async paging() { // 分页
       const { data } = await this.$http.post('paging', this.sortData)
-      console.log(data)
       if (data.status === 200 && this.sortData.searchData === '') {
         this.total = this.retainTotal // 修改总条数
         this.tableData = data.data // 重新赋值
@@ -216,6 +215,7 @@ export default {
       }
     },
     searchFn() { // 搜索内容
+      this.sortData.currentPage = 1 // 重置当前页
       this.paging()
     },
     async sortChange(column) { // 排序方式改变时执行(文档说明)

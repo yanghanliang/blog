@@ -3,6 +3,9 @@
         <div class="header_left">logo(首页)</div>
         <ul class="header_right">
             <li>
+                <router-link to="/catalogList">目录列表</router-link>
+            </li>
+            <li>
             <a href="#">关于我</a>
             </li>
             <li>

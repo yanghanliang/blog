@@ -2,6 +2,15 @@ body {
     background-color: #f7f7f7;
 }
 
+/* icon-start */
+.icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+ }
+ /* icon-end */
+
 /* header-start */
 header {
     height: 50px;

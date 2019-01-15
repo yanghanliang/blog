@@ -36,36 +36,18 @@
                           <el-menu-item index="1-4-1">选项1</el-menu-item>
                         </el-submenu>
                     </el-submenu>
-                      <el-submenu index="2">
-                        <template slot="title">
-                          <i class="icon">&#xe63a;</i>
-                          <span slot="title">gg</span>
-                        </template>
-                        <el-menu-item-group>
-                          <span slot="title">javaScript</span>
-                          <el-menu-item index="/table">添加文章</el-menu-item>
-                          <el-menu-item index="2-2">选项2</el-menu-item>
-                        </el-menu-item-group>
-                        <el-menu-item-group title="HTML">
-                          <el-menu-item index="2-3">选项3</el-menu-item>
-                        </el-menu-item-group>
-                        <el-submenu index="1-4">
-                          <span slot="title">CSS</span>
-                          <el-menu-item index="2-4-1">选项1</el-menu-item>
-                        </el-submenu>
-                      </el-submenu>
-                    <!-- <el-menu-item index="2">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">导航二</span>
-                    </el-menu-item>
-                    <el-menu-item index="3" disabled>
-                        <i class="el-icon-document"></i>
-                        <span slot="title">导航三</span>
-                    </el-menu-item>
-                    <el-menu-item index="4">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">导航四</span>
-                    </el-menu-item> -->
+                    <el-submenu index="2">
+                      <template slot="title">
+                        <svg class="icon" aria-hidden="true">
+                          <use xlink:href="#icon-shuangsechangyongtubiao-"></use>
+                        </svg>
+                        <span slot="title">分类</span>
+                      </template>
+                      <el-menu-item-group>
+                        <el-menu-item index="/admin/addCategory">添加分类</el-menu-item>
+                        <el-menu-item index="/admin/categoryList">分类列表</el-menu-item>
+                      </el-menu-item-group>
+                    </el-submenu>
                 </el-menu>
             </div>
             <right-content></right-content>

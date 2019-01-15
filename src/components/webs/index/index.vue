@@ -54,7 +54,6 @@
                 <category @click="cs" :csdata="csData"></category>
             </div>
       </div>
-
       <my-footer></my-footer>
   </div>
 </template>
