@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+    <div class="container">
       <my-header></my-header>
 
       <el-input
@@ -26,13 +26,19 @@
                     </div>
                     <div class="clb_bottom clearfix">
                         <div class="clbb_left">
-                            <i class="icon">&#xe606;</i>
-                            <a href="#">{{ data.classname }}</a>
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-icon"></use>
+                            </svg>
+                            <span>{{ data.classname }}</span>
                             &nbsp;
-                            <i class="icon">&#xe613;</i>
-                            <a>{{ data.createtime | formatDate('YYYY-MM-DD')}}</a>
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-shengri-copy"></use>
+                            </svg>
+                            <span>{{ data.createtime | formatDate('YYYY-MM-DD')}}</span>
                             &nbsp;
-                            <i class="icon">&#xe609;</i>
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-liulan"></use>
+                            </svg>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
                         <router-link :to="'/articleDetails/'+data.id">阅读原文</router-link>
@@ -265,6 +271,10 @@ export default {
 /* clb_bottom-start */
 .cl_box .clb_bottom .clbb_left {
     float: left;
+}
+
+.cl_box .clb_bottom .clbb_left span {
+  color: #096;
 }
 
 .cl_box .clb_bottom>a {
