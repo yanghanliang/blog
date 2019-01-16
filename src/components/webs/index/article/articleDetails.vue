@@ -14,10 +14,8 @@
             </el-form>
         </div>
 
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>文章详情</el-breadcrumb-item>
-        </el-breadcrumb>
+        <!-- 调用自己封装的面包屑组件 -->
+        <my-crumbs :ri="routingInformation"></my-crumbs>
 
         <div class="content clearfix scrollbar">
           <div class="left" ref="articleContent">
@@ -66,7 +64,12 @@ export default {
     return { // value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
       title: '',
       value: '',
-      defaultData: 'preview'
+      defaultData: 'preview',
+      routingInformation: {
+        name1: '首页',
+        name2: '文章详情',
+        router: '/'
+      }
     }
   },
   created() {

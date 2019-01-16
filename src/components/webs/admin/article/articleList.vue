@@ -1,13 +1,9 @@
 <template>
   <div class="content_right">
-    <!-- breadcrumb -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">NFV集成硬件部署LLD方案XX省XX项目</el-breadcrumb-item>
-      <el-breadcrumb-item>项目详细信息</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 调用自己封装的面包屑组件 -->
+    <my-crumbs :ri="routingInformation"></my-crumbs>
 
     <!-- dataTable -->
-      <!-- height="407" -->
     <el-table
       :data="tableData"
       sortable="custom"
@@ -122,6 +118,11 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      routingInformation: {
+        name1: '首页',
+        name2: '文章列表',
+        router: '/'
+      },
       tableData: null, // 表格中的所有数据
       dialogVisible: false, // 弹窗(显示||隐藏)
       id: '',

@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+
+      <!-- 调用头部公共组件 -->
       <my-header></my-header>
 
       <el-input
@@ -60,6 +62,8 @@
                 <category @click="cs" :csdata="csData"></category>
             </div>
       </div>
+
+      <!-- 调用底部公共组件 -->
       <my-footer></my-footer>
   </div>
 </template>

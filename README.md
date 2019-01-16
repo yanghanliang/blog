@@ -441,3 +441,67 @@ watch: {
       this.pageData.lock = true
     }
   }
+
+
+## 父组件给子组件传值以 “对象” 的方式
+
++ 第一步创建一个文件 myCrumbs.vue 子组件
+
+```vue
+
+<template>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+        <!-- routing information 缩写为 RI 路由信息 -->
+        <el-breadcrumb-item :to="{ path: ri.router }">{{ ri.name1 }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ ri.name2 }}</el-breadcrumb-item>
+    </el-breadcrumb>
+</template>
+
+<script>
+export default {
+  name: 'MyCrumbs',
+  props: ['ri']
+}
+</script>
+
+<style>
+
+</style>
+
+```
+
++ 第二步
+在 main.js 文件中引入组件 并 注册
+
+```vue
+
+// 引入自己的面包屑组件
+import myCrumbs from '@/components/webs/public/myCrumbs'
+
+// 注册自己的面包屑组件
+// 引用子组件的 name 作为组件名
+Vue.component(myCrumbs.name, myCrumbs)
+
+```
+
++ 第三步 在父组件中调用
+
+```vue
+
+<!-- 调用自己封装的面包屑组件 -->
+<my-crumbs :ri="routingInformation"></my-crumbs>
+
+
+export default {
+  data() {
+    return {
+      routingInformation: {
+        name1: '首页',
+        name2: '文章详情',
+        router: '/'
+      }
+    }
+  }
+}
+
+```

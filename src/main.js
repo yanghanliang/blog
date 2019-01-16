@@ -30,6 +30,11 @@ import './assets/reset.css'
 import './assets/public.css'
 // myStyle - end
 
+// public-start
+// 引入自己的面包屑组件
+import myCrumbs from '@/components/webs/public/myCrumbs'
+// public-start
+
 // 调用发送请求的插件
 Vue.use(MyAxios)
 
@@ -38,6 +43,9 @@ Vue.use(ElementUI)
 
 // 调用 markdown
 Vue.use(mavonEditor)
+
+// 调用自己的面包屑组件
+Vue.component(myCrumbs.name, myCrumbs)
 
 // 调用时间格式化 moment
 Vue.filter('formatDate', function (date, formateStr) {
