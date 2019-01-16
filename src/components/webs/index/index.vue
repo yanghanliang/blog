@@ -43,7 +43,7 @@
                             </svg>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
-                        <router-link :to="'/articleDetails/'+data.id">阅读原文</router-link>
+                        <span @click="clickRead(data.id)">阅读全文</span>
                     </div>
                 </div>
                 <div v-if="pageData.tips !== ''" class="tips">{{ pageData.tips }}</div>
@@ -193,6 +193,12 @@ export default {
           type: 'info'
         })
       }
+    },
+    async clickRead(id) { // 点击阅读全文时执行
+      // 跳转文章详情页
+      this.$router.push({ path: `/articleDetails/${id}` })
+      // 记录文章阅读数
+      await this.$http.get(`recordReadingNumber/${id}`)
     }
   },
   watch: {
@@ -281,8 +287,13 @@ export default {
   color: #096;
 }
 
-.cl_box .clb_bottom>a {
+/* .cl_box .clb_bottom>a {
     float: right;
+} */
+.cl_box .clb_bottom>span {
+  float: right;
+  color: #096;
+  cursor: pointer;
 }
 /* clb_bottom-end */
 /* cl_box-end */
