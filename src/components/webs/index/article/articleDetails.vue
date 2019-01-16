@@ -28,6 +28,12 @@
               <li>点赞数： {{ articleData.praise }}</li>
             </ul>
             <mavon-editor v-model="articleData.content" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
+            <div class="line">
+              -------------------- 本文结束 <my-icon identification="niu"></my-icon> 感谢阅读 --------------------
+            </div>
+            <div class="page">
+
+            </div>
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -68,7 +74,7 @@ export default {
     category
   },
   data() {
-    return { // value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
+    return {
       articleData: {},
       defaultData: 'preview',
       routingInformation: {
@@ -79,23 +85,12 @@ export default {
     }
   },
   created() {
-    this.loadData()
+    this.loadData() // 获取文章详情数据
   },
   methods: {
-    async loadData() {
+    async loadData() { // 获取文章详情数据
       const { data } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
-      // this.$refs.articleContent.innerHTML = data.data[0].content
-      // console.log(data.data[0].content)
-      // var str = data.data[0].content
-      // var start_index = str.indexOf('_0"')
-      // var middle_index = str.indexOf('</h', start_index)
-      // var start_str = str.substr(0, middle_index)
-      // var middle_str = str.substr(middle_index)
-      // this.value = start_str + '<i class="icon" title="原创">&#xe612;</i>' + middle_str
-      this.articleData = data[0]
-      // console.log(this.content)
-      // this.value = data.content
-      // this.code_highlight(this.$refs.articleContent) // 代码高亮
+      this.articleData = data[0] // 将数据赋值给 vue
     }
   }
 }
@@ -141,6 +136,7 @@ export default {
   border: 1px solid #e0e0e0;
 }
 
+/* describe-start */
 .content .left h1 {
   position: relative;
   display: inline-block;
@@ -165,6 +161,17 @@ export default {
   padding: 0.04rem 0.08rem;
   border: 1px solid #a9d6cd;
 }
+/* describe-end */
+
+.content .left .line {
+  color: #d4d4d4;
+}
+
+.content .left .line .icon {
+  font-size: 35px;
+}
+
+
 
 /* .content .left>.original {
   top: 20px;

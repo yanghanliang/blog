@@ -33,6 +33,9 @@ import './assets/public.css'
 // public-start
 // 引入自己的面包屑组件
 import myCrumbs from '@/components/webs/public/myCrumbs'
+
+// 引入自己的字体图片组件
+import myIcon from '@/components/webs/public/myIcon'
 // public-start
 
 // 调用发送请求的插件
@@ -46,6 +49,9 @@ Vue.use(mavonEditor)
 
 // 调用自己的面包屑组件
 Vue.component(myCrumbs.name, myCrumbs)
+
+// 调用自己的字体图标组件
+Vue.component(myIcon.name, myIcon)
 
 // 调用时间格式化 moment
 Vue.filter('formatDate', function (date, formateStr) {
