@@ -19,8 +19,15 @@
 
         <div class="content clearfix scrollbar">
           <div class="left" ref="articleContent">
-            <h1>{{ title }} <i class="icon" title="原创">&#xe612;</i></h1>
-            <mavon-editor v-model="value" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
+            <h1>{{ articleData.title }} <i class="icon" title="原创">&#xe612;</i></h1>
+            <ul class="describe clearfix">
+              <li>分类： {{ articleData.classname }}</li>
+              <li>创建时间： {{ articleData.updatetime | formatDate('YYYY-MM-DD') }}</li>
+              <li>更新时间： {{ articleData.createtime | formatDate('YYYY-MM-DD') }}</li>
+              <li>阅读数： {{ articleData.read }}</li>
+              <li>点赞数： {{ articleData.praise }}</li>
+            </ul>
+            <mavon-editor v-model="articleData.content" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -62,8 +69,7 @@ export default {
   },
   data() {
     return { // value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-      title: '',
-      value: '',
+      articleData: {},
       defaultData: 'preview',
       routingInformation: {
         name1: '首页',
@@ -77,7 +83,7 @@ export default {
   },
   methods: {
     async loadData() {
-      const data = await this.$http.get(`articleDetakils/${this.$route.params.articleId}`)
+      const { data } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
       // this.$refs.articleContent.innerHTML = data.data[0].content
       // console.log(data.data[0].content)
       // var str = data.data[0].content
@@ -86,8 +92,9 @@ export default {
       // var start_str = str.substr(0, middle_index)
       // var middle_str = str.substr(middle_index)
       // this.value = start_str + '<i class="icon" title="原创">&#xe612;</i>' + middle_str
-      this.title = data.data[0].title
-      this.value = data.data[0].content
+      this.articleData = data[0]
+      // console.log(this.content)
+      // this.value = data.content
       // this.code_highlight(this.$refs.articleContent) // 代码高亮
     }
   }
@@ -123,7 +130,7 @@ export default {
 
 /* left-start */
 .content .left {
-  width: 62%;
+  width: 8.1rem;
   height: 100%;
   float: left;
   overflow-y: auto;
@@ -134,7 +141,32 @@ export default {
   border: 1px solid #e0e0e0;
 }
 
-.content .left>.original {
+.content .left h1 {
+  position: relative;
+  display: inline-block;
+}
+
+.content .left h1>i {
+  top: 12px;
+  right: -36px;
+  position: absolute;
+}
+
+.content .left .describe {
+  margin: 0 auto 0.1rem;
+  display: inline-block;
+}
+
+.content .left .describe li {
+  float: left;
+  color: #4ec3a4;
+  margin-right: 0.1rem;
+  border-radius: 0.15rem;
+  padding: 0.04rem 0.08rem;
+  border: 1px solid #a9d6cd;
+}
+
+/* .content .left>.original {
   top: 20px;
   right: 200px;
   position: absolute;
@@ -156,8 +188,9 @@ export default {
 .content .left >>> p {
   text-align: left;
   line-height: 24px;
-}
+} */
 
+/* reset-markdown-style-start */
 .content .left >>> .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
   background-color: #fff;
 }
@@ -165,6 +198,7 @@ export default {
 .content .left >>> .v-note-wrapper .v-note-panel {
   border: none;
 }
+/* reset-markdown-style-end */
 /* left-end */
 
 /* right-start */

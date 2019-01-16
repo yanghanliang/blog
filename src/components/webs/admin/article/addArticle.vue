@@ -73,12 +73,13 @@ export default {
       }
     },
     async getEditData(articleId) { // 获取修改数据
-      const { data } = await this.$http.get(`articleDetakils/${articleId}`)
-      this.form.title = data[0].title
-      this.form.classname = data[0].classname
-      this.form.categoryId = data[0].category_id // 保存原类名 ID
-      this.form.synopsis = data[0].synopsis
-      this.form.content = data[0].content
+      let { data } = await this.$http.get(`articleDetails/${articleId}`)
+      data = data[0]
+      this.form.title = data.title
+      this.form.classname = data.classname
+      this.form.categoryId = data.category_id // 保存原类名 ID
+      this.form.synopsis = data.synopsis
+      this.form.content = data.content
       this.buttonText = '修改文章'
       this.url = `editArticle/${articleId}` // 修改url
       this.type = 'put' // 修改请求类型
