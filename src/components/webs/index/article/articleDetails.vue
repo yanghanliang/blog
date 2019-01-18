@@ -28,11 +28,13 @@
               <li>点赞数： {{ articleData.praise }}</li>
             </ul>
             <mavon-editor v-model="articleData.content" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
-            <div class="line">
+            <div class="subscript">
               -------------------- 本文结束 <my-icon identification="niu"></my-icon> 感谢阅读 --------------------
             </div>
-            <div class="page">
-
+            <div class="line"></div>
+            <div class="page clearfix">
+              <div v-if="preArticle.status === 200" @click="clickDuring(preArticle.data.id)" class="page_pre"><i class="icon">&#xe639;</i>{{ preArticle.data.title }}</div>
+              <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)" class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
             </div>
           </div>
           <div class="right">
@@ -81,16 +83,32 @@ export default {
         name1: '首页',
         name2: '文章详情',
         router: '/'
-      }
+      },
+      preArticle: {},
+      nextArticle: {}
     }
   },
   created() {
     this.loadData() // 获取文章详情数据
+    this.during() // 获取上一篇和下一篇的数据
   },
   methods: {
     async loadData() { // 获取文章详情数据
       const { data } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
       this.articleData = data[0] // 将数据赋值给 vue
+    },
+    async during() { // 获取上一篇和下一篇的数据
+      const id = this.$route.params.articleId // 获取当前路由 id
+      const { data } = await this.$http.get(`during/${id}`) // 发送请求
+      this.preArticle = data.preArticle // 将值赋值给 vue
+      this.nextArticle = data.nextArticle
+    },
+    clickDuring(id) {
+      console.log(this.$route.params.articleId)
+      this.$route.params.articleId = id
+      console.log(this.$route.params.articleId)
+      this.loadData()
+      this.during()
     }
   }
 }
@@ -131,15 +149,14 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+  padding-bottom: 10px;
   background-color: #fff;
   margin: 0 0.2rem 0.2rem 0;
-  border: 1px solid #e0e0e0;
 }
 
 /* describe-start */
 .content .left h1 {
   position: relative;
-  display: inline-block;
 }
 
 .content .left h1>i {
@@ -163,15 +180,47 @@ export default {
 }
 /* describe-end */
 
-.content .left .line {
+/* subscript-start */
+.content .left .subscript {
   color: #d4d4d4;
 }
 
-.content .left .line .icon {
+.content .left .subscript .icon {
   font-size: 35px;
 }
+/* subscript-end */
 
+.content .left .line {
+  width: 100%;
+  height: 1px;
+  margin: 20px 0;
+  background-color: #ececec;
+}
 
+/* page-start */
+.page {
+  color: #e26060;
+  padding: 0 100px;
+}
+
+.page .page_pre {
+  float: left;
+  cursor: pointer;
+}
+
+.page .page_pre i {
+  margin-right: 10px;
+}
+
+.page .page_next {
+  float: right;
+  cursor: pointer;
+}
+
+.page .page_next i {
+  margin-left: 10px;
+}
+/* page-end */
 
 /* .content .left>.original {
   top: 20px;
@@ -219,7 +268,6 @@ export default {
   padding: 0.2rem;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #ebebeb;
 }
 
 .content .right .rr li {
