@@ -200,9 +200,9 @@ export default {
     },
     async paging() { // 分页
       const { data } = await this.$http.post('paging', this.sortData)
-      if (data.status === 200 && this.sortData.searchData === '') {
+      if (data.getData.status === 200 && this.sortData.searchData === '') {
         this.total = this.retainTotal // 修改总条数
-        this.tableData = data.data // 重新赋值
+        this.tableData = data.getData.data // 重新赋值
       } else {
         this.tableData = data.getData.data // 重新赋值
         this.total = data.getNumber // 修改总条数
