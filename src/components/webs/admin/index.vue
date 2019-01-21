@@ -14,13 +14,11 @@
                 <el-menu
                   default-active="1-4-1"
                   class="el-menu-vertical-demo"
-                  @open="handleOpen"
-                  @close="handleClose"
                   :collapse="isCollapse"
                   :router="true">
                     <el-submenu index="1">
                         <template slot="title">
-                          <i class="icon">&#xe63a;</i>
+                          <i class="icon" style="color: #2456bb;">&#xe63a;</i>
                           <span slot="title">文章</span>
                         </template>
                         <el-menu-item-group>
@@ -82,14 +80,6 @@ export default {
 
       // 跳转到登录页面
       this.$router.push({ name: 'login' })
-    }
-  },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
     }
   }
 }

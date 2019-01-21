@@ -103,12 +103,10 @@ export default {
       this.preArticle = data.preArticle // 将值赋值给 vue
       this.nextArticle = data.nextArticle
     },
-    clickDuring(id) {
-      console.log(this.$route.params.articleId)
-      this.$route.params.articleId = id
-      console.log(this.$route.params.articleId)
-      this.loadData()
-      this.during()
+    clickDuring(id) { // 点击上上一页或下一页时执行
+      this.$route.params.articleId = id // 修改当前文章 id 路由
+      this.loadData() // 获取文章详情数据
+      this.during() // 获取上一篇和下一篇的数据
     }
   }
 }
