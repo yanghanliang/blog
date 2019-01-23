@@ -100,7 +100,7 @@ export default {
     }
   },
   created() {
-    this.loadData()
+    this.loadData() // 加载数据
   },
   mounted() {
     this.scroll()
@@ -111,7 +111,7 @@ export default {
     }
   },
   methods: {
-    async loadData() {
+    async loadData() { // 加载数据
       const { data } = await this.$http.get('index') // 发送请求,获取数据
       this.article = data.article // 将获取到的文章数据赋值给 vue
       this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue

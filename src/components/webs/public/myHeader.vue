@@ -9,36 +9,48 @@
         active-text-color="#ffd04b">
         <!-- <a href="#">logo</a> -->
         <!-- <el-menu-item index="1">目录</el-menu-item> -->
+        <!-- <el-submenu index="2">
+          <template slot="title">我的工作台</template>
+          <el-menu-item index="2-1">选项1</el-menu-item>
+          <el-menu-item index="2-2">选项2</el-menu-item>
+          <el-menu-item index="2-3">选项3</el-menu-item>
+          <el-submenu index="2-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="2-4-1">选项1</el-menu-item>
+            <el-menu-item index="2-4-2">选项2</el-menu-item>
+            <el-menu-item index="2-4-3">选项3</el-menu-item>
+          </el-submenu>
+        </el-submenu> -->
         <el-submenu index="1">
           <template slot="title">目录</template>
-            <el-submenu v-for="catalog in catalogs" :index="catalog.index" :key="catalog.index">
-              <template slot="title">{{ catalog.title }}</template>
-              <el-menu-item v-for="value in catalog.children" :index="value.index" :key="value.index">{{ value.title }}</el-menu-item>
+          <el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
+            <template slot="title">{{ catalog.classname }}</template>
+            <el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">{{ two.classname }}</el-menu-item>
+
+            <el-submenu v-if="two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
+              <template slot="title">{{ two.classname }}</template>
+              <el-menu-item v-if="!three.children" v-for="three in two.children" :index="three.index" :key="three.id">{{ three.classname }}</el-menu-item>
+
+              <el-submenu v-if="three.children" v-for="three in two.children" :index="three.index" :key="three.id">
+                <template slot="title">{{ three.classname }}</template>
+                <el-menu-item v-if="!four.children" v-for="four in three.children" :index="four.index" :key="four.id">{{ four.classname }}</el-menu-item>
+
+                <el-submenu v-if="four.children" v-for="four in three.children" :index="four.index" :key="four.id">
+                  <template slot="title">{{ four.classname }}</template>
+                  <el-menu-item v-if="!five.children" v-for="five in four.children" :index="five.index" :key="five.id">{{ five.classname }}</el-menu-item>
+                </el-submenu>
+              </el-submenu>
             </el-submenu>
-            <!-- <el-submenu index="1-1">
-                <template slot="title">CSS</template>
-                <el-menu-item index="1-1-1">table</el-menu-item>
-                <el-menu-item index="1-1-2">button</el-menu-item>
-                <el-menu-item index="1-1-3">page</el-menu-item>
-            </el-submenu> -->
-            <!-- <el-submenu index="1-2">
-                <template slot="title">HTML</template>
-                <el-menu-item index="1-2-1">section</el-menu-item>
-            </el-submenu>
-            <el-submenu index="1-3">
-                <template slot="title">JavaScript</template>
-                <el-menu-item index="1-3-1">Jquery</el-menu-item>
-                <el-menu-item index="1-3-2">Vue</el-menu-item>
-                <el-menu-item index="1-3-3">NodeJs</el-menu-item>
-            </el-submenu> -->
-            <el-submenu index="2-4">
+          </el-submenu>
+          <el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">{{ catalog.classname }}</el-menu-item>
+            <!-- <el-submenu index="2-4">
                 <template slot="title">选项4</template>
                 <el-menu-item index="2-4-1">选项1</el-menu-item>
                 <el-menu-item index="2-4-2">选项2</el-menu-item>
                 <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
+            </el-submenu> -->
         </el-submenu>
-        <el-submenu index="2">
+        <!-- <el-submenu index="22">
             <template slot="title">我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
@@ -50,8 +62,8 @@
                 <el-menu-item index="2-4-3">选项3</el-menu-item>
             </el-submenu>
         </el-submenu>
-        <el-menu-item index="3" disabled>消息中心</el-menu-item>
-        <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        <el-menu-item index="32" disabled>消息中心</el-menu-item>
+        <el-menu-item index="42"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
     </el-menu>
 </template>
 
@@ -64,61 +76,122 @@ export default {
       activeIndex2: '1',
       catalogs: [
         {
-          index: '1-1',
-          title: 'CSS',
+          index: '1-7',
+          classname: 'CSS',
           children: [
             {
-              index: '1-1-1',
-              title: 'table'
+              index: '1-7-1',
+              classname: 'table'
             },
             {
-              index: '1-1-2',
-              title: 'button'
+              index: '1-7-2',
+              classname: 'button',
+              children: [
+                {
+                  index: '1-7-2-1',
+                  classname: 'hh',
+                  children: [
+                    {
+                      index: '1-7-2-1-1',
+                      classname: 'gg'
+                    }
+                  ]
+                }
+              ]
             },
             {
-              index: '1-1-3',
-              title: 'page'
+              index: '1-7-3',
+              classname: 'page'
             }
           ]
         },
         {
-          index: '1-2',
-          title: 'HTML',
+          index: '2-2',
+          classname: 'HTML',
           children: [
             {
-              index: '1-2-1',
-              title: 'section'
+              index: '2-2-1',
+              classname: 'section'
             }
           ]
         },
         {
           index: '1-3',
-          title: 'JavaScript',
+          classname: 'JavaScript',
           children: [
             {
               index: '1-3-1',
-              title: 'Jquery'
+              classname: 'Jquery'
             },
             {
               index: '1-3-2',
-              title: 'JavaScript'
+              classname: 'JavaScript'
             },
             {
               index: '1-3-3',
-              title: 'Vue'
+              classname: 'Vue'
             },
             {
               index: '1-3-4',
-              title: 'NodeJs'
+              classname: 'NodeJs'
             }
           ]
+        },
+        {
+          index: '1-4',
+          classname: 'akjsaks'
         }
       ]
     }
   },
+  created() {
+    this.loadData() // 加载数据
+  },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
+    },
+    async loadData() { // 加载数据
+      const { data } = await this.$http.get('/catalog')
+      this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
+    },
+    InfinitePoleClassification(data) { // 无限极分类
+      const sourceData = Object.assign([], data) // 对象值传递
+      let finalData = [] // 存储最终数据
+      for (let i = 0; i < sourceData.length; i++) {
+        let value = sourceData[i]
+        if (value.pid === 0) { // 判断是否是第一层级
+          value.index = '1-' + value.id
+          finalData.push(value) // 将第一层级的数追加到 finalData 中
+          sourceData.splice(i, 1) // 去除数据源中的第一次层级
+          i-- // 因为对象是引用传递， splice 后，数据源 data 已经更改，所以必须 i--
+        }
+      }
+
+      function ipc(finalData) {
+        let childrenArr = [] // 子数组
+        for (let i = 0; i < finalData.length; i++) {
+          for (let j = 0; j < sourceData.length; j++) {
+            let value = sourceData[j]
+            if (finalData[i].id === value.pid) { // 找到对应的子级
+              finalData[i].children = [] // 声明子层级是数组
+              value.index = finalData[i].index + '-' + value.id
+              childrenArr.push(value) // 存储子数组
+              finalData[i].children.push(value) // 将对应的子级放入最终数据中
+              sourceData.splice(j, 1)
+              j--
+            }
+          }
+        }
+
+        if (sourceData.length > 0) {
+          ipc(childrenArr)
+        }
+      }
+
+      ipc(finalData)
+
+      return finalData
     }
   }
 }
