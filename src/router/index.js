@@ -12,6 +12,7 @@ import addArticle from '@/components/webs/admin/article/addArticle'
 import articleList from '@/components/webs/admin/article/articleList'
 import addCategory from '@/components/webs/admin/category/addCategory'
 import categoryList from '@/components/webs/admin/category/categoryList'
+import editCategory from '@/components/webs/admin/category/editCategory'
 // admin-end
 
 // index-start
@@ -88,6 +89,11 @@ export default new Router({
           path: 'categoryList',
           name: 'categoryList',
           component: categoryList
+        },
+        {
+          path: 'editCategory/:categoryId',
+          name: 'editCategory',
+          component: editCategory
         }
       ]
     }

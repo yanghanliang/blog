@@ -5,8 +5,7 @@
                 <el-input v-model="form.classname"></el-input>
             </el-form-item>
             <el-form-item label="层级">
-                <el-select v-model="form.pid" placeholder="请选择层级">
-                <el-option label="第一层级" value="0"></el-option>
+                <el-select v-model="form.layername" placeholder="请选择层级" @change="changeSelectValue">
                 <el-option v-for="data in categoryData" :key="data.id" :label="data.classname" :value="data.id"></el-option>
                 <!-- <el-option label="HTML" value="3"></el-option>
                 <el-option label="javaSript" value="3"></el-option> -->
@@ -28,7 +27,8 @@ export default {
       categoryData: [],
       form: {
         classname: '',
-        pid: ''
+        pid: 0,
+        layername: '第一层级'
       }
     }
   },
@@ -42,7 +42,7 @@ export default {
     },
     async addCategory() {
       const { data } = await this.$http.post('addCategory', this.form)
-      if (data.status) {
+      if (data.status === 200) {
         this.$message({
           message: data.msg,
           type: 'success'
@@ -55,6 +55,9 @@ export default {
           type: 'error'
         })
       }
+    },
+    changeSelectValue(pid) {
+      this.form.pid = pid
     }
   }
 }
