@@ -35,6 +35,8 @@
             <div class="page clearfix">
               <div v-if="preArticle.status === 200" @click="clickDuring(preArticle.data.id)" class="page_pre"><i class="icon">&#xe639;</i>{{ preArticle.data.title }}</div>
               <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)" class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
+              <!-- <div @click="clickDuring(preArticle.data.id)" class="page_pre"><i class="icon">&#xe639;</i>{{ preArticle.data.title }}</div>
+              <div @click="clickDuring(nextArticle.data.id)" class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div> -->
             </div>
           </div>
           <div class="right">
@@ -90,23 +92,29 @@ export default {
   },
   created() {
     this.loadData() // 获取文章详情数据
-    this.during() // 获取上一篇和下一篇的数据
   },
   methods: {
     async loadData() { // 获取文章详情数据
       const { data } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
       this.articleData = data[0] // 将数据赋值给 vue
+      const bodyEle = document.querySelector('html') // 获取 html 元素
+      bodyEle.scrollTop = 0 // 置顶
+      this.during() // 获取上一篇和下一篇的数据
     },
     async during() { // 获取上一篇和下一篇的数据
-      const id = this.$route.params.articleId // 获取当前路由 id
-      const { data } = await this.$http.get(`during/${id}`) // 发送请求
+      const { data } = await this.$http.get(`during/${this.articleData.updatetime}`) // 发送请求
       this.preArticle = data.preArticle // 将值赋值给 vue
       this.nextArticle = data.nextArticle
     },
     clickDuring(id) { // 点击上上一页或下一页时执行
-      this.$route.params.articleId = id // 修改当前文章 id 路由
-      this.loadData() // 获取文章详情数据
-      this.during() // 获取上一篇和下一篇的数据
+      this.$router.push({
+        path: `/articleDetails/${id}`
+      })
+    }
+  },
+  watch: {
+    $route() { // 监听路由变化
+      this.loadData()
     }
   }
 }
