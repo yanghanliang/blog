@@ -1,9 +1,10 @@
 <template>
     <el-menu
-        :default-active="activeIndex2"
+        :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
+        :router="true"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b">
@@ -21,8 +22,12 @@
             <el-menu-item index="2-4-3">选项3</el-menu-item>
           </el-submenu>
         </el-submenu> -->
+        <el-menu-item index="/common">
+          <!-- <router-link to="/catalogList">日志</router-link> -->
+          首页
+        </el-menu-item>
         <el-submenu index="1">
-          <template slot="title">目录</template>
+          <template slot="title">分类</template>
           <el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
             <template slot="title">{{ catalog.classname }}</template>
             <el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">{{ two.classname }}</el-menu-item>
@@ -50,7 +55,11 @@
                 <el-menu-item index="2-4-3">选项3</el-menu-item>
             </el-submenu> -->
         </el-submenu>
-        <!-- <el-submenu index="22">
+        <el-menu-item index="/catalogList">
+          <!-- <router-link to="/catalogList">日志</router-link> -->
+          日志
+        </el-menu-item>
+        <el-submenu index="22">
             <template slot="title">我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
@@ -63,7 +72,7 @@
             </el-submenu>
         </el-submenu>
         <el-menu-item index="32" disabled>消息中心</el-menu-item>
-        <el-menu-item index="42"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
+        <el-menu-item index="42"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
     </el-menu>
 </template>
 
@@ -72,8 +81,7 @@ export default {
   name: 'myHeard',
   data() {
     return {
-      activeIndex: '1',
-      activeIndex2: '1',
+      activeIndex: '/common',
       catalogs: [
         {
           index: '1-7',
@@ -148,11 +156,11 @@ export default {
     this.loadData() // 加载数据
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath)
+    handleSelect(key, keyPath) { // 点击导航时执行
+      this.activeIndex = key
     },
     async loadData() { // 加载数据
-      const { data } = await this.$http.get('/catalog')
+      const { data } = await this.$http.get('/category')
       this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
     },
     InfinitePoleClassification(data) { // 无限极分类
@@ -198,4 +206,9 @@ export default {
 </script>
 
 <style scoped>
+/* reset-style-start */
+.el-menu--horizontal>.el-menu-item a {
+  display: inline-block;
+}
+/* reset-style-end */
 </style>

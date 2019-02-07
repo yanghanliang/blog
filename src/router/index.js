@@ -16,6 +16,7 @@ import editCategory from '@/components/webs/admin/category/editCategory'
 // admin-end
 
 // index-start
+import common from '@/components/webs/index/common'
 import articleDetails from '@/components/webs/index/article/articleDetails'
 import catalogList from '@/components/webs/index/catalog/catalogList'
 // index-end
@@ -27,12 +28,20 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index
-    },
-    {
-      path: '/catalogList',
-      name: 'catalogList',
-      component: catalogList
+      component: index,
+      redirect: '/common',
+      children: [
+        {
+          path: 'common',
+          name: 'common',
+          component: common
+        },
+        {
+          path: 'catalogList',
+          name: 'catalogList',
+          component: catalogList
+        }
+      ]
     },
     {
       path: '/articleDetails/:articleId',

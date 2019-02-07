@@ -512,3 +512,93 @@ export default {
 }
 
 ```
+
+---
+
+## js 中对象数据的排序始终是从小到大
+
+```js
+// 原数据
+var arr = {
+  "2019": [],
+  "2018": [],
+  "2017": [],
+  "2016": []
+}
+
+console.log(arr)
+// 渲染后:
+{2016: Array(0), 2017: Array(0), 2018: Array(0), 2019: Array(0)}
+2016: []
+2017: []
+2018: []
+2019: []
+__proto__: Object
+
+```
+
+> 将数字类型的数据,用对于的字母代替
+
+``` a -> 2019 ```
+
++ 变成
+
+```js
+var arr = {
+  "a": [],
+  "b": [],
+  "c": [],
+  "d": []
+}
+```
+
++ 然后再利用计算属性,将 字母(a) 转化为 数字(2019)
+
+```html
+
+<div class="catalog" v-for="(item, index) in catalogData" :key="index" v-if="item.length > 1">
+  <h2>{{ index | date }}</h2>
+  <div class="list_box" v-for="data in item" :key="data.id">
+    <div class="left_radius">
+      <div class="lr_radius"></div>
+      <div class="lr_rectangle">01</div>
+      <ul class="lb_content">
+        <li>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-icon"></use>
+          </svg>
+          {{ data.title }}
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-shengri-copy"></use>
+          </svg>
+          {{ data.createtime | formatDate('MM-DD-HH') }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+```
+
+
+```vue
+
+filters: {
+  date: function(value) {
+    if (value === 'a') {
+      return '2019'
+    } else if (value === 'b') {
+      return '2018'
+    } else if (value === 'c') {
+      return '2017'
+    } else if (value === 'd') {
+      return '2016'
+    }
+  }
+}
+
+```
+
+---
