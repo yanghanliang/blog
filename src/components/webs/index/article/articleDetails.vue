@@ -38,53 +38,99 @@
             </div>
             <div class="line"></div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="活动名称" prop="name">
+              <el-form-item label="昵称" prop="name">
                 <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
-              <el-form-item label="活动区域" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="活动时间" required>
-                <el-col :span="11">
-                  <el-form-item prop="date1">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col class="line" :span="2">-</el-col>
-                <el-col :span="11">
-                  <el-form-item prop="date2">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-                  </el-form-item>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="即时配送" prop="delivery">
-                <el-switch v-model="ruleForm.delivery"></el-switch>
-              </el-form-item>
-              <el-form-item label="活动性质" prop="type">
-                <el-checkbox-group v-model="ruleForm.type">
-                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                  <el-checkbox label="地推活动" name="type"></el-checkbox>
-                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item label="特殊资源" prop="resource">
-                <el-radio-group v-model="ruleForm.resource">
-                  <el-radio label="线上品牌商赞助"></el-radio>
-                  <el-radio label="线下场地免费"></el-radio>
-                </el-radio-group>
+              <el-form-item label="邮箱" prop="mailbox">
+                <el-input v-model="ruleForm.mailbox"></el-input>
               </el-form-item>
               <el-form-item label="活动形式" prop="desc">
-                <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                <el-input type="textarea" placeholder="畅所欲言~" v-model="ruleForm.desc"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
                 <el-button @click="resetForm('ruleForm')">重置</el-button>
               </el-form-item>
             </el-form>
+            <div class="show_comment">
+              <div class="sc_box">
+                <div class="scb_header clearfix">
+                  <div class="scbh_img_box">
+                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
+                  </div>
+                  <div class="scbh_arrow"></div>
+                  <span>昵称</span>
+                </div>
+                <div class="scb_body">
+                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                </div>
+                <div class="scb_footer clearfix">
+                  <div class="commentary_time">
+                    <my-icon identification="shijian1"></my-icon> 一天前
+                  </div>
+                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
+                </div>
+                <!-- <div class="line"></div> -->
+              </div>
+              <div class="sc_box">
+                <div class="scb_header right clearfix">
+                  <div class="scbh_img_box">
+                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
+                  </div>
+                  <div class="scbh_arrow"></div>
+                  <span>昵称</span>
+                </div>
+                <div class="scb_body">
+                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                </div>
+                <div class="scb_footer clearfix">
+                  <div class="commentary_time">
+                    <my-icon identification="shijian1"></my-icon> 一天前
+                  </div>
+                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
+                </div>
+              </div>
+            </div>
+            <div class="show_comment">
+              <div class="sc_box">
+                <div class="scb_header clearfix">
+                  <div class="scbh_img_box">
+                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
+                  </div>
+                  <div class="scbh_arrow"></div>
+                  <span>昵称</span>
+                </div>
+                <div class="scb_body">
+                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                </div>
+                <div class="scb_footer clearfix">
+                  <div class="commentary_time">
+                    <my-icon identification="shijian1"></my-icon> 一天前
+                  </div>
+                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
+                </div>
+              </div>
+            </div>
+            <div class="show_comment">
+              <div class="sc_box">
+                <div class="scb_header clearfix">
+                  <div class="scbh_img_box">
+                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
+                  </div>
+                  <div class="scbh_arrow"></div>
+                  <span>昵称</span>
+                </div>
+                <div class="scb_body">
+                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                </div>
+                <div class="scb_footer clearfix">
+                  <div class="commentary_time">
+                    <my-icon identification="shijian1"></my-icon> 一天前
+                  </div>
+                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -137,6 +183,7 @@ export default {
       nextArticle: {},
       ruleForm: {
         name: '',
+        mailbox: '',
         region: '',
         date1: '',
         date2: '',
@@ -147,6 +194,10 @@ export default {
       },
       rules: {
         name: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        mailbox: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
@@ -194,7 +245,22 @@ export default {
     },
     onSubmit() {
       console.log('submit!')
+    },
+    // form 表单的方法
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
     }
+    // form 表单的方法
   },
   watch: {
     $route() { // 监听路由变化
@@ -233,7 +299,7 @@ export default {
 
 /* left-start */
 .content .left {
-  width: 8.1rem;
+  width: 7.9rem;
   height: 100%;
   float: left;
   overflow-y: auto;
@@ -241,7 +307,7 @@ export default {
   position: relative;
   padding-bottom: 10px;
   background-color: #fff;
-  margin: 0 0.2rem 0.2rem 0;
+  padding: 0 0.2rem 0.2rem 0.2rem;
 }
 
 /* describe-start */
@@ -312,29 +378,13 @@ export default {
 }
 /* page-end */
 
-/* .content .left>.original {
-  top: 20px;
-  right: 200px;
-  position: absolute;
-}
 
-.content .left >>> h1>i {
-  cursor: default;
+/* reset-element-ui-style-start */
+.el-textarea >>> .el-textarea__inner {
+  min-height: 135px !important;
 }
+/* reset-element-ui-style-end */
 
-.content .left >>> section {
-  text-align: left;
-  margin-bottom: 0.6rem;
-}
-
-.content .left >>> section h2 {
-  text-align: left;
-}
-
-.content .left >>> p {
-  text-align: left;
-  line-height: 24px;
-} */
 
 /* reset-markdown-style-start */
 .content .left >>> .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
@@ -345,10 +395,88 @@ export default {
   border: none;
 }
 /* reset-markdown-style-end */
+
+
+/* show_comment-start */
+.show_comment {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #dad6d6;
+}
+
+/* scb_header-start */
+.show_comment .sc_box {
+  margin-bottom: 20px;
+}
+
+.sc_box .scb_header .scbh_img_box {
+  width: 40px;
+  height: 40px;
+  float: left;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #999;
+}
+
+.sc_box .scb_header .scbh_img_box img {
+  width: 100%;
+}
+
+.sc_box .scb_header .scbh_arrow {
+  width: 0px;
+  height: 0px;
+  float: left;
+  margin-top: 12px;
+  border-top: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #4ec3a4;
+}
+
+.sc_box .scb_header>span {
+  float: left;
+  color: #a9d6cd;
+  line-height: 46px;
+  margin-left: 20px;
+}
+/* scb_header-end */
+.sc_box .scb_body {
+  padding: 20px;
+  text-align: left;
+  margin: 20px 0;
+  color: #d4d4d4;
+  border-radius: 5px;
+  border: 1px solid #b355b1;
+}
+
+.sc_box .scb_footer .commentary_time {
+  float: left;
+  color: #999;
+}
+
+.sc_box .scb_footer .replay {
+  float: right;
+  font-size: 18px;
+}
+
+/* .scb_header.right-start */
+.sc_box .scb_header.right .scbh_img_box,.sc_box .scb_header.right>span {
+  float: right;
+}
+
+.sc_box .scb_header.right .scbh_arrow {
+  float: right;
+  border-top: 10px solid transparent;
+  border-right: 10px solid #4ec3a4;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+/* .scb_header.right-end */
+/* show_comment-end */
 /* left-end */
 
 /* right-start */
-.content .right {
+.content>.right {
   width: 30%;
   float: right;
   vertical-align: top;
