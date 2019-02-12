@@ -55,79 +55,18 @@
                 <el-button @click="resetForm('commentForm')">重置</el-button>
               </el-form-item>
             </el-form>
-            <div class="show_comment">
-              <div class="sc_box">
+            <div class="show_comment" v-for="(data, index) in commentData" :key="index">
+              <div :class="inde%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, inde) in data" :key="inde">
                 <div class="scb_header clearfix">
                   <div class="scbh_img_box">
                     <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
                   </div>
                   <div class="scbh_arrow"></div>
-                  <span>昵称</span>
+                  <span>{{ item.alias }}</span>
                 </div>
                 <div class="scb_body">
                   <my-icon identification="caozuoqipao"></my-icon>
-                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
-                </div>
-                <div class="scb_footer clearfix">
-                  <div class="commentary_time">
-                    <my-icon identification="shijian1"></my-icon> 一天前
-                  </div>
-                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
-                </div>
-              </div>
-              <div class="sc_box right">
-                <div class="scb_header clearfix">
-                  <div class="scbh_img_box">
-                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
-                  </div>
-                  <div class="scbh_arrow"></div>
-                  <span>昵称</span>
-                </div>
-                <div class="scb_body">
-                  <my-icon identification="caozuoqipao"></my-icon>
-                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
-                </div>
-                <div class="scb_footer clearfix">
-                  <div class="commentary_time">
-                    <my-icon identification="shijian1"></my-icon> 一天前
-                  </div>
-                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
-                </div>
-              </div>
-            </div>
-            <div class="show_comment">
-              <div class="sc_box">
-                <div class="scb_header clearfix">
-                  <div class="scbh_img_box">
-                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
-                  </div>
-                  <div class="scbh_arrow"></div>
-                  <span>昵称</span>
-                </div>
-                <div class="scb_body">
-                  <my-icon identification="caozuoqipao"></my-icon>
-                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
-                </div>
-                <div class="scb_footer clearfix">
-                  <div class="commentary_time">
-                    <my-icon identification="shijian1"></my-icon> 一天前
-                  </div>
-                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
-                </div>
-              </div>
-            </div>
-            <div class="show_comment">
-              <div class="sc_box">
-                <div class="scb_header clearfix">
-                  <div class="scbh_img_box">
-                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
-                  </div>
-                  <div class="scbh_arrow"></div>
-                  <span>昵称</span>
-                </div>
-                <div class="scb_body">
-                  <my-icon identification="caozuoqipao"></my-icon>
-                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
+                  <p>{{ item.comment_content }}</p>
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
@@ -200,7 +139,7 @@ export default {
       commentForm: {
         alias: '',
         mailbox: '',
-        article_id: this.$route.params.articleId,
+        articleId: this.$route.params.articleId,
         comment_content: ''
       },
       rules: {
@@ -221,11 +160,13 @@ export default {
             }
           }
         ]
-      }
+      },
+      commentData: []
     }
   },
   created() {
     this.loadData() // 获取文章详情数据
+    this.getCommentData() // 获取评论数据
   },
   methods: {
     async loadData() { // 获取文章详情数据
@@ -239,6 +180,21 @@ export default {
       const { data } = await this.$http.get(`during/${this.articleData.updatetime}`) // 发送请求
       this.preArticle = data.preArticle // 将值赋值给 vue
       this.nextArticle = data.nextArticle
+    },
+    async getCommentData() { // 获取评论数据
+      const { data } = await this.$http.get(`comment/${this.$route.params.articleId}`)
+      this.commentData = data.data
+      // this.commentData = [
+      //   [
+      //     { id: 1, comment_id: 0, alias: 'a' },
+      //     { id: 2, comment_id: 0, alias: 'b' },
+      //     { id: 4, comment_id: 3, alias: 'd' }
+      //   ],
+      //   [
+      //     { id: 3, comment_id: 1, alias: 'c' }
+      //   ]
+      // ]
+      // console.log(data.data)
     },
     clickDuring(id) { // 点击上上一页或下一页时执行
       this.$router.push({
@@ -258,6 +214,7 @@ export default {
               type: 'success',
               message: data.msg
             })
+            this.resetForm('commentForm') // 清空评论内容
           }
         } else {
           console.log('error submit!!')
@@ -266,9 +223,9 @@ export default {
       })
     },
     resetForm(formName) {
+      // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
       this.$refs[formName].resetFields()
     }
-    // form 表单的方法
   },
   watch: {
     $route() { // 监听路由变化
@@ -471,7 +428,11 @@ export default {
 }
 
 .sc_box .scb_body p {
-  color: #d4d4d4;
+  color: #da5858;
+}
+
+.sc_box.right .scb_body p {
+  text-align: right;
 }
 
 .sc_box .scb_body .icon {

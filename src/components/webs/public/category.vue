@@ -118,31 +118,31 @@ export default {
     margin: 0.1rem 0.1rem 0 0;
 }
 
-.category .s_box a:nth-child(2n+1) {
+.category .s_box a:nth-child(9n-1) {
     background-color: #3299BB;
 }
-.category .s_box a:nth-child(2n+2) {
+.category .s_box a:nth-child(9n-2) {
     background-color: #036564;
 }
-.category .s_box a:nth-child(2n+3) {
+.category .s_box a:nth-child(9n-3) {
     background-color: #EB6841;
 }
-.category .s_box a:nth-child(2n+4) {
+.category .s_box a:nth-child(9n-4) {
     background-color: #FE4365;
 }
-.category .s_box a:nth-child(2n+5) {
+.category .s_box a:nth-child(9n-5) {
     background-color: #FC9D9A;
 }
-.category .s_box a:nth-child(2n+6) {
+.category .s_box a:nth-child(9n-6) {
     background-color: #EDC951;
 }
-.category .s_box a:nth-child(2n+7) {
+.category .s_box a:nth-child(9n-7) {
     background-color: #C8C8A9;
 }
-.category .s_box a:nth-child(2n+8) {
+.category .s_box a:nth-child(9n-8) {
     background-color: #83AF9B;
 }
-.category .s_box a:nth-child(2n+9) {
+.category .s_box a:nth-child(9n-9) {
     background-color: #3299BB;
 }
 /* s_box-end */
