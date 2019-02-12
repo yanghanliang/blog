@@ -602,3 +602,17 @@ filters: {
 ```
 
 ---
+
+> element-ui 表单自定义规则是发现怎么也执行不了提交的回调函数
+
+var validatePass = (rule, value, callback) => {
+  if (/\S/.test(value)) {
+    const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
+    if (reg.test(this.ruleForm.mailbox)) {
+      callback()
+    } else {
+      callback(new Error('请输入正确的邮箱'))
+    }
+  }
+  callback() // 这里忘加回调函数了
+}

@@ -27,7 +27,7 @@
               <li>阅读数： {{ articleData.read }}</li>
               <li>点赞数： {{ articleData.praise }}</li>
             </ul>
-            <mavon-editor v-model="articleData.content" :subfield="false" :defaultOpen="defaultData" :toolbarsFlag="false" :boxShadow="false" />
+            <mavon-editor v-model="articleData.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
             <div class="subscript">
               -------------------- 本文结束 <my-icon identification="niu"></my-icon> 感谢阅读 --------------------
             </div>
@@ -37,19 +37,22 @@
               <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)" class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
             </div>
             <div class="line"></div>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="昵称" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+            <div class="comment">
+              <my-icon identification="pinglun1"></my-icon>
+            </div>
+            <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
+              <el-form-item label="昵称" prop="alias">
+                <el-input v-model="commentForm.alias"></el-input>
               </el-form-item>
               <el-form-item label="邮箱" prop="mailbox">
-                <el-input v-model="ruleForm.mailbox"></el-input>
+                <el-input v-model="commentForm.mailbox"></el-input>
               </el-form-item>
-              <el-form-item label="活动形式" prop="desc">
-                <el-input type="textarea" placeholder="畅所欲言~" v-model="ruleForm.desc"></el-input>
+              <el-form-item label="评论" prop="comment_content">
+                <el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('commentForm')">走你~</el-button>
+                <el-button @click="resetForm('commentForm')">重置</el-button>
               </el-form-item>
             </el-form>
             <div class="show_comment">
@@ -62,7 +65,8 @@
                   <span>昵称</span>
                 </div>
                 <div class="scb_body">
-                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                  <my-icon identification="caozuoqipao"></my-icon>
+                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
@@ -70,10 +74,9 @@
                   </div>
                   <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
                 </div>
-                <!-- <div class="line"></div> -->
               </div>
-              <div class="sc_box">
-                <div class="scb_header right clearfix">
+              <div class="sc_box right">
+                <div class="scb_header clearfix">
                   <div class="scbh_img_box">
                     <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
                   </div>
@@ -81,7 +84,8 @@
                   <span>昵称</span>
                 </div>
                 <div class="scb_body">
-                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                  <my-icon identification="caozuoqipao"></my-icon>
+                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
@@ -101,7 +105,8 @@
                   <span>昵称</span>
                 </div>
                 <div class="scb_body">
-                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                  <my-icon identification="caozuoqipao"></my-icon>
+                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
@@ -121,7 +126,8 @@
                   <span>昵称</span>
                 </div>
                 <div class="scb_body">
-                  : 上看见的是开始疯狂的事烦恼都是开放年代开始
+                  <my-icon identification="caozuoqipao"></my-icon>
+                  <p>: 上看见的是开始疯狂的事烦恼都是开放年代开始</p>
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
@@ -171,9 +177,19 @@ export default {
     category
   },
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (/\S/.test(value)) {
+        const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
+        if (reg.test(this.commentForm.mailbox)) {
+          callback()
+        } else {
+          callback(new Error('请输入正确的邮箱'))
+        }
+      }
+      callback()
+    }
     return {
       articleData: {},
-      defaultData: 'preview',
       routingInformation: {
         name1: '首页',
         name2: '文章详情',
@@ -181,43 +197,29 @@ export default {
       },
       preArticle: {},
       nextArticle: {},
-      ruleForm: {
-        name: '',
+      commentForm: {
+        alias: '',
         mailbox: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        article_id: this.$route.params.articleId,
+        comment_content: ''
       },
       rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        alias: [
+          { required: true, message: '请输入活动名称', trigger: 'change' },
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'change' }
         ],
         mailbox: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { validator: validatePass, trigger: 'change' }
         ],
-        region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
-        date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        ],
-        date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-        ],
-        type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-        ],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
-        ],
-        desc: [
-          { required: true, message: '请填写活动形式', trigger: 'blur' }
+        comment_content: [
+          { required: true,
+            pattern: /[0-9a-zA-Z_.-\D]+/,
+            message: '说点啥',
+            trigger: 'change',
+            transform(value) {
+              return value.trim()
+            }
+          }
         ]
       }
     }
@@ -248,9 +250,15 @@ export default {
     },
     // form 表单的方法
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) { // 数据验证成功
+          const { data } = await this.$http.post('/addComment', this.commentForm)
+          if (data.status === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -378,13 +386,15 @@ export default {
 }
 /* page-end */
 
-
 /* reset-element-ui-style-start */
 .el-textarea >>> .el-textarea__inner {
   min-height: 135px !important;
 }
-/* reset-element-ui-style-end */
 
+.el-form-item.is-success >>> .el-input__inner,.el-form-item.is-success >>> .el-textarea__inner {
+  border-color: #3299bb;
+}
+/* reset-element-ui-style-end */
 
 /* reset-markdown-style-start */
 .content .left >>> .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
@@ -396,6 +406,17 @@ export default {
 }
 /* reset-markdown-style-end */
 
+.content .left .comment {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: -3px 3px 9px black;
+}
+
+.comment .icon {
+  font-size: 50px;
+  line-height: 70px;
+}
 
 /* show_comment-start */
 .show_comment {
@@ -406,7 +427,7 @@ export default {
 
 /* scb_header-start */
 .show_comment .sc_box {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .sc_box .scb_header .scbh_img_box {
@@ -443,10 +464,30 @@ export default {
 .sc_box .scb_body {
   padding: 20px;
   text-align: left;
-  margin: 20px 0;
-  color: #d4d4d4;
   border-radius: 5px;
+  position: relative;
+  margin: 50px 0 20px 0;
   border: 1px solid #b355b1;
+}
+
+.sc_box .scb_body p {
+  color: #d4d4d4;
+}
+
+.sc_box .scb_body .icon {
+  top: -32px;
+  font-size: 30px;
+  position: absolute;
+
+}
+
+.sc_box .scb_body .icon {
+  left: 10px;
+}
+
+.sc_box.right .scb_body .icon {
+  left: auto;
+  right: 10px;
 }
 
 .sc_box .scb_footer .commentary_time {
@@ -457,19 +498,24 @@ export default {
 .sc_box .scb_footer .replay {
   float: right;
   font-size: 18px;
+  cursor: pointer;
 }
 
 /* .scb_header.right-start */
-.sc_box .scb_header.right .scbh_img_box,.sc_box .scb_header.right>span {
+.sc_box.right .scb_header .scbh_img_box,.sc_box.right .scb_header>span {
   float: right;
 }
 
-.sc_box .scb_header.right .scbh_arrow {
+.sc_box.right .scb_header .scbh_arrow {
   float: right;
   border-top: 10px solid transparent;
   border-right: 10px solid #4ec3a4;
   border-bottom: 10px solid transparent;
   border-left: 10px solid transparent;
+}
+
+.sc_box.right .scb_header>span {
+  margin-right: 20px;
 }
 /* .scb_header.right-end */
 /* show_comment-end */
