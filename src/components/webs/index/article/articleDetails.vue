@@ -40,7 +40,7 @@
             <div class="comment">
               <my-icon identification="pinglun1"></my-icon>
             </div>
-            <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
+            <!-- <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="昵称" prop="alias">
                 <el-input v-model="commentForm.alias"></el-input>
               </el-form-item>
@@ -54,7 +54,8 @@
                 <el-button type="primary" @click="submitForm('commentForm')">走你~</el-button>
                 <el-button @click="resetForm('commentForm')">重置</el-button>
               </el-form-item>
-            </el-form>
+            </el-form> -->
+            <comment-form @submitForm="passValue" :data="commentData"></comment-form>
             <div class="show_comment" v-for="(data, index) in commentData" :key="index">
               <div :class="inde%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, inde) in data" :key="inde">
                 <div class="scb_header clearfix">
@@ -72,7 +73,9 @@
                   <div class="commentary_time">
                     <my-icon identification="shijian1"></my-icon> 一天前
                   </div>
-                  <my-icon class="replay" identification="chakantiezihuifu"></my-icon>
+                  <el-button class="replay" type="text" @click="replay">
+                    <my-icon identification="chakantiezihuifu"></my-icon>
+                  </el-button>
                 </div>
               </div>
             </div>
@@ -108,13 +111,23 @@ import myFooter from '@/components/webs/public/myFooter'
 // 导入 category
 import category from '@/components/webs/public/category'
 
-export default {
-  name: 'articles_details',
-  components: {
-    myHeader,
-    myFooter,
-    category
-  },
+var commentForm = {
+  template: `
+    <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="昵称" prop="alias">
+        <el-input v-model="commentForm.alias"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="mailbox">
+        <el-input v-model="commentForm.mailbox"></el-input>
+      </el-form-item>
+      <el-form-item label="评论" prop="comment_content">
+        <el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('commentForm')">走你~</el-button>
+        <el-button @click="resetForm('commentForm')">重置</el-button>
+      </el-form-item>
+    </el-form>`,
   data() {
     var validatePass = (rule, value, callback) => {
       if (/\S/.test(value)) {
@@ -128,14 +141,6 @@ export default {
       callback()
     }
     return {
-      articleData: {},
-      routingInformation: {
-        name1: '首页',
-        name2: '文章详情',
-        router: '/'
-      },
-      preArticle: {},
-      nextArticle: {},
       commentForm: {
         alias: '',
         mailbox: '',
@@ -160,7 +165,90 @@ export default {
             }
           }
         ]
+      }
+    }
+  },
+  methods: {
+    submitForm(formName) { // 提交评论
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) { // 数据验证成功
+          const { data } = await this.$http.post('/addComment', this.commentForm)
+          if (data.status === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.$emit('submitForm', this.commentForm)
+            console.log(this.commentForm)
+            // this.resetForm('commentForm') // 清空评论内容
+          }
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(formName) { // 重置表单
+      // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
+      this.$refs[formName].resetFields()
+    }
+  }
+}
+
+export default {
+  name: 'articles_details',
+  components: {
+    myHeader,
+    myFooter,
+    category,
+    commentForm
+  },
+  data() {
+    // var validatePass = (rule, value, callback) => {
+    //   if (/\S/.test(value)) {
+    //     const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
+    //     if (reg.test(this.commentForm.mailbox)) {
+    //       callback()
+    //     } else {
+    //       callback(new Error('请输入正确的邮箱'))
+    //     }
+    //   }
+    //   callback()
+    // }
+    return {
+      articleData: {},
+      routingInformation: {
+        name1: '首页',
+        name2: '文章详情',
+        router: '/'
       },
+      preArticle: {},
+      nextArticle: {},
+      // commentForm: {
+      //   alias: '',
+      //   mailbox: '',
+      //   articleId: this.$route.params.articleId,
+      //   comment_content: ''
+      // },
+      // rules: {
+      //   alias: [
+      //     { required: true, message: '请输入活动名称', trigger: 'change' },
+      //     { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'change' }
+      //   ],
+      //   mailbox: [
+      //     { validator: validatePass, trigger: 'change' }
+      //   ],
+      //   comment_content: [
+      //     { required: true,
+      //       pattern: /[0-9a-zA-Z_.-\D]+/,
+      //       message: '说点啥',
+      //       trigger: 'change',
+      //       transform(value) {
+      //         return value.trim()
+      //       }
+      //     }
+      //   ]
+      // },
       commentData: []
     }
   },
@@ -201,30 +289,41 @@ export default {
         path: `/articleDetails/${id}`
       })
     },
-    onSubmit() {
-      console.log('submit!')
+    passValue(afferentData) { // 获取表单提交的值用于展示可减轻服务器压力
+      this.commentData.unshift([afferentData])
     },
-    // form 表单的方法
-    submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) { // 数据验证成功
-          const { data } = await this.$http.post('/addComment', this.commentForm)
-          if (data.status === 200) {
-            this.$message({
-              type: 'success',
-              message: data.msg
-            })
-            this.resetForm('commentForm') // 清空评论内容
-          }
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    resetForm(formName) {
-      // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
-      this.$refs[formName].resetFields()
+    // submitForm(formName) { // 提交评论
+    //   this.$refs[formName].validate(async (valid) => {
+    //     if (valid) { // 数据验证成功
+    //       const { data } = await this.$http.post('/addComment', this.commentForm)
+    //       if (data.status === 200) {
+    //         this.$message({
+    //           type: 'success',
+    //           message: data.msg
+    //         })
+    //         this.resetForm('commentForm') // 清空评论内容
+    //       }
+    //     } else {
+    //       console.log('error submit!!')
+    //       return false
+    //     }
+    //   })
+    // },
+    // resetForm(formName) { // 重置表单
+    //   // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
+    //   this.$refs[formName].resetFields()
+    // },
+    replay() { // 回复评论
+      console.log(0)
+      // this.$alert('这是一段内容', '标题名称', {
+      //   confirmButtonText: '确定',
+      //   callback: action => {
+      //     this.$message({
+      //       type: 'info',
+      //       message: `action: ${ action }`
+      //     })
+      //   }
+      // })
     }
   },
   watch: {
