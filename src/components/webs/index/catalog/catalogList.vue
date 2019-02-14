@@ -1,27 +1,39 @@
 <template>
-    <div>
-        <div class="catalog" v-for="(item, index) in catalogData" :key="index" v-if="item.length > 1">
-          <h2>{{ index | date }}</h2>
-          <div class="list_box" v-for="data in item" :key="data.id">
-            <div class="left_radius">
-              <div class="lr_radius"></div>
-              <div class="lr_rectangle">01</div>
-              <ul class="lb_content">
-                <li>
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-icon"></use>
-                  </svg>
-                  {{ data.title }}
-                </li>
-                <li>
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-shengri-copy"></use>
-                  </svg>
-                  {{ data.createtime | formatDate('MM-DD-HH') }}
-                </li>
-              </ul>
+    <div class="clearfix">
+        <div class="f_left">
+          <div class="catalog" v-for="(item, index) in catalogData" :key="index" v-if="item.length > 1">
+            <h2>{{ index | date }}</h2>
+            <div class="list_box" v-for="data in item" :key="data.id">
+              <div class="left_radius">
+                <div class="lr_radius"></div>
+                <div class="lr_rectangle">01</div>
+                <ul class="lb_content">
+                  <li>
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-icon"></use>
+                    </svg>
+                    {{ data.title }}
+                  </li>
+                  <li>
+                    <svg class="icon" aria-hidden="true">
+                      <use xlink:href="#icon-shengri-copy"></use>
+                    </svg>
+                    {{ data.createtime | formatDate('MM-DD-HH') }}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="effect clearfix">
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
+          <div class="e_line"></div>
         </div>
     </div>
 </template>
@@ -90,9 +102,31 @@ export default {
 </script>
 
 <style scoped>
+.f_left {
+  float: left;
+}
+
+.catalog {
+  width: 700px;
+  overflow: hidden;
+}
+
+.catalog>h2 {
+  text-shadow: -20px 0px 20px #ffecec, 2px 0px 0px #828282;;
+}
+
+.catalog>h2::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: auto 15px 2px 70px;
+  background-color: #42d0d0;
+}
+
 .list_box {
-  width: 800px;
-  margin: 70px auto;
+  margin: 70px 0 70px 200px;
 }
 
 .list_box .left_radius {
@@ -144,8 +178,26 @@ export default {
   transform: translateY(-50%);
 }
 
+.left_radius .lb_content>li:nth-child(1) {
+  font-size: 15px;
+}
+
 .left_radius .lb_content>li {
   height: 50%;
   line-height: 22px;
+  font-weight: bold;
+  text-shadow: -1px -1px white, 1px 1px #333;
+}
+
+.effect {
+  float: right;
+}
+
+.effect>div {
+  float: left;
+  width: 5px;
+  height: 80px;
+  margin-left:10px;
+  background-color: #42d0d0; 
 }
 </style>

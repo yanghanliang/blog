@@ -42,7 +42,7 @@
             </div>
             <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="昵称" prop="alias">
-                <el-input v-model="commentForm.alias"></el-input>
+                <el-input v-model="commentForm.alias" v-bind:disabled="Boolean(alias)"></el-input>
               </el-form-item>
               <el-form-item label="邮箱" prop="mailbox">
                 <el-input v-model="commentForm.mailbox"></el-input>
@@ -78,6 +78,10 @@
                 </div>
               </div>
             </div>
+            <ul class="no_data" v-if="!commentData">
+              <li><my-icon identification="meiyouxiangguan"></my-icon></li>
+              <li>没有数据~</li>
+            </ul>
           </div>
           <div class="right">
             <!-- Relevant recommendations Abbreviations rr -->
@@ -103,7 +107,7 @@
     <el-dialog :title="replyAlias" :visible.sync="dialogFormVisible">
       <el-form :model="replyForm" status-icon :rules="rules" ref="replyForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="昵称" prop="alias">
-          <el-input v-model="replyForm.alias"></el-input>
+          <el-input v-model="replyForm.alias" v-bind:disabled="Boolean(alias)"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="mailbox">
           <el-input v-model="replyForm.mailbox"></el-input>
@@ -112,7 +116,7 @@
           <el-input type="textarea" placeholder="畅所欲言~" v-model="replyForm.comment_content"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('replyForm', '/addReply', replyForm, callback)">走你~</el-button>
+          <el-button type="primary" @click="submitForm('replyForm', '/addReply', replyForm, closeDialogBoxes)">走你~</el-button>
           <el-button @click="resetForm('replyForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -157,11 +161,11 @@ export default {
       },
       preArticle: {},
       nextArticle: {},
+      alias: window.sessionStorage.getItem('alias'),
       commentForm: {
-        alias: '',
+        alias: window.sessionStorage.getItem('alias'),
         mailbox: '',
-        comment_content: '',
-        article_id: this.$route.params.articleId
+        comment_content: ''
       },
       rules: {
         alias: [
@@ -186,11 +190,10 @@ export default {
       dialogFormVisible: false,
       replyAlias: '', // 回复人
       replyForm: {
-        alias: '',
+        alias: window.sessionStorage.getItem('alias'),
         mailbox: '',
         comment_id: '',
-        comment_content: '',
-        article_id: this.$route.params.articleId
+        comment_content: ''
       },
       replyParentIndex: '', // 记录评论数据所在位置
       replyIndex: '' // 好将回复数据快速插入
@@ -225,12 +228,17 @@ export default {
     submitForm(formName, uri, fromData, callback) { // 提交评论
       this.$refs[formName].validate(async (valid) => {
         if (valid) { // 数据验证成功
+          this[formName].article_id = this.$route.params.articleId
           const { data } = await this.$http.post(uri, fromData)
           if (data.status === 200) {
             this.$message({
               type: 'success',
               message: data.msg
             })
+            if (!window.sessionStorage.getItem('alias')) {
+              window.sessionStorage.setItem('alias', this[formName].alias)
+              this.alias = this[formName].alias
+            }
             callback && callback()
             this.resetForm(formName) // 清空评论内容
             this.getCommentData() // 重新获取数据（不可简化，因为回复需要id
@@ -252,13 +260,18 @@ export default {
       this.replyParentIndex = parentIndex
       this.replyIndex = index
     },
-    callback() {
-      this.dialogFormVisible = false // 关闭对话框
+    closeDialogBoxes() { // 关闭对话框
+      this.dialogFormVisible = false
     }
   },
   watch: {
     $route() { // 监听路由变化
       this.loadData()
+      this.getCommentData() // 重新获取评论数据
+    },
+    alias(newData, oldData) {
+      this.commentForm.alias = newData
+      this.replyForm.alias = newData
     }
   }
 }
@@ -275,8 +288,8 @@ export default {
 
 /* search-start */
 .search {
-  width: 400px;
-  margin: 20px auto 20px;
+  width: 4rem;
+  margin: 0.2rem auto 0.2rem;
 }
 
 .search .el-form .el-input {
@@ -293,15 +306,22 @@ export default {
 
 /* left-start */
 .content .left {
-  width: 7.9rem;
-  height: 100%;
+  width: 8.4rem;
   float: left;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 0.1rem;
   background-color: #fff;
   padding: 0 0.2rem 0.2rem 0.2rem;
+}
+
+.content .left .no_data {
+  margin-top: 0.6rem;
+}
+
+.content .left .no_data .icon {
+  font-size: 0.5rem;
 }
 
 /* describe-start */
@@ -310,8 +330,8 @@ export default {
 }
 
 .content .left h1>i {
-  top: 12px;
-  right: -36px;
+  top: 0.12rem;
+  right: -0.36rem;
   position: absolute;
 }
 
@@ -326,7 +346,7 @@ export default {
   margin-right: 0.1rem;
   border-radius: 0.15rem;
   padding: 0.04rem 0.08rem;
-  border: 1px solid #a9d6cd;
+  border: 0.01rem solid #a9d6cd;
 }
 /* describe-end */
 
@@ -336,21 +356,21 @@ export default {
 }
 
 .content .left .subscript .icon {
-  font-size: 35px;
+  font-size: 0.35rem;
 }
 /* subscript-end */
 
 .content .left .line {
   width: 100%;
-  height: 1px;
-  margin: 20px 0;
+  height: 0.01rem;
+  margin: 0.2rem 0;
   background-color: #ececec;
 }
 
 /* page-start */
 .page {
   color: #e26060;
-  padding: 0 100px;
+  padding: 0 1rem;
 }
 
 .page .page_pre {
@@ -359,7 +379,7 @@ export default {
 }
 
 .page .page_pre i {
-  margin-right: 10px;
+  margin-right: 0.1rem;
 }
 
 .page .page_next {
@@ -368,13 +388,13 @@ export default {
 }
 
 .page .page_next i {
-  margin-left: 10px;
+  margin-left: 0.1rem;
 }
 /* page-end */
 
 /* reset-element-ui-style-start */
 .el-textarea >>> .el-textarea__inner {
-  min-height: 135px !important;
+  min-height: 1.35rem !important;
 }
 
 .el-form-item.is-success >>> .el-input__inner,.el-form-item.is-success >>> .el-textarea__inner {
@@ -383,10 +403,10 @@ export default {
 
 .el-dialog__header >>> .el-dialog__title {
   color: #159484;
-  text-shadow: 1px 1px white, -1px -1px #444;
+  text-shadow: 0.01rem 0.01rem white, -0.01rem -0.01rem #444;
 }
 
-.el-dialog >>> .el-form-item__content {
+.el-form-item >>> .el-form-item__content {
   text-align: center;
 }
 /* reset-element-ui-style-end */
@@ -402,36 +422,36 @@ export default {
 /* reset-markdown-style-end */
 
 .content .left .comment {
-  width: 70px;
-  height: 70px;
+  width: 0.7rem;
+  height: 0.7rem;
   border-radius: 50%;
-  box-shadow: -3px 3px 9px black;
+  box-shadow: -0.03rem 0.03rem 0.09rem black;
 }
 
 .comment .icon {
-  font-size: 50px;
-  line-height: 70px;
+  font-size: 0.5rem;
+  line-height: 0.7rem;
 }
 
 /* show_comment-start */
 .show_comment {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px dashed #dad6d6;
+  margin-bottom: 0.2rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 0.01rem dashed #dad6d6;
 }
 
 /* scb_header-start */
 .show_comment .sc_box {
-  margin-bottom: 50px;
+  margin-bottom: 0.5rem;
 }
 
 .sc_box .scb_header .scbh_img_box {
-  width: 40px;
-  height: 40px;
+  width: 0.4rem;
+  height: 0.4rem;
   float: left;
   overflow: hidden;
   border-radius: 50%;
-  border: 3px solid #999;
+  border: 0.03rem solid #999;
 }
 
 .sc_box .scb_header .scbh_img_box img {
@@ -439,30 +459,30 @@ export default {
 }
 
 .sc_box .scb_header .scbh_arrow {
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
   float: left;
-  margin-top: 12px;
-  border-top: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #4ec3a4;
+  margin-top: 0.12rem;
+  border-top: 0.1rem solid transparent;
+  border-right: 0.1rem solid transparent;
+  border-bottom: 0.1rem solid transparent;
+  border-left: 0.1rem solid #4ec3a4;
 }
 
 .sc_box .scb_header>span {
   float: left;
   color: #a9d6cd;
-  line-height: 46px;
-  margin-left: 20px;
+  line-height: 0.46rem;
+  margin-left: 0.2rem;
 }
 /* scb_header-end */
 .sc_box .scb_body {
-  padding: 20px;
+  padding: 0.2rem;
   text-align: left;
-  border-radius: 5px;
+  border-radius: 0.05rem;
   position: relative;
-  margin: 50px 0 20px 0;
-  border: 1px solid #b355b1;
+  margin: 0.5rem 0 0.2rem 0;
+  border: 0.01rem solid #b355b1;
 }
 
 .sc_box .scb_body p {
@@ -474,19 +494,19 @@ export default {
 }
 
 .sc_box .scb_body .icon {
-  top: -32px;
-  font-size: 30px;
+  top: -0.32rem;
+  font-size: 0.3rem;
   position: absolute;
 
 }
 
 .sc_box .scb_body .icon {
-  left: 10px;
+  left: 0.1rem;
 }
 
 .sc_box.right .scb_body .icon {
   left: auto;
-  right: 10px;
+  right: 0.1rem;
 }
 
 .sc_box .scb_footer .commentary_time {
@@ -496,7 +516,7 @@ export default {
 
 .sc_box .scb_footer .replay {
   float: right;
-  font-size: 18px;
+  font-size: 0.18rem;
   cursor: pointer;
 }
 
@@ -507,14 +527,14 @@ export default {
 
 .sc_box.right .scb_header .scbh_arrow {
   float: right;
-  border-top: 10px solid transparent;
-  border-right: 10px solid #4ec3a4;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid transparent;
+  border-top: 0.1rem solid transparent;
+  border-right: 0.1rem solid #4ec3a4;
+  border-bottom: 0.1rem solid transparent;
+  border-left: 0.1rem solid transparent;
 }
 
 .sc_box.right .scb_header>span {
-  margin-right: 20px;
+  margin-right: 0.2rem;
 }
 /* .scb_header.right-end */
 /* show_comment-end */
@@ -522,7 +542,7 @@ export default {
 
 /* right-start */
 .content>.right {
-  width: 30%;
+  width: 3rem;
   float: right;
   vertical-align: top;
 }
@@ -550,7 +570,7 @@ export default {
 }
 
 .category {
-  margin-bottom: 20px;
+  margin-bottom: 0.2rem;
 }
 /* right-end */
 /* content-end */

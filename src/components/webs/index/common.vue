@@ -206,7 +206,7 @@ export default {
 }
 
 .search >>> input {
-    border-radius: 0.2rem;
+    border-radius: 1.2rem;
 }
 /* search-end */
 
@@ -297,7 +297,6 @@ export default {
 .content_right {
     float: right;
     width: 3.36rem;
-    height: 10rem;
 }
 
 /* synopsis-start */
@@ -324,6 +323,7 @@ export default {
 
 .synopsis .s_content h3 {
     font-weight: normal;
+    text-shadow: -0.01rem -0.01rem white, 0.01rem 0.01rem #333;
 }
 
 .synopsis .s_content p {

@@ -76,13 +76,13 @@ export default {
 
 .category .s_title h3 {
     text-align: left;
-    text-indent: 20px;
+    text-indent: 0.2rem;
 }
 
 .category .s_title .st_line {
     width: 0%;
-    height: 2px;
-    bottom: 0px;
+    height: 0.02rem;
+    bottom: 0;
     position: absolute;
     transition:all 1s linear;
 }
@@ -110,7 +110,7 @@ export default {
 
 .category .s_box a {
     float: left;
-    height: 24px;
+    height: 0.24rem;
     color: #fff;
     line-height: 0.24rem;
     border-radius: 0.08rem;
