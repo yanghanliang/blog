@@ -59,7 +59,7 @@
               <div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data" :key="index">
                 <div class="scb_header clearfix">
                   <div class="scbh_img_box" @click="editHeadPortrait(item.comment_id)">
-                    <img :src="'http://localhost:3001/'+ item.head_portrait_url" alt="头像">
+                    <img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
                   </div>
                   <div class="scbh_arrow"></div>
                   <span>{{ item.alias }}</span>
@@ -134,17 +134,8 @@
             style="margin-left:80px;">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            <div class="el-upload__tip" slot="tip">文件大小不能超过1MB</div>
           </el-upload>
-
-          <!--elementui的form组件-->
-          <!-- <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="活动名称">
-              <el-input v-model="form.name" name="names" style="width:360px;"></el-input>
-            </el-form-item>
-            <el-form-item>
-            </el-form-item>
-          </el-form> -->
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
           <el-button @click="dialogFormVisible2 = false">取消</el-button>
         </div>
@@ -333,6 +324,8 @@ export default {
             }
           }
         }
+      } else {
+        this.$message.error(data.msg)
       }
     }
   },
