@@ -38,6 +38,9 @@ import myCrumbs from '@/components/webs/public/myCrumbs'
 import myIcon from '@/components/webs/public/myIcon'
 // public-start
 
+// 引入全局变量
+import global_ from '@/plugins/global' // 引用文件
+
 // 调用发送请求的插件
 Vue.use(MyAxios)
 
@@ -67,8 +70,6 @@ Vue.directive('focus', {
   }
 })
 
-// 引入全局变量
-import global_ from '@/plugins/global' // 引用文件
 Vue.prototype.Global = global_ // 挂载到Vue实例上面
 
 Vue.config.productionTip = false

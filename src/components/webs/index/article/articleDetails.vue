@@ -143,7 +143,6 @@
               <el-input v-model="form.name" name="names" style="width:360px;"></el-input>
             </el-form-item>
             <el-form-item>
-              
             </el-form-item>
           </el-form> -->
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -151,7 +150,7 @@
         </div>
 
         <div class="head_portrait_preview">
-          <img :src="src" alt="">
+          <img :src="src | imgSrc" alt="">
         </div>
       </div>
     </el-dialog>
@@ -230,13 +229,9 @@ export default {
         comment_id: '',
         comment_content: ''
       },
-      // 图片上传
-      form: { //form里面的参数
-        name: ''
-      },
       commentId: '',
-      param: '', //表单要提交的参数
-      src: "https://afp.alicdn.com/afp-creative/creative/u124884735/14945f2171400c10764ab8f3468470e4.jpg"
+      param: '', // 表单要提交的参数
+      src: ''
     }
   },
   created() {
@@ -306,43 +301,32 @@ export default {
       this.commentId = commentId
     },
     beforeRemove(file, fileList) {
-      // return this.$confirm(`确定移除 ${ file.name }？`);
     },
     // 阻止upload的自己上传，进行再操作
     beforeupload(file) {
       // 创建临时的路径来展示图片
       var windowURL = window.URL || window.webkitURL
-      // console.log('src',Object.assign({}, windowURL.createObjectURL(file)))
       this.src = windowURL.createObjectURL(file)
-      console.log(this.src)
       // 重新写一个表单上传的方法
-      this.param = new FormData();
+      this.param = new FormData()
       this.param.append('file', file, file.name)
       return false
     },
-    //覆盖默认的上传行为
+    // 覆盖默认的上传行为
     httprequest() {
     },
-    async onSubmit(){//表单提交的事件
-      // var names = this.form.name
+    async onSubmit() { // 表单提交的事件
       // 下面append的东西就会到form表单数据的fields中；
       this.param.append('commentId', this.commentId)
-      // let config = {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // }
       // 然后通过下面的方式把内容通过axios来传到后台
       // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-      const { data } = await this.$http.post("/pictureUpload", this.param)
-
-      this.dialogFormVisible2 = false
+      const { data } = await this.$http.post('/pictureUpload', this.param)
+      this.dialogFormVisible2 = false // 关闭对话框
       if (data.status === 200) {
         this.src = this.Global.baseURL + data.path
         for (var i = 0; i < this.commentData.length; i++) {
           var temp = this.commentData[i]
           for (var j = 0; j < temp.length; j++) {
-            console.log(temp[j].comment_id, this.commentId)
             if (temp[j].comment_id === this.commentId) {
               temp[j].head_portrait_url = data.head_portrait_url
               return false
@@ -360,6 +344,15 @@ export default {
     alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
       this.commentForm.alias = newData
       this.replyForm.alias = newData
+    }
+  },
+  filters: {
+    imgSrc: function(value) {
+      if (value.indexOf('undefined') === -1) {
+        return value
+      } else {
+        return ''
+      }
     }
   }
 }
