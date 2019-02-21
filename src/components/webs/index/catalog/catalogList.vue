@@ -198,6 +198,6 @@ export default {
   width: 5px;
   height: 80px;
   margin-left:10px;
-  background-color: #42d0d0; 
+  background-color: #42d0d0;
 }
 </style>

@@ -58,8 +58,8 @@
             <div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
               <div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data" :key="index">
                 <div class="scb_header clearfix">
-                  <div class="scbh_img_box">
-                    <img src="../../../../assets/user_head_portrait/test.jpeg" alt="头像">
+                  <div class="scbh_img_box" @click="editHeadPortrait(item.comment_id)">
+                    <img :src="'http://localhost:3001/'+ item.head_portrait_url" alt="头像">
                   </div>
                   <div class="scbh_arrow"></div>
                   <span>{{ item.alias }}</span>
@@ -120,6 +120,40 @@
           <el-button @click="resetForm('replyForm')">重置</el-button>
         </el-form-item>
       </el-form>
+    </el-dialog>
+    <el-dialog title="修改头像" :visible.sync="dialogFormVisible2">
+      <div class="clearfix">
+        <div class="edit_head_portrait">
+          <label class="el-form-item__label" style="width: 80px;">上传图片</label>
+          <!--elementui的上传图片的upload组件-->
+          <el-upload
+            class="upload-demo"
+            :before-upload="beforeupload"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            style="margin-left:80px;">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
+          </el-upload>
+
+          <!--elementui的form组件-->
+          <!-- <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="活动名称">
+              <el-input v-model="form.name" name="names" style="width:360px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              
+            </el-form-item>
+          </el-form> -->
+          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button @click="dialogFormVisible2 = false">取消</el-button>
+        </div>
+
+        <div class="head_portrait_preview">
+          <img :src="src" alt="">
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -188,6 +222,7 @@ export default {
       },
       commentData: [],
       dialogFormVisible: false,
+      dialogFormVisible2: false,
       replyAlias: '', // 回复人
       replyForm: {
         alias: window.sessionStorage.getItem('alias'),
@@ -195,8 +230,13 @@ export default {
         comment_id: '',
         comment_content: ''
       },
-      replyParentIndex: '', // 记录评论数据所在位置
-      replyIndex: '' // 好将回复数据快速插入
+      // 图片上传
+      form: { //form里面的参数
+        name: ''
+      },
+      commentId: '',
+      param: '', //表单要提交的参数
+      src: "https://afp.alicdn.com/afp-creative/creative/u124884735/14945f2171400c10764ab8f3468470e4.jpg"
     }
   },
   created() {
@@ -235,7 +275,7 @@ export default {
               type: 'success',
               message: data.msg
             })
-            if (!window.sessionStorage.getItem('alias')) {
+            if (!window.sessionStorage.getItem('alias')) { // 如果是游客则记录他的昵称
               window.sessionStorage.setItem('alias', this[formName].alias)
               this.alias = this[formName].alias
             }
@@ -257,11 +297,59 @@ export default {
       this.dialogFormVisible = true // 显示对话框
       this.replyAlias = `回复 - ${alias} :` // 标题
       this.replyForm.comment_id = commentId // 评论 id
-      this.replyParentIndex = parentIndex
-      this.replyIndex = index
     },
     closeDialogBoxes() { // 关闭对话框
       this.dialogFormVisible = false
+    },
+    editHeadPortrait(commentId) {
+      this.dialogFormVisible2 = true
+      this.commentId = commentId
+    },
+    beforeRemove(file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    // 阻止upload的自己上传，进行再操作
+    beforeupload(file) {
+      // 创建临时的路径来展示图片
+      var windowURL = window.URL || window.webkitURL
+      // console.log('src',Object.assign({}, windowURL.createObjectURL(file)))
+      this.src = windowURL.createObjectURL(file)
+      console.log(this.src)
+      // 重新写一个表单上传的方法
+      this.param = new FormData();
+      this.param.append('file', file, file.name)
+      return false
+    },
+    //覆盖默认的上传行为
+    httprequest() {
+    },
+    async onSubmit(){//表单提交的事件
+      // var names = this.form.name
+      // 下面append的东西就会到form表单数据的fields中；
+      this.param.append('commentId', this.commentId)
+      // let config = {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }
+      // 然后通过下面的方式把内容通过axios来传到后台
+      // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
+      const { data } = await this.$http.post("/pictureUpload", this.param)
+
+      this.dialogFormVisible2 = false
+      if (data.status === 200) {
+        this.src = this.Global.baseURL + data.path
+        for (var i = 0; i < this.commentData.length; i++) {
+          var temp = this.commentData[i]
+          for (var j = 0; j < temp.length; j++) {
+            console.log(temp[j].comment_id, this.commentId)
+            if (temp[j].comment_id === this.commentId) {
+              temp[j].head_portrait_url = data.head_portrait_url
+              return false
+            }
+          }
+        }
+      }
     }
   },
   watch: {
@@ -269,7 +357,7 @@ export default {
       this.loadData()
       this.getCommentData() // 重新获取评论数据
     },
-    alias(newData, oldData) {
+    alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
       this.commentForm.alias = newData
       this.replyForm.alias = newData
     }
@@ -449,13 +537,19 @@ export default {
   width: 0.4rem;
   height: 0.4rem;
   float: left;
+  cursor: pointer;
   overflow: hidden;
   border-radius: 50%;
+  position: relative;
   border: 0.03rem solid #999;
 }
 
 .sc_box .scb_header .scbh_img_box img {
+  top: 50%;
+  left: 50%;
   width: 100%;
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 .sc_box .scb_header .scbh_arrow {
@@ -574,4 +668,31 @@ export default {
 }
 /* right-end */
 /* content-end */
+
+.upload-demo {
+  margin-bottom: 30px;
+}
+
+.edit_head_portrait {
+  float: left;
+  text-align: center;
+}
+
+.head_portrait_preview {
+  float: right;
+  width: 1.6rem;
+  height: 1.6rem;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+  border: 0.09rem solid #999;
+}
+
+.head_portrait_preview img {
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
 </style>

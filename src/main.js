@@ -67,6 +67,10 @@ Vue.directive('focus', {
   }
 })
 
+// 引入全局变量
+import global_ from '@/plugins/global' // 引用文件
+Vue.prototype.Global = global_ // 挂载到Vue实例上面
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
