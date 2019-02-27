@@ -22,8 +22,8 @@
             <h1>{{ articleData.title }} <i class="icon" title="原创">&#xe612;</i></h1>
             <ul class="describe clearfix">
               <li>分类： {{ articleData.classname }}</li>
-              <li>创建时间： {{ articleData.updatetime | formatDate('YYYY-MM-DD') }}</li>
-              <li>更新时间： {{ articleData.createtime | formatDate('YYYY-MM-DD') }}</li>
+              <li>创建时间： {{ articleData.createtime | formatDate('YYYY-MM-DD') }}</li>
+              <li>更新时间： {{ articleData.updatetime | formatDate('YYYY-MM-DD') }}</li>
               <li>阅读数： {{ articleData.read }}</li>
               <li>点赞数： {{ articleData.praise }}</li>
             </ul>
@@ -238,7 +238,7 @@ export default {
       this.during() // 获取上一篇和下一篇的数据
     },
     async during() { // 获取上一篇和下一篇的数据
-      const { data } = await this.$http.get(`during/${this.articleData.updatetime}`) // 发送请求
+      const { data } = await this.$http.get(`during/${this.articleData.createtime}`) // 发送请求
       this.preArticle = data.preArticle // 将值赋值给 vue
       this.nextArticle = data.nextArticle
     },

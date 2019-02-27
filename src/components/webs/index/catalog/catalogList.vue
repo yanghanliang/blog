@@ -175,7 +175,6 @@ export default {
     background-color: aqua;
 }
 
-
 .left_radius .lr_radius {
   width: 60px;
   height: 60px;
