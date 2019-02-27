@@ -3,16 +3,18 @@
         <div class="f_left">
           <div class="catalog" v-for="(item, index) in catalogData" :key="index" v-if="item.length > 1">
             <h2>{{ index | date }}</h2>
-            <div class="list_box" v-for="data in item" :key="data.id">
+            <div class="list_box" v-for="(data, number) in item" :key="data.id">
               <div class="left_radius">
                 <div class="lr_radius"></div>
-                <div class="lr_rectangle">01</div>
+                <div class="lr_rectangle">{{ number | serialNumber }}</div>
                 <ul class="lb_content">
                   <li>
-                    <svg class="icon" aria-hidden="true">
-                      <use xlink:href="#icon-icon"></use>
-                    </svg>
-                    {{ data.title }}
+                    <router-link :to="'/articleDetails/'+ data.id">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-icon"></use>
+                      </svg>
+                      {{ data.title }}
+                    </router-link>
                   </li>
                   <li>
                     <svg class="icon" aria-hidden="true">
@@ -96,6 +98,14 @@ export default {
       } else if (value === 'd') {
         return '2016'
       }
+    },
+    serialNumber: function(value) { // 序号转化
+      value++
+      if (value < 10) {
+        return '0' + value
+      } else {
+        return value
+      }
     }
   }
 }
@@ -134,9 +144,37 @@ export default {
   height: 120px;
   border-radius: 50%;
   position: relative;
-  background-color: aqua;
   box-shadow: -5px 4px 10px 0px black;
 }
+
+.list_box:nth-child(9n-1) .left_radius {
+    background-color: #3299BB;
+}
+.list_box:nth-child(9n-2) .left_radius {
+    background-color: #036564;
+}
+.list_box:nth-child(9n-3) .left_radius {
+    background-color: #EB6841;
+}
+.list_box:nth-child(9n-4) .left_radius {
+    background-color: #FE4365;
+}
+.list_box:nth-child(9n-5) .left_radius {
+    background-color: #FC9D9A;
+}
+.list_box:nth-child(9n-6) .left_radius {
+    background-color: #EDC951;
+}
+.list_box:nth-child(9n-7) .left_radius {
+    background-color: #C8C8A9;
+}
+.list_box:nth-child(9n-8) .left_radius {
+    background-color: #83AF9B;
+}
+.list_box:nth-child(9n-9) .left_radius {
+    background-color: aqua;
+}
+
 
 .left_radius .lr_radius {
   width: 60px;

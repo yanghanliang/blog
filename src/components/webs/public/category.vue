@@ -143,7 +143,7 @@ export default {
     background-color: #83AF9B;
 }
 .category .s_box a:nth-child(9n-9) {
-    background-color: #3299BB;
+    background-color: #5edc5a;
 }
 /* s_box-end */
 /* category-end */
