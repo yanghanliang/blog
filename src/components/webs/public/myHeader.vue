@@ -1,9 +1,8 @@
 <template>
     <el-menu
-        :default-active="activeIndex"
+        :default-active="$route.path"
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect"
         :router="true"
         background-color="#545c64"
         text-color="#fff"
@@ -81,7 +80,7 @@ export default {
   name: 'myHeard',
   data() {
     return {
-      activeIndex: '/common',
+      // activeIndex: '/common',
       catalogs: [
         {
           index: '1-7',
@@ -156,9 +155,6 @@ export default {
     this.loadData() // 加载数据
   },
   methods: {
-    handleSelect(key, keyPath) { // 点击导航时执行
-      this.activeIndex = key
-    },
     async loadData() { // 加载数据
       const { data } = await this.$http.get('/category')
       this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
