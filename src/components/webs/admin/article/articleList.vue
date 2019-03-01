@@ -242,9 +242,10 @@ export default {
 </script>
 
 <style scoped>
-/* reset-el-breadcrumb-style */
+/* reset-el-breadcrumb-style-start */
 .el-breadcrumb {
   margin: 15px 0;
+  padding-left: 30px;
 }
 
 .el-breadcrumb >>> .el-breadcrumb__inner.is-link {
@@ -254,10 +255,11 @@ export default {
 .el-breadcrumb >>> .el-breadcrumb__item:last-child .el-breadcrumb__inner {
   color: #dedede;
 }
-/* reset-el-breadcrumb-style */
+/* reset-el-breadcrumb-style-end */
 
 .dataTable {
   width: 1100px;
+  margin: 0 auto;
 }
 
 .content_right .dataTableBox {

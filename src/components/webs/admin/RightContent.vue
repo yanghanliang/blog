@@ -10,9 +10,13 @@ export default {
 
 <style scoped>
 .content_right {
-  float: right;
-  width: 11.45rem;
+  flex: 16;
+  padding: 0 20px;
   color: #b1bdd4;
+  min-height: 8.37rem;
+  background-color: pink;
+  background: url(../../../assets/backgroundImages/m12.jpg) no-repeat;
+  background-size: cover;
 }
 
 .el-breadcrumb {

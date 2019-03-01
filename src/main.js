@@ -22,12 +22,12 @@ import 'mavon-editor/dist/css/index.css'
 
 // myStyle - start
 // 引入字体图标
-import './assets/iconfont.css'
+import './assets/css/iconfont.css'
 import './assets/icon.js'
 // 引入自己的重置样式
-import './assets/reset.css'
+import './assets/css/reset.css'
 // 引入前后台需要的公共样式
-import './assets/public.css'
+import './assets/css/public.css'
 // myStyle - end
 
 // public-start

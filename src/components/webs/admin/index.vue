@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="index">
         <header><h1>后台首页</h1></header>
         <div class="content clearfix">
             <div class="content_left">
@@ -86,28 +86,33 @@ export default {
 </script>
 
 <style scoped>
+.index {
+  min-height: 100%;
+}
+
 header > h1 {
   margin: 0;
 }
 
 .content {
-  position: relative;
-  background: url(../../../assets/backgroundImages/m8.jpg) no-repeat top;
+  display: flex;
+  /* position: relative; */
 }
 
 .content_left {
-  float: left;
+  /* float: left;
   top: 0px;
   bottom: 0px;
-  position: absolute;
+  position: absolute; */
+  flex: 2;
   background-color: #fff;
 }
 
 .content::before {
   content: '';
   float: left;
-  min-width: 139px;
-  min-height: 526px;
+  /* min-width: 139px; */
+  min-height: 100%x;
 }
 
 .content_left li a {

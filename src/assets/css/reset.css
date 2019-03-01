@@ -4,16 +4,16 @@ html,body,#app {
 	font-size: 100px;
 }
 
-@media (max-width: 1400px){
-    html {
+@media screen and (max-device-width: 1400px) and (min-device-width: 1000px) {
+	html {
 		font-size: 70px;
-    }
+	}
 }
 
-@media (min-width: 1000px){
-    html {
+@media (min-device-width: 999px){
+	html {
 		font-size: 100px;
-    }
+	}
 }
 
 div {

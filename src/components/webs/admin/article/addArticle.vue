@@ -126,4 +126,8 @@ export default {
   min-height: 80px !important;
   font: 400 13.3333px Arial;
 }
+
+.el-form >>> .v-note-wrapper {
+  min-height: 500px;
+}
 </style>

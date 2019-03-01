@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="common">
         <el-input
             placeholder="请输入您要搜索的内容"
             v-model="pageData.searchData"
@@ -197,77 +197,85 @@ export default {
 </script>
 
 <style scoped>
+.common {
+  min-height: -webkit-fill-available;
+  min-height: -moz-fill-available;
+  min-height: -moz-available;
+  min-height: fill-available;
+}
+
 /* search-start */
 .search {
-    width: 4rem;
-    margin: 0.2rem auto;
-    left: 50%;
-    transform: translateX(-50%);
+  left: 50%;
+  width: 4rem;
+  height: 0.4rem;
+  margin: 0.2rem auto;
+  transform: translateX(-50%);
 }
 
 .search >>> input {
-    border-radius: 1.2rem;
+  border-radius: 1.2rem;
 }
 /* search-end */
 
 /* content-start */
 .content {
-    width: 12rem;
-    margin: 0 auto;
+  width: 12rem;
+  margin: 0 auto;
 }
 
 /* content_left-start */
 .content_left {
-    float: left;
-    width: 8.4rem;
-    /* min-height: 10rem; */
-    height: 7rem;
-    overflow-y: scroll;
+  float: left;
+  width: 8.4rem;
+  /* min-height: 10rem; */
+  height: 7rem;
+  overflow-y: scroll;
 }
 
 .content_left::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* cl_box-start */
 .content_left .cl_box {
-    width: 8rem;
-    height: 2rem;
-    padding: 0.2rem;
-    margin-bottom: 0.1rem;
-    border-radius: 0.05rem;
-    background-color: #fff;
+  width: 8rem;
+  height: 2rem;
+  padding: 0.2rem;
+  margin-bottom: 0.1rem;
+  border-radius: 0.05rem;
+  background-color: #fff;
 }
 
 /* clb_top-start */
 .content_left .cl_box .clb_top {
-    width: 100%;
-    height: 1.6rem;
-    margin-bottom: 0.2rem;
+  width: 100%;
+  height: 1.6rem;
+  margin-bottom: 0.2rem;
 }
 
 .cl_box .clb_top>img {
-    float: left;
-    width: 2.4rem;
-    height: 1.6rem;
-    border-radius: 0.05rem;
+  float: left;
+  width: 2.4rem;
+  height: 1.6rem;
+  border-radius: 0.05rem;
 }
 
 .cl_box .clb_top .clbt_right {
-    float: right;
-    width: 5rem;
-    height: 100%;
+  float: right;
+  width: 5rem;
+  height: 100%;
 }
 
 .clb_top .clbt_right p {
-    color: #888;
-    margin-bottom: 0.1rem;
+  color: #888;
+  margin-bottom: 0.1rem;
 }
 /* clb_top-end */
 
 /* clb_bottom-start */
 .cl_box .clb_bottom .clbb_left {
-    float: left;
+  float: left;
 }
 
 .cl_box .clb_bottom .clbb_left span {
@@ -285,51 +293,51 @@ export default {
 /* clb_bottom-end */
 /* cl_box-end */
 .content_left .tips {
-    padding: 0.1rem;
-    color: #26b3ae;
-    text-align: center;
-    border-radius: 0.05rem;
-    background-color: #e6e6e6;
+  padding: 0.1rem;
+  color: #26b3ae;
+  text-align: center;
+  border-radius: 0.05rem;
+  background-color: #e6e6e6;
 }
 /* content_left-end */
 
 /* content_right-start */
 .content_right {
-    float: right;
-    width: 3.36rem;
+  float: right;
+  width: 3.36rem;
 }
 
 /* synopsis-start */
 .content_right .synopsis {
-    position: relative;
-    background-color: #ffffff;
+  position: relative;
+  background-color: #ffffff;
 }
 
 .content_right .synopsis .s_bg {
-    width: 100%;
-    margin-bottom: 0.3rem;
+  width: 100%;
+  margin-bottom: 0.3rem;
 }
 
 .content_right .synopsis .s_head_portrait {
-    left: 50%;
-    border-radius: 50%;
-    position: absolute;
-    transform: translate(-50%, -92%);
+  left: 50%;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -92%);
 }
 
 .content_right .synopsis .s_content {
-    text-align: center;
+  text-align: center;
 }
 
 .synopsis .s_content h3 {
-    font-weight: normal;
-    text-shadow: -0.01rem -0.01rem white, 0.01rem 0.01rem #333;
+  font-weight: normal;
+  text-shadow: -0.01rem -0.01rem white, 0.01rem 0.01rem #333;
 }
 
 .synopsis .s_content p {
-    color: #888;
-    line-height: 0.26rem;
-    padding: 0.1rem 0.3rem;
+  color: #888;
+  line-height: 0.26rem;
+  padding: 0.1rem 0.3rem;
 }
 /* synopsis-end */
 /* content_right-end */
