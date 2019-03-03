@@ -71,7 +71,11 @@
             </el-submenu>
         </el-submenu>
         <el-menu-item index="32" disabled>消息中心</el-menu-item>
-        <el-menu-item index="42"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        <el-submenu index="git">
+            <template slot="title">GitHub</template>
+            <el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
+            <el-menu-item index=""><a href="https://github.com/yanghanliang/blog-api" target="_blank">git-api</a></el-menu-item>
+        </el-submenu>
     </el-menu>
 </template>
 

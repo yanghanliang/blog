@@ -6,7 +6,7 @@
         </div>
         <div class="s_box clearfix">
             <a href="javascript:;" @click="getData(value.classname)" v-for="value in categoryData" :key="value.id">{{ value.classname }}</a>
-            <a href="#">陌上花开</a>
+            <!-- <a href="#">陌上花开</a>
             <a href="#">校园生活</a>
             <a href="#">html5</a>
             <a href="#">SumSung</a>
@@ -14,7 +14,7 @@
             <a href="#">温暖</a>
             <a href="#">阳光</a>
             <a href="#">三星</a>
-            <a href="#">华维荣耀</a>
+            <a href="#">华维荣耀</a> -->
             <a href="#">{{ csdata }}</a>
         </div>
     </div>

@@ -4,13 +4,13 @@ html,body,#app {
 	font-size: 100px;
 }
 
-@media screen and (max-device-width: 1400px) and (min-device-width: 1000px) {
+/* @media screen and (max-device-width: 1920px) and (min-device-width: 1367px) {
 	html {
-		font-size: 70px;
+		font-size: 140px;
 	}
-}
+} */
 
-@media (min-device-width: 999px){
+@media (max-device-width: 1366px){
 	html {
 		font-size: 100px;
 	}
@@ -131,7 +131,7 @@ html::-webkit-scrollbar-thumb {
 	border-radius: 5px;
 	background-color: #e2e2e287;
 	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 html::-webkit-scrollbar-thumb:hover {

@@ -1,7 +1,7 @@
 <template>
     <div class="index">
         <header><h1>后台首页</h1></header>
-        <div class="content clearfix">
+        <div class="content">
             <div class="content_left">
                 <!-- <router-link to="/admin/listUser" tag="li" active-class="hover"><a>a</a></router-link>
                 <router-link to="/admin/b" tag="li" active-class="hover"><a>b</a></router-link> -->
@@ -96,14 +96,10 @@ header > h1 {
 
 .content {
   display: flex;
-  /* position: relative; */
+  min-height: 8.38rem;
 }
 
 .content_left {
-  /* float: left;
-  top: 0px;
-  bottom: 0px;
-  position: absolute; */
   flex: 2;
   background-color: #fff;
 }

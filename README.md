@@ -50,9 +50,7 @@ npm run dev
 渲染为:
 
 <div data-v-7589b93f="" class="el-input">
-  <!---->
   <input type="text" autocomplete="off" class="el-input__inner">
-  <!----><!----><!---->
 </div>
 ```
 
@@ -346,17 +344,12 @@ modalDom.addEventListener('touchmove', function (event) {
  window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank') // 在新窗口中打开链接
 ```
 
-+ @keyup.enter.native="searchFn"  回车时才执行
-+ @input="searchFn" 为了提高用户体验我使用了,input值一改变就去执行
-  + element中input的change事件是移除焦点才触发
++ `@keyup.enter.native="searchFn"`  回车时才执行
++ `@input="searchFn"` 为了提高用户体验我使用了,input值一改变就去执行
+  + `element` 中 `input` 的 `change` 事件是移除焦点才触发
 
-```
 
-想要变成输入就出发：
-解决：
-使用@input
-
-```
+> 想要变成输入就触发：使用 `@input`
 
 
 ## 路由
@@ -364,9 +357,9 @@ modalDom.addEventListener('touchmove', function (event) {
 要解决的问题是在进入页面或加载某一父级路由时默认加载其某一特定路由． 
 进入 /admin 时,默认进入他下面的字路由 articleList
 
-加上 redirect: '/admin/articleList', 
+加上 `redirect: '/admin/articleList'`, 
 
-设置redirect属性为对应子路由路径, 即转发到默认的子路由路径即可
+设置 `redirect` 属性为对应子路由路径, 即转发到默认的子路由路径即可
 
 ```router/index.js
 
@@ -603,8 +596,9 @@ filters: {
 
 ---
 
-> element-ui 表单自定义规则是发现怎么也执行不了提交的回调函数
+> element-ui 表单自定义规则，发现怎么也执行不了提交的回调函数
 
+```js
 var validatePass = (rule, value, callback) => {
   if (/\S/.test(value)) {
     const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
@@ -614,5 +608,6 @@ var validatePass = (rule, value, callback) => {
       callback(new Error('请输入正确的邮箱'))
     }
   }
-  callback() // 这里忘加回调函数了
+  callback() // 原因是： 这里忘加回调函数了
 }
+```

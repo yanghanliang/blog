@@ -1,5 +1,5 @@
 <template>
-    <div class="category_list">
+    <div class="content_right">
         <!-- 面包屑 -->
         <el-table
             height="400"
@@ -91,12 +91,8 @@ export default {
 </script>
 
 <style scoped>
-.category_list {
-    overflow: hidden;
-}
-
-.category_list .el-table {
-    width: 525px;
-    margin: 100px auto;
+.content_right .el-table {
+  width: 525px;
+  margin: 100px auto;
 }
 </style>

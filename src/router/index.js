@@ -59,21 +59,6 @@ export default new Router({
       component: admin,
       redirect: '/admin/articleList',
       children: [
-        // {
-        //   path: 'listUser',
-        //   name: 'listUser',
-        //   component: listUser
-        // },
-        // {
-        //   path: 'addUser',
-        //   name: 'addUser',
-        //   component: addUser
-        // },
-        // {
-        //   path: 'editUser/:user_id',
-        //   name: 'editUser',
-        //   component: editUser
-        // },
         {
           path: 'addArticle',
           name: 'addArticle',

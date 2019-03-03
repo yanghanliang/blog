@@ -262,6 +262,13 @@ export default {
   margin: 0 auto;
 }
 
+.dataTable >>> tr td:nth-child(3)>div {
+  width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .content_right .dataTableBox {
   box-shadow: 1px 2px 13px -4px black;
 }

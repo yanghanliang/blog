@@ -88,6 +88,7 @@ export default {
   },
   created() {
     this.loadData() // 加载数据
+    this.tips() // 友情提示
   },
   mounted() {
     this.scroll()
@@ -186,6 +187,11 @@ export default {
       this.$router.push({ path: `/articleDetails/${id}` })
       // 记录文章阅读数
       await this.$http.get(`recordReadingNumber/${id}`)
+    },
+    tips() {
+      this.$message({
+        message: '目前此网站正在建设中~'
+      })
     }
   },
   watch: {

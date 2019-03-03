@@ -19,7 +19,10 @@
 
         <div class="content clearfix scrollbar">
           <div class="left" ref="articleContent">
-            <h1>{{ articleData.title }} <i class="icon" title="原创">&#xe612;</i></h1>
+            <div class="title">
+              <i v-if="articleData.original === 0" class="icon" title="原创">&#xe612;</i>
+              <h1>{{ articleData.title }}</h1>
+            </div>
             <ul class="describe clearfix">
               <li>分类： {{ articleData.classname }}</li>
               <li>创建时间： {{ articleData.createtime | formatDate('YYYY-MM-DD') }}</li>
@@ -399,14 +402,13 @@ export default {
 }
 
 /* describe-start */
-.content .left h1 {
-  position: relative;
+.content .left .title h1 {
+  display: inline-block;
 }
 
-.content .left h1>i {
-  top: 0.12rem;
-  right: -0.36rem;
-  position: absolute;
+.content .left .title i {
+  margin-right: 10px;
+  vertical-align: text-top;
 }
 
 .content .left .describe {
