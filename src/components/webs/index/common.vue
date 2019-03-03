@@ -117,10 +117,10 @@ export default {
         this.lock = false // 关闭锁
         // 给出提示
         this.$message({
-          message: data.msg + '即将跳转百度搜索!',
+          message: data.getData.msg + '即将跳转百度搜索!',
           type: 'warrning',
           data: this.pageData.searchData, // 把数据存储在这
-          duration: 1000, // 缩短时间，提高用户体验
+          duration: 3000, // 缩短时间，提高用户体验
           onClose: function(message) { // 参数为message实例,所以想要获取数据,则必须将数据以以上方式存储
             window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
           }
@@ -137,6 +137,7 @@ export default {
       }
     },
     searchEnter() { // 回车搜索
+      this.lock = true // 关闭锁
       this.searchFn() // 搜索内容
     },
     scroll() { // 页面滚到底部(懒加载)
