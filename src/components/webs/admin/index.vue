@@ -69,7 +69,7 @@ export default {
     RightContent
   },
   beforeCreate() {
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
     if (!token) {
       // 弹出提示
       this.$message({
