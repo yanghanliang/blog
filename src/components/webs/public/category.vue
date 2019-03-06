@@ -52,7 +52,7 @@ export default {
         this.$emit('click', data)
       } else {
         this.$message({
-          message: '接口有点问题!',
+          message: '此为测试模块，暂无数据!',
           type: 'warrning'
         })
       }

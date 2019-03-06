@@ -83,7 +83,7 @@
                 </div>
                 <div class="scb_footer clearfix">
                   <div class="commentary_time">
-                    <my-icon identification="shijian1"></my-icon> 一天前
+                    <my-icon identification="shijian1"></my-icon> {{ item.time }}
                   </div>
                   <el-button class="replay" type="text" @click="replay(item.alias, item.id, parentIndex, index)">
                     <my-icon identification="chakantiezihuifu"></my-icon>
