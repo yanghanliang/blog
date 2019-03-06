@@ -43,12 +43,20 @@
             <div class="comment">
               <my-icon identification="pinglun1"></my-icon>
             </div>
+            <!-- 发布评论-start -->
             <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="昵称" prop="alias">
-                <el-input v-model="commentForm.alias" v-bind:disabled="Boolean(alias)"></el-input>
+                <!-- <el-input v-model="commentForm.alias" v-bind:disabled="Boolean(alias)"></el-input> -->
+                <el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
               </el-form-item>
               <el-form-item label="邮箱" prop="mailbox">
                 <el-input v-model="commentForm.mailbox"></el-input>
+              </el-form-item>
+              <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="commentForm.password"></el-input>
+              </el-form-item>
+              <el-form-item label="确认密码" prop="checkPass">
+                <el-input type="password" v-model="commentForm.checkPass" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="评论" prop="comment_content">
                 <el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content"></el-input>
@@ -58,10 +66,12 @@
                 <el-button @click="resetForm('commentForm')">重置</el-button>
               </el-form-item>
             </el-form>
+            <!-- 发布评论-end -->
+            <!-- 显示评论-start -->
             <div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
               <div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data" :key="index">
                 <div class="scb_header clearfix">
-                  <div class="scbh_img_box" @click="editHeadPortrait(item.comment_id)">
+                  <div class="scbh_img_box" @click="editHeadPortrait(item)">
                     <img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
                   </div>
                   <div class="scbh_arrow"></div>
@@ -81,6 +91,7 @@
                 </div>
               </div>
             </div>
+            <!-- 显示评论-end -->
             <ul class="no_data" v-if="!commentData">
               <li><my-icon identification="meiyouxiangguan"></my-icon></li>
               <li>没有数据~</li>
@@ -107,13 +118,21 @@
 
     <my-footer></my-footer>
 
+    <!-- 回复评论的对话框-start -->
     <el-dialog :title="replyAlias" :visible.sync="dialogFormVisible">
       <el-form :model="replyForm" status-icon :rules="rules" ref="replyForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="昵称" prop="alias">
-          <el-input v-model="replyForm.alias" v-bind:disabled="Boolean(alias)"></el-input>
+          <!-- <el-input v-model="replyForm.alias" v-bind:disabled="Boolean(alias)"></el-input> -->
+          <el-input v-model="replyForm.alias" @input="aliasLock=true"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="mailbox">
           <el-input v-model="replyForm.mailbox"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password" :rules="replyVerification">
+          <el-input type="password" autocomplete="off" v-model="replyForm.password" placeholder="添加密码后，可防止其他人修改您的 头像、 昵称、 邮箱、 评论内容"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass" :rules="replyVerification2">
+          <el-input type="password" v-model="replyForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="评论" prop="comment_content">
           <el-input type="textarea" placeholder="畅所欲言~" v-model="replyForm.comment_content"></el-input>
@@ -124,7 +143,10 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="修改头像" :visible.sync="dialogFormVisible2">
+    <!-- 回复评论的对话框-end -->
+
+    <!-- 修改评论信息的对话框-start -->
+    <el-dialog title="修改信息" :visible.sync="dialogFormVisible2">
       <div class="clearfix">
         <div class="edit_head_portrait">
           <label class="el-form-item__label" style="width: 80px;">上传图片</label>
@@ -139,8 +161,24 @@
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">文件大小不能超过1MB</div>
           </el-upload>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
-          <el-button @click="dialogFormVisible2 = false">取消</el-button>
+          <el-form :model="user" status-icon :rules="rules" ref="user" label-width="80px" class="demo-ruleForm">
+            <el-form-item label="昵称" prop="alias">
+              <el-input v-model="user.alias" placeholder="请输入您要修改的昵称~" class="password"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="mailbox">
+              <el-input v-model="user.mailbox"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password" :rules="userVerification">
+              <el-input type="password" autocomplete="off" v-model="user.password" placeholder="请输入密码" class="password"></el-input>
+            </el-form-item>
+            <el-form-item label="评论" prop="comment_content">
+              <el-input type="textarea" placeholder="畅所欲言~" v-model="user.comment_content"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">走你~</el-button>
+              <el-button @click="resetForm('user')">重置</el-button>
+            </el-form-item>
+          </el-form>
         </div>
 
         <div class="head_portrait_preview">
@@ -148,6 +186,7 @@
         </div>
       </div>
     </el-dialog>
+    <!-- 修改评论信息的对话框-end -->
   </div>
 </template>
 
@@ -167,7 +206,7 @@ export default {
     category
   },
   data() {
-    var validatePass = (rule, value, callback) => {
+    let mailboxValidation = (rule, value, callback) => {
       if (/\S/.test(value)) {
         const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
         const length = value.trim().length
@@ -179,30 +218,110 @@ export default {
       }
       callback()
     }
+    let aliasValidation = async (rule, value, callback) => { // 验证在此之前是否评论过
+      if (!this.aliasLock) return false // 判断是否开启昵称验证
+      let v = value.trim()
+      if (v.length > 0) {
+        const { data } = await this.$http.get(`aliasValidation/${v}`)
+        if (data.status) {
+          this.lock = false // 关闭密码验证
+          callback()
+        } else {
+          this.$message({
+            duration: 5000,
+            message: '此昵称已被使用，如您是此用户并且设置过密码，则需要输入密码进行验证!'
+          })
+          this.lock = true // 开启密码验证
+          this.aliasLock = false // 关闭昵称验证
+          this.user.id = data.id
+          callback()
+        }
+      }
+    }
+    let validatePass = async (rule, value, callback) => { // 发布评论的密码验证
+      if (!this.lock) return false // 判断是否开启密码验证
+      let postData = {
+        id: this.user.id,
+        password: value
+      }
+      const { data } = await this.$http.post('verifyPassword', postData)
+      if (data) {
+        this.commentForm.checkPass = value // 让密码和确认密码同步
+        this.aliasLock = false // 关闭昵称验证
+        callback()
+      } else {
+        callback(new Error('密码不正确~'))
+      }
+    }
+    let validatePass2 = (rule, value, callback) => { // 发布评论的确认密码验证
+      if (value !== this.commentForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    let validatePass3 = async (rule, value, callback) => { // 回复评论的密码验证
+      if (!this.lock) return false // 判断是否开启密码验证
+      let postData = {
+        id: this.user.id,
+        password: value
+      }
+      const { data } = await this.$http.post('verifyPassword', postData)
+      if (data) {
+        this.replyForm.checkPass = value // 让密码和确认密码同步
+        this.aliasLock = false // 关闭昵称验证
+        callback()
+      } else {
+        callback(new Error('密码不正确~'))
+      }
+    }
+    let validatePass4 = async (rule, value, callback) => { // 修改评论的密码验证
+      let postData = {
+        id: this.user.id,
+        password: value
+      }
+      const { data } = await this.$http.post('verifyPassword', postData)
+      if (data) {
+        callback()
+      } else {
+        callback(new Error('密码不正确~'))
+      }
+    }
+    let validatePass5 = (rule, value, callback) => { // 回复评论的确认密码验证
+      if (value !== this.replyForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
-      articleData: {},
-      routingInformation: {
+      articleData: {}, // 文章数据
+      routingInformation: { // 面包屑数据
         name1: '首页',
         name2: '文章详情',
         router: '/'
       },
-      preArticle: {},
-      nextArticle: {},
-      alias: window.sessionStorage.getItem('alias'),
-      commentForm: {
-        alias: window.sessionStorage.getItem('alias'),
+      preArticle: {}, // 上一篇
+      nextArticle: {}, // 下一篇
+      commentForm: { // 发布评论的数据
+        alias: '',
         mailbox: '',
+        password: '',
+        checkPass: '',
         comment_content: ''
       },
-      rules: {
-        alias: [
+      passwodLock: false, // 决定评论密码的验证是否开启
+      aliasLock: true, // 决定评论昵称的验证是否开启
+      rules: { // 公共表单验证规则
+        alias: [ // 昵称
           { required: true, message: '请输入活动名称', trigger: 'change' },
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'change' }
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'change' },
+          { validator: aliasValidation, trigger: 'change' }
         ],
-        mailbox: [
-          { validator: validatePass, trigger: 'change' }
+        mailbox: [ // 邮箱
+          { validator: mailboxValidation, trigger: 'change' }
         ],
-        comment_content: [
+        comment_content: [ // 评论内容
           { required: true,
             pattern: /[0-9a-zA-Z_.-\D]+/,
             message: '说点啥',
@@ -211,21 +330,46 @@ export default {
               return value.trim()
             }
           }
+        ],
+        password: [ // 发布评论的密码验证
+          { min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'change' },
+          { validator: validatePass, trigger: 'change' }
+        ],
+        checkPass: [ // 发布评论的确认密码验证
+          { validator: validatePass2, trigger: 'change' }
         ]
       },
-      commentData: [],
-      dialogFormVisible: false,
-      dialogFormVisible2: false,
+      replyVerification: [ // 回复评论的密码验证
+        { min: 6, max: 32, message: '长度在 6 到 32 个字符', trigger: 'change' },
+        { validator: validatePass3, trigger: 'change' }
+      ],
+      replyVerification2: [ // 回复评论的确认密码验证
+        { validator: validatePass5, trigger: 'change' }
+      ],
+      userVerification: [ // 修改评论的密码验证
+        { validator: validatePass4, trigger: 'change' }
+      ],
+      commentData: [], // 文章评论数据
+      dialogFormVisible: false, // 回复评论的对话框
+      dialogFormVisible2: false, // 修改评论的对话框
       replyAlias: '', // 回复人
-      replyForm: {
-        alias: window.sessionStorage.getItem('alias'),
+      replyForm: { // 回复评论的数据
+        alias: '',
         mailbox: '',
+        password: '',
+        checkPass: '',
         comment_id: '',
         comment_content: ''
       },
-      commentId: '',
-      param: '', // 表单要提交的参数
-      src: ''
+      param: '', // 修改评论信息的传入数据
+      src: '', // 修改评论信息对话框中头像的预览
+      user: { // 修改评论的数据
+        id: '',
+        alias: '',
+        mailbox: '',
+        password: '',
+        comment_content: ''
+      }
     }
   },
   created() {
@@ -264,16 +408,12 @@ export default {
               type: 'success',
               message: data.msg
             })
-            if (!window.sessionStorage.getItem('alias')) { // 如果是游客则记录他的昵称
-              window.sessionStorage.setItem('alias', this[formName].alias)
-              this.alias = this[formName].alias
-            }
+
             callback && callback()
             this.resetForm(formName) // 清空评论内容
             this.getCommentData() // 重新获取数据（不可简化，因为回复需要id
           }
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -290,9 +430,14 @@ export default {
     closeDialogBoxes() { // 关闭对话框
       this.dialogFormVisible = false
     },
-    editHeadPortrait(commentId) {
+    async editHeadPortrait(data) { // 点击评论头像时触发
       this.dialogFormVisible2 = true
-      this.commentId = commentId
+      this.user.id = data.id
+      this.user.alias = data.alias
+      this.user.mailbox = data.mailbox
+      this.src = this.Global.baseURL + data.head_portrait_url
+      this.user.comment_content = data.comment_content
+      localStorage.setItem('alias', data.alias) // 记录昵称
     },
     beforeRemove(file, fileList) {
     },
@@ -310,26 +455,30 @@ export default {
     httprequest() {
     },
     async onSubmit() { // 表单提交的事件
-      // 下面append的东西就会到form表单数据的fields中；
-      this.param.append('commentId', this.commentId)
-      // 然后通过下面的方式把内容通过axios来传到后台
-      // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-      const { data } = await this.$http.post('/pictureUpload', this.param)
-      this.dialogFormVisible2 = false // 关闭对话框
-      if (data.status === 200) {
-        this.src = this.Global.baseURL + data.path
-        for (var i = 0; i < this.commentData.length; i++) {
-          var temp = this.commentData[i]
-          for (var j = 0; j < temp.length; j++) {
-            if (temp[j].comment_id === this.commentId) {
-              temp[j].head_portrait_url = data.head_portrait_url
-              return false
-            }
+      this.$refs.user.validate(async (valid) => {
+        if (valid) { // 数据验证成功
+          if (this.param === '') this.param = new FormData() // 防止不修改头像，就报错
+          // 下面append的东西就会到form表单数据的fields中；
+          this.param.append('id', this.user.id)
+          this.param.append('alias', this.user.alias)
+          this.param.append('mailbox', this.user.mailbox)
+          this.param.append('comment_content', this.user.comment_content)
+          this.param.append('name_used_before', localStorage.getItem('alias')) // 获取曾用名
+          // 然后通过下面的方式把内容通过axios来传到后台
+          // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
+
+          const { data } = await this.$http.post('/modifyCommentInformation', this.param)
+          this.dialogFormVisible2 = false // 关闭对话框
+          if (data.mci.status === 200) {
+            this.getCommentData() // 重新获取评论数据
+            this.resetForm('user') // 清空修改信息
+          } else {
+            this.$message.error(data.msg)
           }
+        } else {
+          return false
         }
-      } else {
-        this.$message.error(data.msg)
-      }
+      })
     }
   },
   watch: {
@@ -673,6 +822,7 @@ export default {
   overflow: hidden;
   position: relative;
   border-radius: 50%;
+  margin-right: 100px;
   border: 0.09rem solid #999;
 }
 
@@ -682,5 +832,9 @@ export default {
   width: 100%;
   position: absolute;
   transform: translate(-50%, -50%);
+}
+
+.demo-ruleForm .password {
+  width: 360px;
 }
 </style>
