@@ -76,8 +76,8 @@ export default {
           min: 300
         },
         meteorNumber: { // 流星1秒出现的个数
-          max: 3,
-          min: 1,
+          max: 5,
+          min: 2,
           time: 1000
         }
       }

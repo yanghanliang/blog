@@ -744,3 +744,181 @@ meteorShower()
 
 
 
+## 项目打包 
+
+### 1. `npm run build`
+
+会生成 `dist` 文件
+
+`dist/static/js/app.813b0d769eea464f2d4a.js`  - 自己写的文件
+`dist/static/js/vendor.15c0dc361c63eaf0b47c.js` - 第三方包文件
+
+
+### 2. 懒加载： 用的时候才加载
+
+拆分上述文件,可参照官网 Vue-Router
+
+
+> 找到 `router/index.js` 文件，配置路由懒加载
+
+`import addArticle from '@/components/webs/admin/article/addArticle'`
+
+将除了 `Vue` 和 `Router` 以外的所有以`路由方式加载`的文件，都改成以下这种形式
+
+`const addArticle = () => import('@/components/webs/admin/article/addArticle')`
+
+路由方式加载的文件：
+  + 需要经过`路由`跳转（切换）的文件
+
+
+### 3. 重新 `npm run build`
+
+对于 Vue, element-ui 这种第三包库，打包的文件较大，需要特殊处理。   cdn 处理 可参照vue官网， 教程/安装
+
+cdn 比放将这些库放在自己的服务器上有什么好处??
+
+例如我将我的服务器部署在腾讯的北京服务器中，那么在北京的用户访问这个服务器就比较快。而cdn是在`主要的城市`中部署了服务器，
+假如，这里的主要城市是： 北京，上海，广东，那么在这些地方的用户访问这个服务器就比较快。
+那么针对用户相对而言，就会广一些，访问速度就会提高。
+当用户访问一个网站是，就会去下载，这个网站相应的文件，那么去哪下呢？   `cdn`做出了，优先选择，会根据用户所在城市，
+就近选择服务器进行下载。`由于将大文件放入了cdn`,而`cdn`这种形式，不仅提高了访问速度，也减轻了自己服务器的压力
+
+### 4. 安装 npm install http-server -g 这个服务器，检测是否打包成功
+
+进入 dist 文件夹中，运行 hs -o 启动服务
+
+> import 这种文件应该放在路由懒加载之前
+
+#### 在调试的时候注意浏览器缓存
+
+### 4. https://www.bootcdn.cn/ 去这个网站找相应的库的`cdn`链接
+
+beta  测试版本
+
+使用压缩版本 `.min`
+
+在 package.json 中找到需要cdn的文件
+
+在cdn网站找到对应的cdn链接，复制到 index.html中
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>blog</title>
+    <!-- 添加 element-ui的css文件时，要将main.js中的import 'element-ui/lib/theme-chalk/index.css'注释掉 -->
+    <link href="https://cdn.bootcss.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- 注意引入的先后顺序 -->
+    <script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.4.11/index.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+
+
+```
+
+
+### 5.配置`webpake`
+
+进入`webpake`官网，搜索cdn，选择 externals 找到 webpack.config.js webpake配置项
+
+在自己的项目中找到webpake配置文件build/vue-loader.conf.js
+
+```js
+module.exports = {
+  context: path.resolve(__dirname, '../'),
+  entry: {
+    app: './src/main.js'
+  },
+  // 配置cdn
+  externals: {
+    // 前面的属性 vue 代表的是 import ... from 'vue'
+    // 值 Vue 是 vue.js 暴露在全局中的构造函数名称
+    // 因为已经在html中从cdn引用了，告诉webpake不需要打包了此文件
+    // 配置时： 区分大小写字母
+    // for(var p in window){ // 使用它查看构造函数名称 p
+    //   console.log(p+'----'+typeof window[p]+'---'+window[p]);
+    //  }
+    vue: 'Vue',
+    router: 'VueRouter',
+    'element-ui': 'ELEMENT',
+    axios: 'axios',
+    moment: 'moment'
+  },
+  output: {
+    path: config.build.assetsRoot,
+    filename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production'
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+    }
+  },
+  module: {
+    rules: [
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+        }
+      }
+    ]
+  },
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty'
+  }
+}
+
+```

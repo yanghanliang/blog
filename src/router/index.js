@@ -1,24 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/components/webs/index/index'
+const index = () => import('@/components/webs/index/index')
 
 // admin-start
-import login from '@/views/login'
-import admin from '@/components/webs/admin/index'
-// import listUser from '@/components/webs/admin/a/list'
-// import addUser from '@/components/webs/admin/a/add'
-// import editUser from '@/components/webs/admin/a/edit'
-import addArticle from '@/components/webs/admin/article/addArticle'
-import articleList from '@/components/webs/admin/article/articleList'
-import addCategory from '@/components/webs/admin/category/addCategory'
-import categoryList from '@/components/webs/admin/category/categoryList'
-import editCategory from '@/components/webs/admin/category/editCategory'
+const login = () => import('@/views/login')
+const admin = () => import('@/components/webs/admin/index')
+// const listUser = () => import('@/components/webs/admin/a/list'
+// const addUser = () => import('@/components/webs/admin/a/add'
+// const editUser = () => import('@/components/webs/admin/a/edit'
+const addArticle = () => import('@/components/webs/admin/article/addArticle')
+const articleList = () => import('@/components/webs/admin/article/articleList')
+const addCategory = () => import('@/components/webs/admin/category/addCategory')
+const categoryList = () => import('@/components/webs/admin/category/categoryList')
+const editCategory = () => import('@/components/webs/admin/category/editCategory')
 // admin-end
 
 // index-start
-import common from '@/components/webs/index/common'
-import articleDetails from '@/components/webs/index/article/articleDetails'
-import catalogList from '@/components/webs/index/catalog/catalogList'
+const common = () => import('@/components/webs/index/common')
+const articleDetails = () => import('@/components/webs/index/article/articleDetails')
+const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 // index-end
 
 Vue.use(Router)

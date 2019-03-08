@@ -1,6 +1,6 @@
 <template>
     <div class="content_right">
-        <el-form class="category" ref="form" :model="form" label-width="80px">
+        <el-form class="admin_category" ref="form" :model="form" label-width="80px">
             <el-form-item label="分类名称">
                 <el-input v-model="form.classname"></el-input>
             </el-form-item>
@@ -64,19 +64,4 @@ export default {
 </script>
 
 <style>
-.category {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  display: inline-block;
-  transform: translate(-50%, -50%);
-}
-
-.category .el-select {
-  width: 5rem;
-}
-
-.el-form-item__label {
-  color: #ffffff;
-}
 </style>
