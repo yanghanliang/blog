@@ -50,7 +50,7 @@
                 <el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
               </el-form-item>
               <el-form-item label="邮箱" prop="mailbox">
-                <el-input v-model="commentForm.mailbox"></el-input>
+                <el-input v-model="commentForm.mailbox" placeholder="请输入密码"></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input type="password" v-model="commentForm.password"></el-input>
@@ -126,7 +126,7 @@
           <el-input v-model="replyForm.alias" @input="aliasLock=true"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="mailbox">
-          <el-input v-model="replyForm.mailbox"></el-input>
+          <el-input v-model="replyForm.mailbox" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" :rules="replyVerification">
           <el-input type="password" autocomplete="off" v-model="replyForm.password" placeholder="添加密码后，可防止其他人修改您的 头像、 昵称、 邮箱、 评论内容"></el-input>
@@ -166,7 +166,7 @@
               <el-input v-model="user.alias" placeholder="请输入您要修改的昵称~" class="password"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="mailbox">
-              <el-input v-model="user.mailbox"></el-input>
+              <el-input v-model="user.mailbox" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password" :rules="userVerification">
               <el-input type="password" autocomplete="off" v-model="user.password" placeholder="请输入密码" class="password"></el-input>
@@ -434,7 +434,7 @@ export default {
       this.dialogFormVisible2 = true
       this.user.id = data.id
       this.user.alias = data.alias
-      this.user.mailbox = data.mailbox
+      this.user.mailbox = data.mailbox ? '' : data.mailbox
       this.src = this.Global.baseURL + data.head_portrait_url
       this.user.comment_content = data.comment_content
       localStorage.setItem('alias', data.alias) // 记录昵称
