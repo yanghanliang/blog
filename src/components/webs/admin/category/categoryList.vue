@@ -60,7 +60,9 @@ export default {
   methods: {
     async loadData() { // 获取分类数据
       const { data } = await this.$http.get('category')
-      this.tableData = data
+      if (data.status !== 201) {
+        this.tableData = data
+      }
     },
     showDialog(row) { // 显示对话框
       this.dialogVisible = true // 显示提示框

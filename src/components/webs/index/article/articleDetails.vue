@@ -207,7 +207,7 @@ export default {
   },
   data() {
     let mailboxValidation = (rule, value, callback) => {
-      if (/\S/.test(value)) {
+      if (/\S/.test(value) && value !== null) {
         const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
         const length = value.trim().length
         if (reg.test(value) && length >= 8 && length <= 30) {

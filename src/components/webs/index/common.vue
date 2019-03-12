@@ -11,6 +11,19 @@
         </el-input>
 
         <div class="content clearfix">
+          <div class="content_right">
+                <div class="synopsis">
+                    <!-- s_bg 背景 -->
+                    <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
+                    <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
+                    <div class="s_content">
+                        <h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
+                        <h3>- {{ personalInformation.occupation }} -</h3>
+                        <p>{{ personalInformation.synopsis }}</p>
+                    </div>
+                </div>
+                <category @click="cs" :csdata="csData"></category>
+            </div>
             <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
@@ -43,19 +56,6 @@
                     </div>
                 </div>
                 <div v-if="pageData.tips !== ''" class="tips">{{ pageData.tips }}</div>
-            </div>
-            <div class="content_right">
-                <div class="synopsis">
-                    <!-- s_bg 背景 -->
-                    <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
-                    <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
-                    <div class="s_content">
-                        <h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
-                        <h3>- {{ personalInformation.occupation }} -</h3>
-                        <p>{{ personalInformation.synopsis }}</p>
-                    </div>
-                </div>
-                <category @click="cs" :csdata="csData"></category>
             </div>
         </div>
     </div>
@@ -327,6 +327,8 @@ export default {
 
 .content_right .synopsis .s_head_portrait {
   left: 50%;
+  width: 1.03rem;
+  height: 1.03rem;
   border-radius: 50%;
   position: absolute;
   transform: translate(-50%, -92%);

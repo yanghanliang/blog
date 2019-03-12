@@ -9,10 +9,26 @@ const MyAxios = {}
 MyAxios.install = function(Vue) {
   // 创建请求连接
   // 设置 Vue 实例的属性
-  Vue.prototype.$http = axios.create({
+  const instance = axios.create({
     baseURL: Global.baseURL, // 基地址 'http://localhost:3001/'
     timeout: 1000 // 失效时间
   })
+
+  // 添加请求拦截器
+  instance.interceptors.request.use(function (config) {
+    // 在发送请求之前执行
+    if (config.url.toLowerCase() !== 'login') {
+      // 请求前将 token 设置在请求头中
+      const token = localStorage.getItem('token')
+      config.headers.Authorization = token
+    }
+    return config
+  }, function (error) {
+    // 处理请求错误
+    return Promise.reject(error)
+  })
+
+  Vue.prototype.$http = instance
 }
 
 // 导出发送请求的方法

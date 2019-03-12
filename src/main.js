@@ -28,6 +28,8 @@ import './assets/icon.js'
 import './assets/css/reset.css'
 // 引入前后台需要的公共样式
 import './assets/css/public.css'
+// 兼容375x812
+import './assets/css/375x812.css'
 // myStyle - end
 
 // public-start
