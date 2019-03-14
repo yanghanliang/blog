@@ -130,7 +130,7 @@ export default {
       this.pageData.currentPage = 2 // 重置当前页
       this.pageData.tips = '' // 重置提示
     },
-    searchInput() { // 输入搜索
+    searchInput() { // 输入搜索hui
       // 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
       if (!/[0-9a-zA-Z]+/.test(this.pageData.searchData)) { // 如果输入有数字字母则不执行
         this.searchFn() // 搜索内容
