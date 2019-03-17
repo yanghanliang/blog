@@ -1,6 +1,9 @@
 // 导入发生请求的模块
 import axios from 'axios'
 
+// 导入消息提示
+import { Message } from 'element-ui'
+
 // 引入全局变量
 import Global from '@/plugins/global'
 
@@ -25,6 +28,20 @@ MyAxios.install = function(Vue) {
     return config
   }, function (error) {
     // 处理请求错误
+    return Promise.reject(error)
+  })
+
+  // 添加响应拦截器
+  instance.interceptors.response.use(function (response) {
+    // 处理响应数据前执行
+    const { data } = response
+    if (data.type === 'token' && data.status === 201) {
+      Message.error(data.msg)
+      location.href = `#/login` // 跳转登陆页面
+    }
+    return response
+  }, function (error) {
+    // 处理响应错误
     return Promise.reject(error)
   })
 
