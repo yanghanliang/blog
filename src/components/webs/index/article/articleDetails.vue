@@ -202,373 +202,373 @@
 </template>
 
 <script>
-// 导入 header
-import myHeader from '@/components/webs/public/myHeader'
-// 导入 footer
-import myFooter from '@/components/webs/public/myFooter'
-// 导入 category
-import category from '@/components/webs/public/category'
+    // 导入 header
+    import myHeader from '@/components/webs/public/myHeader'
+    // 导入 footer
+    import myFooter from '@/components/webs/public/myFooter'
+    // 导入 category
+    import category from '@/components/webs/public/category'
 
-export default {
-  name: 'articles_details',
-  components: {
-    myHeader,
-    myFooter,
-    category
-  },
-  data() {
-    let mailboxValidation = (rule, value, callback) => {
-      if (/\S/.test(value) && value !== null) {
-        const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
-        const length = value.trim().length
-        if (reg.test(value) && length >= 8 && length <= 30) {
-          callback()
-        } else {
-          callback(new Error('请输入正确的邮箱'))
-        }
-      }
-      callback()
-    }
-    let aliasValidation = async (rule, value, callback) => { // 验证在此之前是否评论过
-      if (!this.aliasLock) return false // 判断是否开启昵称验证
-      let v = value.trim()
-      if (v.length > 0) {
-        const {
-          data
-        } = await this.$http.get(`aliasValidation/${v}`)
-        if (data.status) {
-          this.lock = false // 关闭密码验证
-          callback()
-        } else {
-          this.$message({
-            duration: 5000,
-            message: '此昵称已被使用，如您是此用户并且设置过密码，则需要输入密码进行验证!'
-          })
-          this.lock = true // 开启密码验证
-          this.aliasLock = false // 关闭昵称验证
-          this.user.id = data.id
-          callback()
-        }
-      }
-    }
-    let validatePass = async (rule, value, callback) => { // 发布评论的密码验证
-      if (!this.lock) return false // 判断是否开启密码验证
-      let postData = {
-        id: this.user.id,
-        password: value
-      }
-      const {
-        data
-      } = await this.$http.post('verifyPassword', postData)
-      if (data) {
-        this.commentForm.checkPass = value // 让密码和确认密码同步
-        this.aliasLock = false // 关闭昵称验证
-        callback()
-      } else {
-        callback(new Error('密码不正确~'))
-      }
-    }
-    let validatePass2 = (rule, value, callback) => { // 发布评论的确认密码验证
-      if (value !== this.commentForm.password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
-    let validatePass3 = async (rule, value, callback) => { // 回复评论的密码验证
-      if (!this.lock) return false // 判断是否开启密码验证
-      let postData = {
-        id: this.user.id,
-        password: value
-      }
-      const {
-        data
-      } = await this.$http.post('verifyPassword', postData)
-      if (data) {
-        this.replyForm.checkPass = value // 让密码和确认密码同步
-        this.aliasLock = false // 关闭昵称验证
-        callback()
-      } else {
-        callback(new Error('密码不正确~'))
-      }
-    }
-    let validatePass4 = async (rule, value, callback) => { // 修改评论的密码验证
-      let postData = {
-        id: this.user.id,
-        password: value
-      }
-      const {
-        data
-      } = await this.$http.post('verifyPassword', postData)
-      if (data) {
-        callback()
-      } else {
-        callback(new Error('密码不正确~'))
-      }
-    }
-    let validatePass5 = (rule, value, callback) => { // 回复评论的确认密码验证
-      if (value !== this.replyForm.password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      articleData: {}, // 文章数据
-      routingInformation: { // 面包屑数据
-        name1: '首页',
-        name2: '文章详情',
-        router: '/'
-      },
-      preArticle: {}, // 上一篇
-      nextArticle: {}, // 下一篇
-      commentForm: { // 发布评论的数据
-        alias: '',
-        mailbox: '',
-        password: '',
-        checkPass: '',
-        comment_content: ''
-      },
-      passwodLock: false, // 决定评论密码的验证是否开启
-      aliasLock: true, // 决定评论昵称的验证是否开启
-      rules: { // 公共表单验证规则
-        alias: [ // 昵称
-          {
-            required: true,
-            message: '请输入活动名称',
-            trigger: 'change'
-          },
-          {
-            min: 1,
-            max: 20,
-            message: '长度在 1 到 20 个字符',
-            trigger: 'change'
-          },
-          {
-            validator: aliasValidation,
-            trigger: 'change'
-          }
-        ],
-        mailbox: [ // 邮箱
-          {
-            validator: mailboxValidation,
-            trigger: 'change'
-          }
-        ],
-        comment_content: [ // 评论内容
-          {
-            required: true,
-            pattern: /[0-9a-zA-Z_.-\D]+/,
-            message: '说点啥',
-            trigger: 'change',
-            transform(value) {
-              return value.trim()
-            }
-          }
-        ],
-        password: [ // 发布评论的密码验证
-          {
-            min: 6,
-            max: 32,
-            message: '长度在 6 到 32 个字符',
-            trigger: 'change'
-          },
-          {
-            validator: validatePass,
-            trigger: 'change'
-          }
-        ],
-        checkPass: [ // 发布评论的确认密码验证
-          {
-            validator: validatePass2,
-            trigger: 'change'
-          }
-        ]
-      },
-      replyVerification: [ // 回复评论的密码验证
-        {
-          min: 6,
-          max: 32,
-          message: '长度在 6 到 32 个字符',
-          trigger: 'change'
+    export default {
+        name: 'articles_details',
+        components: {
+            myHeader,
+            myFooter,
+            category
         },
-        {
-          validator: validatePass3,
-          trigger: 'change'
-        }
-      ],
-      replyVerification2: [ // 回复评论的确认密码验证
-        {
-          validator: validatePass5,
-          trigger: 'change'
-        }
-      ],
-      userVerification: [ // 修改评论的密码验证
-        {
-          validator: validatePass4,
-          trigger: 'change'
-        }
-      ],
-      commentData: [], // 文章评论数据
-      dialogFormVisible: false, // 回复评论的对话框
-      dialogFormVisible2: false, // 修改评论的对话框
-      replyAlias: '', // 回复人
-      replyForm: { // 回复评论的数据
-        alias: '',
-        mailbox: '',
-        password: '',
-        checkPass: '',
-        comment_id: '',
-        comment_content: ''
-      },
-      param: '', // 修改评论信息的传入数据
-      src: '', // 修改评论信息对话框中头像的预览
-      user: { // 修改评论的数据
-        id: '',
-        alias: '',
-        mailbox: '',
-        password: '',
-        comment_content: ''
-      }
-    }
-  },
-  created() {
-    this.loadData() // 获取文章详情数据
-    this.getCommentData() // 获取评论数据
-  },
-  methods: {
-    async loadData() { // 获取文章详情数据
-      const {
-        data
-      } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
-      this.articleData = data[0] // 将数据赋值给 vue
-      const bodyEle = document.querySelector('html') // 获取 html 元素
-      bodyEle.scrollTop = 0 // 置顶
-      this.during() // 获取上一篇和下一篇的数据
-    },
-    async during() { // 获取上一篇和下一篇的数据
-      const {
-        data
-      } = await this.$http.get(`during/${this.articleData.createtime}`) // 发送请求
-      this.preArticle = data.preArticle // 将值赋值给 vue
-      this.nextArticle = data.nextArticle
-    },
-    async getCommentData() { // 获取评论数据
-      const {
-        data
-      } = await this.$http.get(`comment/${this.$route.params.articleId}`)
-      this.commentData = data.data
-    },
-    clickDuring(id) { // 点击上上一页或下一页时执行
-      this.$router.push({
-        path: `/articleDetails/${id}`
-      })
-    },
-    submitForm(formName, uri, fromData, callback) { // 提交评论
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) { // 数据验证成功
-          this[formName].article_id = this.$route.params.articleId
-          const {
-            data
-          } = await this.$http.post(uri, fromData)
-          if (data.status === 200) {
-            this.$message({
-              type: 'success',
-              message: data.msg
-            })
+        data() {
+            let mailboxValidation = (rule, value, callback) => {
+                if (/\S/.test(value) && value !== null) {
+                    const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
+                    const length = value.trim().length
+                    if (reg.test(value) && length >= 8 && length <= 30) {
+                        callback()
+                    } else {
+                        callback(new Error('请输入正确的邮箱'))
+                    }
+                }
+                callback()
+            }
+            let aliasValidation = async (rule, value, callback) => { // 验证在此之前是否评论过
+                if (!this.aliasLock) return false // 判断是否开启昵称验证
+                let v = value.trim()
+                if (v.length > 0) {
+                    const {
+                        data
+                    } = await this.$http.get(`aliasValidation/${v}`)
+                    if (data.status) {
+                        this.lock = false // 关闭密码验证
+                        callback()
+                    } else {
+                        this.$message({
+                            duration: 5000,
+                            message: '此昵称已被使用，如您是此用户并且设置过密码，则需要输入密码进行验证!'
+                        })
+                        this.lock = true // 开启密码验证
+                        this.aliasLock = false // 关闭昵称验证
+                        this.user.id = data.id
+                        callback()
+                    }
+                }
+            }
+            let validatePass = async (rule, value, callback) => { // 发布评论的密码验证
+                if (!this.lock) return false // 判断是否开启密码验证
+                let postData = {
+                    id: this.user.id,
+                    password: value
+                }
+                const {
+                    data
+                } = await this.$http.post('verifyPassword', postData)
+                if (data) {
+                    this.commentForm.checkPass = value // 让密码和确认密码同步
+                    this.aliasLock = false // 关闭昵称验证
+                    callback()
+                } else {
+                    callback(new Error('密码不正确~'))
+                }
+            }
+            let validatePass2 = (rule, value, callback) => { // 发布评论的确认密码验证
+                if (value !== this.commentForm.password) {
+                    callback(new Error('两次输入密码不一致!'))
+                } else {
+                    callback()
+                }
+            }
+            let validatePass3 = async (rule, value, callback) => { // 回复评论的密码验证
+                if (!this.lock) return false // 判断是否开启密码验证
+                let postData = {
+                    id: this.user.id,
+                    password: value
+                }
+                const {
+                    data
+                } = await this.$http.post('verifyPassword', postData)
+                if (data) {
+                    this.replyForm.checkPass = value // 让密码和确认密码同步
+                    this.aliasLock = false // 关闭昵称验证
+                    callback()
+                } else {
+                    callback(new Error('密码不正确~'))
+                }
+            }
+            let validatePass4 = async (rule, value, callback) => { // 修改评论的密码验证
+                let postData = {
+                    id: this.user.id,
+                    password: value
+                }
+                const {
+                    data
+                } = await this.$http.post('verifyPassword', postData)
+                if (data) {
+                    callback()
+                } else {
+                    callback(new Error('密码不正确~'))
+                }
+            }
+            let validatePass5 = (rule, value, callback) => { // 回复评论的确认密码验证
+                if (value !== this.replyForm.password) {
+                    callback(new Error('两次输入密码不一致!'))
+                } else {
+                    callback()
+                }
+            }
+            return {
+                articleData: {}, // 文章数据
+                routingInformation: { // 面包屑数据
+                    name1: '首页',
+                    name2: '文章详情',
+                    router: '/'
+                },
+                preArticle: {}, // 上一篇
+                nextArticle: {}, // 下一篇
+                commentForm: { // 发布评论的数据
+                    alias: '',
+                    mailbox: '',
+                    password: '',
+                    checkPass: '',
+                    comment_content: ''
+                },
+                passwodLock: false, // 决定评论密码的验证是否开启
+                aliasLock: true, // 决定评论昵称的验证是否开启
+                rules: { // 公共表单验证规则
+                    alias: [ // 昵称
+                        {
+                            required: true,
+                            message: '请输入活动名称',
+                            trigger: 'change'
+                        },
+                        {
+                            min: 1,
+                            max: 20,
+                            message: '长度在 1 到 20 个字符',
+                            trigger: 'change'
+                        },
+                        {
+                            validator: aliasValidation,
+                            trigger: 'change'
+                        }
+                    ],
+                    mailbox: [ // 邮箱
+                        {
+                            validator: mailboxValidation,
+                            trigger: 'change'
+                        }
+                    ],
+                    comment_content: [ // 评论内容
+                        {
+                            required: true,
+                            pattern: /[0-9a-zA-Z_.-\D]+/,
+                            message: '说点啥',
+                            trigger: 'change',
+                            transform(value) {
+                                return value.trim()
+                            }
+                        }
+                    ],
+                    password: [ // 发布评论的密码验证
+                        {
+                            min: 6,
+                            max: 32,
+                            message: '长度在 6 到 32 个字符',
+                            trigger: 'change'
+                        },
+                        {
+                            validator: validatePass,
+                            trigger: 'change'
+                        }
+                    ],
+                    checkPass: [ // 发布评论的确认密码验证
+                        {
+                            validator: validatePass2,
+                            trigger: 'change'
+                        }
+                    ]
+                },
+                replyVerification: [ // 回复评论的密码验证
+                    {
+                        min: 6,
+                        max: 32,
+                        message: '长度在 6 到 32 个字符',
+                        trigger: 'change'
+                    },
+                    {
+                        validator: validatePass3,
+                        trigger: 'change'
+                    }
+                ],
+                replyVerification2: [ // 回复评论的确认密码验证
+                    {
+                        validator: validatePass5,
+                        trigger: 'change'
+                    }
+                ],
+                userVerification: [ // 修改评论的密码验证
+                    {
+                        validator: validatePass4,
+                        trigger: 'change'
+                    }
+                ],
+                commentData: [], // 文章评论数据
+                dialogFormVisible: false, // 回复评论的对话框
+                dialogFormVisible2: false, // 修改评论的对话框
+                replyAlias: '', // 回复人
+                replyForm: { // 回复评论的数据
+                    alias: '',
+                    mailbox: '',
+                    password: '',
+                    checkPass: '',
+                    comment_id: '',
+                    comment_content: ''
+                },
+                param: '', // 修改评论信息的传入数据
+                src: '', // 修改评论信息对话框中头像的预览
+                user: { // 修改评论的数据
+                    id: '',
+                    alias: '',
+                    mailbox: '',
+                    password: '',
+                    comment_content: ''
+                }
+            }
+        },
+        created() {
+            this.loadData() // 获取文章详情数据
+            this.getCommentData() // 获取评论数据
+        },
+        methods: {
+            async loadData() { // 获取文章详情数据
+                const {
+                    data
+                } = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
+                this.articleData = data[0] // 将数据赋值给 vue
+                const bodyEle = document.querySelector('html') // 获取 html 元素
+                bodyEle.scrollTop = 0 // 置顶
+                this.during() // 获取上一篇和下一篇的数据
+            },
+            async during() { // 获取上一篇和下一篇的数据
+                const {
+                    data
+                } = await this.$http.get(`during/${this.articleData.createtime}`) // 发送请求
+                this.preArticle = data.preArticle // 将值赋值给 vue
+                this.nextArticle = data.nextArticle
+            },
+            async getCommentData() { // 获取评论数据
+                const {
+                    data
+                } = await this.$http.get(`comment/${this.$route.params.articleId}`)
+                this.commentData = data.data
+            },
+            clickDuring(id) { // 点击上上一页或下一页时执行
+                this.$router.push({
+                    path: `/articleDetails/${id}`
+                })
+            },
+            submitForm(formName, uri, fromData, callback) { // 提交评论
+                this.$refs[formName].validate(async (valid) => {
+                    if (valid) { // 数据验证成功
+                        this[formName].article_id = this.$route.params.articleId
+                        const {
+                            data
+                        } = await this.$http.post(uri, fromData)
+                        if (data.status === 200) {
+                            this.$message({
+                                type: 'success',
+                                message: data.msg
+                            })
 
-            callback && callback()
-            this.resetForm(formName) // 清空评论内容
-            this.getCommentData() // 重新获取数据（不可简化，因为回复需要id
-          }
-        } else {
-          return false
-        }
-      })
-    },
-    resetForm(formName) { // 重置表单
-      // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
-      this.$refs[formName].resetFields()
-    },
-    replay(alias, commentId, parentIndex, index) { // 回复评论
-      this.dialogFormVisible = true // 显示对话框
-      this.replyAlias = `回复 - ${alias} :` // 标题
-      this.replyForm.comment_id = commentId // 评论 id
-    },
-    closeDialogBoxes() { // 关闭对话框
-      this.dialogFormVisible = false
-    },
-    async editHeadPortrait(data) { // 点击评论头像时触发
-      this.dialogFormVisible2 = true
-      this.user.id = data.id
-      this.user.alias = data.alias
-      this.user.mailbox = data.mailbox ? '' : data.mailbox
-      this.src = this.Global.baseURL + data.head_portrait_url
-      this.user.comment_content = data.comment_content
-      localStorage.setItem('alias', data.alias) // 记录昵称
-    },
-    beforeRemove(file, fileList) {},
-    // 阻止upload的自己上传，进行再操作
-    beforeupload(file) {
-      // 创建临时的路径来展示图片
-      var windowURL = window.URL || window.webkitURL
-      this.src = windowURL.createObjectURL(file)
-      // 重新写一个表单上传的方法
-      this.param = new FormData()
-      this.param.append('file', file, file.name)
-      return false
-    },
-    // 覆盖默认的上传行为
-    httprequest() {},
-    async onSubmit() { // 表单提交的事件
-      this.$refs.user.validate(async (valid) => {
-        if (valid) { // 数据验证成功
-          if (this.param === '') this.param = new FormData() // 防止不修改头像，就报错
-          // 下面append的东西就会到form表单数据的fields中；
-          this.param.append('id', this.user.id)
-          this.param.append('alias', this.user.alias)
-          this.param.append('mailbox', this.user.mailbox)
-          this.param.append('comment_content', this.user.comment_content)
-          this.param.append('name_used_before', localStorage.getItem('alias')) // 获取曾用名
-          // 然后通过下面的方式把内容通过axios来传到后台
-          // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
+                            callback && callback()
+                            this.resetForm(formName) // 清空评论内容
+                            this.getCommentData() // 重新获取数据（不可简化，因为回复需要id
+                        }
+                    } else {
+                        return false
+                    }
+                })
+            },
+            resetForm(formName) { // 重置表单
+                // 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
+                this.$refs[formName].resetFields()
+            },
+            replay(alias, commentId, parentIndex, index) { // 回复评论
+                this.dialogFormVisible = true // 显示对话框
+                this.replyAlias = `回复 - ${alias} :` // 标题
+                this.replyForm.comment_id = commentId // 评论 id
+            },
+            closeDialogBoxes() { // 关闭对话框
+                this.dialogFormVisible = false
+            },
+            async editHeadPortrait(data) { // 点击评论头像时触发
+                this.dialogFormVisible2 = true
+                this.user.id = data.id
+                this.user.alias = data.alias
+                this.user.mailbox = data.mailbox ? '' : data.mailbox
+                this.src = this.Global.baseURL + data.head_portrait_url
+                this.user.comment_content = data.comment_content
+                localStorage.setItem('alias', data.alias) // 记录昵称
+            },
+            beforeRemove(file, fileList) {},
+            // 阻止upload的自己上传，进行再操作
+            beforeupload(file) {
+                // 创建临时的路径来展示图片
+                var windowURL = window.URL || window.webkitURL
+                this.src = windowURL.createObjectURL(file)
+                // 重新写一个表单上传的方法
+                this.param = new FormData()
+                this.param.append('file', file, file.name)
+                return false
+            },
+            // 覆盖默认的上传行为
+            httprequest() {},
+            async onSubmit() { // 表单提交的事件
+                this.$refs.user.validate(async (valid) => {
+                    if (valid) { // 数据验证成功
+                        if (this.param === '') this.param = new FormData() // 防止不修改头像，就报错
+                        // 下面append的东西就会到form表单数据的fields中；
+                        this.param.append('id', this.user.id)
+                        this.param.append('alias', this.user.alias)
+                        this.param.append('mailbox', this.user.mailbox)
+                        this.param.append('comment_content', this.user.comment_content)
+                        this.param.append('name_used_before', localStorage.getItem('alias')) // 获取曾用名
+                        // 然后通过下面的方式把内容通过axios来传到后台
+                        // 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
 
-          const {
-            data
-          } = await this.$http.post('/modifyCommentInformation', this.param)
-          this.dialogFormVisible2 = false // 关闭对话框
-          if (data.mci.status === 200) {
-            this.getCommentData() // 重新获取评论数据
-            this.resetForm('user') // 清空修改信息
-          } else {
-            this.$message.error(data.msg)
-          }
-        } else {
-          return false
+                        const {
+                            data
+                        } = await this.$http.post('/modifyCommentInformation', this.param)
+                        this.dialogFormVisible2 = false // 关闭对话框
+                        if (data.mci.status === 200) {
+                            this.getCommentData() // 重新获取评论数据
+                            this.resetForm('user') // 清空修改信息
+                        } else {
+                            this.$message.error(data.msg)
+                        }
+                    } else {
+                        return false
+                    }
+                })
+            }
+        },
+        watch: {
+            $route() { // 监听路由变化
+                this.loadData()
+                this.getCommentData() // 重新获取评论数据
+            },
+            alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
+                this.commentForm.alias = newData
+                this.replyForm.alias = newData
+            }
+        },
+        filters: {
+            imgSrc: function (value) {
+                if (value.indexOf('undefined') === -1) {
+                    return value
+                } else {
+                    return ''
+                }
+            }
         }
-      })
     }
-  },
-  watch: {
-    $route() { // 监听路由变化
-      this.loadData()
-      this.getCommentData() // 重新获取评论数据
-    },
-    alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
-      this.commentForm.alias = newData
-      this.replyForm.alias = newData
-    }
-  },
-  filters: {
-    imgSrc: function (value) {
-      if (value.indexOf('undefined') === -1) {
-        return value
-      } else {
-        return ''
-      }
-    }
-  }
-}
 
 </script>
 
