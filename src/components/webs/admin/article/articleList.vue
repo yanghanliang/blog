@@ -193,7 +193,7 @@
                 return moment(date).format('YYYY年-MM月-DD日 HH时:mm分:ss秒 星期E')
             }
         }
-    }
+	}
 
 </script>
 
