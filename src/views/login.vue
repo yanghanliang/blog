@@ -1,18 +1,18 @@
 <template>
-  <div class="login">
-    <el-form class="login-form" ref="form" label-position="top" :model="form" label-width="80px">
-      <h2>用户登录</h2>
-      <el-form-item label="用户名">
-        <el-input v-model="form.username" v-focus></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input type="password" v-model="form.password" @keyup.enter.native="login"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="login" class="btn-login">登录</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <div class="login">
+        <el-form class="login-form" ref="form" label-position="top" :model="form" label-width="80px">
+            <h2>用户登录</h2>
+            <el-form-item label="用户名">
+                <el-input v-model="form.username" v-focus></el-input>
+            </el-form-item>
+            <el-form-item label="密码">
+                <el-input type="password" v-model="form.password" @keyup.enter.native="login"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="login" class="btn-login">登录</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
@@ -45,7 +45,9 @@ export default {
         localStorage.setItem('token', data.data.token)
 
         // 跳转页面
-        this.$router.push({ name: 'admin' })
+        this.$router.push({
+          name: 'admin'
+        })
       } else {
         // 弹出提示框
         this.$message({
@@ -129,13 +131,14 @@ export default {
               meteor.remove() // 删除流星
             }
 
-            meteor.style.transform = ` rotate(-45deg) translate3d(${startTop}px, 3px, 0)`
+            meteor.style.transform =
+									` rotate(-45deg) translate3d(${startTop}px, 3px, 0)`
           }, pt.eachTime)
         }
         coreFn(endTop, endLeft)
       }
 
-      let delay = function() { // 延迟流星的生成
+      let delay = function () { // 延迟流星的生成
         if (document.hidden === false) {
           setTimeout(function () {
             meteorEffect()
@@ -147,7 +150,7 @@ export default {
 
       let current = setInterval(delay, pt.meteorNumber.time)
 
-      document.addEventListener('visibilitychange', function() { // 浏览器切换事件
+      document.addEventListener('visibilitychange', function () { // 浏览器切换事件
         if (document.visibilityState === 'hidden') { // 状态判断
           current = setInterval(delay, pt.meteorNumber.time) // 进入当前页面，开启流星雨效果
         } else { // 切换出当前页面
@@ -157,40 +160,44 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
-.login {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #5f9ee4;
-  background: url(../assets/backgroundImages/login.jpg) no-repeat;
-  background-size: cover;
-}
+    .login {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #5f9ee4;
+        background: url(../assets/backgroundImages/login.jpg) no-repeat;
+        background-size: cover;
+    }
 
-.login .login-form {
-    width: 400px;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #fff;
-}
+    .login .login-form {
+        width: 400px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
 
-.login .login-form .btn-login {
-    width: 100%;
-}
+    .login .login-form .btn-login {
+        width: 100%;
+    }
+
 </style>
 
 <style>
-.meteor {
-  opacity: 0;
-  z-index: 99;
-  position: fixed;
-  border: 0px solid #fff;
-  border-width: 0px 90px 2px 90px;
-  box-shadow: 0 0 1px 0 rgba(255, 255, 255, .1);
-  transform: rotate(-45deg) translate3d(1px, 3px, 0); /*变形*/
-  border-color: transparent transparent transparent rgba(255, 255, 255, .5);
-}
+    .meteor {
+        opacity: 0;
+        z-index: 99;
+        position: fixed;
+        border: 0px solid #fff;
+        border-width: 0px 90px 2px 90px;
+        box-shadow: 0 0 1px 0 rgba(255, 255, 255, .1);
+        transform: rotate(-45deg) translate3d(1px, 3px, 0);
+        /*变形*/
+        border-color: transparent transparent transparent rgba(255, 255, 255, .5);
+    }
+
 </style>

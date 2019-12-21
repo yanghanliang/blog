@@ -26,6 +26,9 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 函数后面不需要加空格
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    // 用于选项卡式缩进
+    'indent': ['error', 'tab'],
+    // 'no-tabs': 'off'
   }
 }

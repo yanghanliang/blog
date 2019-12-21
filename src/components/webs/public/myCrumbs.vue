@@ -11,6 +11,7 @@ export default {
   name: 'MyCrumbs',
   props: ['ri']
 }
+
 </script>
 
 <style>

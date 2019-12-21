@@ -2,14 +2,16 @@
 import axios from 'axios'
 
 // 导入消息提示
-import { Message } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 
 // 引入全局变量
 import Global from '@/plugins/global'
 
 const MyAxios = {}
 
-MyAxios.install = function(Vue) {
+MyAxios.install = function (Vue) {
   // 创建请求连接
   // 设置 Vue 实例的属性
   const instance = axios.create({
@@ -34,7 +36,9 @@ MyAxios.install = function(Vue) {
   // 添加响应拦截器
   instance.interceptors.response.use(function (response) {
     // 处理响应数据前执行
-    const { data } = response
+    const {
+      data
+    } = response
     if (data.type === 'token' && data.status === 201) {
       Message.error(data.msg)
       location.href = `#/login` // 跳转登陆页面

@@ -1,29 +1,18 @@
 <template>
     <div class="content_right">
         <!-- 面包屑 -->
-        <el-table
-            height="400"
-            :data="tableData">
-            <el-table-column
-                type="index"
-                width="50">
+        <el-table height="400" :data="tableData">
+            <el-table-column type="index" width="50">
             </el-table-column>
-            <el-table-column
-                prop="classname"
-                label="类名"
-                width="180">
+            <el-table-column prop="classname" label="类名" width="180">
             </el-table-column>
-            <el-table-column
-                label="层级"
-                width="180">
+            <el-table-column label="层级" width="180">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pid === 0">一级</span>
                     <span v-else>{{ scope.row.pid_classname }}</span>
                 </template>
             </el-table-column>
-            <el-table-column
-                label="操作"
-                width="100">
+            <el-table-column label="操作" width="100">
                 <template slot-scope="scope">
                     <!-- <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button> -->
                     <router-link :to="'/admin/editCategory/'+ scope.row.id">修改</router-link>
@@ -32,10 +21,7 @@
             </el-table-column>
         </el-table>
 
-        <el-dialog
-            title="提示"
-            :visible.sync="dialogVisible"
-            width="30%">
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
             <span>是否删除“ {{ row.classname }}” 这个分类?</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
@@ -59,7 +45,9 @@ export default {
   },
   methods: {
     async loadData() { // 获取分类数据
-      const { data } = await this.$http.get('category')
+      const {
+        data
+      } = await this.$http.get('category')
       if (data.status !== 201) {
         this.tableData = data
       }
@@ -70,7 +58,9 @@ export default {
     },
     async deleteCategory() { // 删除分类数据
       this.dialogVisible = false // 关闭对话框
-      const { data } = await this.$http.delete(`deleteCategory/${this.row.id}`)
+      const {
+        data
+      } = await this.$http.delete(`deleteCategory/${this.row.id}`)
       if (data.status === 200) {
         for (var i = 0; i < this.tableData.length; i++) { // 循环分类数据
           if (this.tableData[i].id === this.row.id) { // 找到删除的数据
@@ -90,11 +80,13 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
-.content_right .el-table {
-  width: 525px;
-  margin: 100px auto;
-}
+    .content_right .el-table {
+        width: 525px;
+        margin: 100px auto;
+    }
+
 </style>

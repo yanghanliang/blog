@@ -1,66 +1,28 @@
 <template>
-  <div class="content_right">
-    <!-- 调用自己封装的面包屑组件 -->
-    <my-crumbs :ri="routingInformation"></my-crumbs>
+    <div class="content_right">
+        <!-- 调用自己封装的面包屑组件 -->
+        <my-crumbs :ri="routingInformation"></my-crumbs>
 
-    <!-- dataTable -->
-    <el-table
-      :data="tableData"
-      sortable="custom"
-      @sort-change="sortChange"
-      :default-sort = "{prop: 'createtime', order: 'descending'}"
-      class="dataTable">
-      <el-table-column
-        fixed
-        sortable
-        prop="title"
-        label="文章标题"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="classname"
-        label="分类"
-        sortable
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="synopsis"
-        label="文章简介"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="createtime"
-        label="创建时间"
-        sortable
-        :formatter="dateFormat"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="updatetime"
-        label="更新时间"
-        sortable
-        :formatter="dateFormat"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="read"
-        label="阅读数"
-        sortable
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="praise"
-        label="点赞"
-        sortable
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="original"
-        label="原创0,转载1"
-        sortable
-        width="180">
-      </el-table-column>
-      <!-- <el-table-column
+        <!-- dataTable -->
+        <el-table :data="tableData" sortable="custom" @sort-change="sortChange"
+            :default-sort="{prop: 'createtime', order: 'descending'}" class="dataTable">
+            <el-table-column fixed sortable prop="title" label="文章标题" width="300">
+            </el-table-column>
+            <el-table-column prop="classname" label="分类" sortable width="180">
+            </el-table-column>
+            <el-table-column prop="synopsis" label="文章简介" width="180">
+            </el-table-column>
+            <el-table-column prop="createtime" label="创建时间" sortable :formatter="dateFormat" width="300">
+            </el-table-column>
+            <el-table-column prop="updatetime" label="更新时间" sortable :formatter="dateFormat" width="300">
+            </el-table-column>
+            <el-table-column prop="read" label="阅读数" sortable width="180">
+            </el-table-column>
+            <el-table-column prop="praise" label="点赞" sortable width="180">
+            </el-table-column>
+            <el-table-column prop="original" label="原创0,转载1" sortable width="180">
+            </el-table-column>
+            <!-- <el-table-column
         fixed="right"
         label="操作"
         align="center"
@@ -70,46 +32,31 @@
             <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
         </template>
       </el-table-column> -->
-      <el-table-column
-        fixed="right"
-        align="center"
-        label="操作"
-        width="200">
-        <template slot-scope="scope">
-          <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
-          <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
-        </template>
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="sortData.searchData"
-            size="mini"
-            @input="searchFn"
-            placeholder="输入关键字搜索"/>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 删除的弹窗 -->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%">
-      <span>您确定删除此文章吗？</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="deleteData">确 定</el-button>
-      </span>
-    </el-dialog>
-    <!-- 分页 -->
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="clickPage"
-      :current-page="sortData.currentPage"
-      :page-sizes="[2, 4, 6, 8]"
-      :page-size="sortData.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
-  </div>
+            <el-table-column fixed="right" align="center" label="操作" width="200">
+                <template slot-scope="scope">
+                    <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
+                    <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
+                    </router-link>
+                </template>
+                <template slot="header" slot-scope="scope">
+                    <el-input v-model="sortData.searchData" size="mini" @input="searchFn" placeholder="输入关键字搜索" />
+                </template>
+            </el-table-column>
+        </el-table>
+        <!-- 删除的弹窗 -->
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+            <span>您确定删除此文章吗？</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="deleteData">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 分页 -->
+        <el-pagination @size-change="handleSizeChange" @current-change="clickPage" :current-page="sortData.currentPage"
+            :page-sizes="[2, 4, 6, 8]" :page-size="sortData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+        </el-pagination>
+    </div>
 </template>
 
 <script>
@@ -143,7 +90,11 @@ export default {
   },
   methods: {
     async getData() { // 获取文章列表数据
-      const { data } = await this.$http.get(`articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`) // 发送请求
+      const {
+        data
+      } = await this.$http.get(
+        `articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`
+      ) // 发送请求
       this.total = data.getArticleNumber // 获取表数据的总条数
       this.retainTotal = data.getArticleNumber // 保留表数据的总条数
       this.tableData = data.data // 渲染表格数据
@@ -160,7 +111,9 @@ export default {
     },
     async deleteData() { // 删除数据(在删除弹窗里,点击确定按钮时执行)
       this.dialogVisible = false // 隐藏弹窗
-      const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
+      const {
+        data
+      } = await this.$http.delete(`deleteArticle/${this.id}`)
       this.total = data.getArticleNumber
       if (data.deleteData.status === 200) {
         // 为了减轻服务器压力,所做的js优化(使用分页后不行了)
@@ -199,7 +152,9 @@ export default {
       this.paging() // 获取分页数据并渲染
     },
     async paging() { // 分页
-      const { data } = await this.$http.post('paging', this.sortData)
+      const {
+        data
+      } = await this.$http.post('paging', this.sortData)
       if (data.getData.status === 200 && this.sortData.searchData === '') {
         this.total = this.retainTotal // 修改总条数
         this.tableData = data.getData.data // 重新赋值
@@ -239,56 +194,60 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
-/* reset-el-breadcrumb-style-start */
-.el-breadcrumb {
-  margin: 15px 0;
-  padding-left: 30px;
-}
+    /* reset-el-breadcrumb-style-start */
+    .el-breadcrumb {
+        margin: 15px 0;
+        padding-left: 30px;
+    }
 
-.el-breadcrumb >>> .el-breadcrumb__inner.is-link {
-  color: #a1c0ff;
-}
+    .el-breadcrumb>>>.el-breadcrumb__inner.is-link {
+        color: #a1c0ff;
+    }
 
-.el-breadcrumb >>> .el-breadcrumb__item:last-child .el-breadcrumb__inner {
-  color: #dedede;
-}
-/* reset-el-breadcrumb-style-end */
+    .el-breadcrumb>>>.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+        color: #dedede;
+    }
 
-.dataTable {
-  width: 1100px;
-  margin: 0 auto;
-}
+    /* reset-el-breadcrumb-style-end */
 
-.dataTable >>> tr td:nth-child(3)>div {
-  width: 140px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+    .dataTable {
+        width: 1100px;
+        margin: 0 auto;
+    }
 
-.content_right .dataTableBox {
-  box-shadow: 1px 2px 13px -4px black;
-}
+    .dataTable>>>tr td:nth-child(3)>div {
+        width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
-.el-dialog__wrapper {
-  overflow: hidden;
-}
+    .content_right .dataTableBox {
+        box-shadow: 1px 2px 13px -4px black;
+    }
 
-.cell .edit {
-  color: #409EFF;
-  font-size: 12px;
-}
+    .el-dialog__wrapper {
+        overflow: hidden;
+    }
 
-/* 分页 */
-.content_right >>> .el-pagination__jump,.content_right >>> .el-pagination__total {
-  color: #ffffff;
-}
+    .cell .edit {
+        color: #409EFF;
+        font-size: 12px;
+    }
 
-.el-pagination {
-  margin-top: 10px;
-  text-align: center;
-}
+    /* 分页 */
+    .content_right>>>.el-pagination__jump,
+    .content_right>>>.el-pagination__total {
+        color: #ffffff;
+    }
+
+    .el-pagination {
+        margin-top: 10px;
+        text-align: center;
+    }
+
 </style>

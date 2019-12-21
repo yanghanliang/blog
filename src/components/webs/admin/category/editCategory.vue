@@ -6,12 +6,8 @@
             </el-form-item>
             <el-form-item label="层级">
                 <el-select v-model="form.layername" placeholder="请选择" @change="changeSelectValue">
-                  <el-option
-                    v-for="item in categoryData"
-                    :key="item.id"
-                    :label="item.classname"
-                    :value="item.id">
-                  </el-option>
+                    <el-option v-for="item in categoryData" :key="item.id" :label="item.classname" :value="item.id">
+                    </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item style="margin-top: 22px;">
@@ -42,11 +38,15 @@ export default {
   },
   methods: {
     async getCategoryData() {
-      const { data } = await this.$http.get('category') // 获取分类数据
+      const {
+        data
+      } = await this.$http.get('category') // 获取分类数据
       this.categoryData = data // 将分类数据赋值给 vue
     },
     async getEditCategoryData() { // 获取需要修改的分类数据
-      const { data } = await this.$http.get(`editCategory/${this.form.id}`)
+      const {
+        data
+      } = await this.$http.get(`editCategory/${this.form.id}`)
       if (data.status === 200) {
         this.form.classname = data.data[0].classname
         this.form.pid = data.data[0].pid
@@ -64,14 +64,18 @@ export default {
       }
     },
     async editCategory() {
-      const { data } = await this.$http.put('updateCategory', this.form)
+      const {
+        data
+      } = await this.$http.put('updateCategory', this.form)
       if (data.status === 200) {
         this.$message({
           message: data.msg,
           type: 'success'
         })
         // 跳转页面
-        this.$router.push({ name: 'categoryList' })
+        this.$router.push({
+          name: 'categoryList'
+        })
       } else {
         this.$message({
           message: data.msg,
@@ -92,6 +96,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>

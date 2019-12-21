@@ -9,6 +9,7 @@ export default {
   name: 'MyIcon',
   props: ['identification']
 }
+
 </script>
 
 <style>

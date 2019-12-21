@@ -1,26 +1,27 @@
 <template>
-  <div class="content_right">
-    <h4>{{ buttonText }}</h4>
-    <el-form ref="form" :model="form" label-width="80px">
-       <el-form-item label="文章标题" class="box">
-        <el-input v-model="form.title"></el-input>
-      </el-form-item>
-      <el-form-item label="文章分类">
-        <el-select v-model="form.classname" placeholder="请选择分类">
-          <el-option v-for="category in categoryData" :label="category.classname" :value="category.id" :key="category.id"></el-option>
-        </el-select>
-      </el-form-item>
-      <!-- 简介 -->
-      <el-form-item label="文章简介">
-        <el-input type="textarea" v-model="form.synopsis"></el-input>
-      </el-form-item>
-      <mavon-editor v-model="form.content" :subfield="true"/>
-      <el-form-item style="margin-top: 22px;">
-        <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
-        <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <div class="content_right">
+        <h4>{{ buttonText }}</h4>
+        <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="文章标题" class="box">
+                <el-input v-model="form.title"></el-input>
+            </el-form-item>
+            <el-form-item label="文章分类">
+                <el-select v-model="form.classname" placeholder="请选择分类">
+                    <el-option v-for="category in categoryData" :label="category.classname" :value="category.id"
+                        :key="category.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <!-- 简介 -->
+            <el-form-item label="文章简介">
+                <el-input type="textarea" v-model="form.synopsis"></el-input>
+            </el-form-item>
+            <mavon-editor v-model="form.content" :subfield="true" />
+            <el-form-item style="margin-top: 22px;">
+                <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
+                <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
@@ -52,7 +53,8 @@ export default {
     async addArticle() { // 点击添加文章||修改文章时执行
       // 如果没有修改类名，那么 this.form.classname 是字符串类型，则取原来的值
       // 如果修改了类名， 那么 this.form.classname 是数字类型，则取当前的值
-      this.form.classname = typeof this.form.classname === 'string' ? this.form.categoryId : this.form.classname
+      this.form.classname = typeof this.form.classname === 'string' ? this.form.categoryId : this.form
+        .classname
       const data = await this.$http[this.type](this.url, this.form)
       if (data.data.status === 200) {
         // 弹出提示框
@@ -62,7 +64,9 @@ export default {
           center: true
         })
         // 跳转文章列表页
-        this.$router.push({ name: 'articleList' })
+        this.$router.push({
+          name: 'articleList'
+        })
       } else {
         // 弹出提示框
         this.$message({
@@ -73,7 +77,9 @@ export default {
       }
     },
     async getEditData(articleId) { // 获取修改数据
-      let { data } = await this.$http.get(`articleDetails/${articleId}`)
+      let {
+        data
+      } = await this.$http.get(`articleDetails/${articleId}`)
       data = data[0]
       this.form.title = data.title
       this.form.classname = data.classname
@@ -85,7 +91,9 @@ export default {
       this.type = 'put' // 修改请求类型
     },
     async getCategoryData() { // 获取分类数据
-      const { data } = await this.$http.get('category')
+      const {
+        data
+      } = await this.$http.get('category')
       this.categoryData = data
     }
   },
@@ -103,31 +111,34 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
-.content_right>h4 {
-  text-indent: 0.12rem;
-}
+    .content_right>h4 {
+        text-indent: 0.12rem;
+    }
 
-.content_right .el-textarea,.el-select {
-  width: 5rem;
-}
+    .content_right .el-textarea,
+    .el-select {
+        width: 5rem;
+    }
 
-.box {
-  width: 580px;
-}
+    .box {
+        width: 580px;
+    }
 
-.el-form-item >>> .el-form-item__label {
-  color: #b1bdd4;
-}
+    .el-form-item>>>.el-form-item__label {
+        color: #b1bdd4;
+    }
 
-.el-form-item >>> .el-textarea__inner {
-  min-height: 80px !important;
-  font: 400 13.3333px Arial;
-}
+    .el-form-item>>>.el-textarea__inner {
+        min-height: 80px !important;
+        font: 400 13.3333px Arial;
+    }
 
-.el-form >>> .v-note-wrapper {
-  min-height: 500px;
-}
+    .el-form>>>.v-note-wrapper {
+        min-height: 500px;
+    }
+
 </style>

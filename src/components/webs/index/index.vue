@@ -7,7 +7,7 @@
 
         <!-- 调用底部公共组件 -->
         <my-footer></my-footer>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -23,6 +23,7 @@ export default {
     myFooter
   }
 }
+
 </script>
 
 <style scoped>
