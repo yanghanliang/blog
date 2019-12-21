@@ -21,53 +21,53 @@
 </template>
 
 <script>
-export default {
-  name: 'addCategory',
-  data() {
-    return {
-      categoryData: [],
-      form: {
-        classname: '',
-        pid: 0,
-        layername: '第一层级'
-      }
+    export default {
+        name: 'addCategory',
+        data() {
+            return {
+                categoryData: [],
+                form: {
+                    classname: '',
+                    pid: 0,
+                    layername: '第一层级'
+                }
+            }
+        },
+        created() {
+            this.loadData() // 获取分类数据
+        },
+        methods: {
+            async loadData() {
+                const {
+                    data
+                } = await this.$http.get('category') // 获取分类数据
+                this.categoryData = data // 将分类数据赋值给 vue
+            },
+            async addCategory() {
+                const {
+                    data
+                } = await this.$http.post('addCategory', this.form)
+                if (data.status === 200) {
+                    this.$message({
+                        message: data.msg,
+                        type: 'success'
+                    })
+                    // 跳转页面
+                    this.$router.push({
+                        name: 'categoryList'
+                    })
+                } else {
+                    this.$message({
+                        message: '估计是后端数据问题',
+                        type: 'error'
+                    })
+                }
+            },
+            changeSelectValue(pid) {
+                this.form.pid = pid
+            }
+        }
     }
-  },
-  created() {
-    this.loadData() // 获取分类数据
-  },
-  methods: {
-    async loadData() {
-      const {
-        data
-      } = await this.$http.get('category') // 获取分类数据
-      this.categoryData = data // 将分类数据赋值给 vue
-    },
-    async addCategory() {
-      const {
-        data
-      } = await this.$http.post('addCategory', this.form)
-      if (data.status === 200) {
-        this.$message({
-          message: data.msg,
-          type: 'success'
-        })
-        // 跳转页面
-        this.$router.push({
-          name: 'categoryList'
-        })
-      } else {
-        this.$message({
-          message: '估计是后端数据问题',
-          type: 'error'
-        })
-      }
-    },
-    changeSelectValue(pid) {
-      this.form.pid = pid
-    }
-  }
-}
 
 </script>
 

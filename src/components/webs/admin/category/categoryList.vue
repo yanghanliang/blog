@@ -32,54 +32,54 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      tableData: [],
-      dialogVisible: false,
-      row: {} // 行数据
-    }
-  },
-  created() {
-    this.loadData() // 获取分类数据
-  },
-  methods: {
-    async loadData() { // 获取分类数据
-      const {
-        data
-      } = await this.$http.get('category')
-      if (data.status !== 201) {
-        this.tableData = data
-      }
-    },
-    showDialog(row) { // 显示对话框
-      this.dialogVisible = true // 显示提示框
-      this.row = row // 将行数据存储在 vue 中
-    },
-    async deleteCategory() { // 删除分类数据
-      this.dialogVisible = false // 关闭对话框
-      const {
-        data
-      } = await this.$http.delete(`deleteCategory/${this.row.id}`)
-      if (data.status === 200) {
-        for (var i = 0; i < this.tableData.length; i++) { // 循环分类数据
-          if (this.tableData[i].id === this.row.id) { // 找到删除的数据
-            this.tableData.splice(i, 1) // 删除分类指定数据
-          }
+    export default {
+        data() {
+            return {
+                tableData: [],
+                dialogVisible: false,
+                row: {} // 行数据
+            }
+        },
+        created() {
+            this.loadData() // 获取分类数据
+        },
+        methods: {
+            async loadData() { // 获取分类数据
+                const {
+                    data
+                } = await this.$http.get('category')
+                if (data.status !== 201) {
+                    this.tableData = data
+                }
+            },
+            showDialog(row) { // 显示对话框
+                this.dialogVisible = true // 显示提示框
+                this.row = row // 将行数据存储在 vue 中
+            },
+            async deleteCategory() { // 删除分类数据
+                this.dialogVisible = false // 关闭对话框
+                const {
+                    data
+                } = await this.$http.delete(`deleteCategory/${this.row.id}`)
+                if (data.status === 200) {
+                    for (var i = 0; i < this.tableData.length; i++) { // 循环分类数据
+                        if (this.tableData[i].id === this.row.id) { // 找到删除的数据
+                            this.tableData.splice(i, 1) // 删除分类指定数据
+                        }
+                    }
+                    this.$message({
+                        type: 'success',
+                        message: data.msg
+                    })
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: data.msg
+                    })
+                }
+            }
         }
-        this.$message({
-          type: 'success',
-          message: data.msg
-        })
-      } else {
-        this.$message({
-          type: 'error',
-          message: data.msg
-        })
-      }
     }
-  }
-}
 
 </script>
 
