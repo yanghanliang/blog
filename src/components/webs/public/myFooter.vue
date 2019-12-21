@@ -3,9 +3,9 @@
 </template>
 
 <script>
-export default {
-  name: 'myFooter'
-}
+    export default {
+        name: 'myFooter'
+    }
 
 </script>
 

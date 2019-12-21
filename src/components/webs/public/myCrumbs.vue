@@ -7,10 +7,10 @@
 </template>
 
 <script>
-export default {
-  name: 'MyCrumbs',
-  props: ['ri']
-}
+    export default {
+        name: 'MyCrumbs',
+        props: ['ri']
+    }
 
 </script>
 
