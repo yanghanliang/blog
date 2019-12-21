@@ -204,7 +204,7 @@
             searchData: function (newQuestion, oldQuestion) { // 配合计算属性,监听对象中特定的值
                 this.pageData.lock = true
             }
-        }
+		}
     }
 
 </script>
