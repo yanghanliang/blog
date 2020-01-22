@@ -19,51 +19,51 @@
 
 <script>
 export default {
-  data() {
-    return {
-      show: 0,
-      modelData: [], // 模板数据
-      currentData: [] // 当前数据
-    }
-  },
-  methods: {
-    // 点击修改时执行
-    edit(e) {
-      // 显示按钮
-      // this.show = 1
-      // 获取元素
-      let ele = e.currentTarget
-      let input = ele.parentElement.previousElementSibling
-      let success = ele.nextElementSibling
-      let error = success.nextElementSibling
-      ele.style.display = 'none'
-      success.style.display = 'inline-block'
-      error.style.display = 'inline-block'
-      // 删除禁用
-      input.removeAttribute('disabled')
-      // 获取焦点
-      input.focus()
-      // 获取内容长度
-      var len = input.value.length
-      // 将光标移动到最后
-      input.selectionStart = len
-    },
-    // 点击保存时执行
-    success(e) {
-      // 获取元素
-      let ele = e.currentTarget
-      let input = ele.parentElement.previousElementSibling
-      let edit = ele.previousElementSibling
-      let error = ele.nextElementSibling
-      // 将值保存起来
-      this.modelData.push(input.value)
-      // 初始化新增按钮
-      input.value = ''
-      edit.style.display = 'inline-block'
-      error.style.display = 'none'
-      ele.style.display = 'none'
-    }
-  }
+	data() {
+		return {
+			show: 0,
+			modelData: [], // 模板数据
+			currentData: [] // 当前数据
+		}
+	},
+	methods: {
+		// 点击修改时执行
+		edit(e) {
+			// 显示按钮
+			// this.show = 1
+			// 获取元素
+			let ele = e.currentTarget
+			let input = ele.parentElement.previousElementSibling
+			let success = ele.nextElementSibling
+			let error = success.nextElementSibling
+			ele.style.display = 'none'
+			success.style.display = 'inline-block'
+			error.style.display = 'inline-block'
+			// 删除禁用
+			input.removeAttribute('disabled')
+			// 获取焦点
+			input.focus()
+			// 获取内容长度
+			var len = input.value.length
+			// 将光标移动到最后
+			input.selectionStart = len
+		},
+		// 点击保存时执行
+		success(e) {
+			// 获取元素
+			let ele = e.currentTarget
+			let input = ele.parentElement.previousElementSibling
+			let edit = ele.previousElementSibling
+			let error = ele.nextElementSibling
+			// 将值保存起来
+			this.modelData.push(input.value)
+			// 初始化新增按钮
+			input.value = ''
+			edit.style.display = 'inline-block'
+			error.style.display = 'none'
+			ele.style.display = 'none'
+		}
+	}
 }
 </script>
 

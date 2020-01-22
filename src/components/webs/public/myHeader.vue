@@ -80,122 +80,122 @@
 </template>
 
 <script>
-  export default {
-    name: 'myHeard',
-    data() {
-      return {
-        // activeIndex: '/common',
-        catalogs: [{
-            index: '1-7',
-            classname: 'CSS',
-            children: [{
-                index: '1-7-1',
-                classname: 'table'
-              },
-              {
-                index: '1-7-2',
-                classname: 'button',
-                children: [{
-                  index: '1-7-2-1',
-                  classname: 'hh',
-                  children: [{
-                    index: '1-7-2-1-1',
-                    classname: 'gg'
-                  }]
-                }]
-              },
-              {
-                index: '1-7-3',
-                classname: 'page'
-              }
-            ]
-          },
-          {
-            index: '2-2',
-            classname: 'HTML',
-            children: [{
-              index: '2-2-1',
-              classname: 'section'
-            }]
-          },
-          {
-            index: '1-3',
-            classname: 'JavaScript',
-            children: [{
-                index: '1-3-1',
-                classname: 'Jquery'
-              },
-              {
-                index: '1-3-2',
-                classname: 'JavaScript'
-              },
-              {
-                index: '1-3-3',
-                classname: 'Vue'
-              },
-              {
-                index: '1-3-4',
-                classname: 'NodeJs'
-              }
-            ]
-          },
-          {
-            index: '1-4',
-            classname: 'akjsaks'
-          }
-        ]
-      }
-    },
-    created() {
-      this.loadData() // 加载数据
-    },
-    methods: {
-      async loadData() { // 加载数据
-        const {
-          data
-        } = await this.$http.get('/category')
-        this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
-      },
-      InfinitePoleClassification(data) { // 无限极分类
-        const sourceData = Object.assign([], data) // 对象值传递
-        let finalData = [] // 存储最终数据
-        for (let i = 0; i < sourceData.length; i++) {
-          let value = sourceData[i]
-          if (value.pid === 0) { // 判断是否是第一层级
-            value.index = '1-' + value.id
-            finalData.push(value) // 将第一层级的数追加到 finalData 中
-            sourceData.splice(i, 1) // 去除数据源中的第一次层级
-            i-- // 因为对象是引用传递， splice 后，数据源 data 已经更改，所以必须 i--
-          }
-        }
+export default {
+	name: 'myHeard',
+	data() {
+		return {
+			// activeIndex: '/common',
+			catalogs: [{
+				index: '1-7',
+				classname: 'CSS',
+				children: [{
+					index: '1-7-1',
+					classname: 'table'
+				},
+				{
+					index: '1-7-2',
+					classname: 'button',
+					children: [{
+						index: '1-7-2-1',
+						classname: 'hh',
+						children: [{
+							index: '1-7-2-1-1',
+							classname: 'gg'
+						}]
+					}]
+				},
+				{
+					index: '1-7-3',
+					classname: 'page'
+				}
+				]
+			},
+			{
+				index: '2-2',
+				classname: 'HTML',
+				children: [{
+					index: '2-2-1',
+					classname: 'section'
+				}]
+			},
+			{
+				index: '1-3',
+				classname: 'JavaScript',
+				children: [{
+					index: '1-3-1',
+					classname: 'Jquery'
+				},
+				{
+					index: '1-3-2',
+					classname: 'JavaScript'
+				},
+				{
+					index: '1-3-3',
+					classname: 'Vue'
+				},
+				{
+					index: '1-3-4',
+					classname: 'NodeJs'
+				}
+				]
+			},
+			{
+				index: '1-4',
+				classname: 'akjsaks'
+			}
+			]
+		}
+	},
+	created() {
+		this.loadData() // 加载数据
+	},
+	methods: {
+		async loadData() { // 加载数据
+			const {
+				data
+			} = await this.$http.get('/category')
+			this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
+		},
+		InfinitePoleClassification(data) { // 无限极分类
+			const sourceData = Object.assign([], data) // 对象值传递
+			let finalData = [] // 存储最终数据
+			for (let i = 0; i < sourceData.length; i++) {
+				let value = sourceData[i]
+				if (value.pid === 0) { // 判断是否是第一层级
+					value.index = '1-' + value.id
+					finalData.push(value) // 将第一层级的数追加到 finalData 中
+					sourceData.splice(i, 1) // 去除数据源中的第一次层级
+					i-- // 因为对象是引用传递， splice 后，数据源 data 已经更改，所以必须 i--
+				}
+			}
 
-        function ipc(finalData) {
-          let childrenArr = [] // 子数组
-          for (let i = 0; i < finalData.length; i++) {
-            for (let j = 0; j < sourceData.length; j++) {
-              let value = sourceData[j]
-              if (finalData[i].id === value.pid) { // 找到对应的子级
-                finalData[i].children = [] // 声明子层级是数组
-                value.index = finalData[i].index + '-' + value.id
-                childrenArr.push(value) // 存储子数组
-                finalData[i].children.push(value) // 将对应的子级放入最终数据中
-                sourceData.splice(j, 1)
-                j--
-              }
-            }
-          }
+			function ipc(finalData) {
+				let childrenArr = [] // 子数组
+				for (let i = 0; i < finalData.length; i++) {
+					for (let j = 0; j < sourceData.length; j++) {
+						let value = sourceData[j]
+						if (finalData[i].id === value.pid) { // 找到对应的子级
+							finalData[i].children = [] // 声明子层级是数组
+							value.index = finalData[i].index + '-' + value.id
+							childrenArr.push(value) // 存储子数组
+							finalData[i].children.push(value) // 将对应的子级放入最终数据中
+							sourceData.splice(j, 1)
+							j--
+						}
+					}
+				}
 
-          if (sourceData.length > 0) {
-            ipc(childrenArr)
-          }
-        }
+				if (sourceData.length > 0) {
+					ipc(childrenArr)
+				}
+			}
 
-        ipc(finalData)
+			ipc(finalData)
 
-        return finalData
-      }
-    }
-  }
+			return finalData
+		}
+	}
+}
 
 </script>
 

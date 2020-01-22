@@ -5,10 +5,10 @@
 </template>
 
 <script>
-    export default {
-        name: 'MyIcon',
-        props: ['identification']
-    }
+export default {
+	name: 'MyIcon',
+	props: ['identification']
+}
 
 </script>
 

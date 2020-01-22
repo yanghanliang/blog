@@ -29,6 +29,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     // 用于选项卡式缩进
     'indent': ['error', 'tab'],
-    // 'no-tabs': 'off'
+    // 关闭tab的检测
+    'no-tabs': 'off'
   }
 }

@@ -41,76 +41,76 @@
 </template>
 
 <script>
-    import myHeader from '@/components/webs/public/myHeader'
-    import myFooter from '@/components/webs/public/myFooter'
+import myHeader from '@/components/webs/public/myHeader'
+import myFooter from '@/components/webs/public/myFooter'
 
-    export default {
-        name: 'catalogList',
-        components: {
-            myHeader,
-            myFooter
-        },
-        data() {
-            return {
-                catalogData: {
-                    'a': [], // 2019
-                    'b': [], // 2018
-                    'c': [], // 2017
-                    'd': [] // 2016
-                }
-            }
-        },
-        created() {
-            this.loadData()
-        },
-        methods: {
-            async loadData() {
-                const {
-                    data
-                } = await this.$http.get('catalog')
-                if (data.status === 200) {
-                    let tempData = data.data
-                    for (let i = 0; i < tempData.length; i++) {
-                        let createtime = tempData[i].createtime
-                        if (createtime > 1451577600000 && createtime < 1483200000000) { // 2016
-                            this.catalogData['d'].push(tempData[i])
-                        } else if (createtime > 1483200000000 && createtime < 1514736000000) { // 2017
-                            this.catalogData['c'].push(tempData[i])
-                        } else if (createtime > 1514736000000 && createtime < 1546272000000) { // 2018
-                            this.catalogData['b'].push(tempData[i])
-                        } else if (createtime > 1546272000000 && createtime < 1577808000000) { // 2019
-                            this.catalogData['a'].push(tempData[i])
-                        }
-                    }
-                } else {
-                    this.$message({
-                        message: data.msg
-                    })
-                }
-            }
-        },
-        filters: {
-            date: function (value) { // 字母转换为对应的年份
-                if (value === 'a') {
-                    return '2019'
-                } else if (value === 'b') {
-                    return '2018'
-                } else if (value === 'c') {
-                    return '2017'
-                } else if (value === 'd') {
-                    return '2016'
-                }
-            },
-            serialNumber: function (value) { // 序号转化
-                value++
-                if (value < 10) {
-                    return '0' + value
-                } else {
-                    return value
-                }
-            }
-        }
+export default {
+	name: 'catalogList',
+	components: {
+		myHeader,
+		myFooter
+	},
+	data() {
+		return {
+			catalogData: {
+				'a': [], // 2019
+				'b': [], // 2018
+				'c': [], // 2017
+				'd': [] // 2016
+			}
+		}
+	},
+	created() {
+		this.loadData()
+	},
+	methods: {
+		async loadData() {
+			const {
+				data
+			} = await this.$http.get('catalog')
+			if (data.status === 200) {
+				let tempData = data.data
+				for (let i = 0; i < tempData.length; i++) {
+					let createtime = tempData[i].createtime
+					if (createtime > 1451577600000 && createtime < 1483200000000) { // 2016
+						this.catalogData['d'].push(tempData[i])
+					} else if (createtime > 1483200000000 && createtime < 1514736000000) { // 2017
+						this.catalogData['c'].push(tempData[i])
+					} else if (createtime > 1514736000000 && createtime < 1546272000000) { // 2018
+						this.catalogData['b'].push(tempData[i])
+					} else if (createtime > 1546272000000 && createtime < 1577808000000) { // 2019
+						this.catalogData['a'].push(tempData[i])
+					}
+				}
+			} else {
+				this.$message({
+					message: data.msg
+				})
+			}
+		}
+	},
+	filters: {
+		date: function (value) { // 字母转换为对应的年份
+			if (value === 'a') {
+				return '2019'
+			} else if (value === 'b') {
+				return '2018'
+			} else if (value === 'c') {
+				return '2017'
+			} else if (value === 'd') {
+				return '2016'
+			}
+		},
+		serialNumber: function (value) { // 序号转化
+			value++
+			if (value < 10) {
+				return '0' + value
+			} else {
+				return value
+			}
+		}
 	}
+}
 
 </script>
 

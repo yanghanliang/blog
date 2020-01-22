@@ -5,10 +5,6 @@
         </header>
         <div class="content">
             <div class="content_left">
-                <!-- <router-link to="/admin/listUser" tag="li" active-class="hover"><a>a</a></router-link>
-                <router-link to="/admin/b" tag="li" active-class="hover"><a>b</a></router-link> -->
-                <!-- <li><a href="#">a</a></li> -->
-                <!-- <li><a href="#">b</a></li> -->
                 <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
                     <el-radio-button :label="false">展开</el-radio-button>
                     <el-radio-button :label="true">收起</el-radio-button>
@@ -20,7 +16,6 @@
                             <span slot="title">文章</span>
                         </template>
                         <el-menu-item-group>
-                            <!-- <span slot="title">javaScript</span> -->
                             <el-menu-item index="/admin/addArticle">添加文章</el-menu-item>
                             <el-menu-item index="/admin/articleList">文章列表</el-menu-item>
                         </el-menu-item-group>
@@ -48,47 +43,47 @@
             </div>
             <right-content></right-content>
         </div>
-        <footer>底部内容区域</footer>
     </div>
 </template>
 
 <script>
-    // 引入右边内容区域
-    import RightContent from '@/components/webs/admin/RightContent'
+// 引入右边内容区域
+import RightContent from '@/components/webs/admin/RightContent'
 
-    export default {
-        name: 'admin',
-        data() {
-            return {
-                isCollapse: true
-            }
-        },
-        components: {
-            RightContent
-        },
-        beforeCreate() {
-            const token = localStorage.getItem('token')
-            if (!token) {
-                // 弹出提示
-                this.$message({
-                    type: 'error',
-                    message: '您还没有登录, 请先登录!',
-                    center: true
-                })
+export default {
+	name: 'admin',
+	components: {
+		RightContent
+	},
+	data() {
+		return {
+			isCollapse: true
+		}
+	},
+	beforeCreate() {
+		const token = localStorage.getItem('token')
+		if (!token) {
+			// 弹出提示
+			this.$message({
+				type: 'error',
+				message: '您还没有登录, 请先登录!',
+				center: true
+			})
 
-                // 跳转到登录页面
-                this.$router.push({
-                    name: 'login'
-                })
-            }
-        }
+			// 跳转到登录页面
+			this.$router.push({
+				name: 'login'
+			})
+		}
 	}
+}
 
 </script>
 
 <style scoped>
     .index {
-        min-height: 100%;
+        height: 100%;
+        position: relative;
     }
 
     header>h1 {
@@ -96,11 +91,12 @@
     }
 
     .content {
-        min-height: 8.38rem;
+        height: calc(100% - 50px);
     }
 
     .content_left {
         float: left;
+        height: 100%;
         background-color: #fff;
     }
 

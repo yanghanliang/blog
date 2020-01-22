@@ -21,6 +21,8 @@ import 'mavon-editor/dist/css/index.css'
 // 插件-end
 
 // myStyle - start
+// 引入主题颜色
+import '@/assets/css/color/index.scss'
 // 引入字体图标
 import './assets/css/iconfont.css'
 import './assets/icon.js'
@@ -60,19 +62,19 @@ Vue.component(myIcon.name, myIcon)
 
 // 调用时间格式化 moment
 Vue.filter('formatDate', function (date, formateStr) {
-    if (date === null) {
-        return '暂无更新~'
-    }
-    return moment(date).format(formateStr)
+	if (date === null) {
+		return '暂无更新~'
+	}
+	return moment(date).format(formateStr)
 })
 
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {
-    // 当被绑定的元素插入到 DOM 中时……
-    inserted: function (el) {
-        // 聚焦元素
-        el.querySelector('input').focus()
-    }
+	// 当被绑定的元素插入到 DOM 中时……
+	inserted: function (el) {
+		// 聚焦元素
+		el.querySelector('input').focus()
+	}
 })
 
 Vue.prototype.Global = global_ // 挂载到Vue实例上面
@@ -81,10 +83,10 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    components: {
-        App
-    },
+	el: '#app',
+	router,
+	components: {
+		App
+	},
 	template: '<App/>'
 })

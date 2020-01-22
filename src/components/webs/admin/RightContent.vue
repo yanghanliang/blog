@@ -15,9 +15,6 @@ export default {
         padding: 0 20px;
         color: #b1bdd4;
         min-height: 8.38rem;
-        background-color: pink;
-        background: url(../../../assets/backgroundImages/m12.jpg) no-repeat;
-        background-size: cover;
     }
 
     .el-breadcrumb {

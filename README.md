@@ -922,3 +922,73 @@ module.exports = {
 }
 
 ```
+
+
+
+-----
+
+## 2020/01/09 23:07 v1.2
+
+
+#### 在vue项目中使用sass的配置方法
+
+> 1. 安装sass的依赖包
+
+```
+
+cnpm install --save-dev sass-loader@7.3.1
+cnpm install --save-dev node-sass
+
+```
+
+> 2. 在build文件夹下的webpack.base.conf.js的rules里面添加配置
+
+```js
+
+{
+ test: /\.sass$/,
+ loaders: ['style', 'css', 'scss']
+}
+
+```
+
+> 3. 在 `App.vue` 中修改 `style` 标签 `lang`
+
+```vue
+
+<style lang="scss">
+$bac: blue;
+
+#app {
+  // font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  // text-align: center;
+  // color: #2c3e50;
+  // margin-top: 60px;
+  background-color: $bac;
+}
+</style>
+
+```
+
+
+#### nginx 配置
+
+> 1. 让手机可以访问电脑（本地） web 服务（自己的网站）
+
+
+```nginx
+
+server {
+	listen       8080;
+	server_name  localhost;
+
+	location / {
+		proxy_pass http://127.0.0.1:8080;
+	}
+}
+
+```
+
+

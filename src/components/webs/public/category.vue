@@ -16,56 +16,54 @@
             <a href="#">阳光</a>
             <a href="#">三星</a>
             <a href="#">华维荣耀</a> -->
-            <a href="#">{{ csdata }}</a>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'category',
-        props: ['csdata'],
-        data() {
-            return {
-                categoryData: []
-            }
-        },
-        created() {
-            this.getCategoryData() // 获取分类数据
-        },
-        methods: {
-            async getCategoryData() { // 获取分类数据
-                const {
-                    data
-                } = await this.$http.get('category') // 发送请求
-                this.categoryData = data // 将获取到的数据绑定到 vue 中
-            },
-            getData(content) {
-                if (this.$route.name === 'index') {
-                    this.getArticleCategoryData(content)
-                } else {
-                    this.$router.push({
-                        name: 'index'
-                    })
-                    this.getArticleCategoryData(content)
-                }
-            },
-            async getArticleCategoryData(content) {
-                const {
-                    data
-                } = await this.$http.get(`articleCategory/${content}`)
-                if (data.getData.status === 200) {
-                    data.classname = content // 把点击的值传给父组件
-                    this.$emit('click', data)
-                } else {
-                    this.$message({
-                        message: '此为测试模块，暂无数据!',
-                        type: 'warrning'
-                    })
-                }
-            }
-        }
+export default {
+	name: 'category',
+	data() {
+		return {
+			categoryData: []
+		}
+	},
+	created() {
+		this.getCategoryData() // 获取分类数据
+	},
+	methods: {
+		async getCategoryData() { // 获取分类数据
+			const {
+				data
+			} = await this.$http.get('category') // 发送请求
+			this.categoryData = data // 将获取到的数据绑定到 vue 中
+		},
+		getData(content) {
+			if (this.$route.name === 'index') {
+				this.getArticleCategoryData(content)
+			} else {
+				this.$router.push({
+					name: 'index'
+				})
+				this.getArticleCategoryData(content)
+			}
+		},
+		async getArticleCategoryData(content) {
+			const {
+				data
+			} = await this.$http.get(`articleCategory/${content}`)
+			if (data.getData.status === 200) {
+				data.classname = content // 把点击的值传给父组件
+				this.$emit('click', data)
+			} else {
+				this.$message({
+					message: '此为测试模块，暂无数据!',
+					type: 'warrning'
+				})
+			}
+		}
 	}
+}
 
 </script>
 
