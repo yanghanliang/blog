@@ -30,6 +30,8 @@ module.exports = {
     // 用于选项卡式缩进
     'indent': ['error', 'tab'],
     // 关闭tab的检测
-    'no-tabs': 'off'
+    'no-tabs': 'off',
+    // 允许但不要求在属性后面加逗号
+    "comma-dangle": ["error", "only-multiline"]
   }
 }

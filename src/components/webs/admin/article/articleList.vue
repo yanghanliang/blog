@@ -15,7 +15,7 @@
             </el-table-column>
             <el-table-column prop="classname" label="分类" sortable width="180">
             </el-table-column>
-            <el-table-column prop="synopsis" label="文章简介">
+            <el-table-column prop="synopsis" label="文章简介" width="140" :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column prop="createtime" label="创建时间" sortable :formatter="dateFormat" width="300">
             </el-table-column>

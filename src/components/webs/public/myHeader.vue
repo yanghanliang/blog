@@ -191,7 +191,6 @@ export default {
 			}
 
 			ipc(finalData)
-
 			return finalData
 		}
 	}

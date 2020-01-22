@@ -31,19 +31,13 @@
                     </div>
                     <div class="clb_bottom clearfix">
                         <div class="clbb_left">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-icon"></use>
-                            </svg>
+							<my-icon  identification="icon"></my-icon>
                             <span>{{ data.classname }}</span>
                             &nbsp;
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-shengri-copy"></use>
-                            </svg>
+							<my-icon  identification="shengri-copy"></my-icon>
                             <span>{{ data.createtime | formatDate('YYYY-MM-DD')}}</span>
                             &nbsp;
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-liulan"></use>
-                            </svg>
+							<my-icon  identification="liulan"></my-icon>
                             <a>浏览（<span>{{ data.read }}</span>）</a>
                         </div>
                         <span @click="clickRead(data.id)">阅读全文</span>

@@ -25,6 +25,7 @@ import 'mavon-editor/dist/css/index.css'
 import '@/assets/css/color/index.scss'
 // 引入字体图标
 import './assets/css/iconfont.css'
+import '@/assets/css/font/symobl.js'
 import './assets/icon.js'
 // 引入自己的重置样式
 import './assets/css/reset.css'

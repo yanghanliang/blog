@@ -5,7 +5,7 @@
         </header>
         <div class="content">
             <div class="content_left">
-                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
                     <el-radio-button :label="false">展开</el-radio-button>
                     <el-radio-button :label="true">收起</el-radio-button>
                 </el-radio-group>
@@ -39,7 +39,8 @@
                             <el-menu-item index="/admin/categoryList">分类列表</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                </el-menu>
+                </el-menu> -->
+                <my-nav></my-nav>
             </div>
             <right-content></right-content>
         </div>
@@ -47,12 +48,15 @@
 </template>
 
 <script>
+// 导航
+import myNav from '@/components/webs/public/myNav/index'
 // 引入右边内容区域
 import RightContent from '@/components/webs/admin/RightContent'
 
 export default {
 	name: 'admin',
 	components: {
+		myNav,
 		RightContent
 	},
 	data() {
