@@ -24,15 +24,11 @@ import 'mavon-editor/dist/css/index.css'
 // 引入主题颜色
 import '@/assets/css/color/index.scss'
 // 引入字体图标
-import './assets/css/iconfont.css'
 import '@/assets/css/font/symobl.js'
 import './assets/icon.js'
-// 引入自己的重置样式
-import './assets/css/reset.css'
 // 引入前后台需要的公共样式
-import './assets/css/public.css'
-// 兼容375x812
-import './assets/css/375x812.css'
+import '@/assets/css/index.scss'
+
 // myStyle - end
 
 // public-start

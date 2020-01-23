@@ -31,14 +31,12 @@
                     </div>
                     <div class="clb_bottom clearfix">
                         <div class="clbb_left">
-							<my-icon  identification="icon"></my-icon>
+							<my-icon class="fs17" identification="icon"></my-icon>
                             <span>{{ data.classname }}</span>
-                            &nbsp;
-							<my-icon  identification="shengri-copy"></my-icon>
+							<my-icon class="shengri-copy" identification="shengri-copy"></my-icon>
                             <span>{{ data.createtime | formatDate('YYYY-MM-DD')}}</span>
-                            &nbsp;
-							<my-icon  identification="liulan"></my-icon>
-                            <a>浏览（<span>{{ data.read }}</span>）</a>
+							<my-icon class="liulan fs17" identification="liulan"></my-icon>
+                            <a>浏览({{ data.read }})</a>
                         </div>
                         <span @click="clickRead(data.id)">阅读全文</span>
                     </div>
@@ -185,6 +183,10 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/css/loading/a.scss";
 
+.fs17 {
+	font-size: 17px;
+}
+
 .common {
     padding-bottom: 90px;
 }
@@ -242,7 +244,7 @@ export default {
 
 .cl_box .clb_top>img {
     float: left;
-    width: 2.4rem;
+    width: 2.8rem;
     height: 1.6rem;
     border-radius: 0.05rem;
 }
@@ -262,11 +264,20 @@ export default {
 
 /* clb_bottom-start */
 .cl_box .clb_bottom .clbb_left {
-    float: left;
-}
+	float: left;
 
-.cl_box .clb_bottom .clbb_left span {
-    color: #096;
+	span {
+		color: #096;
+		margin-right: 10px;
+	}
+
+	.shengri-copy {
+		vertical-align: initial;
+	}
+
+	.liulan {
+		vertical-align: bottom;
+	}
 }
 
 /* .cl_box .clb_bottom>a {

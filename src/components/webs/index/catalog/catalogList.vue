@@ -10,16 +10,12 @@
                         <ul class="lb_content">
                             <li>
                                 <router-link :to="'/articleDetails/'+ data.id">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-icon"></use>
-                                    </svg>
+                                    <my-icon identification="icon"></my-icon>
                                     {{ data.title }}
                                 </router-link>
                             </li>
                             <li>
-                                <svg class="icon" aria-hidden="true">
-                                    <use xlink:href="#icon-shengri-copy"></use>
-                                </svg>
+                                <my-icon identification="shengri-copy"></my-icon>
                                 {{ data.createtime | formatDate('MM-DD-HH') }}
                             </li>
                         </ul>
