@@ -16,7 +16,7 @@ MyAxios.install = function (Vue) {
 	// 设置 Vue 实例的属性
 	const instance = axios.create({
 		baseURL: Global.baseURL, // 基地址 'http://localhost:3001/'
-		timeout: 1000 // 失效时间
+		timeout: 5000 // 失效时间
 	})
 
 	// 添加请求拦截器

@@ -991,4 +991,9 @@ server {
 
 ```
 
+#### eslint 格式化
+
+`.\node_modules\.bin\eslint --fix .\src\components\function\myEcharts\main\typeOption.js`
+
+
 

@@ -21,7 +21,11 @@
             <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
-                        <img src="../../../assets/index/index/images/text02.jpg" alt="">
+                        <!-- <img src="../../../assets/index/index/images/text02.jpg" alt=""> -->
+						<!-- <logo></logo> -->
+						<div class="clbt_left">
+							<my-echarts></my-echarts>
+						</div>
                         <div class="clbt_right">
                             <h2>{{ data.title }}</h2>
                             <p>
@@ -51,11 +55,17 @@
 <script>
 // 导入 category
 import category from '@/components/webs/public/category'
+// 导入 logo
+// import logo from '@/components/canvas/logo'
+// 导入 myEcharts
+import myEcharts from '@/components/function/myEcharts/index'
 
 export default {
 	name: 'common',
 	components: {
-		category
+		// logo,
+		category,
+		myEcharts
 	},
 	data() {
 		return {
@@ -239,25 +249,31 @@ export default {
 .content_left .cl_box .clb_top {
     width: 100%;
     height: 1.6rem;
-    margin-bottom: 0.2rem;
-}
+	margin-bottom: 0.2rem;
 
-.cl_box .clb_top>img {
-    float: left;
-    width: 2.8rem;
-    height: 1.6rem;
-    border-radius: 0.05rem;
-}
+	>img {
+		float: left;
+		width: 2.8rem;
+		height: 1.6rem;
+		border-radius: 0.05rem;
+	}
 
-.cl_box .clb_top .clbt_right {
-    float: right;
-    width: 5rem;
-    height: 100%;
-}
+	.clbt_left {
+		float: left;
+		width: 2.7rem;
+		height: 1.7rem;
+	}
 
-.clb_top .clbt_right p {
-    color: #888;
-    margin-bottom: 0.1rem;
+	.clbt_right {
+		float: right;
+		width: 5rem;
+		height: 100%;
+
+		p {
+			color: #888;
+			margin-bottom: 0.1rem;
+		}
+	}
 }
 
 /* clb_top-end */

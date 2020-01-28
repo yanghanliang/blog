@@ -18,7 +18,7 @@
             <div class="content clearfix scrollbar">
                 <div class="left" ref="articleContent">
                     <div class="title">
-                        <i v-if="articleData.original === 0" class="icon" title="原创">&#xe612;</i>
+                        <i v-if="articleData.original === 0" class="icon red" title="原创" red>&#xe612;</i>
                         <h1>{{ articleData.title }}</h1>
                     </div>
                     <ul class="describe clearfix">
@@ -31,18 +31,18 @@
                     <mavon-editor v-model="articleData.content" :subfield="false" defaultOpen="preview"
                         :toolbarsFlag="false" :boxShadow="false" />
                     <div class="subscript">
-                        -------------------- 本文结束 <my-icon identification="niu"></my-icon> 感谢阅读 --------------------
+                        -------------------- 本文结束 <my-icon class="fs40" identification="niu"></my-icon> 感谢阅读 --------------------
                     </div>
-                    <div class="line"></div>
+                    <!-- <div class="line"></div> -->
                     <div class="page clearfix">
                         <div v-if="preArticle.status === 200" @click="clickDuring(preArticle.data.id)" class="page_pre">
                             <i class="icon">&#xe639;</i>{{ preArticle.data.title }}</div>
                         <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)"
                             class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
                     </div>
-                    <div class="line"></div>
+					<div class="line mt20 mb20"></div>
                     <div class="comment">
-                        <my-icon identification="pinglun1"></my-icon>
+                        <my-icon class="fs40" identification="pinglun1"></my-icon>
                     </div>
                     <!-- 发布评论-start -->
                     <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px"
@@ -83,7 +83,7 @@
                                 <span>{{ item.alias }}</span>
                             </div>
                             <div class="scb_body">
-                                <my-icon identification="caozuoqipao"></my-icon>
+                                <my-icon identification="caozuoqipao" color class="icon"></my-icon>
                                 <p>{{ item.comment_content }}</p>
                             </div>
                             <div class="scb_footer clearfix">
@@ -100,7 +100,7 @@
                     <!-- 显示评论-end -->
                     <ul class="no_data" v-if="!commentData">
                         <li>
-                            <my-icon identification="meiyouxiangguan"></my-icon>
+                            <my-icon class="fs40" identification="meiyouxiangguan"></my-icon>
                         </li>
                         <li>没有数据~</li>
                     </ul>
@@ -160,8 +160,15 @@
                 <div class="edit_head_portrait">
                     <label class="el-form-item__label" style="width: 80px;">上传图片</label>
                     <!--elementui的上传图片的upload组件-->
-                    <el-upload class="upload-demo" :before-upload="beforeupload" drag
-                        action="https://jsonplaceholder.typicode.com/posts/" style="margin-left:80px;">
+					<span>{{ progressPercent }}</span>
+                    <el-upload class="upload-demo"
+						:action="`${Global.baseURL}uploadFile`"
+						:before-upload="beforeupload"
+						:show-file-list="false"
+						:http-request="httpRequest"
+						drag
+						style="margin-left:80px;"
+					>
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                         <div class="el-upload__tip" slot="tip">文件大小不能超过1MB</div>
@@ -189,7 +196,7 @@
                 </div>
 
                 <div class="head_portrait_preview">
-                    <img :src="src | imgSrc" alt="">
+                    <img :src="imgSrc" alt="">
                 </div>
             </div>
         </el-dialog>
@@ -205,6 +212,11 @@ export default {
 	name: 'articles_details',
 	components: {
 		category
+	},
+	computed: {
+		imgSrc () {
+			return this.Global.baseURL + this.src
+		}
 	},
 	data() {
 		let mailboxValidation = (rule, value, callback) => {
@@ -411,7 +423,6 @@ export default {
 				comment_id: '',
 				comment_content: ''
 			},
-			param: '', // 修改评论信息的传入数据
 			src: '', // 修改评论信息对话框中头像的预览
 			user: { // 修改评论的数据
 				id: '',
@@ -419,7 +430,8 @@ export default {
 				mailbox: '',
 				password: '',
 				comment_content: ''
-			}
+			},
+			progressPercent: ''
 		}
 	},
 	created() {
@@ -493,39 +505,38 @@ export default {
 			this.user.id = data.id
 			this.user.alias = data.alias
 			this.user.mailbox = data.mailbox ? '' : data.mailbox
-			this.src = this.Global.baseURL + data.head_portrait_url
+			this.src = data.head_portrait_url
 			this.user.comment_content = data.comment_content
 			localStorage.setItem('alias', data.alias) // 记录昵称
 		},
-		beforeRemove(file, fileList) {},
 		// 阻止upload的自己上传，进行再操作
 		beforeupload(file) {
-			// 创建临时的路径来展示图片
-			var windowURL = window.URL || window.webkitURL
-			this.src = windowURL.createObjectURL(file)
-			// 重新写一个表单上传的方法
-			this.param = new FormData()
-			this.param.append('file', file, file.name)
-			return false
+			// // 创建临时的路径来展示图片
+			// var windowURL = window.URL || window.webkitURL
+			// this.src = windowURL.createObjectURL(file)
+			// // 重新写一个表单上传的方法
+			// this.param = new FormData()
+			// this.param.append('file', file, file.name)
+			// return false
+			console.log(file)
 		},
-		// 覆盖默认的上传行为
-		httprequest() {},
 		async onSubmit() { // 表单提交的事件
 			this.$refs.user.validate(async (valid) => {
 				if (valid) { // 数据验证成功
-					if (this.param === '') this.param = new FormData() // 防止不修改头像，就报错
-					// 下面append的东西就会到form表单数据的fields中；
-					this.param.append('id', this.user.id)
-					this.param.append('alias', this.user.alias)
-					this.param.append('mailbox', this.user.mailbox)
-					this.param.append('comment_content', this.user.comment_content)
-					this.param.append('name_used_before', localStorage.getItem('alias')) // 获取曾用名
+					let postData = {
+						id: this.user.id,
+						alias: this.user.alias,
+						mailbox: this.user.mailbox,
+						comment_content: this.user.comment_content,
+						name_used_before: localStorage.getItem('alias'), // 获取曾用名
+						head_portrait_url: this.src, // 头像
+					}
+					console.log(postData, 'postData')
 					// 然后通过下面的方式把内容通过axios来传到后台
-					// 下面的this.$reqs 是在主js中通过Vue.prototype.$reqs = axios 来把axios赋给它;
-
+					// 下面的this.$http 是在主js中通过Vue.prototype.$http = axios 来把axios赋给它;
 					const {
 						data
-					} = await this.$http.post('/modifyCommentInformation', this.param)
+					} = await this.$http.post('/modifyCommentInformation', postData)
 					this.dialogFormVisible2 = false // 关闭对话框
 					if (data.mci.status === 200) {
 						this.getCommentData() // 重新获取评论数据
@@ -537,6 +548,32 @@ export default {
 					return false
 				}
 			})
+		},
+		// 覆盖默认的上传行为
+		async httpRequest(file) {
+			let formdata = new FormData()
+			formdata.append('file', file.file)
+
+			try {
+				let { data } = await this.$http({
+					url: 'uploadFile',
+					method: 'post',
+					data: formdata, // 必须是 FormData 对象
+					headers: {'Content-Type': 'multipart/form-data'},
+					onUploadProgress: progressEvent => {
+						// progressEvent.loaded:已上传文件大小
+						// progressEvent.total:被上传文件的总大小
+						this.progressPercent = (progressEvent.loaded / progressEvent.total * 100)
+					}
+				})
+
+				if (data.status === 200) {
+					this.src = data.url
+					console.log(this.src, data, '??????')
+				}
+			} catch (e) {
+				console.log(e)
+			}
 		}
 	},
 	watch: {
@@ -547,22 +584,20 @@ export default {
 		alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
 			this.commentForm.alias = newData
 			this.replyForm.alias = newData
-		}
-	},
-	filters: {
-		imgSrc: function (value) {
-			if (value.indexOf('undefined') === -1) {
-				return value
-			} else {
-				return ''
-			}
-		}
+		},
+		// src(a, b) {
+		// 	console.log(a, b, 'url')
+		// }
 	}
 }
 
 </script>
 
 <style scoped>
+.fs40 {
+	font-size: 40px;
+}
+
 .body {
     min-height: 100%;
     padding-bottom: 100px;
@@ -640,6 +675,7 @@ export default {
 /* subscript-start */
 .content .left .subscript {
     color: #d4d4d4;
+	margin: 0.2rem 0;
 }
 
 .content .left .subscript .icon {
@@ -651,7 +687,7 @@ export default {
 .content .left .line {
     width: 100%;
     height: 0.01rem;
-    margin: 0.2rem 0;
+    margin-bottom: 0.2rem;
     background-color: #ececec;
 }
 
@@ -796,7 +832,6 @@ export default {
     top: -0.32rem;
     font-size: 0.3rem;
     position: absolute;
-
 }
 
 .sc_box .scb_body .icon {

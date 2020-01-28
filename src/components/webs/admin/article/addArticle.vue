@@ -114,8 +114,11 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/css/color/index.scss';
+
     .content_right>h4 {
+		color: $main-font;
         text-indent: 0.12rem;
     }
 
@@ -129,7 +132,7 @@ export default {
     }
 
     .el-form-item>>>.el-form-item__label {
-        color: #b1bdd4;
+        color: $secondary;
     }
 
     .el-form-item>>>.el-textarea__inner {

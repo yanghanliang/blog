@@ -1,3 +1,5 @@
+// 颜色
+@import '@/assets/css/color/index.scss';
 // 引入自己的重置样式
 @import '@/assets/css/main/reset.scss';
 // 引入字体图标
@@ -6,6 +8,8 @@
 @import "@/assets/css/main/public.scss";
 // 兼容375x812
 @import '@/assets/css/main/media/375x812.scss';
+// 特殊样式
+@import '@/assets/css/main/style.scss';
 
 body {
     background-color: #f7f7f7;

@@ -29,3 +29,33 @@ $model-color: #FAFAFA;
 
 /* 提示的颜色 */
 $tips: #26b3ae;
+
+/* 背景颜色 */
+$bgc: #dcdfe6;
+
+// 循环
+$creativeList: (
+    (attr: 'red', color: 'red'),
+    (attr: 'orange', color: 'orange'),
+    (attr: 'yellow', color: 'yellow'),
+    (attr: 'green', color: 'green'),
+    (attr: 'blue', color: 'blue'),
+    (attr: 'Indigo', color: 'Indigo'),
+    (attr: 'purple', color: 'purple'),
+    (attr: 'ash', color: '#9c9c9c'),
+    (attr: 'color', color: $theme-color),
+    (attr: 'color2', color: $theme-color2)
+);
+@for $i from 1 through length($creativeList) {
+    $item: nth($creativeList, $i); // 获取 item
+    $attr: map-get($item, attr); // 获取 item 中的 attr
+    $color: map-get($item, color);
+
+    *[#{$attr}] {
+        color: unquote($color);
+	}
+	
+	// *[blue] {
+	// 	color: blue;
+	// }
+}

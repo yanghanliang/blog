@@ -7,7 +7,7 @@ import router from './router'
 // 插件-start
 // 引入 element-ui
 import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 
 // 引入 moment 格式化时间
 import moment from 'moment'
@@ -21,14 +21,11 @@ import 'mavon-editor/dist/css/index.css'
 // 插件-end
 
 // myStyle - start
-// 引入主题颜色
-import '@/assets/css/color/index.scss'
 // 引入字体图标
 import '@/assets/css/font/symobl.js'
 import './assets/icon.js'
 // 引入前后台需要的公共样式
 import '@/assets/css/index.scss'
-
 // myStyle - end
 
 // public-start
@@ -41,6 +38,8 @@ import myIcon from '@/components/webs/public/myIcon'
 
 // 引入全局变量
 import global_ from '@/plugins/global' // 引用文件
+
+// Vue.config.devtools = true // 标记为开发环境，让 devtools 能够正常运行
 
 // 调用发送请求的插件
 Vue.use(MyAxios)

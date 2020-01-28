@@ -1,10 +1,10 @@
 <template>
     <ul>
         <li v-for="(item, index) in data" :key="index">
-            <a @click.stop="clickSwitch(item)" class="clearfix" :href="item.router">
-				<i :class="item | iconClass" :style="item | style"></i>
-				<span>{{ item.name }}</span>
-			</a>
+            <div class="clearfix">
+				<i @click.stop="clickSwitch(item)" :class="item | iconClass" :style="item | style"></i>
+				<a :href="item.router">{{ item.name }}</a>
+			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>
         </li>
     </ul>
@@ -61,7 +61,7 @@ ul {
 	li {
 		width: 100%;
 
-		a {
+		div {
 			color: #000;
 			min-height: 40px;
 			line-height: 40px;
@@ -82,8 +82,9 @@ ul {
 				}
 			}
 
-			span {
+			a {
 				float: left;
+				color: #000;
 				margin-left: 8px;
 			}
 		}
