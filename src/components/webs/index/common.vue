@@ -21,11 +21,19 @@
             <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
                     <div class="clb_top clearfix">
-                        <!-- <img src="../../../assets/index/index/images/text02.jpg" alt=""> -->
-						<!-- <logo></logo> -->
-						<div class="clbt_left">
-							<my-echarts></my-echarts>
-						</div>
+						<template v-if="isExistence(data) < 3">
+							<img src="../../../assets/index/index/images/text02.jpg" alt="">
+						</template>
+						<template v-else-if="isExistence(data) === 4">
+							<div class="clbt_left">
+								<my-echarts :txt="xAxisData" :title="data.title" :data="data | seriesData" type="pie"></my-echarts>
+							</div>
+						</template>
+						<template v-else>
+							<div class="clbt_left">
+								<my-echarts :txt="xAxisData" :title="data.title" :data="data | seriesData"></my-echarts>
+							</div>
+						</template>
                         <div class="clbt_right">
                             <h2>{{ data.title }}</h2>
                             <p>
@@ -60,6 +68,8 @@ import category from '@/components/webs/public/category'
 // 导入 myEcharts
 import myEcharts from '@/components/function/myEcharts/index'
 
+const fieldList = ['read', 'praise', 'reprint', 'comment_number', 'reward']
+
 export default {
 	name: 'common',
 	components: {
@@ -79,8 +89,16 @@ export default {
 				lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
 				tips: '', // 提示
 				searchData: '' // 搜索内容
-			}
+			},
+			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
 		}
+	},
+	filters: {
+		seriesData(row) {
+			return fieldList.map((item) => {
+				return row[item]
+			})
+		},
 	},
 	created() {
 		this.loadData() // 加载数据
@@ -179,6 +197,15 @@ export default {
 			this.$message({
 				message: '目前此网站正在建设中~'
 			})
+		},
+		// 判断是否值全部存在
+		isExistence(row) {
+			let Identification = []
+			fieldList.forEach((item) => {
+				row[item] && Identification.push(row[item])
+			})
+
+			return Identification.length
 		}
 	},
 	watch: {
@@ -213,155 +240,141 @@ export default {
 .search>>>input {
     border-radius: 1.2rem;
 }
-
 /* search-end */
 
-/* content-start */
+.echarts-box {
+	width: 270px;
+	height: 170px;
+}
+
 .content {
     width: 12rem;
     margin: 0 auto;
-}
 
-/* content_left-start */
-.content_left {
-    float: left;
-    width: 8.4rem;
-    /* min-height: 10rem; */
-    height: 7rem;
-    overflow-y: scroll;
-}
-
-.content_left::-webkit-scrollbar {
-    display: none;
-}
-
-/* cl_box-start */
-.content_left .cl_box {
-    width: 8rem;
-    height: 2rem;
-    padding: 0.2rem;
-    margin-bottom: 0.1rem;
-    border-radius: 0.05rem;
-    background-color: #fff;
-}
-
-/* clb_top-start */
-.content_left .cl_box .clb_top {
-    width: 100%;
-    height: 1.6rem;
-	margin-bottom: 0.2rem;
-
-	>img {
+	.content_left {
 		float: left;
-		width: 2.8rem;
-		height: 1.6rem;
-		border-radius: 0.05rem;
-	}
+		width: 8.4rem;
+		/* min-height: 10rem; */
+		height: 7rem;
+		overflow-y: scroll;
+		overflow-x: auto;
 
-	.clbt_left {
-		float: left;
-		width: 2.7rem;
-		height: 1.7rem;
-	}
+		&::-webkit-scrollbar {
+			display: none;
+		}
 
-	.clbt_right {
-		float: right;
-		width: 5rem;
-		height: 100%;
-
-		p {
-			color: #888;
+		.cl_box {
+			width: 8rem;
+			height: 2rem;
+			padding: 0.2rem;
 			margin-bottom: 0.1rem;
+			border-radius: 0.05rem;
+			background-color: #fff;
+
+			.clb_top {
+				width: 100%;
+				height: 1.6rem;
+				margin-bottom: 0.2rem;
+
+				>img {
+					float: left;
+					width: 2.8rem;
+					height: 1.6rem;
+					border-radius: 0.05rem;
+				}
+
+				.clbt_left {
+					float: left;
+					width: 2.7rem;
+					height: 1.7rem;
+				}
+
+				.clbt_right {
+					float: right;
+					width: 5rem;
+					height: 100%;
+
+					p {
+						color: #888;
+						margin-bottom: 0.1rem;
+					}
+				}
+			}
+
+			.clb_bottom {
+				.clbb_left {
+					float: left;
+
+					span {
+						color: #096;
+						margin-right: 10px;
+					}
+
+					.shengri-copy {
+						vertical-align: initial;
+					}
+
+					.liulan {
+						vertical-align: bottom;
+					}
+				}
+
+				>span {
+					float: right;
+					color: #096;
+					cursor: pointer;
+				}
+			}
+		}
+
+		.tips {
+			padding: 0.1rem;
+			color: #26b3ae;
+			text-align: center;
+			border-radius: 0.05rem;
+			background-color: #e6e6e6;
+		}
+	}
+
+	.content_right {
+		float: right;
+		width: 3.36rem;
+
+		.synopsis {
+			position: relative;
+			background-color: #ffffff;
+
+			.s_bg {
+				width: 100%;
+				margin-bottom: 0.3rem;
+			}
+
+			.s_head_portrait {
+				top: 0;
+				left: 50%;
+				width: 1.03rem;
+				height: 1.03rem;
+				border-radius: 50%;
+				position: absolute;
+				transform: translate(-50%, -50%);
+				box-shadow: 2px 4px 7px 0px #404040;
+			}
+
+			.s_content {
+				text-align: center;
+
+				h3 {
+					font-weight: normal;
+					text-shadow: -0.01rem -0.01rem white, 0.01rem 0.01rem #333;
+				}
+
+				p {
+					color: #888;
+					line-height: 0.26rem;
+					padding: 0.1rem 0.3rem;
+				}
+			}
 		}
 	}
 }
-
-/* clb_top-end */
-
-/* clb_bottom-start */
-.cl_box .clb_bottom .clbb_left {
-	float: left;
-
-	span {
-		color: #096;
-		margin-right: 10px;
-	}
-
-	.shengri-copy {
-		vertical-align: initial;
-	}
-
-	.liulan {
-		vertical-align: bottom;
-	}
-}
-
-/* .cl_box .clb_bottom>a {
-float: right;
-} */
-.cl_box .clb_bottom>span {
-    float: right;
-    color: #096;
-    cursor: pointer;
-}
-
-/* clb_bottom-end */
-/* cl_box-end */
-.content_left .tips {
-    padding: 0.1rem;
-    color: #26b3ae;
-    text-align: center;
-    border-radius: 0.05rem;
-    background-color: #e6e6e6;
-}
-
-/* content_left-end */
-
-/* content_right-start */
-.content_right {
-    float: right;
-    width: 3.36rem;
-}
-
-/* synopsis-start */
-.content_right .synopsis {
-    position: relative;
-    background-color: #ffffff;
-}
-
-.content_right .synopsis .s_bg {
-    width: 100%;
-    margin-bottom: 0.3rem;
-}
-
-.content_right .synopsis .s_head_portrait {
-    top: 0;
-    left: 50%;
-    width: 1.03rem;
-    height: 1.03rem;
-    border-radius: 50%;
-    position: absolute;
-	transform: translate(-50%, -50%);
-	box-shadow: 2px 4px 7px 0px #404040;
-}
-
-.content_right .synopsis .s_content {
-    text-align: center;
-}
-
-.synopsis .s_content h3 {
-    font-weight: normal;
-    text-shadow: -0.01rem -0.01rem white, 0.01rem 0.01rem #333;
-}
-
-.synopsis .s_content p {
-    color: #888;
-    line-height: 0.26rem;
-    padding: 0.1rem 0.3rem;
-}
-
-/* synopsis-end */
-/* content_right-end */
-/* content-end */
-
 </style>

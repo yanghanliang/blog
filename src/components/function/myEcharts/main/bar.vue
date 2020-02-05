@@ -8,8 +8,11 @@ import props from './props'
 // import typeOption from './typeOption.js'
 
 export default {
-	name: 'myEcharts',
+	name: 'bar',
 	mixins: [].concat(props),
+	created() {
+		console.log('2222')
+	},
 	mounted() {
 		this.init()
 	},
@@ -33,7 +36,7 @@ export default {
 						interval: 0, // 0 展示全部
 						rotate: -30, // 倾斜角度
 					},
-					data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+					data: this.xAxisData
 				},
 				yAxis: {
 					// minInterval: 1, // y轴坐标值的差值如设置 10，则y轴展示 10 20 30 40 ...
@@ -43,12 +46,21 @@ export default {
 					left: 30,
 					top: 30,
 					bottom: 30,
-					right: 10,
+					right: 15,
 				},
 				series: [{
-					name: '销量',
+					name: this.seriesName,
 					type: 'bar',
-					data: [5, 20, 36, 10, 10, 20]
+					data: this.seriesData,
+					itemStyle: {
+						normal: {
+							color: function(params) {
+								// 注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+								var colorList = ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642']
+								return colorList[params.dataIndex]
+							}
+						}
+					}
 				}],
 			})
 		}

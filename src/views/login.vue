@@ -1,16 +1,41 @@
 <template>
     <div class="login">
-        <el-form class="login-form" ref="form" label-position="top" :model="form" label-width="80px">
-            <h2>用户登录</h2>
-            <el-form-item label="用户名">
-                <el-input v-model="form.username" v-focus></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input type="password" v-model="form.password" @keyup.enter.native="login"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="login" class="btn-login">登录</el-button>
-            </el-form-item>
+        <el-form class="login-form" ref="form" :rules="rules" label-position="top" :model="form" label-width="80px" @submit.native.prevent :hide-required-asterisk="true">
+			<el-tabs v-model="activeName">
+				<el-tab-pane label="用户登录" name="login">
+				</el-tab-pane>
+				<el-tab-pane label="用户注册" name="register">
+				</el-tab-pane>
+				<template v-if="activeName === 'login'">
+					<el-form-item label="用户名" prop="username">
+						<el-input v-model="form.username" v-focus maxlength="20">
+							<span slot="suffix">{{ form.username.length }}/20</span>
+						</el-input>
+					</el-form-item>
+					<el-form-item label="密码" prop="password">
+						<el-input type="password" v-model="form.password" @keyup.enter.native="login"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="login" class="btn-login">登录</el-button>
+					</el-form-item>
+				</template>
+				<template v-else>
+					<el-form-item label="用户名" prop="username">
+						<el-input v-model="form.username" v-focus maxlength="20">
+							<span slot="suffix">{{ form.username.length }}/20</span>
+						</el-input>
+					</el-form-item>
+					<el-form-item label="密码" prop="password">
+						<el-input type="password" v-model="form.password"></el-input>
+					</el-form-item>
+					<el-form-item label="确认密码" prop="confirmPassword" key="passwords">
+						<el-input type="password" v-model="form.confirmPassword" @keyup.enter.native="register"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="register" class="btn-login">注册</el-button>
+					</el-form-item>
+				</template>
+			</el-tabs>
         </el-form>
     </div>
 </template>
@@ -19,17 +44,69 @@
 export default {
 	name: 'login',
 	data() {
+		var username = async (rule, value, callback) => {
+			if (value) {
+				try {
+					// 验证用户名是否重复
+					const { data } = await this.$http.get(`user/userNameValidation?userName=${value}`)
+					if (data.status) {
+						callback()
+					} else {
+						callback(new Error('此用户名已被使用，请重新设置用户名'))
+					}
+				} catch (e) {
+					console.log(e, '多半是接口问题')
+					callback(new Error('请重试'))
+				}
+			} else {
+				callback(new Error('请输入用户名'))
+			}
+		}
+		var confirmPassword = (rule, value, callback) => {
+			console.log(value, 'password')
+			if (value) {
+				// 验证用户名是否重复
+				if (value === this.form.password) {
+					callback()
+				} else {
+					callback(new Error('两次密码不一致'))
+				}
+			} else {
+				return callback(new Error('请输入密码'))
+			}
+		}
 		return {
 			form: {
 				username: '',
-				password: ''
-			}
+				password: '',
+				confirmPassword: ''
+			},
+			activeName: 'login',
+			rules: {
+				username: [
+					{ validator: username, trigger: 'change', required: true }
+				],
+				password: [
+					{ trigger: 'change', message: '请输入密码', required: true },
+				],
+				confirmPassword: [
+					{ validator: confirmPassword, trigger: 'change', required: true }
+				]
+			},
+			currentTimer: null,  // 流星雨的定时器
 		}
 	},
 	created() {
 		this.meteorShower()
 	},
+	beforeDestroy() {
+		// 如果不清除, 那么跳转到其他页面是还是会出现流星雨的效果，因为
+		// 1、setInterval事件和组件的生命周期没有直接关系。
+		// 2、setInterval会返回一个ID 值。setInterval() 方法会不停地调用函数，直到 clearInterval() 被调用或窗口被关闭
+		clearInterval(this.currentTimer) // 关闭流星雨效果
+	},
 	methods: {
+		// 登录
 		async login() {
 			const data = await this.$http.post('login', this.form)
 			// 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
@@ -57,6 +134,7 @@ export default {
 				})
 			}
 		},
+		// 流星
 		meteorShower(parameter) {
 			let pt = {
 				eachStep: 5, // 流星每次移动的距离
@@ -148,42 +226,64 @@ export default {
 				}
 			}
 
-			let current = setInterval(delay, pt.meteorNumber.time)
+			this.currentTimer = setInterval(delay, pt.meteorNumber.time)
 
 			document.addEventListener('visibilitychange', function () { // 浏览器切换事件
 				if (document.visibilityState === 'hidden') { // 状态判断
-					current = setInterval(delay, pt.meteorNumber.time) // 进入当前页面，开启流星雨效果
+					this.currentTimer = setInterval(delay, pt.meteorNumber.time) // 进入当前页面，开启流星雨效果
 				} else { // 切换出当前页面
-					clearInterval(current) // 关闭流星雨效果
+					clearInterval(this.currentTimer) // 关闭流星雨效果
 				}
 			})
+		},
+		// 注册
+		async register() {
+			const rules = await this.Global.verification(this, 'form')
+			console.log(rules, 'rules')
+			if (rules) {
+				let postData = {
+					userName: this.form.username,
+					password: this.form.password
+				}
+				try {
+					const { data } = await this.$http.post('user/addUser', postData)
+					if (data.status === 200) {
+						this.$message.success('添加成功')
+						this.$router.push({
+							path: '/'
+						})
+					}
+				} catch (e) {
+					console.log(e)
+				}
+			}
 		}
 	}
 }
 
 </script>
 
-<style scoped>
-    .login {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #5f9ee4;
-        background: url(../assets/backgroundImages/login.jpg) no-repeat;
-        background-size: cover;
-    }
+<style lang="scss" scoped>
+.login {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #5f9ee4;
+	background: url(../assets/backgroundImages/login.jpg) no-repeat;
+	background-size: cover;
+}
 
-    .login .login-form {
-        width: 400px;
-        padding: 20px;
-        border-radius: 5px;
-        background-color: #fff;
-    }
+.login .login-form {
+	width: 400px;
+	padding: 20px;
+	border-radius: 5px;
+	background-color: #fff;
+}
 
-    .login .login-form .btn-login {
-        width: 100%;
-    }
+.login .login-form .btn-login {
+	width: 100%;
+}
 
 </style>
 

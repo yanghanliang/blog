@@ -32,6 +32,7 @@ module.exports = {
     // 关闭tab的检测
     'no-tabs': 'off',
     // 允许但不要求在属性后面加逗号
-    "comma-dangle": ["error", "only-multiline"]
+    "comma-dangle": ["error", "only-multiline"],
+    'no-multi-spaces': 'off'
   }
 }

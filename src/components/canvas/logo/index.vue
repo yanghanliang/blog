@@ -1,5 +1,5 @@
 <template>
-    <canvas id="canvas"></canvas>
+    <canvas ref="canvas"></canvas>
 </template>
 
 <script>
@@ -9,8 +9,10 @@ export default {
     },
     methods: {
         init() {
+            let that = this
+
             let My = function () {
-                this.canvas = document.querySelector('#canvas')
+                this.canvas = that.$refs.canvas
                 this.ctx = this.canvas.getContext('2d')
                 this.width = 200
                 this.height = 200
