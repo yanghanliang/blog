@@ -63,8 +63,7 @@
 <script>
 // 导入 category
 import category from '@/components/webs/public/category'
-// 导入 logo
-// import logo from '@/components/canvas/logo'
+
 // 导入 myEcharts
 import myEcharts from '@/components/function/myEcharts/index'
 
@@ -73,7 +72,6 @@ const fieldList = ['read', 'praise', 'reprint', 'comment_number', 'reward']
 export default {
 	name: 'common',
 	components: {
-		// logo,
 		category,
 		myEcharts
 	},

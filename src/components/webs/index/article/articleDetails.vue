@@ -42,7 +42,7 @@
                     </div>
 					<div class="line mt20 mb20"></div>
                     <div class="comment">
-                        <my-icon class="fs40" identification="pinglun1"></my-icon>
+                        <my-icon color class="fs40" identification="pinglun1"></my-icon>
                     </div>
                     <!-- 发布评论-start -->
                     <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px"
@@ -133,7 +133,7 @@
                     <el-input v-model="replyForm.alias" @input="aliasLock=true"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="mailbox">
-                    <el-input v-model="replyForm.mailbox" placeholder="请输入密码"></el-input>
+                    <el-input v-model="replyForm.mailbox" placeholder="请输入邮箱"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" :rules="replyVerification">
                     <el-input type="password" autocomplete="off" v-model="replyForm.password"
@@ -160,7 +160,6 @@
                 <div class="edit_head_portrait">
                     <label class="el-form-item__label" style="width: 80px;">上传图片</label>
                     <!--elementui的上传图片的upload组件-->
-					<span>{{ progressPercent }}</span>
                     <el-upload class="upload-demo"
 						:action="`${Global.baseURL}uploadFile`"
 						:before-upload="beforeupload"
@@ -179,7 +178,7 @@
                             <el-input v-model="user.alias" placeholder="请输入您要修改的昵称~" class="password"></el-input>
                         </el-form-item>
                         <el-form-item label="邮箱" prop="mailbox">
-                            <el-input v-model="user.mailbox" placeholder="请输入密码"></el-input>
+                            <el-input v-model="user.mailbox" placeholder="请输入邮箱"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password" :rules="userVerification">
                             <el-input type="password" autocomplete="off" v-model="user.password" placeholder="请输入密码"
@@ -195,9 +194,16 @@
                     </el-form>
                 </div>
 
-                <div class="head_portrait_preview">
-                    <img :src="imgSrc" alt="">
-                </div>
+				<div class="head_portrait_preview">
+					<my-progress
+						ref="myProgress"
+						:showPercentage="false"
+						:showSlider="false"
+						:progressValue="progressPercent"
+						>
+						<img slot="content" :src="imgSrc" alt="">
+					</my-progress>
+				</div>
             </div>
         </el-dialog>
         <!-- 修改评论信息的对话框-end -->
@@ -207,11 +213,14 @@
 <script>
 // 导入 category
 import category from '@/components/webs/public/category'
+// 滑块(进度条)
+import myProgress from '@/components/canvas/progress/index'
 
 export default {
 	name: 'articles_details',
 	components: {
-		category
+		category,
+		myProgress
 	},
 	computed: {
 		imgSrc () {
@@ -431,7 +440,7 @@ export default {
 				password: '',
 				comment_content: ''
 			},
-			progressPercent: ''
+			progressPercent: 0,
 		}
 	},
 	created() {
@@ -569,7 +578,6 @@ export default {
 
 				if (data.status === 200) {
 					this.src = data.url
-					console.log(this.src, data, '??????')
 				}
 			} catch (e) {
 				console.log(e)
@@ -593,7 +601,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .fs40 {
 	font-size: 40px;
 }
@@ -923,21 +931,26 @@ export default {
 
 .head_portrait_preview {
     float: right;
-    width: 1.6rem;
-    height: 1.6rem;
-    overflow: hidden;
-    position: relative;
-    border-radius: 50%;
-    margin-right: 100px;
-    border: 0.09rem solid #999;
-}
+    // width: 160px;
+    // height: 160px;
+    // border-radius: 50%;
+    // position: relative;
 
-.head_portrait_preview img {
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    position: absolute;
-    transform: translate(-50%, -50%);
+	.el-progress--circle {
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		position: relative;
+		transform: translate(-50%, -50%);
+	}
+
+	img {
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		position: absolute;
+		transform: translate(-50%, -50%);
+	}
 }
 
 .demo-ruleForm .password {

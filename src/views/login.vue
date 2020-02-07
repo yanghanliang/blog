@@ -1,13 +1,13 @@
 <template>
     <div class="login">
         <el-form class="login-form" ref="form" :rules="rules" label-position="top" :model="form" label-width="80px" @submit.native.prevent :hide-required-asterisk="true">
-			<el-tabs v-model="activeName">
+			<el-tabs v-model="activeName" @tab-click="resetForm">
 				<el-tab-pane label="用户登录" name="login">
 				</el-tab-pane>
 				<el-tab-pane label="用户注册" name="register">
 				</el-tab-pane>
 				<template v-if="activeName === 'login'">
-					<el-form-item label="用户名" prop="username">
+					<el-form-item label="用户名">
 						<el-input v-model="form.username" v-focus maxlength="20">
 							<span slot="suffix">{{ form.username.length }}/20</span>
 						</el-input>
@@ -257,6 +257,10 @@ export default {
 					console.log(e)
 				}
 			}
+		},
+		// 清空验证
+		resetForm() {
+			this.$refs.form.resetFields()
 		}
 	}
 }

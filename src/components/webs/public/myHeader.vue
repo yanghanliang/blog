@@ -1,87 +1,101 @@
 <template>
-  <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" :router="true"
-    background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-    <!-- <a href="#">logo</a> -->
-    <!-- <el-menu-item index="1">目录</el-menu-item> -->
-    <!-- <el-submenu index="2">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项1</el-menu-item>
-            <el-menu-item index="2-4-2">选项2</el-menu-item>
-            <el-menu-item index="2-4-3">选项3</el-menu-item>
-          </el-submenu>
-        </el-submenu> -->
-    <el-menu-item index="/common">
-      <!-- <router-link to="/catalogList">日志</router-link> -->
-      首页
-    </el-menu-item>
-    <el-submenu index="1">
-      <template slot="title">分类</template>
-      <el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
-        <template slot="title">{{ catalog.classname }}</template>
-        <el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
-          {{ two.classname }}</el-menu-item>
+    <div class="header-box">
+		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" :router="true"
+			background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+			<!-- <a href="#">logo</a> -->
+			<!-- <el-menu-item index="1">目录</el-menu-item> -->
+			<!-- <el-submenu index="2">
+			<template slot="title">我的工作台</template>
+			<el-menu-item index="2-1">选项1</el-menu-item>
+			<el-menu-item index="2-2">选项2</el-menu-item>
+			<el-menu-item index="2-3">选项3</el-menu-item>
+			<el-submenu index="2-4">
+				<template slot="title">选项4</template>
+				<el-menu-item index="2-4-1">选项1</el-menu-item>
+				<el-menu-item index="2-4-2">选项2</el-menu-item>
+				<el-menu-item index="2-4-3">选项3</el-menu-item>
+			</el-submenu>
+			</el-submenu> -->
+			<el-menu-item index="/common">
+				<!-- <router-link to="/catalogList">日志</router-link> -->
+				首页
+			</el-menu-item>
+			<el-submenu index="1">
+				<template slot="title">分类</template>
+				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
+					<template slot="title">{{ catalog.classname }}</template>
+					<el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
+						{{ two.classname }}</el-menu-item>
 
-        <el-submenu v-if="two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
-          <template slot="title">{{ two.classname }}</template>
-          <el-menu-item v-if="!three.children" v-for="three in two.children" :index="three.index" :key="three.id">
-            {{ three.classname }}</el-menu-item>
+					<el-submenu v-if="two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
+						<template slot="title">{{ two.classname }}</template>
+						<el-menu-item v-if="!three.children" v-for="three in two.children" :index="three.index"
+							:key="three.id">
+							{{ three.classname }}</el-menu-item>
 
-          <el-submenu v-if="three.children" v-for="three in two.children" :index="three.index" :key="three.id">
-            <template slot="title">{{ three.classname }}</template>
-            <el-menu-item v-if="!four.children" v-for="four in three.children" :index="four.index" :key="four.id">
-              {{ four.classname }}</el-menu-item>
+						<el-submenu v-if="three.children" v-for="three in two.children" :index="three.index"
+							:key="three.id">
+							<template slot="title">{{ three.classname }}</template>
+							<el-menu-item v-if="!four.children" v-for="four in three.children" :index="four.index"
+								:key="four.id">
+								{{ four.classname }}</el-menu-item>
 
-            <el-submenu v-if="four.children" v-for="four in three.children" :index="four.index" :key="four.id">
-              <template slot="title">{{ four.classname }}</template>
-              <el-menu-item v-if="!five.children" v-for="five in four.children" :index="five.index" :key="five.id">
-                {{ five.classname }}</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
-        {{ catalog.classname }}</el-menu-item>
-      <!-- <el-submenu index="2-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu> -->
-    </el-submenu>
-    <el-menu-item index="/catalogList">
-      <!-- <router-link to="/catalogList">日志</router-link> -->
-      日志
-    </el-menu-item>
-    <el-submenu index="22">
-      <template slot="title">我的工作台</template>
-      <el-menu-item index="2-1">选项1</el-menu-item>
-      <el-menu-item index="2-2">选项2</el-menu-item>
-      <el-menu-item index="2-3">选项3</el-menu-item>
-      <el-submenu index="2-4">
-        <template slot="title">选项4</template>
-        <el-menu-item index="2-4-1">选项1</el-menu-item>
-        <el-menu-item index="2-4-2">选项2</el-menu-item>
-        <el-menu-item index="2-4-3">选项3</el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-menu-item index="32" disabled>消息中心</el-menu-item>
-    <el-submenu index="git">
-      <template slot="title">GitHub</template>
-      <el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
-      <el-menu-item index=""><a href="https://github.com/yanghanliang/blog-api" target="_blank">git-api</a>
-      </el-menu-item>
-    </el-submenu>
-  </el-menu>
+							<el-submenu v-if="four.children" v-for="four in three.children" :index="four.index"
+								:key="four.id">
+								<template slot="title">{{ four.classname }}</template>
+								<el-menu-item v-if="!five.children" v-for="five in four.children" :index="five.index"
+									:key="five.id">
+									{{ five.classname }}</el-menu-item>
+							</el-submenu>
+						</el-submenu>
+					</el-submenu>
+				</el-submenu>
+				<el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
+					{{ catalog.classname }}</el-menu-item>
+				<!-- <el-submenu index="2-4">
+					<template slot="title">选项4</template>
+					<el-menu-item index="2-4-1">选项1</el-menu-item>
+					<el-menu-item index="2-4-2">选项2</el-menu-item>
+					<el-menu-item index="2-4-3">选项3</el-menu-item>
+				</el-submenu> -->
+			</el-submenu>
+			<el-menu-item index="/catalogList">
+				<!-- <router-link to="/catalogList">日志</router-link> -->
+				日志
+			</el-menu-item>
+			<el-submenu index="22">
+				<template slot="title">我的工作台</template>
+				<el-menu-item index="2-1">选项1</el-menu-item>
+				<el-menu-item index="2-2">选项2</el-menu-item>
+				<el-menu-item index="2-3">选项3</el-menu-item>
+				<el-submenu index="2-4">
+					<template slot="title">选项4</template>
+					<el-menu-item index="2-4-1">选项1</el-menu-item>
+					<el-menu-item index="2-4-2">选项2</el-menu-item>
+					<el-menu-item index="2-4-3">选项3</el-menu-item>
+				</el-submenu>
+			</el-submenu>
+			<el-menu-item index="/componentsViews">小需求</el-menu-item>
+			<el-submenu index="git">
+				<template slot="title">GitHub</template>
+				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
+				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog-api" target="_blank">git-api</a>
+				</el-menu-item>
+			</el-submenu>
+		</el-menu>
+		<logo></logo>
+	</div>
 </template>
 
 <script>
+// 导入 logo
+import logo from '@/components/canvas/logo'
+
 export default {
 	name: 'myHeard',
+	components: {
+		logo,
+	},
 	data() {
 		return {
 			// activeIndex: '/common',
@@ -198,12 +212,21 @@ export default {
 
 </script>
 
-<style scoped>
-  /* reset-style-start */
-  .el-menu--horizontal>.el-menu-item a {
-    display: inline-block;
-  }
+<style lang="scss" scoped>
+/* reset-style-start */
+.el-menu--horizontal>.el-menu-item a {
+	display: inline-block;
+}
+/* reset-style-end */
 
-  /* reset-style-end */
+.header-box {
+	position: relative;
 
+	canvas {
+		top: -66px;
+		right: -41px;
+		transform: scale(.4);
+		position: absolute;
+	}
+}
 </style>

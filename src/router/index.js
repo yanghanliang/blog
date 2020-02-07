@@ -19,6 +19,7 @@ const editCategory = () => import('@/components/webs/admin/category/editCategory
 const common = () => import('@/components/webs/index/common')
 const articleDetails = () => import('@/components/webs/index/article/articleDetails')
 const catalogList = () => import('@/components/webs/index/catalog/catalogList')
+const componentsViews = () => import('@/views/index/components/view')
 // index-end
 
 Vue.use(Router)
@@ -46,6 +47,11 @@ export default new Router({
 					path: '/articleDetails/:articleId',
 					name: 'articleDetails',
 					component: articleDetails
+				},
+				{
+					path: 'componentsViews',
+					name: componentsViews,
+					component: componentsViews
 				}
 			]
 		},

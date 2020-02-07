@@ -33,6 +33,10 @@ module.exports = {
     'no-tabs': 'off',
     // 允许但不要求在属性后面加逗号
     "comma-dangle": ["error", "only-multiline"],
-    'no-multi-spaces': 'off'
+    'no-multi-spaces': 'off',
+    // 关闭构造函数不存储和使用： 防止 new My() 报错
+    'no-new': "off",
+    // 防止 eval 报错
+    'no-eval': 'off',
   }
 }

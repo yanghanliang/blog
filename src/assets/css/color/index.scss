@@ -33,6 +33,8 @@ $tips: #26b3ae;
 /* 背景颜色 */
 $bgc: #dcdfe6;
 
+$ash: #9c9c9c;
+
 // 循环
 $creativeList: (
     (attr: 'red', color: 'red'),
@@ -42,7 +44,7 @@ $creativeList: (
     (attr: 'blue', color: 'blue'),
     (attr: 'Indigo', color: 'Indigo'),
     (attr: 'purple', color: 'purple'),
-    (attr: 'ash', color: '#9c9c9c'),
+    (attr: 'ash', color: $ash),
     (attr: 'color', color: $theme-color),
     (attr: 'color2', color: $theme-color2)
 );
