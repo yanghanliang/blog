@@ -83,18 +83,21 @@
 				</el-menu-item>
 			</el-submenu>
 		</el-menu>
-		<logo></logo>
+		<!-- <logo></logo> -->
+		<div class="hb-box">
+			<router-link to="/login">登录/注册</router-link>
+		</div>
 	</div>
 </template>
 
 <script>
 // 导入 logo
-import logo from '@/components/canvas/logo'
+// import logo from '@/components/canvas/logo'
 
 export default {
 	name: 'myHeard',
 	components: {
-		logo,
+		// logo,
 	},
 	data() {
 		return {
@@ -227,6 +230,13 @@ export default {
 		right: -41px;
 		transform: scale(.4);
 		position: absolute;
+	}
+
+	.hb-box {
+		top: 50%;
+		right: 33px;
+		position: absolute;
+		transform: translateY(-50%);
 	}
 }
 </style>

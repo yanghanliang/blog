@@ -75,7 +75,7 @@ export default {
 				name2: '文章列表',
 				router: '/'
 			},
-			tableData: null, // 表格中的所有数据
+			tableData: [], // 表格中的所有数据
 			dialogVisible: false, // 弹窗(显示||隐藏)
 			id: '',
 			total: 0, // 文章表中所有的条数

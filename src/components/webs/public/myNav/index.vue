@@ -24,7 +24,7 @@
 import myChildren from './myChildren'
 
 export default {
-	name: 'nav',
+	name: 'myNav',
 	components: {
 		myChildren
 	},
@@ -125,6 +125,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/css/color/index.scss'; // 使用方法
+
 nav {
 	height: 100%;
 
@@ -138,6 +140,7 @@ nav {
 		a {
 			width: 100%;
 			height: 48px;
+			color: $ash;
 			display: block;
 			line-height: 48px;
 			text-align: center;
@@ -147,7 +150,7 @@ nav {
 			}
 
 			&.active {
-				color: red;
+				color: $green;
 			}
 		}
 	}

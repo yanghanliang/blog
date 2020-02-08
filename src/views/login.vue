@@ -7,29 +7,38 @@
 				<el-tab-pane label="用户注册" name="register">
 				</el-tab-pane>
 				<template v-if="activeName === 'login'">
-					<el-form-item label="用户名">
-						<el-input v-model="form.username" v-focus maxlength="20">
+					<el-form-item label="用户名" prop="username">
+						<el-input class="box-show-inster" v-model="form.username" v-focus maxlength="20">
 							<span slot="suffix">{{ form.username.length }}/20</span>
 						</el-input>
 					</el-form-item>
 					<el-form-item label="密码" prop="password">
-						<el-input type="password" v-model="form.password" @keyup.enter.native="login"></el-input>
+						<el-input type="password" class="box-show-inster" v-model="form.password" @keyup.enter.native="login"></el-input>
+						<!-- 这个是为了去掉浏览器默认的自动填充，这些都是在登录成功后点击浏览器默认的保存密码是才会出现的，不保存密码，则不会出现这种情况 -->
+						<!-- <input type="password" autocomplete="new-password" style="display: none"/> -->
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="login" class="btn-login">登录</el-button>
 					</el-form-item>
 				</template>
 				<template v-else>
-					<el-form-item label="用户名" prop="username">
-						<el-input v-model="form.username" v-focus maxlength="20">
+					<el-form-item label="用户名" prop="username" key="username">
+						<el-input v-model="form.username" type="text" autocomplete="off" v-focus maxlength="20">
 							<span slot="suffix">{{ form.username.length }}/20</span>
 						</el-input>
 					</el-form-item>
-					<el-form-item label="密码" prop="password">
-						<el-input type="password" v-model="form.password"></el-input>
+					<el-form-item label="昵称" key="alias">
+						<el-input v-model="form.alias" type="text"  maxlength="20">
+							<span slot="suffix">{{ form.alias.length }}/20</span>
+						</el-input>
 					</el-form-item>
-					<el-form-item label="确认密码" prop="confirmPassword" key="passwords">
-						<el-input type="password" v-model="form.confirmPassword" @keyup.enter.native="register"></el-input>
+					<el-form-item label="密码" prop="password" key="password">
+						<el-input :type="type.password" @focus="passwordFocus" ref="password" autocomplete="off" v-model="form.password"></el-input>
+						<!-- 这个是为了去掉浏览器默认的自动填充，这些都是在登录成功后点击浏览器默认的保存密码是才会出现的，不保存密码，则不会出现这种情况 -->
+						<input type="password" autocomplete="new-password" style="display: none"/>
+					</el-form-item>
+					<el-form-item label="确认密码" autocomplete="off" prop="confirmPassword" key="passwords">
+						<el-input :type="type.confirmPassword" @focus="confirmPasswordFocus" ref="confirmPassword" v-model="form.confirmPassword" @keyup.enter.native="register"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="register" class="btn-login">注册</el-button>
@@ -46,6 +55,11 @@ export default {
 	data() {
 		var username = async (rule, value, callback) => {
 			if (value) {
+				// 如果是登录,则不需要下面的验证
+				if (this.activeName === 'login') {
+					callback()
+					return false
+				}
 				try {
 					// 验证用户名是否重复
 					const { data } = await this.$http.get(`user/userNameValidation?userName=${value}`)
@@ -77,12 +91,16 @@ export default {
 		}
 		return {
 			form: {
+				alias: '',
 				username: '',
 				password: '',
-				confirmPassword: ''
+				confirmPassword: '',
 			},
 			activeName: 'login',
 			rules: {
+				name: [
+					{ trigger: 'change', message: '请输入用户名', required: true },
+				],
 				username: [
 					{ validator: username, trigger: 'change', required: true }
 				],
@@ -94,6 +112,11 @@ export default {
 				]
 			},
 			currentTimer: null,  // 流星雨的定时器
+			type: {
+				password: 'text',
+				confirmPassword: 'text',
+			},
+			lock: true
 		}
 	},
 	created() {
@@ -108,7 +131,16 @@ export default {
 	methods: {
 		// 登录
 		async login() {
-			const data = await this.$http.post('login', this.form)
+			// 表单验证
+			const rules = await this.Global.verification(this, 'form')
+			if (!rules) {
+				return false
+			}
+			let postData = {
+				username: this.form.username,
+				password: this.form.password
+			}
+			const data = await this.$http.post('login', postData)
 			// 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
 			if (data.data.status === 200) {
 				// 弹出提示框
@@ -238,20 +270,19 @@ export default {
 		},
 		// 注册
 		async register() {
+			// 表单验证
 			const rules = await this.Global.verification(this, 'form')
-			console.log(rules, 'rules')
 			if (rules) {
 				let postData = {
+					alias: this.form.alias,
 					userName: this.form.username,
-					password: this.form.password
+					password: this.form.password,
 				}
 				try {
 					const { data } = await this.$http.post('user/addUser', postData)
 					if (data.status === 200) {
-						this.$message.success('添加成功')
-						this.$router.push({
-							path: '/'
-						})
+						this.$message.success('注册成功,请登录~')
+						location.reload()
 					}
 				} catch (e) {
 					console.log(e)
@@ -260,9 +291,78 @@ export default {
 		},
 		// 清空验证
 		resetForm() {
+			this.form.username = ''
+			this.form.password = ''
+			this.form.confirmPassword = ''
 			this.$refs.form.resetFields()
+		},
+		// 这个是为了去掉浏览器默认的提示
+		passwordFocus() {
+			if (String(this.form.password).length === 0) {
+				if (this.lock) {
+					this.$refs.password.blur()
+					this.lock = false
+					setTimeout(() => {
+						this.type.password = 'text'
+						this.$refs.password.focus()
+						this.lock = true
+					})
+				}
+			}
+		},
+		confirmPasswordFocus() {
+			if (String(this.form.confirmPassword).length === 0) {
+				if (this.lock) {
+					this.$refs.confirmPassword.blur()
+					this.lock = false
+					setTimeout(() => {
+						this.type.confirmPassword = 'text'
+						this.$refs.confirmPassword.focus()
+						this.lock = true
+					})
+				}
+			}
 		}
-	}
+	},
+	watch: {
+		// 这个是为了去掉浏览器默认的提示
+		'form.password': function(value, v2) {
+			if (this.activeName === 'login') {
+				return false
+			}
+			if (String(value).length > 0) {
+				setTimeout(() => {
+					this.type.password = 'password'
+				})
+			} else if (this.$refs.password) {
+				this.$refs.password.blur()
+				this.lock = false
+				setTimeout(() => {
+					this.type.password = 'text'
+					this.$refs.password.focus()
+					this.lock = true
+				})
+			}
+		},
+		'form.confirmPassword': function(value) {
+			if (this.activeName === 'login') {
+				return false
+			}
+			if (String(value).length > 0) {
+				setTimeout(() => {
+					this.type.confirmPassword = 'password'
+				})
+			} else if (this.$refs.confirmPassword) {
+				this.$refs.confirmPassword.blur()
+				this.lock = false
+				setTimeout(() => {
+					this.type.confirmPassword = 'text'
+					this.$refs.confirmPassword.focus()
+					this.lock = true
+				})
+			}
+		}
+	},
 }
 
 </script>
@@ -283,6 +383,10 @@ export default {
 	padding: 20px;
 	border-radius: 5px;
 	background-color: #fff;
+
+	.box-show-inster >>> input {
+		box-shadow: 0 0 0 1000px #fff inset;
+	}
 }
 
 .login .login-form .btn-login {

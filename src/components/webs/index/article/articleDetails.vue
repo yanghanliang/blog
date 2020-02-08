@@ -581,6 +581,7 @@ export default {
 				}
 			} catch (e) {
 				console.log(e)
+				this.$message.error('请求超时~')
 			}
 		}
 	},

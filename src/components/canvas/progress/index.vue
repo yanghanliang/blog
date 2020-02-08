@@ -359,7 +359,7 @@ export default {
 					return Math.asin(params.sin) / (Math.PI / 180)
 				} else if (params.x >= this.circularX && params.y <= this.circularY) {
 					console.log('270-360', Math.asin(params.sin) / (Math.PI / 180))
-					if(this.direction) {
+					if (this.direction) {
 						return 360 + Math.asin(params.sin) / (Math.PI / 180)
 					} else {
 						return Math.asin(params.sin) / (Math.PI / 180)

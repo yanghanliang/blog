@@ -40,8 +40,13 @@ MyAxios.install = function (Vue) {
 			data
 		} = response
 		if (data.type === 'token' && data.status === 201) {
-			Message.error(data.msg)
-			location.href = `#/login` // 跳转登陆页面
+			Message({
+				type: 'error',
+				message: data.msg,
+				onClose: function() {
+					location.href = `/login` // 跳转登陆页面
+				}
+			})
 		}
 		return response
 	}, function (error) {
