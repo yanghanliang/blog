@@ -14,10 +14,11 @@ export default {
 
 .content_right {
     overflow: hidden;
-    padding: 0 20px;
     color: #b1bdd4;
     min-height: 100%;
     background-color: $bgc;
+    border-left: 20px solid $bgc;
+    border-right: 20px solid $bgc;
 }
 
 .el-breadcrumb {

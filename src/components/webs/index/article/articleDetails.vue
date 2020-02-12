@@ -52,7 +52,7 @@
                             <el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
                         </el-form-item>
                         <el-form-item label="邮箱" prop="mailbox">
-                            <el-input v-model="commentForm.mailbox" placeholder="请输入密码"></el-input>
+                            <el-input v-model="commentForm.mailbox" placeholder="请输入邮箱"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
                             <el-input type="password" v-model="commentForm.password"></el-input>

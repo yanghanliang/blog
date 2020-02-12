@@ -47,6 +47,9 @@ MyAxios.install = function (Vue) {
 					location.href = `/login` // 跳转登陆页面
 				}
 			})
+		} else if (data.status === 200 && data.data) {
+			// 这样做之后取数据的时候可以少取一层
+			return data.data
 		}
 		return response
 	}, function (error) {

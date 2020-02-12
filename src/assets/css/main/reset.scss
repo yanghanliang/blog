@@ -128,19 +128,13 @@ html::-webkit-scrollbar-thumb:hover {
 
 
 /* admin-category-start */
-.admin_category {
-	top: 50%;
-	left: 50%;
-	position: absolute;
-	display: inline-block;
-	transform: translate(-50%, -50%);
-}
-  
-.admin_category .el-select {
-	width: 5rem;
-}
+.form-box {
+	.el-select, .el-form-item__content {
+		width: 5rem;
+	}
 
-.admin_category  .el-form-item__label {
-	color: #ffffff;
+	.el-form-item__label {
+		color: #ffffff;
+	}
 }
 /* admin-category-end */

@@ -1,9 +1,9 @@
 <template>
     <ul>
         <li v-for="(item, index) in data" :key="index">
-            <div class="clearfix">
+            <div :class="['clearfix', item.router === $route.path ? 'active' : '']">
 				<i @click.stop="clickSwitch(item)" :class="item | iconClass" :style="item | style"></i>
-				<a :href="item.router">{{ item.name }}</a>
+				<a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a>
 			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>
         </li>
@@ -42,6 +42,9 @@ export default {
 			return `margin-left: ${left}px;`
 		}
 	},
+	created() {
+		console.log(this.$route, 'router')
+	},
 	methods: {
 		dataHandle() {
 		},
@@ -50,6 +53,12 @@ export default {
 			row.status = row.status === 'close' ? 'open' : 'close'
 			console.log(this.data, 'data', row)
 			return false
+		},
+		// 组件跳转不刷新页面
+		jump(router) {
+			this.$router.push({
+				path: router
+			})
 		}
 	},
 }
@@ -57,6 +66,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/color/index.scss'; // 使用方法
+
 ul {
 	li {
 		width: 100%;
@@ -68,6 +79,14 @@ ul {
 
 			&:hover {
 				background-color: #E5E8EC;
+			}
+
+			&.active {
+				background-color: #E5E8EC;
+
+				a {
+					color: $green;
+				}
 			}
 
 			i {

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin_category">
+    <div class="admin_category form-box">
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="分类名称">
                 <el-input v-model="form.classname"></el-input>
@@ -99,5 +99,12 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+.admin_category {
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	display: inline-block;
+	transform: translate(-50%, -50%);
+}
 </style>

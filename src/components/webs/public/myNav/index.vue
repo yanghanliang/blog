@@ -7,6 +7,7 @@
 				:class="{'active': item.status === 'open'}"
 				href="javascript:;"
 				:key="index"
+				:title="item.name"
 			>
 				<i :class="item.icon"></i>
 			</a>
@@ -36,6 +37,8 @@ export default {
 					level: 0,
 					status: 'open',
 					icon: 'my-icon-wenzhang',
+					router: '/admin/addArticle',
+					identification: 'article',
 					children: [
 						{
 							name: '添加文章',
@@ -75,6 +78,8 @@ export default {
 					level: 0,
 					status: 'close',
 					icon: 'my-icon-category',
+					router: '/admin/categoryList',
+					identification: 'category',
 					children: [
 						{
 							name: '添加分类',
@@ -87,6 +92,26 @@ export default {
 							router: '/admin/categoryList',
 						}
 					]
+				},
+				{
+					name: '权限',
+					level: 0,
+					status: 'close',
+					icon: 'my-icon-category',
+					router: '/admin/jurisdiction/list',
+					identification: 'jurisdiction',
+					children: [
+						{
+							name: '权限列表',
+							level: 1,
+							router: '/admin/jurisdiction/list',
+						},
+						{
+							name: '添加权限',
+							level: 1,
+							router: '/admin/jurisdiction/add',
+						}
+					]
 				}
 			],
 			currentChildren: [], // 当前的子集数据
@@ -95,8 +120,7 @@ export default {
 		}
 	},
 	created() {
-		this.currentChildren = this.data[0].children
-		this.currentTitle = this.data[0].name
+		this.routerChange(this.$route)
 	},
 	methods: {
 		// 鼠标移入时,将对应的数据给子菜单,并变化数据
@@ -107,6 +131,7 @@ export default {
 			this.data.forEach(obj => {
 				if (item === obj) {
 					obj.status = 'open'
+					this.$router.push(obj.router)
 				} else {
 					obj.status = 'close'
 				}
@@ -118,7 +143,28 @@ export default {
 		},
 		// 关闭菜单
 		closeNav() {
-			this.navStatus = false
+			// this.navStatus = false
+		},
+		// 路由变化时更新导航状态
+		routerChange(route) {
+			let url = route.path.toLocaleLowerCase()
+			this.data.forEach((item) => {
+				if (url.includes(item.identification)) {
+					this.currentChildren = item.children
+					this.currentTitle = item.name
+					item.status = 'open'
+				} else {
+					item.status = 'close'
+				}
+			})
+		}
+	},
+	watch: {
+		$route: {
+			handler: function(route) {
+				this.routerChange(route)
+			},
+			// deep: true
 		}
 	},
 }
