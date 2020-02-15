@@ -20,6 +20,7 @@ const common = () => import('@/components/webs/index/common')
 const articleDetails = () => import('@/components/webs/index/article/articleDetails')
 const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 const componentsViews = () => import('@/views/index/components/view')
+const progress = () => import('@/views/index/components/document/progress')
 // index-end
 
 Vue.use(Router)
@@ -49,15 +50,28 @@ export default new Router({
 					component: articleDetails
 				},
 				{
-					path: 'componentsViews',
-					name: componentsViews,
-					component: componentsViews
+					path: 'views/components',
+					name: 'componentsViews',
+					component: componentsViews,
+					redirect: 'views/components/progress',
+					children: [
+						{
+							path: 'progress',
+							name: 'progress',
+							component: progress,
+						}
+					]
 				}
 			]
 		},
 		{
 			path: '/login',
 			name: 'login',
+			component: login
+		},
+		{
+			path: '/register',
+			name: 'register',
 			component: login
 		},
 		{

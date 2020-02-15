@@ -1,8 +1,5 @@
 <template>
     <div class="index">
-        <header>
-            <h1>后台首页</h1>
-        </header>
         <div class="content">
             <div class="content_left">
                 <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
@@ -87,7 +84,6 @@ export default {
 <style scoped>
     .index {
         height: 100%;
-        position: relative;
     }
 
     header>h1 {
@@ -95,7 +91,7 @@ export default {
     }
 
     .content {
-        height: calc(100% - 50px);
+        height: 100%;
     }
 
     .content_left {

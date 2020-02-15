@@ -1,5 +1,5 @@
 <template>
-    <div class="common">
+    <div class="common-box">
         <el-input placeholder="请输入您要搜索的内容" v-model="pageData.searchData" :autofocus="true" @input="searchInput"
             @keyup.enter.native="searchEnter" clearable class="search">
         </el-input>
@@ -222,8 +222,8 @@ export default {
 	font-size: 17px;
 }
 
-.common {
-    padding-bottom: 90px;
+.common-box {
+	margin-bottom: 47px;
 }
 
 /* search-start */

@@ -16,14 +16,17 @@
 <script>
 export default {
 	props: {
+		// 是否显示百分比
 		showPercentage: {
 			type: Boolean,
 			default: true
 		},
+		// 是否显示可拖拽按钮
 		showSlider: {
 			type: Boolean,
 			default: true
 		},
+		// 百分比
 		progressValue: {
 			type: Number,
 			default: 0

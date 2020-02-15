@@ -1,5 +1,5 @@
 <template>
-    <div class="body">
+    <div>
         <div class="w">
             <div class="search">
                 <!-- <form name="form1" method="post" action="?c=Index&a=search" target="_blank">
@@ -45,21 +45,21 @@
                         <my-icon color class="fs40" identification="pinglun1"></my-icon>
                     </div>
                     <!-- 发布评论-start -->
-                    <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px"
-                        class="demo-ruleForm">
-                        <el-form-item label="昵称" prop="alias">
-                            <!-- <el-input v-model="commentForm.alias" v-bind:disabled="Boolean(alias)"></el-input> -->
-                            <el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
-                        </el-form-item>
-                        <el-form-item label="邮箱" prop="mailbox">
-                            <el-input v-model="commentForm.mailbox" placeholder="请输入邮箱"></el-input>
-                        </el-form-item>
-                        <el-form-item label="密码" prop="password">
-                            <el-input type="password" v-model="commentForm.password"></el-input>
-                        </el-form-item>
-                        <el-form-item label="确认密码" prop="checkPass">
-                            <el-input type="password" v-model="commentForm.checkPass" autocomplete="off"></el-input>
-                        </el-form-item>
+                    <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
+                        <template v-if="!userInfo">
+							<el-form-item label="昵称" prop="alias">
+								<el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
+							</el-form-item>
+							<el-form-item label="邮箱" prop="mailbox">
+								<el-input v-model="commentForm.mailbox" placeholder="请输入邮箱"></el-input>
+							</el-form-item>
+							<el-form-item label="密码" prop="password">
+								<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.password" autocomplete="off"></el-input>
+							</el-form-item>
+							<el-form-item label="确认密码" prop="checkPass">
+								<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.checkPass" autocomplete="off"></el-input>
+							</el-form-item>
+						</template>
                         <el-form-item label="评论" prop="comment_content">
                             <el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content">
                             </el-input>
@@ -70,40 +70,44 @@
                             <el-button @click="resetForm('commentForm')">重置</el-button>
                         </el-form-item>
                     </el-form>
-                    <!-- 发布评论-end -->
-                    <!-- 显示评论-start -->
-                    <div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
-                        <div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data"
-                            :key="index">
-                            <div class="scb_header clearfix">
-                                <div class="scbh_img_box" @click="editHeadPortrait(item)">
-                                    <img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
-                                </div>
-                                <div class="scbh_arrow"></div>
-                                <span>{{ item.alias }}</span>
-                            </div>
-                            <div class="scb_body">
-                                <my-icon identification="caozuoqipao" color class="icon"></my-icon>
-                                <p>{{ item.comment_content }}</p>
-                            </div>
-                            <div class="scb_footer clearfix">
-                                <div class="commentary_time">
-                                    <my-icon identification="shijian1"></my-icon> {{ item.time }}
-                                </div>
-                                <el-button class="replay" type="text"
-                                    @click="replay(item.alias, item.id, parentIndex, index)">
-                                    <my-icon identification="chakantiezihuifu"></my-icon>
-                                </el-button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 显示评论-end -->
-                    <ul class="no_data" v-if="!commentData">
-                        <li>
-                            <my-icon class="fs40" identification="meiyouxiangguan"></my-icon>
-                        </li>
-                        <li>没有数据~</li>
-                    </ul>
+					<template v-if="commentData.length > 0">
+						<!-- 显示评论-start -->
+						<div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
+							<div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data"
+								:key="index">
+								<div class="scb_header clearfix">
+									<div class="scbh_img_box" @click="editHeadPortrait(item)">
+										<img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
+									</div>
+									<div class="scbh_arrow"></div>
+									<span>{{ item.alias }}</span>
+								</div>
+								<div class="scb_body">
+									<my-icon identification="caozuoqipao" color class="icon"></my-icon>
+									<p>{{ item.comment_content }}</p>
+								</div>
+								<div class="scb_footer clearfix">
+									<div class="commentary_time">
+										<my-icon identification="shijian1"></my-icon> {{ item.time }}
+									</div>
+									<el-button class="replay" type="text"
+										@click="replay(item.alias, item.id, parentIndex, index)">
+										<my-icon identification="chakantiezihuifu"></my-icon>
+									</el-button>
+								</div>
+							</div>
+						</div>
+						<!-- 显示评论-end -->
+					</template>
+					<template v-else>
+						<ul class="no_data">
+							<li>
+								<my-icon class="fs40" identification="meiyouxiangguan"></my-icon>
+							</li>
+							<li>没有数据~</li>
+						</ul>
+					</template>
+					<!-- 发布评论-end -->
                 </div>
                 <div class="right">
                     <!-- Relevant recommendations Abbreviations rr -->
@@ -119,7 +123,6 @@
                     </ol>
 
                     <category></category>
-
                 </div>
             </div>
         </div>
@@ -128,20 +131,22 @@
         <el-dialog :title="replyAlias" :visible.sync="dialogFormVisible">
             <el-form :model="replyForm" status-icon :rules="rules" ref="replyForm" label-width="100px"
                 class="demo-ruleForm">
-                <el-form-item label="昵称" prop="alias">
-                    <!-- <el-input v-model="replyForm.alias" v-bind:disabled="Boolean(alias)"></el-input> -->
-                    <el-input v-model="replyForm.alias" @input="aliasLock=true"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="mailbox">
-                    <el-input v-model="replyForm.mailbox" placeholder="请输入邮箱"></el-input>
-                </el-form-item>
-                <el-form-item label="密码" prop="password" :rules="replyVerification">
-                    <el-input type="password" autocomplete="off" v-model="replyForm.password"
-                        placeholder="添加密码后，可防止其他人修改您的 头像、 昵称、 邮箱、 评论内容"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass" :rules="replyVerification2">
-                    <el-input type="password" v-model="replyForm.checkPass" autocomplete="off"></el-input>
-                </el-form-item>
+				<template v-if="!userInfo">
+					<el-form-item label="昵称" prop="alias">
+						<!-- <el-input v-model="replyForm.alias" v-bind:disabled="Boolean(alias)"></el-input> -->
+						<el-input v-model="replyForm.alias" @input="aliasLock=true"></el-input>
+					</el-form-item>
+					<el-form-item label="邮箱" prop="mailbox">
+						<el-input v-model="replyForm.mailbox" placeholder="请输入邮箱"></el-input>
+					</el-form-item>
+					<el-form-item label="密码" prop="password" :rules="replyVerification">
+						<el-input type="text" onfocus="this.type = 'password'" autocomplete="off" v-model="replyForm.password"
+							placeholder="添加密码后，可防止其他人修改您的 头像、 昵称、 邮箱、 评论内容"></el-input>
+					</el-form-item>
+					<el-form-item label="确认密码" prop="checkPass" :rules="replyVerification2">
+						<el-input type="text" onfocus="this.type = 'password'" v-model="replyForm.checkPass" autocomplete="off"></el-input>
+					</el-form-item>
+				</template>
                 <el-form-item label="评论" prop="comment_content">
                     <el-input type="textarea" placeholder="畅所欲言~" v-model="replyForm.comment_content"></el-input>
                 </el-form-item>
@@ -181,7 +186,7 @@
                             <el-input v-model="user.mailbox" placeholder="请输入邮箱"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password" :rules="userVerification">
-                            <el-input type="password" autocomplete="off" v-model="user.password" placeholder="请输入密码"
+                            <el-input type="text" onfocus="this.type = 'password'" autocomplete="off" v-model="user.password" placeholder="请输入密码"
                                 class="password"></el-input>
                         </el-form-item>
                         <el-form-item label="评论" prop="comment_content">
@@ -263,7 +268,8 @@ export default {
 			}
 		}
 		let validatePass = async (rule, value, callback) => { // 发布评论的密码验证
-			if (!this.lock) return false // 判断是否开启密码验证
+			if (!this.lock) return callback() // 判断是否开启密码验证
+			if (!value) return callback(new Error('请输入密码'))
 			let postData = {
 				id: this.user.id,
 				password: value
@@ -272,7 +278,7 @@ export default {
 				data
 			} = await this.$http.post('verifyPassword', postData)
 			if (data) {
-				this.commentForm.checkPass = value // 让密码和确认密码同步
+				// this.commentForm.checkPass = value // 让密码和确认密码同步
 				this.aliasLock = false // 关闭昵称验证
 				callback()
 			} else {
@@ -441,11 +447,14 @@ export default {
 				comment_content: ''
 			},
 			progressPercent: 0,
+			// 登录后的用户信息
+			userInfo: null,
 		}
 	},
 	created() {
 		this.loadData() // 获取文章详情数据
 		this.getCommentData() // 获取评论数据
+		this.getUserInfo() // 获取用户信息
 	},
 	methods: {
 		async loadData() { // 获取文章详情数据
@@ -465,10 +474,12 @@ export default {
 			this.nextArticle = data.nextArticle
 		},
 		async getCommentData() { // 获取评论数据
-			const {
-				data
-			} = await this.$http.get(`comment/${this.$route.params.articleId}`)
-			this.commentData = data.data
+			try {
+				const data = await this.$http.get(`comment/${this.$route.params.articleId}`)
+				this.commentData = data
+			} catch (e) {
+				console.log(e)
+			}
 		},
 		clickDuring(id) { // 点击上上一页或下一页时执行
 			this.$router.push({
@@ -491,6 +502,7 @@ export default {
 						callback && callback()
 						this.resetForm(formName) // 清空评论内容
 						this.getCommentData() // 重新获取数据（不可简化，因为回复需要id
+						// this.defaultType()
 					}
 				} else {
 					return false
@@ -583,6 +595,18 @@ export default {
 				console.log(e)
 				this.$message.error('请求超时~')
 			}
+		},
+		getUserInfo() {
+			const userInfo = JSON.parse(window.localStorage.getItem('user'))
+			if (userInfo) {
+				this.userInfo = userInfo
+				this.commentForm.alias = userInfo.alias
+				this.commentForm.mailbox = userInfo.mailbox
+				this.commentForm.password = userInfo.password
+				this.replyForm.alias = userInfo.alias
+				this.replyForm.mailbox = userInfo.mailbox
+				this.replyForm.password = userInfo.password
+			}
 		}
 	},
 	watch: {
@@ -590,13 +614,10 @@ export default {
 			this.loadData()
 			this.getCommentData() // 重新获取评论数据
 		},
-		alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
-			this.commentForm.alias = newData
-			this.replyForm.alias = newData
-		},
-		// src(a, b) {
-		// 	console.log(a, b, 'url')
-		// }
+		// alias(newData, oldData) { // 减少用户输入昵称,提高用户体验
+		// 	this.commentForm.alias = newData
+		// 	this.replyForm.alias = newData
+		// },
 	}
 }
 
@@ -607,12 +628,7 @@ export default {
 	font-size: 40px;
 }
 
-.body {
-    min-height: 100%;
-    padding-bottom: 100px;
-}
-
-.body .w .el-breadcrumb {
+.w .el-breadcrumb {
     margin-bottom: 0.2rem;
 }
 

@@ -14,8 +14,6 @@
 					</el-form-item>
 					<el-form-item label="密码" prop="password">
 						<el-input type="password" class="box-show-inster" v-model="form.password" @keyup.enter.native="login"></el-input>
-						<!-- 这个是为了去掉浏览器默认的自动填充，这些都是在登录成功后点击浏览器默认的保存密码是才会出现的，不保存密码，则不会出现这种情况 -->
-						<!-- <input type="password" autocomplete="new-password" style="display: none"/> -->
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="login" class="btn-login">登录</el-button>
@@ -96,7 +94,7 @@ export default {
 				password: '',
 				confirmPassword: '',
 			},
-			activeName: 'login',
+			activeName: this.$route.name,
 			rules: {
 				name: [
 					{ trigger: 'change', message: '请输入用户名', required: true },
@@ -121,6 +119,7 @@ export default {
 	},
 	created() {
 		this.meteorShower()
+		console.log(this.$route, '???')
 	},
 	beforeDestroy() {
 		// 如果不清除, 那么跳转到其他页面是还是会出现流星雨的效果，因为
@@ -140,23 +139,24 @@ export default {
 				username: this.form.username,
 				password: this.form.password
 			}
-			const data = await this.$http.post('login', postData)
+			const { data } = await this.$http.post('login', postData)
+			console.log(data, 'data')
 			// 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
-			if (data.data.status === 200) {
+			if (data.status === 200) {
 				// 弹出提示框
 				this.$message({
 					type: 'success',
-					message: data.data.msg,
+					message: data.msg,
 					center: true
 				})
 
 				// 保存 token
-				localStorage.setItem('token', data.data.token)
+				localStorage.setItem('token', data.token)
+				// 保存用户信息
+				localStorage.setItem('user', JSON.stringify(data.user))
 
-				// 跳转页面
-				this.$router.push({
-					name: 'admin'
-				})
+				// 返回上一个页面
+				this.$router.go(-1)
 			} else {
 				// 弹出提示框
 				this.$message({

@@ -1,6 +1,6 @@
 <template>
-    <div class="w clearfix pb90">
-		<div class="components-box">
+    <div class="w components-box clearfix body-box">
+		<!-- <div class="components-box">
 			<my-progress></my-progress>
 		</div>
 		<div class="components-box">
@@ -13,12 +13,22 @@
 		</div>
 		<div class="components-box">
 			<my-slider></my-slider>
+		</div> -->
+		<div class="left-box min-height">
+			<logo class="logo"></logo>
+			<ul>
+				<span class="lb-class">canvas</span>
+				<li><a href="#">Slider 滑块</a></li>
+			</ul>
+		</div>
+		<div class="right-box">
+			<router-view />
 		</div>
     </div>
 </template>
 
 <script>
-import myProgress from '@/components/canvas/progress/index'
+import logo from '@/components/canvas/logo'
 import myCircular from '@/components/function/circular/index'
 import mySquare from '@/components/function/square/index'
 import mySlider from '@/components/function/slider/index'
@@ -26,7 +36,7 @@ import mySlider from '@/components/function/slider/index'
 export default {
 	name: 'componentsViews',
 	components: {
-		myProgress,
+		logo,
 		myCircular,
 		mySquare,
 		mySlider
@@ -53,18 +63,46 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/css/color/index.scss'; // 使用方法
 
-.components-box {
-	float: left;
-	margin: 20px;
-	padding: 20px;
-	border-radius: 5px;
-	border: 5px solid $ash;
+.body-box {
 
-	.my-icon-ai244 {
+}
+
+.components-box {
+	background-color: #fff;
+
+	.left-box {
+		width: 2.1rem;
+		min-height: 707px;
+		float: left;
+		text-align: left;
+		position: relative;
+		border-right: 1px solid $border-color;
+		padding: 1rem 0.2rem 0.2rem 0.2rem;
+
+		.logo {
+			top: -55px;
+			left: -50px;
+			position: absolute;
+			transform: scale(.5);
+		}
+
+		.lb-class {
+			color: $ash;
+		}
+
+		li {
+			a {
+				color: $main-font;
+				height: 40px;
+				line-height: 40px;
+			}
+		}
+	}
+
+	.right-box {
+		width: 908px;
 		float: right;
-		font-size: 20px;
-		margin-right: 10px;
-		cursor: pointer;
+		padding: 20px;
 	}
 }
 </style>

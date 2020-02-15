@@ -75,7 +75,7 @@
 					<el-menu-item index="2-4-3">选项3</el-menu-item>
 				</el-submenu>
 			</el-submenu>
-			<el-menu-item index="/componentsViews">小需求</el-menu-item>
+			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
@@ -85,15 +85,22 @@
 		</el-menu>
 		<!-- <logo></logo> -->
 		<div class="hb-box">
-			<router-link to="/login">登录/注册</router-link>
+			<template v-if="userInfo">
+				<span color2>欢迎：{{ userInfo.alias }}~</span>
+				<ul class="user-box">
+					<li @click="signOut">退出</li>
+				</ul>
+			</template>
+			<template v-else>
+				<router-link to="/login">登录</router-link>
+				<span color>|</span>
+				<router-link to="/register">注册</router-link>
+			</template>
 		</div>
 	</div>
 </template>
 
 <script>
-// 导入 logo
-// import logo from '@/components/canvas/logo'
-
 export default {
 	name: 'myHeard',
 	components: {
@@ -160,11 +167,13 @@ export default {
 				index: '1-4',
 				classname: 'akjsaks'
 			}
-			]
+			],
+			userInfo: ''
 		}
 	},
 	created() {
 		this.loadData() // 加载数据
+		this.getUserInfo() // 获取用户信息
 	},
 	methods: {
 		async loadData() { // 加载数据
@@ -209,6 +218,33 @@ export default {
 
 			ipc(finalData)
 			return finalData
+		},
+		// 获取用户信息
+		getUserInfo() {
+			this.userInfo = JSON.parse(window.localStorage.getItem('user'))
+		},
+		// 退出登录
+		signOut() {
+			this.$confirm('您是想直接退出还是换一个账号登录?', '退出登录', {
+				confirmButtonText: '直接退出',
+				cancelButtonText: '切换账户',
+				type: 'warning'
+			}).then(() => {
+				window.localStorage.removeItem('token')
+				window.localStorage.removeItem('user')
+				// this.$router.go(0)
+				window.location.reload()
+				this.$message({
+					type: 'success',
+					message: '退出成功~'
+				})
+			}).catch(() => {
+				window.localStorage.removeItem('token')
+				window.localStorage.removeItem('user')
+				this.$router.push({
+					name: 'login'
+				})
+			})
 		}
 	}
 }
@@ -216,13 +252,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/color/index.scss'; // 使用方法
+
 /* reset-style-start */
 .el-menu--horizontal>.el-menu-item a {
 	display: inline-block;
 }
+
+.el-menu.el-menu--horizontal {
+    border-bottom: none;
+}
 /* reset-style-end */
 
 .header-box {
+	height: 60px;
+	line-height: 60px;
 	position: relative;
 
 	canvas {
@@ -237,6 +281,31 @@ export default {
 		right: 33px;
 		position: absolute;
 		transform: translateY(-50%);
+
+		&:hover {
+			.user-box {
+				display: block;
+			}
+		}
+
+		.user-box {
+			width: 100%;
+			display: none;
+			color: $theme-color2;
+			text-align: center;
+			position: absolute;
+			box-shadow: -3px 3px 7px 0px #cccccc;
+
+			li {
+				height: 40px;
+				cursor: pointer;
+				line-height: 40px;
+
+				&:hover {
+					background-color: $hover;
+				}
+			}
+		}
 	}
 }
 </style>

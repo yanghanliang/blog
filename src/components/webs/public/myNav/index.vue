@@ -97,7 +97,7 @@ export default {
 					name: '权限',
 					level: 0,
 					status: 'close',
-					icon: 'my-icon-category',
+					icon: 'my-icon-setting-permissions',
 					router: '/admin/jurisdiction/list',
 					identification: 'jurisdiction',
 					children: [

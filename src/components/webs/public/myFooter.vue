@@ -11,11 +11,11 @@ export default {
 
 <style>
 footer {
-    bottom: 0;
     width: 100%;
     height: 50px;
+    color: #fff;
+    font-size: 14px;
     line-height: 50px;
-    position: absolute;
-    background-color: #101010;
+    background-color: rgb(84, 92, 100);
 }
 </style>
