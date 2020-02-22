@@ -222,6 +222,7 @@ export default {
 		// 获取用户信息
 		getUserInfo() {
 			this.userInfo = JSON.parse(window.localStorage.getItem('user'))
+			console.log(this.userInfo, '用户xinxi')
 		},
 		// 退出登录
 		signOut() {

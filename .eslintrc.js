@@ -38,5 +38,8 @@ module.exports = {
     'no-new': "off",
     // 防止 eval 报错
     'no-eval': 'off',
+    // 防止 在原型上操作的错误Array.prototype.remove = fn
+    'no-extend-native': 'off',
+    'no-proto': 'off'
   }
 }

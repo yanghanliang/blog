@@ -40,7 +40,7 @@
             <el-table-column fixed="right" align="center" label="操作" width="200">
                 <template slot-scope="scope">
                     <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
-                    <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
+                    <router-link class="edit" :to="{ name: 'handleArticle', params: { articleId: scope.row.id }}">编辑
                     </router-link>
                 </template>
                 <template slot="header" slot-scope="scope">

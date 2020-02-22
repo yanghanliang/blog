@@ -50,7 +50,6 @@ export default {
 	methods: {
 		// 刷新圆
 		refreshCircular(ele) {
-			console.log(ele, 'eke')
 			this[ele] = false
 			this.$nextTick(() => {
 				this[ele] = true
@@ -62,10 +61,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/color/index.scss'; // 使用方法
-
-.body-box {
-
-}
 
 .components-box {
 	background-color: #fff;

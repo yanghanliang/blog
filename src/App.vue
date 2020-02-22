@@ -1,31 +1,38 @@
 <template>
     <div id="app">
-        <!-- 调用头部公共组件 -->
-        <my-header></my-header>
         <router-view />
-        <!-- 调用底部公共组件 -->
-        <my-footer></my-footer>
     </div>
 </template>
 
 <script>
-// 导入 header
-import myHeader from '@/components/webs/public/myHeader'
-// 导入 footer
-import myFooter from '@/components/webs/public/myFooter'
-
 export default {
 	name: 'App',
-	components: {
-		myHeader,
-		myFooter
+	created() {
+		this.getUserJurisdiction()
 	},
 	methods: {
+		// 获取用户权限
+		async getUserJurisdiction() {
+			try {
+				const data = await this.$http.get('user/jurisdiction')
+				this.__proto__._jurisdiction = data
+				window.localStorage.setItem('_jurisdiction', JSON.stringify(data))
+				console.log(data, 'data??')
+			} catch (e) {
+				console.log(e)
+			}
+		}
+	},
+	destroyed() {
+		console.log()
 	},
 	watch: {
-		$route(to, from) {
-			console.log(to, from, 'route')
-		}
+		// $route(to, from) {
+		// 	console.log(this._jurisdiction, '_jurisdiction')
+		// 	if (!this._jurisdiction.includes(to.name)) {
+		// 		this.$router.go(-1)
+		// 	}
+		// }
 	},
 }
 

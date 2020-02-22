@@ -67,7 +67,6 @@ export default {
 						callback(new Error('此用户名已被使用，请重新设置用户名'))
 					}
 				} catch (e) {
-					console.log(e, '多半是接口问题')
 					callback(new Error('请重试'))
 				}
 			} else {
@@ -75,7 +74,6 @@ export default {
 			}
 		}
 		var confirmPassword = (rule, value, callback) => {
-			console.log(value, 'password')
 			if (value) {
 				// 验证用户名是否重复
 				if (value === this.form.password) {
@@ -119,7 +117,6 @@ export default {
 	},
 	created() {
 		this.meteorShower()
-		console.log(this.$route, '???')
 	},
 	beforeDestroy() {
 		// 如果不清除, 那么跳转到其他页面是还是会出现流星雨的效果，因为
@@ -140,7 +137,6 @@ export default {
 				password: this.form.password
 			}
 			const { data } = await this.$http.post('login', postData)
-			console.log(data, 'data')
 			// 当请求结束后才会执行下面的代码, 下面的代码相当于写在了回调函数中
 			if (data.status === 200) {
 				// 弹出提示框
@@ -154,7 +150,8 @@ export default {
 				localStorage.setItem('token', data.token)
 				// 保存用户信息
 				localStorage.setItem('user', JSON.stringify(data.user))
-
+				this.__proto__._jurisdiction = data.notJurisdiction
+				window.localStorage.setItem('_jurisdiction', JSON.stringify(data.notJurisdiction))
 				// 返回上一个页面
 				this.$router.go(-1)
 			} else {

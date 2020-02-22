@@ -1,6 +1,8 @@
 <template>
     <div>
-        <my-progress :progressValue="50"></my-progress>
+        <my-progress :progressValue="50">
+			<div slot="content">123</div>
+		</my-progress>
         <mavon-editor
 			class="rich-text"
             v-model="content"
@@ -94,7 +96,7 @@ export default {
 			],
 			content: '',
 			name: 'progress',
-			edit: false
+			edit: true
 		}
 	},
 	created() {

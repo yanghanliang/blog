@@ -1,5 +1,7 @@
 <template>
     <div class="index">
+        <!-- 调用头部公共组件 -->
+        <my-header></my-header>
         <div class="content">
             <div class="content_left">
                 <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
@@ -45,6 +47,8 @@
 </template>
 
 <script>
+// 导入 header
+import myHeader from '@/components/webs/public/myHeader'
 // 导航
 import myNav from '@/components/webs/public/myNav/index'
 // 引入右边内容区域
@@ -53,6 +57,7 @@ import RightContent from '@/components/webs/admin/RightContent'
 export default {
 	name: 'admin',
 	components: {
+		myHeader,
 		myNav,
 		RightContent
 	},

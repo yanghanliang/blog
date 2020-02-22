@@ -112,6 +112,21 @@ export default {
 							router: '/admin/jurisdiction/add',
 						}
 					]
+				},
+				{
+					name: '用户',
+					level: 0,
+					status: 'close',
+					icon: 'my-icon-yonghufangkeshu',
+					router: '/admin/user/list',
+					identification: 'user',
+					children: [
+						{
+							name: '用户列表',
+							level: 1,
+							router: '/admin/user/list',
+						}
+					]
 				}
 			],
 			currentChildren: [], // 当前的子集数据

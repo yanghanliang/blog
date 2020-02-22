@@ -26,6 +26,7 @@
 
 <script>
 export default {
+	name: 'handleArticle',
 	data() {
 		return {
 			form: {

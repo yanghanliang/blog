@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// 导入消息提示
+import {
+	Message,
+} from 'element-ui'
 const index = () => import('@/components/webs/index/index')
 
 // admin-start
@@ -13,6 +17,7 @@ const editCategory = () => import('@/components/webs/admin/category/editCategory
 const jurisdictionList = () => import('@/views/admin/jurisdiction/list')
 const addJurisdiction = () => import('@/views/admin/jurisdiction/add')
 const editJurisdiction = () => import('@/views/admin/jurisdiction/edit')
+const userList = () => import('@/views/admin/user/list')
 // admin-end
 
 // index-start
@@ -25,7 +30,7 @@ const progress = () => import('@/views/index/components/document/progress')
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
 	mode: 'history', // 可以去掉 url 的 #
 	routes: [
 		{
@@ -82,7 +87,7 @@ export default new Router({
 			children: [
 				{
 					path: 'addArticle',
-					name: 'addArticle',
+					name: 'handleArticle',
 					component: addArticle
 				},
 				{
@@ -92,7 +97,7 @@ export default new Router({
 				},
 				{
 					path: 'addArticle/:articleId',
-					name: 'editArticle',
+					name: 'handleArticle',
 					component: addArticle
 				},
 				{
@@ -124,8 +129,29 @@ export default new Router({
 					path: 'jurisdiction/edit/:id',
 					name: 'editJurisdiction',
 					component: editJurisdiction
+				},
+				{
+					path: 'user/list',
+					name: 'userList',
+					component: userList
 				}
 			]
 		}
 	]
 })
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+	let _jurisdiction = JSON.parse(window.localStorage.getItem('_jurisdiction'))
+	console.log(_jurisdiction, to.name, '????')
+	if (_jurisdiction.includes(to.name)) {
+		Message.error('您没有此权限')
+		next({
+			path: from.path
+		})
+	} else {
+		next()
+	}
+})
+
+export default router
