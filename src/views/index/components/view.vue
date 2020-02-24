@@ -14,7 +14,7 @@
 		<div class="components-box">
 			<my-slider></my-slider>
 		</div> -->
-		<div class="left-box min-height">
+		<div class="left-box">
 			<logo class="logo"></logo>
 			<ul>
 				<span class="lb-class">canvas</span>
@@ -59,18 +59,23 @@ export default {
 }
 </script>
 
+<style lang="scss">
+
+</style>
+
 <style lang="scss" scoped>
 @import '@/assets/css/color/index.scss'; // 使用方法
 
 .components-box {
+	position: relative;
 	background-color: #fff;
 
 	.left-box {
+		top: 0;
+		bottom: 0;
 		width: 2.1rem;
-		min-height: 707px;
-		float: left;
 		text-align: left;
-		position: relative;
+		position: absolute;
 		border-right: 1px solid $border-color;
 		padding: 1rem 0.2rem 0.2rem 0.2rem;
 

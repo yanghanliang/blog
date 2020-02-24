@@ -92,7 +92,7 @@ export default {
 				console.log(e)
 			}
 		},
-		// 添加权限
+		// 修改权限
 		async onSubmit() {
 			// 验证
 			const verification =  await this.Global.verification(this, 'form')
@@ -110,6 +110,7 @@ export default {
 			try {
 				await this.$http.put(`jurisdiction/edit/${this.id}`, postData)
 				this.$message.success('修改成功')
+				this.Global.getNotJurisdiction(this)
 				this.$router.push({
 					name: 'jurisdictionList'
 				})

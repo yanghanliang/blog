@@ -7,5 +7,16 @@ export default {
 			// e === false
 			return false
 		}
+	},
+	// 获取用户不存且需要验证的路由权限
+	// this.Global.getNotJurisdiction(this)
+	getNotJurisdiction: async (that) => {
+		try {
+			const data = await that.$http.get('user/not/jurisdiction')
+			that.__proto__._jurisdiction = data
+			window.localStorage.setItem('_jurisdiction', JSON.stringify(data))
+		} catch (e) {
+			console.log(e)
+		}
 	}
 }

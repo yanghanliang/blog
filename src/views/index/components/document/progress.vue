@@ -96,7 +96,12 @@ export default {
 			],
 			content: '',
 			name: 'progress',
-			edit: true
+			noJurisdiction: window.localStorage.getItem('_jurisdiction')
+		}
+	},
+	computed: {
+		edit() {
+			return this.noJurisdiction.includes('component')
 		}
 	},
 	created() {

@@ -63,18 +63,7 @@
 				<!-- <router-link to="/catalogList">日志</router-link> -->
 				日志
 			</el-menu-item>
-			<el-submenu index="22">
-				<template slot="title">我的工作台</template>
-				<el-menu-item index="2-1">选项1</el-menu-item>
-				<el-menu-item index="2-2">选项2</el-menu-item>
-				<el-menu-item index="2-3">选项3</el-menu-item>
-				<el-submenu index="2-4">
-					<template slot="title">选项4</template>
-					<el-menu-item index="2-4-1">选项1</el-menu-item>
-					<el-menu-item index="2-4-2">选项2</el-menu-item>
-					<el-menu-item index="2-4-3">选项3</el-menu-item>
-				</el-submenu>
-			</el-submenu>
+			<el-menu-item index="/admin">后台</el-menu-item>
 			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>

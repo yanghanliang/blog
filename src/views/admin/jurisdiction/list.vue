@@ -66,8 +66,27 @@ export default {
 			}
 		},
 		// 状态改变时执行
-		statusChange(v) {
-			console.log(v, 'v')
+		async statusChange(row) {
+			const postData = {
+				name: row.j_name,
+				identification: row.identification,
+				distribution: row.distribution,
+				pid: row.j_pid,
+				isOpen: row.is_open
+			}
+			console.log(row.is_open, 'row.is_open')
+			try {
+				const { data } = await this.$http.put(`jurisdiction/edit/${row.id}`, postData)
+				if (data.status === 200) {
+					this.$message.success('操作成功')
+					this.Global.getNotJurisdiction(this)
+				} else {
+					this.getTableData()
+					this.$message.error(data.msg)
+				}
+			} catch (e) {
+				console.log(e)
+			}
 		},
 		// 删除权限
 		deleteJurisdiction(id) {

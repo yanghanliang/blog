@@ -134,6 +134,7 @@ export default {
 			try {
 				this.$http.post('jurisdiction/add', postData)
 				this.$message.success('添加成功')
+				this.Global.getNotJurisdiction(this)
 				this.$router.push({
 					name: 'jurisdictionList'
 				})

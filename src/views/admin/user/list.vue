@@ -181,21 +181,21 @@ export default {
 				this.$message.success(msg)
 				// 更新 token
 				window.localStorage.setItem('token', data.token)
-				this.getNotJurisdiction()
+				this.Global.getNotJurisdiction(this)
 			} catch (e) {
 				console.log(e)
 			}
 		},
 		// 获取用户不存且需要验证的路由权限
-		async getNotJurisdiction() {
-			try {
-				const data = await this.$http.get('user/not/jurisdiction')
-				this.__proto__._jurisdiction = data
-				window.localStorage.setItem('_jurisdiction', JSON.stringify(data))
-			} catch (e) {
-				console.log(e)
-			}
-		}
+		// async getNotJurisdiction() {
+		// 	try {
+		// 		const data = await this.$http.get('user/not/jurisdiction')
+		// 		this.__proto__._jurisdiction = data
+		// 		window.localStorage.setItem('_jurisdiction', JSON.stringify(data))
+		// 	} catch (e) {
+		// 		console.log(e)
+		// 	}
+		// }
 	},
 }
 </script>
