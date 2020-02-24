@@ -24,6 +24,11 @@
 					</el-switch>
 				</template>
             </el-table-column>
+			<el-table-column prop="distribution" label="模块">
+				<template slot-scope="{ row }">
+					<span>{{ row.distribution === 0 ? 'api' : 'view' }}</span>
+				</template>
+            </el-table-column>
             <el-table-column align="center" label="操作">
                 <template slot-scope="{ row }">
                     <router-link :to="{ name: 'editJurisdiction', params: { id: row.id }}">修改</router-link>
@@ -54,6 +59,7 @@ export default {
 		async getTableData() {
 			try {
 				const data =  await this.$http.get('jurisdiction/list')
+				console.log(data, 'data权限列表')
 				this.tableData = data
 			} catch (e) {
 				console.log(e)

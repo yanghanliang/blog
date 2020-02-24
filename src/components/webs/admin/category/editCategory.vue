@@ -44,22 +44,19 @@ export default {
 			this.categoryData = data // 将分类数据赋值给 vue
 		},
 		async getEditCategoryData() { // 获取需要修改的分类数据
-			const {
-				data
-			} = await this.$http.get(`editCategory/${this.form.id}`)
-			if (data.status === 200) {
-				this.form.classname = data.data[0].classname
-				this.form.pid = data.data[0].pid
-				this.form.layername = data.data[0].layername
-				const categoryData = this.categoryData
-				for (var i = 0; i < categoryData.length; i++) {
-					if (data.data[0].pid === 0) { // 判断是否是第一层级
-						this.form.layername = '第一层'
-						return false
-					}
-					if (categoryData[i].id === data.data[0].pid) { // 找到对应层级
-						this.form.layername = categoryData[i].classname
-					}
+			const data = await this.$http.get(`editCategory/${this.form.id}`)
+			console.log(data, 'data')
+			this.form.classname = data[0].classname
+			this.form.pid = data[0].pid
+			this.form.layername = data[0].layername
+			const categoryData = this.categoryData
+			for (var i = 0; i < categoryData.length; i++) {
+				if (data[0].pid === 0) { // 判断是否是第一层级
+					this.form.layername = '第一层'
+					return false
+				}
+				if (categoryData[i].id === data[0].pid) { // 找到对应层级
+					this.form.layername = categoryData[i].classname
 				}
 			}
 		},

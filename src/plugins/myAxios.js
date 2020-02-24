@@ -34,7 +34,7 @@ MyAxios.install = function (Vue) {
 		const {
 			data
 		} = response
-		if (data.status === 200 && data.data && data.type !== 'token') {
+		if (data.data && data.type !== 'token') {
 			// 这样做之后取数据的时候可以少取一层
 			return data.data
 		}

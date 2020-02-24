@@ -17,14 +17,10 @@ export default {
 				const data = await this.$http.get('user/jurisdiction')
 				this.__proto__._jurisdiction = data
 				window.localStorage.setItem('_jurisdiction', JSON.stringify(data))
-				console.log(data, 'data??')
 			} catch (e) {
 				console.log(e)
 			}
 		}
-	},
-	destroyed() {
-		console.log()
 	},
 	watch: {
 		// $route(to, from) {

@@ -96,9 +96,7 @@ export default {
 	},
 	methods: {
 		async getData() { // 获取文章列表数据
-			const {
-				data
-			} = await this.$http.get(
+			const data = await this.$http.get(
 				`articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`
 			) // 发送请求
 			this.total = data.getArticleNumber // 获取表数据的总条数
@@ -117,11 +115,10 @@ export default {
 		},
 		async deleteData() { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
-			const {
-				data
-			} = await this.$http.delete(`deleteArticle/${this.id}`)
+			const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
+			console.log(data, 'data')
 			this.total = data.getArticleNumber
-			if (data.deleteData.status === 200) {
+			if (data.deleteData && data.deleteData.status === 200) {
 				// 为了减轻服务器压力,所做的js优化(使用分页后不行了)
 				// this.deleteTableData(this.id)
 				this.getData()
@@ -132,6 +129,7 @@ export default {
 					center: true
 				})
 			} else {
+				console.log(data.msg, 'data.msg')
 				// 弹出提示框
 				this.$message({
 					type: 'error',

@@ -37,7 +37,7 @@ export default {
 					level: 0,
 					status: 'open',
 					icon: 'my-icon-wenzhang',
-					router: '/admin/addArticle',
+					router: '/admin/articleList',
 					identification: 'article',
 					children: [
 						{

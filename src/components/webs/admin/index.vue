@@ -66,22 +66,22 @@ export default {
 			isCollapse: true
 		}
 	},
-	beforeCreate() {
-		const token = localStorage.getItem('token')
-		if (!token) {
-			// 弹出提示
-			this.$message({
-				type: 'error',
-				message: '您还没有登录, 请先登录!',
-				center: true
-			})
+	// beforeCreate() {
+	// 	const token = localStorage.getItem('token')
+	// 	if (!token) {
+	// 		// 弹出提示
+	// 		this.$message({
+	// 			type: 'error',
+	// 			message: '您还没有登录, 请先登录!',
+	// 			center: true
+	// 		})
 
-			// 跳转到登录页面
-			this.$router.push({
-				name: 'login'
-			})
-		}
-	}
+	// 		// 跳转到登录页面
+	// 		this.$router.push({
+	// 			name: 'login'
+	// 		})
+	// 	}
+	// }
 }
 
 </script>

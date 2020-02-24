@@ -10,6 +10,12 @@
             <el-form-item label="权限标识" prop="identification">
                 <el-input v-model="form.identification" placeholder="请输入权限标识"></el-input>
             </el-form-item>
+			<el-form-item label="分布">
+				<el-radio-group v-model="form.distribution">
+					<el-radio :label="0">api</el-radio>
+					<el-radio :label="1">view</el-radio>
+				</el-radio-group>
+			</el-form-item>
             <el-form-item label="所属级别">
                 <el-select v-model="form.pid" placeholder="请选择所属级别">
                     <template v-for="item in jurisdictionList">
@@ -52,7 +58,8 @@ export default {
 			form: {
 				name: '',
 				identification: '',
-				pid: 0
+				pid: 0,
+				distribution: 0,
 			},
 			jurisdictionList: [], // 权限列表
 			rules: {
@@ -96,11 +103,12 @@ export default {
 			const postData = {
 				name: this.form.name,
 				identification: this.form.identification,
-				pid: this.form.pid
+				pid: this.form.pid,
+				distribution: this.form.distribution
 			}
 
 			try {
-				this.$http.put(`jurisdiction/edit/${this.id}`, postData)
+				await this.$http.put(`jurisdiction/edit/${this.id}`, postData)
 				this.$message.success('修改成功')
 				this.$router.push({
 					name: 'jurisdictionList'
@@ -116,6 +124,7 @@ export default {
 				this.form.name = data.j_name
 				this.form.identification = data.identification
 				this.form.pid = data.j_pid
+				this.form.distribution = data.distribution
 			} catch (e) {
 				console.log(e)
 			}

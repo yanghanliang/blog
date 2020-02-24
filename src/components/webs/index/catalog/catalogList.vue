@@ -61,27 +61,22 @@ export default {
 	},
 	methods: {
 		async loadData() {
-			const {
-				data
-			} = await this.$http.get('catalog')
-			if (data.status === 200) {
-				let tempData = data.data
-				for (let i = 0; i < tempData.length; i++) {
-					let createtime = tempData[i].createtime
+			try {
+				const data = await this.$http.get('catalog')
+				for (let i = 0; i < data.length; i++) {
+					let createtime = data[i].createtime
 					if (createtime > 1451577600000 && createtime < 1483200000000) { // 2016
-						this.catalogData['d'].push(tempData[i])
+						this.catalogData['d'].push(data[i])
 					} else if (createtime > 1483200000000 && createtime < 1514736000000) { // 2017
-						this.catalogData['c'].push(tempData[i])
+						this.catalogData['c'].push(data[i])
 					} else if (createtime > 1514736000000 && createtime < 1546272000000) { // 2018
-						this.catalogData['b'].push(tempData[i])
+						this.catalogData['b'].push(data[i])
 					} else if (createtime > 1546272000000 && createtime < 1577808000000) { // 2019
-						this.catalogData['a'].push(tempData[i])
+						this.catalogData['a'].push(data[i])
 					}
 				}
-			} else {
-				this.$message({
-					message: data.msg
-				})
+			} catch (e) {
+				console.log(e)
 			}
 		}
 	},

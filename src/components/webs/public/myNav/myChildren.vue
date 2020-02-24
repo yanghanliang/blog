@@ -42,9 +42,6 @@ export default {
 			return `margin-left: ${left}px;`
 		}
 	},
-	created() {
-		console.log(this.$route, 'router')
-	},
 	methods: {
 		dataHandle() {
 		},
