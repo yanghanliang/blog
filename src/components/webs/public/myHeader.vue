@@ -185,6 +185,9 @@ export default {
 			}
 
 			function ipc(finalData) {
+				if (finalData.length <= 0) {
+					return false
+				}
 				let childrenArr = [] // 子数组
 				for (let i = 0; i < finalData.length; i++) {
 					for (let j = 0; j < sourceData.length; j++) {
@@ -205,6 +208,7 @@ export default {
 				}
 			}
 
+			console.log(finalData, 'finalData')
 			ipc(finalData)
 			return finalData
 		},

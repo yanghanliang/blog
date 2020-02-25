@@ -4,10 +4,6 @@
 			<my-progress></my-progress>
 		</div>
 		<div class="components-box">
-			<i class="my-icon-ai244" @click="refreshCircular('showCircular')"></i>
-			<my-circular ref="circular" v-if="showCircular"></my-circular>
-		</div>
-		<div class="components-box">
 			<i class="my-icon-ai244" @click="refreshCircular('showSquare')"></i>
 			<my-square ref="square" v-if="showSquare"></my-square>
 		</div>
@@ -18,7 +14,16 @@
 			<logo class="logo"></logo>
 			<ul>
 				<span class="lb-class">canvas</span>
-				<li><a href="#">Slider 滑块</a></li>
+				<li><a href="progress">progress 进度条</a></li>
+			</ul>
+			<ul>
+				<span class="lb-class">小玩意</span>
+				<li><a href="circular">随机分布 圆</a></li>
+				<li><a href="square">随机分布 方形</a></li>
+			</ul>
+			<ul>
+				<span class="lb-class">abc</span>
+				<li><a href="slider">滑块</a></li>
 			</ul>
 		</div>
 		<div class="right-box">
@@ -29,22 +34,14 @@
 
 <script>
 import logo from '@/components/canvas/logo'
-import myCircular from '@/components/function/circular/index'
-import mySquare from '@/components/function/square/index'
-import mySlider from '@/components/function/slider/index'
 
 export default {
 	name: 'componentsViews',
 	components: {
 		logo,
-		myCircular,
-		mySquare,
-		mySlider
 	},
 	data() {
 		return {
-			showCircular: true,
-			showSquare: true
 		}
 	},
 	methods: {
@@ -88,19 +85,21 @@ export default {
 
 		.lb-class {
 			color: $ash;
+			line-height: 40px;
 		}
 
 		li {
 			a {
 				color: $main-font;
-				height: 40px;
-				line-height: 40px;
+				height: 30px;
+				line-height: 30px;
 			}
 		}
 	}
 
 	.right-box {
 		width: 908px;
+		min-height: 787px;
 		float: right;
 		padding: 20px;
 	}

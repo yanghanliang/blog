@@ -26,6 +26,9 @@ const articleDetails = () => import('@/components/webs/index/article/articleDeta
 const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 const componentsViews = () => import('@/views/index/components/view')
 const progress = () => import('@/views/index/components/document/progress')
+const circular = () => import('@/views/index/components/document/circular')
+const square = () => import('@/views/index/components/document/square')
+const slider = () => import('@/views/index/components/document/slider')
 // index-end
 
 Vue.use(Router)
@@ -64,6 +67,21 @@ const router = new Router({
 							path: 'progress',
 							name: 'progress',
 							component: progress,
+						},
+						{
+							path: 'circular',
+							name: 'circular',
+							component: circular
+						},
+						{
+							path: 'square',
+							name: 'square',
+							component: square
+						},
+						{
+							path: 'slider',
+							name: 'slider',
+							component: slider
 						}
 					]
 				}
