@@ -101,7 +101,7 @@ export default {
 	},
 	computed: {
 		edit() {
-			return this.noJurisdiction.includes('component')
+			return !this.noJurisdiction.includes('component')
 		}
 	},
 	created() {

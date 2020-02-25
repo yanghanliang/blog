@@ -1,18 +1,18 @@
 <template>
     <div class="content_right">
         <h4>{{ buttonText }}</h4>
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="文章标题" class="box">
+        <el-form ref="form" :rules="rules" :model="form" label-width="80px" :hide-required-asterisk="true">
+            <el-form-item label="文章标题" class="box" prop="title">
                 <el-input v-model="form.title"></el-input>
             </el-form-item>
-            <el-form-item label="文章分类">
+            <el-form-item label="文章分类" prop="classname">
                 <el-select v-model="form.classname" placeholder="请选择分类">
                     <el-option v-for="category in categoryData" :label="category.classname" :value="category.id"
                         :key="category.id"></el-option>
                 </el-select>
             </el-form-item>
             <!-- 简介 -->
-            <el-form-item label="文章简介">
+            <el-form-item label="文章简介" prop="synopsis">
                 <el-input type="textarea" v-model="form.synopsis"></el-input>
             </el-form-item>
             <mavon-editor v-model="form.content" :subfield="true" />
@@ -40,7 +40,18 @@ export default {
 			buttonText: '添加文章', // 默认提交按钮文字
 			url: 'addArticle', // 默认提交地址
 			type: 'post', // 默认请求方式
-			categoryData: '' // 分页数据
+			categoryData: '', // 分页数据
+			rules: {
+				title: [
+					{ required: true, message: '请输入标题', trigger: 'change' }
+				],
+				classname: [
+					{ required: true, message: '请选择分类', trigger: 'change' }
+				],
+				synopsis: [
+					{ required: true, message: '请输入内容', trigger: 'change' }
+				]
+			}
 		}
 	},
 	created() {
@@ -52,6 +63,11 @@ export default {
 	},
 	methods: {
 		async addArticle() { // 点击添加文章||修改文章时执行
+			// 验证
+			const verification =  await this.Global.verification(this, 'form')
+			if (!verification) {
+				return false
+			}
 			// 如果没有修改类名，那么 this.form.classname 是字符串类型，则取原来的值
 			// 如果修改了类名， 那么 this.form.classname 是数字类型，则取当前的值
 			this.form.classname = typeof this.form.classname === 'string' ? this.form.categoryId : this.form
