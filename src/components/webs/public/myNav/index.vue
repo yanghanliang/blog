@@ -142,7 +142,8 @@ export default {
 		mouseenter(item) {
 			this.currentChildren = item.children
 			this.currentTitle = item.name
-
+			// 防止自己跳转到自己
+			if (item.router === this.$route.path) return false
 			this.data.forEach(obj => {
 				if (item === obj) {
 					obj.status = 'open'
