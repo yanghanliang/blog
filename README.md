@@ -973,6 +973,40 @@ $bac: blue;
 ```
 
 
+### 服务器部署的时候报`net::ERR_CONNECTION_REFUSED` 错误
+
+在build文件夹下有个webpack.dev.conf.js文件。然后添加一个配置项：inline: false  即可关闭热更新操作。
+
+```js
+
+devServer: {
+  clientLogLevel: 'warning',
+  historyApiFallback: {
+    rewrites: [
+      { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
+    ],
+  },
+  hot: true,
+  contentBase: false, // since we use CopyWebpackPlugin.
+  compress: true,
+  host: HOST || config.dev.host,
+  port: PORT || config.dev.port,
+  // 即可关闭热更新操作
+  inline: false,
+  open: config.dev.autoOpenBrowser,
+  overlay: config.dev.errorOverlay
+    ? { warnings: false, errors: true }
+    : false,
+  publicPath: config.dev.assetsPublicPath,
+  proxy: config.dev.proxyTable,
+  quiet: true, // necessary for FriendlyErrorsPlugin
+  watchOptions: {
+    poll: config.dev.poll,
+  }
+},
+
+```
+
 #### nginx 配置
 
 > 1. 让手机可以访问电脑（本地） web 服务（自己的网站）

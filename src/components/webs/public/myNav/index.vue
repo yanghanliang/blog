@@ -3,7 +3,7 @@
         <div class="nav-left">
 			<a
 				v-for="(item, index) in data"
-				@click="mouseenter(item)"
+				@mouseenter="mouseenter(item)"
 				:class="{'active': item.status === 'open'}"
 				href="javascript:;"
 				:key="index"
@@ -158,7 +158,7 @@ export default {
 		},
 		// 关闭菜单
 		closeNav() {
-			// this.navStatus = false
+			this.navStatus = false
 		},
 		// 路由变化时更新导航状态
 		routerChange(route) {
