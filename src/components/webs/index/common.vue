@@ -16,7 +16,7 @@
                         <p>{{ personalInformation.synopsis }}</p>
                     </div>
                 </div>
-                <category></category>
+                <category @getData="setCatgoryData"></category>
             </div>
             <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
@@ -173,6 +173,7 @@ export default {
 					} = await that.$http.post(`paging`, that.pageData)
 					if (data.getData.status === 200) {
 						for (var i = 0; i < data.getData.data.length; i++) {
+							console.log(that.article, 'that.article')
 							that.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
 						}
 						that.pageData.currentPage += 1 // 加一页
@@ -204,6 +205,15 @@ export default {
 			})
 
 			return Identification.length
+		},
+		setCatgoryData(data) {
+			console.log(data.getData, 'data.getData')
+			this.article = data.getData.data
+			// 给出提示
+			this.$message({
+				message: `搜索到与 "${data.classname}" 相关的数据共有 ${data.getNumber} 条!`,
+				type: 'success'
+			})
 		}
 	},
 	watch: {
