@@ -158,7 +158,7 @@ export default {
 				// 弹出提示框
 				this.$message({
 					type: 'error',
-					message: data.data.msg,
+					message: data.msg,
 					center: true
 				})
 			}
