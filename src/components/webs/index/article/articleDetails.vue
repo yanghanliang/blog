@@ -6,10 +6,10 @@
                 <input class="sear_input" name="textword" autofocus="autofocus" type="text" placeholder="搜索从这里开始...">
                 <button type="submit" class="iconfont icon-sousuo"></button>
             </form> -->
-                <el-form ref="form" label-width="80px">
+                <!-- <el-form ref="form" label-width="80px">
                     <el-input placeholder="请输入内容" clearable></el-input>
                     <el-button icon="el-icon-search" circle></el-button>
-                </el-form>
+                </el-form> -->
             </div>
 
             <!-- 调用自己封装的面包屑组件 -->
