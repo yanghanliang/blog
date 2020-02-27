@@ -86,7 +86,8 @@ export default {
 				orderBy: 'descending', // 排序方式
 				lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
 				tips: '', // 提示
-				searchData: '' // 搜索内容
+				searchData: '', // 搜索内容
+				classname: '', // 分类名称
 			},
 			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
 		}
@@ -207,8 +208,8 @@ export default {
 			return Identification.length
 		},
 		setCatgoryData(data) {
-			console.log(data.getData, 'data.getData')
 			this.article = data.getData.data
+			this.pageData.classname = data.classname
 			// 给出提示
 			this.$message({
 				message: `搜索到与 "${data.classname}" 相关的数据共有 ${data.getNumber} 条!`,

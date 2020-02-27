@@ -14,9 +14,15 @@
 <script>
 export default {
 	name: 'category',
+	props: {
+		categoryId: {
+			default: null
+		}
+	},
 	data() {
 		return {
-			categoryData: []
+			categoryData: [],
+			articleId: this.$route.params.articleId
 		}
 	},
 	created() {
@@ -27,15 +33,19 @@ export default {
 			const {
 				data
 			} = await this.$http.get('category') // 发送请求
-			this.categoryData = data // 将获取到的数据绑定到 vue 中
+
+			if (this.categoryId) {
+				this.categoryData = data.filter(item => {
+					if (item.id === this.categoryId || item.pid === this.articleId) {
+						return item
+					}
+				})
+			} else {
+                this.categoryData = data // 将获取到的数据绑定到 vue 中
+            }
 		},
 		getData(content) {
 			if (this.$route.name === 'common') {
-				this.getArticleCategoryData(content)
-			} else {
-				this.$router.push({
-					name: 'index'
-				})
 				this.getArticleCategoryData(content)
 			}
 		},
