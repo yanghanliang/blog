@@ -100,8 +100,11 @@ export default {
 .admin_category {
 	top: 50%;
 	left: 50%;
+	padding: 20px;
 	position: absolute;
 	display: inline-block;
+	box-shadow: 0px 0px 4px black;
+    background-color: #8ababb;
 	transform: translate(-50%, -50%);
 }
 </style>

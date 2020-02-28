@@ -29,6 +29,7 @@ const progress = () => import('@/views/index/components/document/progress')
 const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
+const personalResume = () => import('@/views/index/personalResume')
 // index-end
 
 Vue.use(Router)
@@ -84,6 +85,11 @@ const router = new Router({
 							component: slider
 						}
 					]
+				},
+				{
+					path: '/personal/resume',
+					name: 'personalResume',
+					component: personalResume
 				}
 			]
 		},

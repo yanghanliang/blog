@@ -16,7 +16,7 @@
                         <p>{{ personalInformation.synopsis }}</p>
                     </div>
                 </div>
-                <category></category>
+                <category @getData="setCatgoryData"></category>
             </div>
             <div class="content_left" ref="content_left">
                 <div class="cl_box" v-for="data in article" :key="data.id">
@@ -86,7 +86,8 @@ export default {
 				orderBy: 'descending', // 排序方式
 				lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
 				tips: '', // 提示
-				searchData: '' // 搜索内容
+				searchData: '', // 搜索内容
+				classname: '', // 分类名称
 			},
 			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
 		}
@@ -119,6 +120,9 @@ export default {
 			this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
 		},
 		async searchFn() { // 搜索内容
+			if (!this.pageData.searchData) {
+				this.$message.error('乱按啥~我知道你啥也没输入')
+			}
 			const {
 				data
 			} = await this.$http.post('searchData', {
@@ -173,6 +177,7 @@ export default {
 					} = await that.$http.post(`paging`, that.pageData)
 					if (data.getData.status === 200) {
 						for (var i = 0; i < data.getData.data.length; i++) {
+							console.log(that.article, 'that.article')
 							that.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
 						}
 						that.pageData.currentPage += 1 // 加一页
@@ -204,6 +209,15 @@ export default {
 			})
 
 			return Identification.length
+		},
+		setCatgoryData(data) {
+			this.article = data.getData.data
+			this.pageData.classname = data.classname
+			// 给出提示
+			this.$message({
+				message: `搜索到与 "${data.classname}" 相关的数据共有 ${data.getNumber} 条!`,
+				type: 'success'
+			})
 		}
 	},
 	watch: {

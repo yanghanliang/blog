@@ -5,17 +5,8 @@
             <div class="st_line"></div>
         </div>
         <div class="s_box clearfix">
-            <a href="javascript:;" @click="getData(value.classname)" v-for="value in categoryData"
-                :key="value.id">{{ value.classname }}</a>
-            <!-- <a href="#">陌上花开</a>
-            <a href="#">校园生活</a>
-            <a href="#">html5</a>
-            <a href="#">SumSung</a>
-            <a href="#">青春</a>
-            <a href="#">温暖</a>
-            <a href="#">阳光</a>
-            <a href="#">三星</a>
-            <a href="#">华维荣耀</a> -->
+            <span @click="getData(value.classname)" v-for="value in categoryData"
+                :key="value.id">{{ value.classname }}</span>
         </div>
     </div>
 </template>
@@ -23,9 +14,15 @@
 <script>
 export default {
 	name: 'category',
+	props: {
+		categoryId: {
+			default: null
+		}
+	},
 	data() {
 		return {
-			categoryData: []
+			categoryData: [],
+			articleId: this.$route.params.articleId
 		}
 	},
 	created() {
@@ -36,15 +33,19 @@ export default {
 			const {
 				data
 			} = await this.$http.get('category') // 发送请求
-			this.categoryData = data // 将获取到的数据绑定到 vue 中
+
+			if (this.categoryId) {
+				this.categoryData = data.filter(item => {
+					if (item.id === this.categoryId || item.pid === this.articleId) {
+						return item
+					}
+				})
+			} else {
+				this.categoryData = data // 将获取到的数据绑定到 vue 中
+			}
 		},
 		getData(content) {
-			if (this.$route.name === 'index') {
-				this.getArticleCategoryData(content)
-			} else {
-				this.$router.push({
-					name: 'index'
-				})
+			if (this.$route.name === 'common') {
 				this.getArticleCategoryData(content)
 			}
 		},
@@ -54,7 +55,7 @@ export default {
 			} = await this.$http.get(`articleCategory/${content}`)
 			if (data.getData.status === 200) {
 				data.classname = content // 把点击的值传给父组件
-				this.$emit('click', data)
+				this.$emit('getData', data)
 			} else {
 				this.$message({
 					message: '此为测试模块，暂无数据!',
@@ -109,54 +110,56 @@ export default {
 
     /* s_box-start */
     .category .s_box {
+        min-height: 2.8rem;
         margin-top: 0.02rem;
         background-color: #fff;
         padding: 0.08rem 0.2rem 0.2rem;
     }
 
-    .category .s_box a {
+    .category .s_box span {
         float: left;
         height: 0.24rem;
         color: #fff;
+        cursor: pointer;
         line-height: 0.24rem;
         border-radius: 0.08rem;
         padding: 0.03rem 0.1rem;
         margin: 0.1rem 0.1rem 0 0;
     }
 
-    .category .s_box a:nth-child(9n-1) {
+    .category .s_box span:nth-child(9n-1) {
         background-color: #3299BB;
     }
 
-    .category .s_box a:nth-child(9n-2) {
+    .category .s_box span:nth-child(9n-2) {
         background-color: #036564;
     }
 
-    .category .s_box a:nth-child(9n-3) {
+    .category .s_box span:nth-child(9n-3) {
         background-color: #EB6841;
     }
 
-    .category .s_box a:nth-child(9n-4) {
+    .category .s_box span:nth-child(9n-4) {
         background-color: #FE4365;
     }
 
-    .category .s_box a:nth-child(9n-5) {
+    .category .s_box span:nth-child(9n-5) {
         background-color: #FC9D9A;
     }
 
-    .category .s_box a:nth-child(9n-6) {
+    .category .s_box span:nth-child(9n-6) {
         background-color: #EDC951;
     }
 
-    .category .s_box a:nth-child(9n-7) {
+    .category .s_box span:nth-child(9n-7) {
         background-color: #C8C8A9;
     }
 
-    .category .s_box a:nth-child(9n-8) {
+    .category .s_box span:nth-child(9n-8) {
         background-color: #83AF9B;
     }
 
-    .category .s_box a:nth-child(9n-9) {
+    .category .s_box span:nth-child(9n-9) {
         background-color: #5edc5a;
     }
 

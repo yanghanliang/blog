@@ -6,10 +6,10 @@
                 <input class="sear_input" name="textword" autofocus="autofocus" type="text" placeholder="搜索从这里开始...">
                 <button type="submit" class="iconfont icon-sousuo"></button>
             </form> -->
-                <el-form ref="form" label-width="80px">
+                <!-- <el-form ref="form" label-width="80px">
                     <el-input placeholder="请输入内容" clearable></el-input>
                     <el-button icon="el-icon-search" circle></el-button>
-                </el-form>
+                </el-form> -->
             </div>
 
             <!-- 调用自己封装的面包屑组件 -->
@@ -112,17 +112,22 @@
                 <div class="right">
                     <!-- Relevant recommendations Abbreviations rr -->
                     <!-- 相关推荐 简写 rr -->
-                    <ol class="rr">
-                        <h3>你可能需要</h3>
-                        <li><a href="#">CSS 从喜欢到厌烦</a></li>
-                        <li><a href="#">CSS 从简单到烦躁</a></li>
-                        <li><a href="#">CSS 从了解到全然不解</a></li>
-                        <li><a href="#">CSS 线性渐变</a></li>
-                        <li><a href="#">CSS 径向渐变</a></li>
-                        <li><a href="#">CSS animation</a></li>
-                    </ol>
-
-                    <category></category>
+                    <ul class="rr">
+                        <h3>您可能需要</h3>
+                        <li v-for="(item, index) in recommend.data" :key="item.id">
+							<a :href="item.id">{{ (index + 1) + (recommend.currentPage - 1) * recommend.pageSize }}. {{ item.title }}</a>
+						</li>
+                       <el-pagination class="mt20" small :hide-on-single-page="isPagination"
+							:pager-count="5"
+							background
+							:page-size="recommend.pageSize"
+							:current-page.sync="recommend.currentPage"
+							layout="prev, pager, next"
+							@current-change="getRecommendData"
+							:total="recommend.total">
+						</el-pagination>
+                    </ul>
+                    <category :category-id="articleData.category_id"></category>
                 </div>
             </div>
         </div>
@@ -230,6 +235,15 @@ export default {
 	computed: {
 		imgSrc () {
 			return this.Global.baseURL + this.src
+		},
+		// 是否显示分页
+		isPagination() {
+			console.log(this.recommend.total, '>', this.recommend.pageSize)
+			if (this.recommend.total > this.recommend.pageSize) {
+				return false
+			} else {
+				return true
+			}
 		}
 	},
 	data() {
@@ -449,6 +463,12 @@ export default {
 			progressPercent: 0,
 			// 登录后的用户信息
 			userInfo: null,
+			recommend: {
+				data: [],
+				pageSize: 6,
+				currentPage: 1,
+				total: 0,
+			},
 		}
 	},
 	created() {
@@ -464,6 +484,7 @@ export default {
 			this.articleData = data[0] // 将数据赋值给 vue
 			const bodyEle = document.querySelector('html') // 获取 html 元素
 			bodyEle.scrollTop = 0 // 置顶
+			this.getRecommendData() // 获取推荐数据
 			this.during() // 获取上一篇和下一篇的数据
 		},
 		async during() { // 获取上一篇和下一篇的数据
@@ -596,6 +617,7 @@ export default {
 				this.$message.error('请求超时~')
 			}
 		},
+		// 获取用户信息
 		getUserInfo() {
 			const userInfo = JSON.parse(window.localStorage.getItem('user'))
 			if (userInfo) {
@@ -606,6 +628,24 @@ export default {
 				this.replyForm.alias = userInfo.alias
 				this.replyForm.mailbox = userInfo.mailbox
 				this.replyForm.password = userInfo.password
+			}
+		},
+		// 获取推荐的数据
+		async getRecommendData() {
+			let postData = {
+				currentPage: this.recommend.currentPage,
+				pageSize: this.recommend.pageSize,
+				categoryId: this.articleData.category_id,
+				title: this.articleData.title,
+				id: this.articleData.id
+			}
+
+			try {
+				const { list, total } = await this.$http.post('article/recommend', postData)
+				this.recommend.data = list
+				this.recommend.total = total
+			} catch (e) {
+				console.log(e)
 			}
 		}
 	},
