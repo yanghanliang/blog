@@ -11,10 +11,10 @@
 import logo from '@/components/canvas/logo/index'
 
 export default {
-    name: 'myFooter',
-    components: {
-        logo
-    }
+	name: 'myFooter',
+	components: {
+		logo
+	}
 }
 
 </script>
@@ -33,7 +33,7 @@ footer {
     span {
         color: $border-hover;
         position: relative;
-        
+
         canvas.logo {
             top: -95px;
             left: -124px;

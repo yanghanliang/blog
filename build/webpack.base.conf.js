@@ -25,20 +25,21 @@ module.exports = {
     app: './src/main.js'
   },
   // 配置cdn
-  // externals: {
-  //   // 前面的属性 vue 代表的是 import ... from 'vue'
-  //   // 值 Vue 是 vue.js 暴露在全局中的构造函数名称
-  //   // 因为已经在html中从cdn引用了，告诉webpake不需要打包了此文件
-  //   // 配置时： 区分大小写字母
-  //   // for(var p in window){ // 使用它查看构造函数名称 p
-  //   //   console.log(p+'----'+typeof window[p]+'---'+window[p]);
-  //   //  }
-  //   vue: 'Vue',
-  //   router: 'VueRouter',
-  //   'element-ui': 'ELEMENT',
-  //   axios: 'axios',
-  //   moment: 'moment'
-  // },
+  externals: {
+    // 前面的属性 vue 代表的是 import ... from 'vue'
+    // 值 Vue 是 vue.js 暴露在全局中的构造函数名称
+    // 因为已经在html中从cdn引用了，告诉webpake不需要打包了此文件
+    // 配置时： 区分大小写字母
+    // for(var p in window){ // 使用它查看构造函数名称 p
+    //   console.log(p+'----'+typeof window[p]+'---'+window[p]);
+    //  }
+    vue: 'Vue',
+    router: 'VueRouter',
+    'element-ui': 'ELEMENT',
+    axios: 'axios',
+    moment: 'moment',
+    echarts: 'echarts'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

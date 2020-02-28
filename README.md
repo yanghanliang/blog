@@ -831,7 +831,7 @@ beta  测试版本
 
 进入`webpake`官网，搜索cdn，选择 externals 找到 webpack.config.js webpake配置项
 
-在自己的项目中找到webpake配置文件build/vue-loader.conf.js
+在自己的项目中找到webpake配置文件build/webpack.base.conf.js
 
 ```js
 module.exports = {
