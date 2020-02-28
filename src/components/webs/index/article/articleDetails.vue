@@ -118,7 +118,7 @@
 							<a :href="item.id">{{ (index + 1) + (recommend.currentPage - 1) * recommend.pageSize }}. {{ item.title }}</a>
 						</li>
                        <el-pagination class="mt20" small :hide-on-single-page="isPagination"
-					   		:pager-count="5"
+							:pager-count="5"
 							background
 							:page-size="recommend.pageSize"
 							:current-page.sync="recommend.currentPage"

@@ -120,6 +120,9 @@ export default {
 			this.personalInformation = data.personalInformation // 将获取到的个人信息数据赋值给 vue
 		},
 		async searchFn() { // 搜索内容
+			if (!this.pageData.searchData) {
+				this.$message.error('乱按啥~我知道你啥也没输入')
+			}
 			const {
 				data
 			} = await this.$http.post('searchData', {

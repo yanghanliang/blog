@@ -41,8 +41,8 @@ export default {
 					}
 				})
 			} else {
-                this.categoryData = data // 将获取到的数据绑定到 vue 中
-            }
+				this.categoryData = data // 将获取到的数据绑定到 vue 中
+			}
 		},
 		getData(content) {
 			if (this.$route.name === 'common') {
