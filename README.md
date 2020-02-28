@@ -923,6 +923,26 @@ module.exports = {
 
 ```
 
+### 部署时接口地址需要写成公网地址
+
+```js
+{
+  baseURL: 'http://47.98.182.149:3001/', // 接口基地址
+}
+```
+
+
+### http-server 部署服务
+
+在dist项目文件夹下输入screen -S httpserver
+输入完这个命令之后，就已经进入screen的一个终端去了  在这个终端里面输入http-server -p端口命令 
+最后按住ctrl+a+d    就是后台运行了
+
+
+screen r 名称   // 进入会话
+screen -ls  // 显示目前所有的screen作业
+
+screen -X -S 122128 quit // 删除
 
 
 -----
