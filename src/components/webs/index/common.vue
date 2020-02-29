@@ -200,6 +200,10 @@ export default {
 			this.$message({
 				message: '目前此网站正在建设中~'
 			})
+			// this.$notify({
+			// 	title: '标题名称',
+			// 	message: h('i', { style: 'color: teal'}, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案')
+			// })
 		},
 		// 判断是否值全部存在
 		isExistence(row) {
