@@ -770,6 +770,31 @@ meteorShower()
 路由方式加载的文件：
   + 需要经过`路由`跳转（切换）的文件
 
+### 3. 解析es6语法
+
+安装包：
+
+`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D` // 先看一下之前有没有安装，没有再安装
+`cnpm i babel-preset-env babel-preset-stage-0 -D`
+
+修改`.babelrc`文件
+
+```json
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-0" // 就是这里了,stage-1,stage-2 stage 数值越小越高级
+  ],
+  "plugins": ["transform-vue-jsx", "transform-runtime"]
+}
+```
+
+
 
 ### 3. 重新 `npm run build`
 
@@ -918,15 +943,11 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  },
-  babel: {
-    // 解析es6语法
-    presets: ['es2015'],
-    plugins: ['transform-runtime']
   }
 }
 
 ```
+
 
 ### 部署时接口地址需要写成公网地址
 
