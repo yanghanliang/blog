@@ -108,5 +108,10 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
+  },
+  babel: {
+    // 解析es6语法
+    presets: ['es2015'],
+    plugins: ['transform-runtime']
   }
 }

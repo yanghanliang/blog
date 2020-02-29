@@ -918,6 +918,11 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
+  },
+  babel: {
+    // 解析es6语法
+    presets: ['es2015'],
+    plugins: ['transform-runtime']
   }
 }
 
@@ -932,7 +937,7 @@ module.exports = {
 ```
 
 
-### http-server 部署服务
+### http-server 部署服务（其实也可以不配，直接使用nginx代理即可）
 
 在dist项目文件夹下输入screen -S httpserver
 输入完这个命令之后，就已经进入screen的一个终端去了  在这个终端里面输入http-server -p端口命令 
@@ -944,6 +949,24 @@ screen -ls  // 显示目前所有的screen作业
 
 screen -X -S 122128 quit // 删除
 
+
+### 配置 nginx 让他指向dist文件
+
+server {
+    listen          3000;
+	server_name     localhost;
+	root            C:/webs/blog_v1.1/blog/dist;
+	index           index.html;
+
+	location / {
+		try_files  $uri $uri/ @router;
+		index      index.html;
+	}
+
+	location @router {
+		rewrite ^.*$ /index.html last;
+	}
+}
 
 -----
 
