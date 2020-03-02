@@ -1,3 +1,5 @@
+// 颜色
+@import '@/assets/css/color/index.scss';
 // 波浪线
 .wavy_line {
     height: 0.1rem;
@@ -16,3 +18,15 @@
     }
 }
 
+.line {
+    position: relative;
+
+    &::before {
+        content: "";
+        height: 1px;
+        bottom: 0;
+        display: block;
+        position: absolute;
+        color: $border-color;
+    }
+}

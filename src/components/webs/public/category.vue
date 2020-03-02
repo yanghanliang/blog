@@ -1,7 +1,7 @@
 <template>
     <div class="category">
         <div class="s_title">
-            <h3>分类</h3>
+            <span>分类</span>
             <div class="st_line"></div>
         </div>
         <div class="s_box clearfix">
@@ -81,8 +81,11 @@ export default {
         background-color: #ffffff;
     }
 
-    .category .s_title h3 {
+    .category .s_title span {
+        font-size: 17px;
         text-align: left;
+        display: inherit;
+        font-weight: bold;
         text-indent: 0.2rem;
     }
 

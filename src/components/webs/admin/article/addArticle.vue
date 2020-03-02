@@ -15,7 +15,7 @@
             <el-form-item label="文章简介" prop="synopsis">
                 <el-input type="textarea" v-model="form.synopsis"></el-input>
             </el-form-item>
-            <mavon-editor v-model="form.content" :subfield="true" />
+            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="form.content" :subfield="true" />
             <el-form-item style="margin-top: 22px;">
                 <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
                 <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>
@@ -112,6 +112,42 @@ export default {
 				data
 			} = await this.$http.get('category')
 			this.categoryData = data
+		},
+		// 添加图片
+		async imgAdd(pos, $file) {
+			var formdata = new FormData()
+			formdata.append('file', $file)
+			formdata.append('url', '/uploadFileURl/article')
+			try {
+				let { data } = await this.$http({
+					url: 'uploadFile?uploadDir=./uploadFileURl/article',
+					method: 'post',
+					data: formdata, // 必须是 FormData 对象
+					headers: {'Content-Type': 'multipart/form-data'},
+				})
+
+				if (data.status === 200) {
+					this.$refs.mavonEditor.$img2Url(pos, this.Global.baseURL + data.url)
+				}
+			} catch (e) {
+				console.log(e)
+				this.$message.error('请求超时~')
+			} 
+		},
+		// 删除图片
+		async imgDel(files) {
+			let index = files[0].indexOf('uploadFileURl')
+			let path = './' + files[0].slice(index)
+			const postData = {
+				path: path
+			}
+
+			try {
+				const data = this.$http.post('deleteFile', postData)
+				console.log(data, 'data')
+			} catch (e) {
+				console.log(e)
+			}
 		}
 	},
 	watch: {

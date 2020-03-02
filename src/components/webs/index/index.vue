@@ -3,7 +3,7 @@
         <!-- 调用头部公共组件 -->
         <my-header></my-header>
         <div class="container">
-            <router-view></router-view>
+            <router-view :key="$route.path"></router-view>
         </div>
         <!-- 调用底部公共组件 -->
         <my-footer></my-footer>
@@ -27,6 +27,4 @@ export default {
 </script>
 
 <style scoped>
-.container {
-}
 </style>

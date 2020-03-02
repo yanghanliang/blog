@@ -112,7 +112,7 @@
                 <div class="right">
                     <!-- Relevant recommendations Abbreviations rr -->
                     <!-- 相关推荐 简写 rr -->
-                    <ul class="rr">
+                    <ul class="rr" v-if="recommend.data.length > 0">
                         <h3>您可能需要</h3>
                         <li v-for="(item, index) in recommend.data" :key="item.id">
 							<a :href="item.id">{{ (index + 1) + (recommend.currentPage - 1) * recommend.pageSize }}. {{ item.title }}</a>
@@ -127,7 +127,7 @@
 							:total="recommend.total">
 						</el-pagination>
                     </ul>
-                    <category :category-id="articleData.category_id"></category>
+                    <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category>
                 </div>
             </div>
         </div>
@@ -238,7 +238,6 @@ export default {
 		},
 		// 是否显示分页
 		isPagination() {
-			console.log(this.recommend.total, '>', this.recommend.pageSize)
 			if (this.recommend.total > this.recommend.pageSize) {
 				return false
 			} else {
