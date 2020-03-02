@@ -12,3 +12,7 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# 线上配置文件
+global.js
+webpack.dev.conf

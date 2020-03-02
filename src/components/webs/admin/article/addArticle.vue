@@ -132,7 +132,7 @@ export default {
 			} catch (e) {
 				console.log(e)
 				this.$message.error('请求超时~')
-			} 
+			}
 		},
 		// 删除图片
 		async imgDel(files) {
