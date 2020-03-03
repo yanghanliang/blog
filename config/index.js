@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/baidu': {
-        target: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/baidu': '/'
-        }
-      }
+      // '/baidu': {
+      //   target: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/baidu': '/'
+      //   }
+      // }
     },
 
     // Various Dev Server settings

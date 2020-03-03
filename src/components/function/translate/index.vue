@@ -38,7 +38,7 @@ export default {
 
 			try {
 				const { data } = await axios({
-					url: `/baidu?q=${this.value}&from=${from}&to=${this.to}&appid=${appid}&salt=${salt}&sign=${sign}`,
+					url: `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${this.value}&from=${from}&to=${this.to}&appid=${appid}&salt=${salt}&sign=${sign}`,
 					method: 'get',
 				})
 				this.length = data.trans_result[0].dst.length
@@ -178,13 +178,14 @@ export default {
             top: -6px;
             width: 9px;
             height: 10px;
-            border-width: 0;
+            // border-width: 0;
             position: absolute;
             color: $theme-color;
-            border-style: solid;
-            border-bottom-width: 7px;
+            // border-style: solid;
+			border: 0 solid transparent;
+			border-bottom-width: 7px;
             border-radius: 0 0 0 32px;
-            border-color: transparent;
+            // border-color: transparent;
             border-bottom-color: currentColor;
         }
     }
