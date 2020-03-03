@@ -58,7 +58,7 @@
             </div>
         </div>
 
-		<translate></translate>
+		<translate class="translate"></translate>
     </div>
 </template>
 
@@ -396,5 +396,11 @@ export default {
 			}
 		}
 	}
+}
+
+@media screen and (max-width: 1800px) {
+    .translate {
+        display: none;
+    }
 }
 </style>
