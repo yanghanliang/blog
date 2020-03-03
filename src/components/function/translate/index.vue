@@ -38,7 +38,7 @@ export default {
 
 			try {
 				const { data } = await axios({
-					url: `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${this.value}&from=${from}&to=${this.to}&appid=${appid}&salt=${salt}&sign=${sign}`,
+					url: `/baidu?q=${this.value}&from=${from}&to=${this.to}&appid=${appid}&salt=${salt}&sign=${sign}`,
 					method: 'get',
 				})
 				this.length = data.trans_result[0].dst.length
