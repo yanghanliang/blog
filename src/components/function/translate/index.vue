@@ -6,7 +6,7 @@
 			<p v-else>{{ reply }}</p>
         </div>
         <div class="input-box">
-            <input type="text" v-model="value" @keyup.enter="getTranslateData" placeholder="百度翻译">
+            <input type="text" v-model="value" @keyup.enter="getTranslateData" title="调用百度接口做的中英文翻译" placeholder="畅想未来">
         </div>
     </div>
 </template>
