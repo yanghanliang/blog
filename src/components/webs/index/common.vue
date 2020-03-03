@@ -57,15 +57,18 @@
                 <div v-else class="loading"></div>
             </div>
         </div>
+
+		<translate></translate>
     </div>
 </template>
 
 <script>
 // 导入 category
 import category from '@/components/webs/public/category'
-
 // 导入 myEcharts
 import myEcharts from '@/components/function/myEcharts/index'
+// 导入翻译组件
+import translate from '@/components/function/translate/index'
 
 const fieldList = ['read', 'praise', 'reprint', 'comment_number', 'reward']
 
@@ -73,7 +76,8 @@ export default {
 	name: 'common',
 	components: {
 		category,
-		myEcharts
+		myEcharts,
+		translate
 	},
 	data() {
 		return {

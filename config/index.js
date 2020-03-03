@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/baidu': {
+        target: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/baidu': '/'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
