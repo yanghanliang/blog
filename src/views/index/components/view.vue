@@ -22,8 +22,12 @@
 				<li><a href="square">随机分布 方形</a></li>
 			</ul>
 			<ul>
-				<span class="lb-class">abc</span>
+				<span class="lb-class">dom</span>
 				<li><a href="slider">滑块</a></li>
+			</ul>
+			<ul>
+				<span class="lb-class">svg</span>
+				<li><a href="connection">connection 连线</a></li>
 			</ul>
 		</div>
 		<div class="right-box">
@@ -76,6 +80,10 @@ export default {
 		border-right: 1px solid $border-color;
 		padding: 1rem 0.2rem 0.2rem 0.2rem;
 
+		span {
+			font-size: 12px;
+		}
+
 		.logo {
 			top: -55px;
 			left: -50px;
@@ -88,13 +96,26 @@ export default {
 			line-height: 40px;
 		}
 
-		li {
-			a {
-				color: $main-font;
-				height: 30px;
-				line-height: 30px;
+		ul {
+			line-height: 0;
+			margin-bottom: 5px;
+
+			li {
+				margin-bottom: 10px;
+
+				&:nth-last-child(1) {
+					margin-bottom: 0;
+				}
+
+				a {
+					height: 20px;
+					display: block;
+					color: $main-font;
+					line-height: 20px;
+				}
 			}
 		}
+
 	}
 
 	.right-box {

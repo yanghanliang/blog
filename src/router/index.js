@@ -29,6 +29,7 @@ const progress = () => import('@/views/index/components/document/progress')
 const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
+const connection = () => import('@/views/index/components/document/connection')
 const personalResume = () => import('@/views/index/personalResume')
 // index-end
 
@@ -83,6 +84,11 @@ const router = new Router({
 							path: 'slider',
 							name: 'slider',
 							component: slider
+						},
+						{
+							path: 'connection',
+							name: 'connection',
+							component: connection
 						}
 					]
 				},

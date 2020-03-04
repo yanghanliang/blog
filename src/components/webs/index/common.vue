@@ -57,8 +57,6 @@
                 <div v-else class="loading"></div>
             </div>
         </div>
-
-		<translate class="translate"></translate>
     </div>
 </template>
 
@@ -67,8 +65,6 @@
 import category from '@/components/webs/public/category'
 // 导入 myEcharts
 import myEcharts from '@/components/function/myEcharts/index'
-// 导入翻译组件
-import translate from '@/components/function/translate/index'
 
 const fieldList = ['read', 'praise', 'reprint', 'comment_number', 'reward']
 
@@ -77,7 +73,6 @@ export default {
 	components: {
 		category,
 		myEcharts,
-		translate
 	},
 	data() {
 		return {
@@ -396,11 +391,5 @@ export default {
 			}
 		}
 	}
-}
-
-@media screen and (max-width: 1800px) {
-    .translate {
-        display: none;
-    }
 }
 </style>
