@@ -1,6 +1,7 @@
 <template>
 	<div class="echarts-box">
-		<my-bar v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data"></my-bar>
+		<my-data></my-data>
+		<my-bar v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
 		<my-pie v-else-if="type === 'pie'" :seriesData="pieData.seriesData"></my-pie>
 	</div>
 </template>
@@ -8,6 +9,7 @@
 <script>
 import myBar from '@/components/function/myEcharts/main/bar'
 import myPie from '@/components/function/myEcharts/main/pie'
+import myData from '@/components/function/date/index'
 
 export default {
 	name: 'myEcharts',
@@ -31,11 +33,15 @@ export default {
 			defaulte: function() {
 				return []
 			}
+		},
+		axisLabel: {
+			type: Object,
 		}
 	},
 	components: {
 		myBar,
-		myPie
+		myPie,
+		myData
 	},
 	data() {
 		return {

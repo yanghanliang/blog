@@ -18,6 +18,15 @@ let props = {
 		default: function() {
 			return [5, 20, 36, 10, 10, 20]
 		}
+	},
+	axisLabel: {
+		type: Object,
+		default: function() {
+			return { // 使文字倾斜，达到展示全部的文字
+				interval: 0, // 0 展示全部
+				rotate: -30, // 倾斜角度
+			}
+		}
 	}
 }
 

@@ -11,7 +11,6 @@ export default {
 	name: 'bar',
 	mixins: [].concat(props),
 	created() {
-		console.log('2222')
 	},
 	mounted() {
 		this.init()
@@ -32,10 +31,7 @@ export default {
 							boundaryGap: true, // 让文字居中对齐刻度
 						},
 					},
-					axisLabel: { // 使文字倾斜，达到展示全部的值
-						interval: 0, // 0 展示全部
-						rotate: -30, // 倾斜角度
-					},
+					axisLabel: this.axisLabel, // 使文字倾斜，达到展示全部的文字
 					data: this.xAxisData
 				},
 				yAxis: {
@@ -65,12 +61,17 @@ export default {
 			})
 		}
 	},
+	watch: {
+		seriesData(now, before) { // 监听数据变化，更新图表
+			this.init()
+		}
+	},
 }
 </script>
 
 <style lang="scss" scoped>
 .echarts {
 	width: 100%;
-	height: 100%;
+	height: -webkit-fill-available;
 }
 </style>

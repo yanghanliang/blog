@@ -3,7 +3,7 @@
         <div class="nav-left">
 			<a
 				v-for="(item, index) in data"
-				@mouseenter="mouseenter(item)"
+				@click="mouseenter(item)"
 				:class="{'active': item.status === 'open'}"
 				href="javascript:;"
 				:key="index"

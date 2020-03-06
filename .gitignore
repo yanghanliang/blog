@@ -15,4 +15,4 @@ yarn-error.log*
 
 # 线上配置文件
 global.js
-webpack.dev.conf
+webpack.dev.conf.js
