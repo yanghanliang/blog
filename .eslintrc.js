@@ -42,6 +42,10 @@ module.exports = {
     'no-extend-native': 'off',
     'no-proto': 'off',
     // 防止定义多个值，只写一个 var
-    'one-var': 'off'
+    'one-var': 'off',
+    // 防止未定义直接使用
+    'no-undef': 'off',
+    // 防止文字间距
+    // 'object-curly-spacing': 'off'
   }
 }

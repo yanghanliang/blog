@@ -27,6 +27,10 @@ let props = {
 				rotate: -30, // 倾斜角度
 			}
 		}
+	},
+	date: {
+		type: Array,
+		default: []
 	}
 }
 

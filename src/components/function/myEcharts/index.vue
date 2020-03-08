@@ -1,15 +1,21 @@
 <template>
 	<div class="echarts-box">
-		<my-data></my-data>
-		<my-bar v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
-		<my-pie v-else-if="type === 'pie'" :seriesData="pieData.seriesData"></my-pie>
+		<div class="eb-header clearfix" v-if="time">
+			<span class="ebh-title">{{ title }}</span>
+			<my-data @dateChange="dateChange" :dateType="time"></my-data>
+		</div>
+		<div class="line"></div>
+		<my-bar class="eb-content" v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
+		<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData"></my-pie>
+		<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
 	</div>
 </template>
 
 <script>
+import myData from '@/components/function/date/index'
+import myLine from '@/components/function/myEcharts/main/line'
 import myBar from '@/components/function/myEcharts/main/bar'
 import myPie from '@/components/function/myEcharts/main/pie'
-import myData from '@/components/function/date/index'
 
 export default {
 	name: 'myEcharts',
@@ -36,12 +42,21 @@ export default {
 		},
 		axisLabel: {
 			type: Object,
+		},
+		time: {
+			type: [Number, String],
+			defaulte: ''
+		},
+		getDataFn: {
+			type: Function,
+			defaulte: null
 		}
 	},
 	components: {
 		myBar,
 		myPie,
-		myData
+		myData,
+		myLine
 	},
 	data() {
 		return {
@@ -57,7 +72,9 @@ export default {
 			],
 			pieData: {
 				seriesData: []
-			}
+			},
+			date: [],
+			seriesData: [], // echarts 数据
 		}
 	},
 	filters: {
@@ -94,6 +111,18 @@ export default {
 					}
 				})
 			}
+		},
+		// 时间改变时执行
+		async dateChange(date) {
+			if (this.getDataFn) {
+				// 获取数据
+				let params = {
+					date: date
+				}
+				this.seriesData = await this.getDataFn(params)
+				console.log(this.seriesData, '获取数据')
+			}
+			console.log(date, 'echarts盒子')
 		}
 	},
 }
@@ -103,10 +132,33 @@ export default {
 @import '@/assets/css/color/index.scss';
 
 .echarts-box {
-	min-width: 100%;
-	min-height: 100%;
-	padding: 10px;
+	width: 100%;
+	height: 100%;
 	box-sizing: border-box;
-	border: 1px solid $theme-color;
+	border: 1px solid $border-color;
+
+	.eb-header {
+		height: 38px;
+		padding: 5px 10px;
+		line-height: 38px;
+
+		.ebh-title {
+			float: left;
+			font-size: 16px;
+		}
+	}
+
+	.line {
+		content: "";
+		display: block;
+		height: 1px;
+		background-color: $border-color;
+	}
+
+	.eb-content {
+		padding: 10px;
+		box-sizing: border-box;
+		height: calc(100% - 38px - 10px);
+	}
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <div class="w">
-		<div class="echarts-box">
-			<my-echarts :txt="xAxisData" :data="echartsData" class="echarts" :axisLabel="{}"></my-echarts>
+    <div class="webinfo">
+		<div class="we-content">
+			<my-echarts :txt="xAxisData" title="站点信息" type="line" :data="echartsData" :getDataFn="getData" :time="2" class="echarts" :axisLabel="{}"></my-echarts>
 		</div>
     </div>
 </template>
@@ -16,21 +16,26 @@ export default {
 	},
 	data() {
 		return {
-			xAxisData: ['注册人数', '浏览人数', '文章浏览量'],
+			xAxisData: ['注册人数', '站点访问量', '文章浏览量'],
 			echartsData: []
 		}
 	},
 	created() {
-		this.getData()
 	},
 	methods: {
-		async getData() {
+		async getData(params) {
+			const postData = {
+				startTime: params.date[0],
+				endTime: params.date[1],
+				file: 1
+			}
 			try {
-				const data = await this.$http.post('echarts/web/info')
-				this.echartsData = Object.values(data)
-				console.log(data, 'data', this.echartsData)
+				const data = await this.$http.post('echarts/web/info', postData)
+				console.log(Object.values(data), '返回数据')
+				return Object.values(data)
 			} catch (e) {
 				console.log(e)
+				return []
 			}
 		}
 	},
@@ -38,9 +43,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.echarts-box {
-	width: 400px;
-	height: 300px;
-	margin: 20px auto;
+.webinfo {
+	padding: 40px;
+	background-color: #fff;
+
+	.we-content {
+		width: 1200px;
+		height: 500px;
+		margin: 40px auto;
+	}
 }
 </style>
