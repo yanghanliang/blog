@@ -5,8 +5,7 @@
             <div class="st_line"></div>
         </div>
         <div class="s_box clearfix">
-            <span @click="getData(value.classname)" v-for="value in categoryData"
-                :key="value.id">{{ value.classname }}</span>
+            <span @click="getData(value.classname)" v-for="value in categoryData" :key="value.id">{{ value.classname }}</span>
         </div>
     </div>
 </template>

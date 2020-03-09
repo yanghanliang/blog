@@ -1094,3 +1094,22 @@ server {
 `.\node_modules\.bin\eslint --fix .\src\components\function\myEcharts\main\typeOption.js`
 
 
+### Vue 在index.html添加小图标 icon
+
+> build/webpack.dev.conf.js
+
+```js
+new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: 'index.html',
+    inject: true,
+    favicon: './static/logo.ico'   // 加上这个，重点
+})
+
+```
+
+> index.htm
+
+```html
+<link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
+```
