@@ -1,10 +1,12 @@
 <template>
 	<div class="echarts-box">
-		<div class="eb-header clearfix" v-if="time">
-			<span class="ebh-title">{{ title }}</span>
-			<my-data @dateChange="dateChange" :dateType="time"></my-data>
-		</div>
-		<div class="line"></div>
+		<template v-if="time">
+			<div class="eb-header clearfix">
+				<span class="ebh-title">{{ title }}</span>
+				<my-data @dateChange="dateChange" :dateType="time"></my-data>
+			</div>
+			<div class="line"></div>
+		</template>
 		<my-bar class="eb-content" v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
 		<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData"></my-pie>
 		<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
@@ -120,9 +122,7 @@ export default {
 					date: date
 				}
 				this.seriesData = await this.getDataFn(params)
-				console.log(this.seriesData, '获取数据')
 			}
-			console.log(date, 'echarts盒子')
 		}
 	},
 }
@@ -135,7 +135,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	border: 1px solid $border-color;
+	border: 1px solid $link;
 
 	.eb-header {
 		height: 38px;
@@ -148,17 +148,17 @@ export default {
 		}
 	}
 
+	.eb-header ~ .eb-content {
+		padding: 10px;
+		box-sizing: border-box;
+		height: calc(100% - 38px - 10px);
+	}
+
 	.line {
 		content: "";
 		display: block;
 		height: 1px;
-		background-color: $border-color;
-	}
-
-	.eb-content {
-		padding: 10px;
-		box-sizing: border-box;
-		height: calc(100% - 38px - 10px);
+		background-color: $link;
 	}
 }
 </style>

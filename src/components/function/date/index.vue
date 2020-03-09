@@ -30,7 +30,7 @@ export default {
 		},
 		dateType: {
 			type: Number,
-			default: 1 // 1-今天，2-这周，3这月，4这年
+			default: 1 // 1-今天，2-这周，3这月，4近三个月，5近六个月，4这年
 		}
 	},
 	components: {},
@@ -45,26 +45,40 @@ export default {
 				shortcuts: [
 					{
 						text: '今天',
-						onClick(picker, v2) {
-							picker.$emit('pick', new Date())
+						onClick(picker) {
+							picker.$emit('pick', dateType[0].date)
 						}
 					},
 					{
-						text: '昨天',
+						text: '本周至今',
 						onClick(picker) {
-							const date = new Date()
-							date.setTime(date.getTime() - 3600 * 1000 * 24)
-							picker.$emit('pick', date)
+							picker.$emit('pick', dateType[1].date)
 						}
 					},
 					{
-						text: '一周前',
+						text: '本月至今',
 						onClick(picker) {
-							const date = new Date()
-							date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-							picker.$emit('pick', date)
+							picker.$emit('pick', dateType[2].date)
 						}
-					}
+					},
+					{
+						text: '最近三个月',
+						onClick(picker) {
+							picker.$emit('pick', dateType[3].date)
+						}
+					},
+					{
+						text: '最近六个月',
+						onClick(picker) {
+							picker.$emit('pick', dateType[4].date)
+						}
+					},
+					{
+						text: '今年至今',
+						onClick(picker) {
+							picker.$emit('pick', dateType[5].date)
+						}
+					},
 				]
 			}
 		}
@@ -72,7 +86,6 @@ export default {
 	computed: {},
 	created() {
 		this.initData() // 初始化时间
-		console.log(dateType, 'dateType', this.dateType)
 	},
 	methods: {
 		triggerFocus() {
@@ -90,7 +103,6 @@ export default {
 			} else if (this.dateType === 2) {
 				// [周一, 今天]
 				this.time = dateType[1].date
-				console.log(this.time, dateType[1])
 				this.title = dateType[1].title
 			} else if (this.dateType === 3) {
 				// [月初, 今天]

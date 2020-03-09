@@ -36,4 +36,8 @@ export default {
         display: none;
     }
 }
+
+.container {
+    min-height: 827px;
+}
 </style>

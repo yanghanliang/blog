@@ -20,8 +20,6 @@ export default {
 			// this.$refs.echarts
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
 			var myChart = echarts.init(this.$refs.echarts)
-			console.log(Object.keys(this.seriesData[0]), 'Object.keys(this.seriesData[0])')
-			console.log(Object.values(this.seriesData), 'Object.values(this.seriesData)')
 			let series = []
 			Object.values(this.seriesData).forEach((item, key) => {
 				let value = {

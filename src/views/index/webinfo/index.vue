@@ -1,7 +1,7 @@
 <template>
     <div class="webinfo">
 		<div class="we-content">
-			<my-echarts :txt="xAxisData" title="站点信息" type="line" :data="echartsData" :getDataFn="getData" :time="2" class="echarts" :axisLabel="{}"></my-echarts>
+			<my-echarts :txt="xAxisData" title="站点信息" type="line" :data="echartsData" :getDataFn="getData" :time="3" class="echarts" :axisLabel="{}"></my-echarts>
 		</div>
     </div>
 </template>
@@ -31,10 +31,8 @@ export default {
 			}
 			try {
 				const data = await this.$http.post('echarts/web/info', postData)
-				console.log(Object.values(data), '返回数据')
 				return Object.values(data)
 			} catch (e) {
-				console.log(e)
 				return []
 			}
 		}
@@ -45,12 +43,15 @@ export default {
 <style lang="scss" scoped>
 .webinfo {
 	padding: 40px;
-	background-color: #fff;
 
 	.we-content {
 		width: 1200px;
 		height: 500px;
 		margin: 40px auto;
+
+		.echarts-box {
+			background-color: #fff;
+		}
 	}
 }
 </style>
