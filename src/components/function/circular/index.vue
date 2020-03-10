@@ -5,11 +5,61 @@
 <script>
 export default {
 	name: 'circular',
+	props: {
+		data: {
+			type: Array,
+			default: function() {
+				return [
+					{
+						txt: '天气',
+						value: 100
+					},
+					{
+						txt: '游戏',
+						value: 50
+					},
+					{
+						txt: '音乐',
+						value: 75
+					},
+					{
+						txt: '编程',
+						value: 45
+					},
+					{
+						txt: '小说',
+						value: 40
+					},
+					{
+						txt: '情商',
+						value: 30
+					},
+					{
+						text: '智商',
+						value: 70
+					},
+					{
+						txt: '内向',
+						value: 65
+					},
+					{
+						txt: '长相',
+						value: 75
+					},
+					{
+						txt: '您',
+						value: 100
+					}
+				]
+			}
+		},
+	},
 	mounted() {
 		this.init()
 	},
 	methods: {
 		init() {
+			const that = this
 			let Circular = function () {
 				this.box = this.$('#circular')
 				this.width = this.getStyle(this.box, 'width')
@@ -19,11 +69,19 @@ export default {
 				this.coordinate = [] // 圆的位置坐标
 				this.circular = 40 // 圆的宽高
 				this.number = 10 // 小圆的个数
+				this.data = that.data // 数组对象
+				this.maxValue = 0 // 数组中的最大值
 
 				this.init()
 			}
 
 			Circular.prototype.init = function () {
+				// 数据处理-排序
+				this.data = this.sort({
+					data: this.data,
+					key: 'value'
+				})
+				this.maxValue = this.data[0].value
 				// 获取坐标
 				this.getCoordinate()
 				// 打乱数组
@@ -40,11 +98,16 @@ export default {
 			Circular.prototype.forCreatedEle = function () {
 				for (let i = 0; i < this.number; i++) {
 					let item = this.coordinate[i]
+					let data = that.data[i]
+					if (!data) {
+						return false
+					}
+
 					let postData = {
 						box: this.box,
 						x: item.x,
 						y: item.y,
-						w: this.circular
+						w: this.circular / this.maxValue * data.value
 					}
 
 					this.createdElement(postData)
@@ -383,6 +446,32 @@ export default {
 				})
 			}
 
+			/**
+			 * 数组对象排序
+			 * @param {object}           params
+			 * @param {array}            params.data 数组对象 [{value: 50}]
+			 * @param {string}           params.key  已对象中的 key 为判断对象 value
+			 * @param {string,boolean}   param.sort  升序或降序 默认降序 可选值 true 'desc'
+			 * @return {array}           排序好之后的数组
+			 */
+			Circular.prototype.sort = function(params) {
+				const data = params.data
+				const key = params.key
+				const sort = params.sort ? '>' : '<' // 默认是降序
+
+				for (let i = 0, length = data.length; i < length - 1; i++) {
+					for (let j = 0; j < length - i - 1; j++) {
+						let rule = eval(data[j][key] + sort + data[j + 1][key])
+						if (rule) {
+							let temp = Object.assign({}, data[j])
+							data[j] = data[j + 1]
+							data[j + 1] = temp
+						}
+					}
+				}
+				return data
+			}
+
 			new Circular()
 		}
 	},
@@ -396,13 +485,15 @@ export default {
     border-radius: 5px;
     position: relative;
     border-radius: 50%;
-    border: 1px solid #ddd;
+    border: 4px solid #ddd;
+    box-shadow: -4px 3px 12px 0px black;
 
     >>> .circular {
         height: 2px;
         border-radius: 50%;
         position: absolute;
         background-color: aquamarine;
+		box-shadow: -2px 1px 4px 0px black;
     }
 }
 </style>
