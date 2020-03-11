@@ -26,12 +26,12 @@
 						</template>
 						<template v-else-if="isExistence(data) === 4">
 							<div class="clbt_left">
-								<my-echarts :txt="xAxisData" :title="data.title" :data="data | seriesData" type="pie"></my-echarts>
+								<my-echarts class="pd0 pie" :txt="xAxisData" :title="data.title" :data="data | seriesData" type="pie" :seriesCenter="['50%', '70%']"></my-echarts>
 							</div>
 						</template>
 						<template v-else>
 							<div class="clbt_left">
-								<my-echarts :txt="xAxisData" :title="data.title" :data="data | seriesData"></my-echarts>
+								<my-echarts class="bar" :txt="xAxisData" :title="data.title" :data="data | seriesData"></my-echarts>
 							</div>
 						</template>
                         <div class="clbt_right">
@@ -176,7 +176,6 @@ export default {
 					} = await that.$http.post(`paging`, that.pageData)
 					if (data.getData.status === 200) {
 						for (var i = 0; i < data.getData.data.length; i++) {
-							console.log(that.article, 'that.article')
 							that.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
 						}
 						that.pageData.currentPage += 1 // 加一页
@@ -260,6 +259,14 @@ export default {
 .echarts-box {
 	width: 270px;
 	height: 170px;
+
+	&.bar {
+		padding: 0 10px 10px;
+	}
+
+	&.pie {
+		padding-top: 5px !important;
+	}
 }
 
 .content {

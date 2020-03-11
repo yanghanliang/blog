@@ -7,7 +7,7 @@ import echarts from 'echarts'
 // import typeOption from './typeOption.js'
 
 export default {
-	name: 'pie',
+	name: 'pie', // 饼状图
 	props: {
 		title: {
 			type: String,
@@ -23,6 +23,12 @@ export default {
 					{value: 235, name: '视频广告'},
 					{value: 400, name: '搜索引擎'}
 				]
+			}
+		},
+		seriesCenter: { // 控制饼状图的位置
+			type: Array,
+			default: function() {
+				return ['50%', '60%']
 			}
 		}
 	},
@@ -47,7 +53,7 @@ export default {
 					formatter: '{a} <br/>{b} : {c} ({d}%)',
 					position: function (pos, params, dom, rect, size) {
 						// 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
-						var obj = { top: 10 }
+						var obj = { top: 30 }
 						obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5
 						return obj
 					}
@@ -61,7 +67,7 @@ export default {
 						name: '访问来源',
 						type: 'pie',
 						radius: '55%',
-						center: ['50%', '72%'], // 可以控制饼图的位置，[x, y]
+						center: this.seriesCenter, // 可以控制饼图的位置，[x, y]
 						data: this.seriesData,
 						emphasis: {
 							itemStyle: {
@@ -73,6 +79,11 @@ export default {
 					}
 				]
 			})
+		},
+	},
+	watch: {
+		seriesData(now, before) { // 监听数据变化，更新图表
+			this.init()
 		},
 	},
 }

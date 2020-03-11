@@ -128,6 +128,15 @@
 						</el-pagination>
                     </ul>
                     <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category>
+					<div class="secondary">
+						<el-popover
+							placement="top-start"
+							width="200"
+							trigger="hover"
+							content="如果您觉得这篇文章还不错，就点个赞吧~">
+							<i slot="reference" :class="['my-icon-dianzan', { 'active': praiseStatus }]" @click="editPraise"></i>
+						</el-popover>
+					</div>
                 </div>
             </div>
         </div>
@@ -468,6 +477,7 @@ export default {
 				currentPage: 1,
 				total: 0,
 			},
+			praiseStatus: false, // 点赞的状态 false 没有点赞
 		}
 	},
 	created() {
@@ -548,6 +558,7 @@ export default {
 			this.user.mailbox = data.mailbox ? '' : data.mailbox
 			this.src = data.head_portrait_url
 			this.user.comment_content = data.comment_content
+			this.progressPercent = 0
 			localStorage.setItem('alias', data.alias) // 记录昵称
 		},
 		// 阻止upload的自己上传，进行再操作
@@ -594,6 +605,7 @@ export default {
 		async httpRequest(file) {
 			let formdata = new FormData()
 			formdata.append('file', file.file)
+			this.progressPercent = 0
 
 			try {
 				let { data } = await this.$http({
@@ -646,6 +658,31 @@ export default {
 			} catch (e) {
 				console.log(e)
 			}
+		},
+		// 更新点赞数
+		async editPraise() {
+			const top = document.documentElement.scrollTop
+			let postData = {
+				articleId: this.articleData.id,
+				praise: this.articleData.praise
+			}
+			if (!this.praiseStatus) {
+				// 点赞
+				this.praiseStatus = true
+				postData.praise = postData.praise + 1
+			} else {
+				// 取消点赞
+				this.praiseStatus = false
+				postData.praise = postData.praise - 1
+			}
+
+			try {
+				await this.$http.post('article/praise', postData)
+				await this.loadData()
+				document.documentElement.scrollTop = top // 防止页面置顶
+			} catch (e) {
+				console.log(e)
+			}
 		}
 	},
 	watch: {
@@ -663,6 +700,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/color/index.scss'; // 使用方法
+
 .fs40 {
 	font-size: 40px;
 }
@@ -688,95 +727,141 @@ export default {
 .content {
     overflow-y: auto;
     overflow-x: hidden;
-}
 
-/* left-start */
-.content .left {
-    width: 8.4rem;
-    float: left;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-    padding-bottom: 0.1rem;
-    background-color: #fff;
-    padding: 0 0.2rem 0.2rem 0.2rem;
-}
+	.left {
+		width: 8.4rem;
+		float: left;
+		overflow-y: auto;
+		overflow-x: hidden;
+		position: relative;
+		padding-bottom: 0.1rem;
+		background-color: #fff;
+		padding: 0 0.2rem 0.2rem 0.2rem;
 
-.content .left .no_data {
-    margin-top: 0.6rem;
-}
+		.no_data {
+			margin-top: 0.6rem;
 
-.content .left .no_data .icon {
-    font-size: 0.5rem;
-}
+			.icon {
+				font-size: 0.5rem;
+			}
+		}
 
-/* describe-start */
-.content .left .title h1 {
-    display: inline-block;
-}
+		.title {
+			h1 {
+				display: inline-block;
+			}
 
-.content .left .title i {
-    margin-right: 10px;
-    vertical-align: text-top;
-}
+			i {
+				margin-right: 10px;
+				vertical-align: text-top;
+			}
+		}
 
-.content .left .describe {
-    margin: 0 auto 0.1rem;
-    display: inline-block;
-}
+		.describe {
+			margin: 0 auto 0.1rem;
+			display: inline-block;
 
-.content .left .describe li {
-    float: left;
-    color: #4ec3a4;
-    margin-right: 0.1rem;
-    border-radius: 0.15rem;
-    padding: 0.04rem 0.08rem;
-    border: 0.01rem solid #a9d6cd;
-}
+			li {
+				float: left;
+				color: #4ec3a4;
+				margin-right: 0.1rem;
+				border-radius: 0.15rem;
+				padding: 0.04rem 0.08rem;
+				border: 0.01rem solid #a9d6cd;
+			}
+		}
 
-/* describe-end */
+		.subscript {
+			color: #d4d4d4;
+			margin: 0.2rem 0;
 
-/* subscript-start */
-.content .left .subscript {
-    color: #d4d4d4;
-	margin: 0.2rem 0;
-}
+			.icon {
+				font-size: 0.35rem;
+			}
+		}
 
-.content .left .subscript .icon {
-    font-size: 0.35rem;
-}
+		.line {
+			width: 100%;
+			height: 0.01rem;
+			margin-bottom: 0.2rem;
+			background-color: #ececec;
+		}
+	}
 
-/* subscript-end */
+	>.right {
+		width: 3rem;
+		float: right;
+		vertical-align: top;
+	}
 
-.content .left .line {
-    width: 100%;
-    height: 0.01rem;
-    margin-bottom: 0.2rem;
-    background-color: #ececec;
+	.right {
+		.rr {
+			padding: 0.2rem;
+			text-align: left;
+			background-color: #fff;
+
+			li {
+				color: #666;
+				height: 0.3rem;
+				line-height: 0.3rem;
+				font-weight: normal;
+				margin-left: 0.16rem;
+
+				a {
+					color: #666;
+				}
+			}
+		}
+
+		>.bg_img_b {
+			width: 50%;
+		}
+
+		.category {
+			margin-bottom: 0.2rem;
+		}
+
+		.secondary {
+			padding: 0.2rem;
+			text-align: left;
+			background-color: #fff;
+
+			.my-icon-dianzan {
+				cursor: pointer;
+				font-size: 20px;
+				outline-style: none;
+				color: $theme-color2;
+
+				&.active {
+					color: $red;
+				}
+			}
+		}
+	}
 }
 
 /* page-start */
 .page {
     color: #e26060;
     padding: 0 1rem;
-}
 
-.page .page_pre {
-    float: left;
-    cursor: pointer;
-}
+	.page_pre {
+		float: left;
+		cursor: pointer;
 
-.page .page_pre i {
-    margin-right: 0.1rem;
-}
+		i {
+			margin-right: 0.1rem;
+		}
+	}
 
-.page .page_next {
-    float: right;
-    cursor: pointer;
-}
+	.page_next {
+		float: right;
+		cursor: pointer;
 
-.page .page_next i {
-    margin-left: 0.1rem;
+		i {
+			margin-left: 0.1rem;
+		}
+	}
 }
 
 /* page-end */
@@ -939,41 +1024,6 @@ export default {
 /* .scb_header.right-end */
 /* show_comment-end */
 /* left-end */
-
-/* right-start */
-.content>.right {
-    width: 3rem;
-    float: right;
-    vertical-align: top;
-}
-
-.content .right .rr {
-    padding: 0.2rem;
-    text-align: left;
-    background-color: #fff;
-}
-
-.content .right .rr li {
-    color: #666;
-    height: 0.3rem;
-    line-height: 0.3rem;
-    font-weight: normal;
-    margin-left: 0.16rem;
-}
-
-.content .right .rr li a {
-    color: #666;
-}
-
-.content .right>.bg_img_b {
-    width: 50%;
-}
-
-.category {
-    margin-bottom: 0.2rem;
-}
-
-/* right-end */
 /* content-end */
 
 .upload-demo {

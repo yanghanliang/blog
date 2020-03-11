@@ -43,9 +43,11 @@ $purple: purple;
 
 $blue: blue;
 
+$red: red;
+
 // 循环
 $creativeList: (
-    (attr: 'red', color: 'red'),
+    (attr: 'red', color: $red),
     (attr: 'orange', color: 'orange'),
     (attr: 'yellow', color: 'yellow'),
     (attr: 'green', color: $green),

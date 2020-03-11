@@ -25,7 +25,7 @@ export default {
 	filters: {
 		iconClass(item) {
 			let className = [item.status]
-			if (item.children) {
+			if (item.children && item.children.length > 0) {
 				if (item.status === 'open') {
 					className.push('my-icon-sanjiaoxia')
 				} else {

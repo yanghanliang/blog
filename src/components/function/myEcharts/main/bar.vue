@@ -8,7 +8,7 @@ import props from './props'
 // import typeOption from './typeOption.js'
 
 export default {
-	name: 'bar',
+	name: 'bar', // 柱状图
 	mixins: [].concat(props),
 	created() {
 	},

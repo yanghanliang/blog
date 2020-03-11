@@ -53,10 +53,9 @@
 				<el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					{{ catalog.classname }}</el-menu-item>
 			</el-submenu> -->
-			<el-menu-item index="/catalogList">
-				<!-- <router-link to="/catalogList">日志</router-link> -->
+			<!-- <el-menu-item index="/catalogList">
 				日志
-			</el-menu-item>
+			</el-menu-item> -->
 			<el-menu-item index="/admin">后台</el-menu-item>
 			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<el-menu-item index="/personal/resume">个人简历</el-menu-item>
