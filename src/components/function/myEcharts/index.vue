@@ -1,5 +1,5 @@
 <template>
-	<div class="echarts-box">
+	<div :class="['echarts-box', { 'pd20': !time }]">
 		<template v-if="time">
 			<div class="eb-header clearfix">
 				<span class="ebh-title">{{ title }}</span>
@@ -8,7 +8,7 @@
 			<div class="line"></div>
 		</template>
 		<my-bar class="eb-content" v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
-		<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData"></my-pie>
+		<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData" :seriesCenter="seriesCenter"></my-pie>
 		<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
 	</div>
 </template>
@@ -52,6 +52,12 @@ export default {
 		getDataFn: {
 			type: Function,
 			defaulte: null
+		},
+		seriesCenter: { // 控制饼状图的位置
+			type: Array,
+			default: function() {
+				return ['50%', '60%']
+			}
 		}
 	},
 	components: {
@@ -125,6 +131,11 @@ export default {
 			}
 		}
 	},
+	watch: {
+		data(v) {
+			this.handleData()
+		}
+	},
 }
 </script>
 
@@ -134,8 +145,9 @@ export default {
 .echarts-box {
 	width: 100%;
 	height: 100%;
+	border-radius: 5px;
 	box-sizing: border-box;
-	border: 1px solid $link;
+	box-shadow: 0 0 17px -4px #a6a6a6;
 
 	.eb-header {
 		height: 38px;
@@ -158,7 +170,8 @@ export default {
 		content: "";
 		display: block;
 		height: 1px;
-		background-color: $link;
+		background-color: $border-color;
+		box-shadow: 0 0 14px -8px black;
 	}
 }
 </style>

@@ -46,24 +46,24 @@ export default {
 							status: 'open',
 							router: '/admin/addArticle',
 							children: [
-								{
-									index: '1-7-2-1',
-									name: 'hh',
-									status: 'open',
-									level: 2,
-									children: [
-										{
-											index: '1-7-2-1-1',
-											name: 'gg',
-											level: 3,
-										}
-									]
-								},
-								{
-									name: 'hh',
-									status: 'open',
-									level: 2,
-								}
+								// {
+								// 	index: '1-7-2-1',
+								// 	name: 'hh',
+								// 	status: 'open',
+								// 	level: 2,
+								// 	children: [
+								// 		{
+								// 			index: '1-7-2-1-1',
+								// 			name: 'gg',
+								// 			level: 3,
+								// 		}
+								// 	]
+								// },
+								// {
+								// 	name: 'hh',
+								// 	status: 'open',
+								// 	level: 2,
+								// }
 							]
 						},
 						{
