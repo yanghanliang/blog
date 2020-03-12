@@ -34,6 +34,10 @@ const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 // index-end
 
+// mobile-start
+const mobile = () => import('@/views/mobile/index')
+// mobile-end
+
 Vue.use(Router)
 
 const router = new Router({
@@ -172,6 +176,11 @@ const router = new Router({
 					component: userList
 				}
 			]
+		},
+		{
+			path: '/mobile',
+			name: 'mobile',
+			component: mobile,
 		}
 	]
 })

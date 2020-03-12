@@ -24,9 +24,11 @@
     &::before {
         content: "";
         height: 1px;
+        left: 0;
         bottom: 0;
+        width: 100%;
         display: block;
         position: absolute;
-        color: $border-color;
+        background-color: $border-color;
     }
 }
