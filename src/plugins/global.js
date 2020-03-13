@@ -1,5 +1,5 @@
 export default {
-	baseURL: 'http://127.0.0.1:3001/', // 接口基地址
+	baseURL: 'http://192.168.199.123:3001/', // 接口基地址
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法
 		// const verification =  await this.Global.verification(this, 'form')
