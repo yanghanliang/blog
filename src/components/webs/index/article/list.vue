@@ -55,19 +55,9 @@ export default {
 				return []
 			}
 		},
-		pageData: {
-			type: Object,
-			default: function() {
-				return  {
-					currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
-					pageSize: 5, // 每页条数
-					orderBy: 'descending', // 排序方式
-					lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
-					tips: '', // 提示
-					searchData: '', // 搜索内容
-					classname: '', // 分类名称
-				}
-			}
+		searchData: {
+			type: String,
+			default: ''
 		}
 	},
 	filters: {
@@ -81,7 +71,16 @@ export default {
 		return {
 			article: [], // 文章数据
 			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
-			loading: false
+			loading: false,
+			pageData: {
+				currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
+				pageSize: 5, // 每页条数
+				orderBy: 'descending', // 排序方式
+				lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
+				tips: '', // 提示
+				searchData: '', // 搜索内容
+				classname: '', // 分类名称
+			}
 		}
 	},
 	created() {
@@ -129,20 +128,23 @@ export default {
 		},
 		// 搜索内容
 		async searchFn() {
+			this.pageData.lock = false
+			this.pageData.currentPage = 1
 			const { data } = await this.$http.post('searchData', {
-				searchData: this.pageData.searchData
+				searchData: this.searchData
 			})
 			if (data.getData.status === 200) {
 				this.article = data.getData.data // 显示内容
 				// 给出提示
-				this.pageData.searchData && this.$message({
-					message: `搜索到与 "${this.pageData.searchData}" 相关的数据共有 ${data.getNumber} 条!`,
+				this.searchData && this.$message({
+					message: `搜索到与 "${this.searchData}" 相关的数据共有 ${data.getNumber} 条!`,
 					type: 'success'
 				})
 			} else {
-				this.lock = false // 关闭锁
+				console.log('?????', data.getData.msg)
 				this.$emit('noData', data.getData.msg)
 			}
+			this.pageData.lock = true
 			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离
 			this.pageData.currentPage = 2 // 重置当前页
 			this.pageData.tips = '' // 重置提示
@@ -163,6 +165,11 @@ export default {
 			if (now && now.length > 0) {
 				this.article = now
 			}
+		},
+		searchData(now, old) {
+			this.pageData.currentPage = 1
+			this.pageData.searchData = now
+			this.searchFn()
 		}
 	},
 }
