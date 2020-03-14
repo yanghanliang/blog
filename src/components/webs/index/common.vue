@@ -98,8 +98,12 @@ export default {
 			this.$refs.contentLeft.searchFn() // 搜索内容
 		},
 		tips() {
-			this.$message({
-				message: '目前此网站正在持续更新中，或许您下一次打开就会不一样哦~'
+			const h = this.$createElement
+			this.$notify({
+				offset: 100,
+				duration: 3000,
+				title: '本站状态',
+				message: h('i', { style: 'color: teal' }, '目前此网站正在持续更新中，或许您下一次打开就会不一样哦~')
 			})
 		},
 		setCatgoryData(data) {
