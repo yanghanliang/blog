@@ -2,7 +2,7 @@
     <div class="mobile">
         <div class="mo-top">
             <div class="mo-header">
-                <el-input placeholder="请输入您要搜索的内容" v-model="pageData.searchData" :autofocus="true" @input="searchInput" clearable class="search">
+                <el-input placeholder="请输入您要搜索的内容" v-model="search" :autofocus="true" @input="searchInput" clearable class="search">
                     <i slot="suffix" @click="searchclick" class="el-input__icon el-icon-search"></i>
                 </el-input>
             </div>
@@ -29,7 +29,7 @@
                 </ul>
             </div>
         </div>
-        <article-list ref="contentLeft" class="article-list" :data="article" :pageData="pageData" @noData="jump"></article-list>
+        <article-list class="article-list" :searchData="searchData" @noData="jump"></article-list>
     </div>
 </template>
 
@@ -43,33 +43,53 @@ export default {
 	},
 	data() {
 		return {
-			search: '',
-			article: [],
-			pageData: {
-				currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
-				pageSize: 5, // 每页条数
-				orderBy: 'descending', // 排序方式
-				lock: true, // 锁,为了防止多次请求，得到响应后再开启请求
-				tips: '', // 提示
-				searchData: '', // 搜索内容
-				classname: '', // 分类名称
-			}
+			lock: false,
+			searchData: '', // 传入组件中的搜索内容
+			search: ''
 		}
 	},
 	created() {
 	},
 	methods: {
-		// 输入搜索hui
+		// 输入搜索
 		searchInput() {
+			this.lock = true // 关闭锁
 			// 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
-			if (!/[0-9a-zA-Z]+/.test(this.pageData.searchData)) { // 如果输入有数字字母则不执行
-				this.$refs.contentLeft.searchFn() // 搜索内容
+			if (!/[0-9a-zA-Z]+/.test(this.search)) { // 如果输入有数字字母则不执行
+				this.searchData = this.search
 			}
 		},
 		// 点击搜索
 		searchclick() {
 			this.lock = true // 开启锁
-			this.$refs.contentLeft.searchFn() // 搜索内容
+			this.searchData = this.search
+		},
+		// 没有想要的数据时跳转到百度搜索
+		jump(msg) {
+			if (this.lock) {
+				this.$message({
+					message: msg + '即将跳转百度搜索!',
+					type: 'warrning',
+					showClose: true,
+					customClass: 'shuai',
+					data: this.searchData, // 把数据存储在这
+					duration: 0, // 不会自动关闭 4s 可以，超过4秒会被浏览器拦截
+					onClose: function (message) { // 参数为message实例,所以想要获取数据,则必须将数据以以上方式存储
+						window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
+					}
+				})
+
+				// 实现取消跳转
+				let message = document.querySelector('.shuai')
+				document.querySelector('.shuai .el-icon-close').remove()
+				let icon = document.createElement('i')
+				icon.className = 'el-message__closeBtn el-icon-close'
+				message.appendChild(icon)
+
+				icon.onclick = function() {
+					document.querySelector('.el-message').remove()
+				}
+			}
 		},
 	},
 }
