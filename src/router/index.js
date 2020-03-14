@@ -1,3 +1,5 @@
+// 引入全局变量
+import Global from '@/plugins/global'
 import Vue from 'vue'
 import Router from 'vue-router'
 // 导入消息提示
@@ -22,7 +24,7 @@ const userList = () => import('@/views/admin/user/list')
 
 // index-start
 const common = () => import('@/components/webs/index/common')
-const articleDetails = () => import('@/components/webs/index/article/articleDetails')
+const articleDetails = () => import('@/components/webs/index/article/details/index')
 const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 const componentsViews = () => import('@/views/index/components/view')
 const progress = () => import('@/views/index/components/document/progress')
@@ -33,6 +35,11 @@ const connection = () => import('@/views/index/components/document/connection')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 // index-end
+
+// mobile-start
+const mobile = () => import('@/views/mobile/index')
+const mArticleList = () => import('@/views/mobile/index/article/list')
+// mobile-end
 
 Vue.use(Router)
 
@@ -172,6 +179,29 @@ const router = new Router({
 					component: userList
 				}
 			]
+		},
+		{
+			path: '/mobile',
+			name: 'mobile',
+			component: mobile,
+			redirect: '/mobile/article/list',
+			children: [
+				{
+					path: 'common',
+					name: 'common',
+					component: mArticleList
+				},
+				{
+					path: 'article/list',
+					name: 'mArticleList',
+					component: mArticleList
+				},
+				{
+					path: 'articleDetails/:articleId',
+					name: 'articleDetails',
+					component: articleDetails
+				},
+			]
 		}
 	]
 })
@@ -185,7 +215,13 @@ router.beforeEach((to, from, next) => {
 			path: from.path
 		})
 	} else {
-		next()
+		console.log(Global.equipment, 'Global.equipment')
+		if (Global.equipment === 'mobile') {
+			const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
+			next({ path: toPath })
+		} else {
+			next()
+		}
 	}
 })
 

@@ -23,5 +23,7 @@ export default {
 		} catch (e) {
 			console.log(e)
 		}
-	}
+	},
+	// 用来判断是不是移动端
+	equipment: document.documentElement.offsetWidth >= 1200 ? 'pc' : 'mobile'
 }
