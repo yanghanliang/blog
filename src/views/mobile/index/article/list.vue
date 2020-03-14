@@ -16,8 +16,10 @@
                     <li>小需求</li>
                 </ul>
                 <ul>
-                    <li><i class="my-icon-yulanjianli"></i></li>
-                    <li>个人简历</li>
+                   <router-link to="personal/resume">
+                        <li><i class="my-icon-yulanjianli"></i></li>
+                        <li>个人简历</li>
+                   </router-link>
                 </ul>
                 <ul>
                     <li><i class="my-icon-zhandianshujutongji"></i></li>
@@ -158,7 +160,15 @@ div {
             float: left;
             text-align: center;
 
+            a {
+                color: $secondary;
+                user-select: none;
+                outline-style: none;
+            }
+
             li {
+                color: $secondary;
+
                 &:nth-child(1) {
                     width: 42px;
                     height: 42px;

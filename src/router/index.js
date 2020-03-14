@@ -188,7 +188,7 @@ const router = new Router({
 			children: [
 				{
 					path: 'common',
-					name: 'common',
+					name: 'mCommon',
 					component: mArticleList
 				},
 				{
@@ -198,8 +198,13 @@ const router = new Router({
 				},
 				{
 					path: 'articleDetails/:articleId',
-					name: 'articleDetails',
+					name: 'mArticleDetails',
 					component: articleDetails
+				},
+				{
+					path: 'personal/resume',
+					name: 'personalResume',
+					component: personalResume
 				},
 			]
 		}

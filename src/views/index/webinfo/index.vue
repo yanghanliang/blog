@@ -88,4 +88,18 @@ export default {
 		}
 	}
 }
+
+@media (max-device-width: 435px) {
+    .webinfo {
+		padding: 0;
+
+		.we-content {
+			width: 100%;
+
+			.echarts-box {
+				height: 350px;
+			}
+		}
+	}
+}
 </style>
