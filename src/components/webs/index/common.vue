@@ -99,12 +99,8 @@ export default {
 		},
 		tips() {
 			this.$message({
-				message: '目前此网站正在建设中~'
+				message: '目前此网站正在持续更新中，或许您下一次打开就会不一样哦~'
 			})
-			// this.$notify({
-			// 	title: '标题名称',
-			// 	message: h('i', { style: 'color: teal'}, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案')
-			// })
 		},
 		setCatgoryData(data) {
 			this.article = data.getData.data

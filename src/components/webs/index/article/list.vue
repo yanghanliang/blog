@@ -257,7 +257,7 @@ export default {
 	}
 }
 
-@media (max-device-width: 435px){
+@media (max-device-width: 435px) {
 	.content-left {
 		width: 100%;
 

@@ -1,0 +1,49 @@
+@media (max-device-width: 435px) {
+    .article-details {
+        height: 100%;
+    
+        .w {
+            height: 100%;
+        }
+    }
+
+    .content {
+        height: 100%;
+
+        .left {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+
+            .title {
+                h1 {
+                    font-size: 16px;
+                    font-weight: normal;
+                }
+            }
+
+            .describe {
+                padding: 0 20px;
+
+                li {
+                    float: none;
+                    margin-bottom: 5px;
+                    display: inline-block;
+                }
+            }
+
+            .subscript {
+                // margin: ;
+            }
+        }
+
+        .right {
+            display: none;
+        }
+    }
+
+    .page {
+        padding: 0 10px;
+        margin-bottom: 74px;
+    }
+}
