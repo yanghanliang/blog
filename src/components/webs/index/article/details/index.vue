@@ -493,7 +493,13 @@ export default {
 				data
 			} = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
 			this.articleData = data[0] // 将数据赋值给 vue
-			const bodyEle = document.querySelector('html') // 获取 html 元素
+			// 兼容移动端
+			let bodyEle = null
+			if (this.Global.equipment === 'pc') {
+				bodyEle = document.querySelector('html') // 获取 html 元素
+			} else {
+				bodyEle = document.querySelector('.article-details .left')
+			}
 			bodyEle.scrollTop = 0 // 置顶
 			this.getRecommendData() // 获取推荐数据
 			this.during() // 获取上一篇和下一篇的数据
