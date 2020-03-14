@@ -135,7 +135,7 @@ export default {
 			if (data.getData.status === 200) {
 				this.article = data.getData.data // 显示内容
 				// 给出提示
-				this.$message({
+				this.pageData.searchData && this.$message({
 					message: `搜索到与 "${this.pageData.searchData}" 相关的数据共有 ${data.getNumber} 条!`,
 					type: 'success'
 				})
