@@ -132,9 +132,9 @@ export default {
 		}
 	},
 	watch: {
-		content(v) {
-			console.log(v, 'v')
-		}
+		// content(v) {
+		// 	console.log(v, 'v')
+		// }
 	},
 }
 </script>

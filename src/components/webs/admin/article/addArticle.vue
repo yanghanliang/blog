@@ -143,8 +143,7 @@ export default {
 			}
 
 			try {
-				const data = this.$http.post('deleteFile', postData)
-				console.log(data, 'data')
+				this.$http.post('deleteFile', postData)
 			} catch (e) {
 				console.log(e)
 			}

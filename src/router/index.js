@@ -130,7 +130,7 @@ const router = new Router({
 			children: [
 				{
 					path: 'addArticle',
-					name: 'handleArticle',
+					name: 'addArticle',
 					component: addArticle
 				},
 				{
@@ -140,7 +140,7 @@ const router = new Router({
 				},
 				{
 					path: 'addArticle/:articleId',
-					name: 'handleArticle',
+					name: 'editArticle',
 					component: addArticle
 				},
 				{
@@ -203,7 +203,7 @@ const router = new Router({
 				},
 				{
 					path: 'personal/resume',
-					name: 'personalResume',
+					name: 'mPersonalResume',
 					component: personalResume
 				},
 			]
@@ -220,7 +220,6 @@ router.beforeEach((to, from, next) => {
 			path: from.path
 		})
 	} else {
-		console.log(Global.equipment, 'Global.equipment')
 		if (Global.equipment === 'mobile') {
 			const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
 			next({ path: toPath })

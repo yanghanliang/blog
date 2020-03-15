@@ -171,7 +171,6 @@ export default {
 					if (this.direction) {
 						// 逆时针旋转, 角度为负值
 						if (temp <= this.endAngle) {
-							console.log(temp, 'temp')
 							clearInterval(clearId)
 							// 设置点的位置
 							this.setSpotCoordinate({
@@ -208,7 +207,6 @@ export default {
             * @param {number} params.endAngle      结束的角度
             */
 			My.prototype.ad = function (params) {
-				console.log(params, 'params')
 				this.ctx.clearRect(0, 0, this.boxInfo.width, this.boxInfo.height) // 在给定的矩形内清除指定的像素
 				let startArc = this.getArcValue(params.startAngle) // 开始的弧度
 				let endArc = this.getArcValue(params.endAngle) // 结束的弧度
@@ -279,7 +277,6 @@ export default {
 			My.prototype.getCoordinate = function (angle) {
 				let sAngle = 0
 				let rightAngle = this.radius / Math.sin(2 * Math.PI / 360 * 90) // 直角
-				console.log(angle, 'angle')
 				if (angle <= 90) {
 					sAngle = 90 - angle
 					return {
@@ -304,7 +301,6 @@ export default {
 					}
 				} else if (angle <= 360) {
 					sAngle = 90 - (360 - angle)
-					console.log(sAngle, 'sAngle')
 					return {
 						x: this.circularX + Math.sin(2 * Math.PI / 360 * sAngle) * rightAngle - this.sliderInfo.width /
                             2,
@@ -358,20 +354,20 @@ export default {
             */
 			My.prototype.getSinAngle = function (params) {
 				if (params.x >= this.circularX && params.y >= this.circularY) {
-					console.log('0-90')
+					// console.log('0-90')
 					return Math.asin(params.sin) / (Math.PI / 180)
 				} else if (params.x >= this.circularX && params.y <= this.circularY) {
-					console.log('270-360', Math.asin(params.sin) / (Math.PI / 180))
+					// console.log('270-360', Math.asin(params.sin) / (Math.PI / 180))
 					if (this.direction) {
 						return 360 + Math.asin(params.sin) / (Math.PI / 180)
 					} else {
 						return Math.asin(params.sin) / (Math.PI / 180)
 					}
 				} else if (params.x <= this.circularX && params.y <= this.circularY) {
-					console.log('180-270', Math.asin(params.sin) / (Math.PI / 180))
+					// console.log('180-270', Math.asin(params.sin) / (Math.PI / 180))
 					return 180 - Math.asin(params.sin) / (Math.PI / 180)
 				} else if (params.x <= this.circularX && params.y >= this.circularY) {
-					console.log('90-180')
+					// console.log('90-180')
 					return 180 - Math.asin(params.sin) / (Math.PI / 180)
 				}
 			}

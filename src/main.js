@@ -9,6 +9,9 @@ import router from './router'
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 
+// Added non-passive event listener to a scroll-blocking 'touchstart' event. Consider marking event han
+// 兼容
+
 // 引入 moment 格式化时间
 import moment from 'moment'
 

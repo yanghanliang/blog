@@ -578,7 +578,7 @@ export default {
 			// this.param = new FormData()
 			// this.param.append('file', file, file.name)
 			// return false
-			console.log(file)
+			// console.log(file)
 		},
 		async onSubmit() { // 表单提交的事件
 			this.$refs.user.validate(async (valid) => {
@@ -591,7 +591,6 @@ export default {
 						name_used_before: localStorage.getItem('alias'), // 获取曾用名
 						head_portrait_url: this.src, // 头像
 					}
-					console.log(postData, 'postData')
 					// 然后通过下面的方式把内容通过axios来传到后台
 					// 下面的this.$http 是在主js中通过Vue.prototype.$http = axios 来把axios赋给它;
 					const {
