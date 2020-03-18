@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="personal-resume">
         <!-- 调用自己封装的面包屑组件 -->
         <my-crumbs :ri="routingInformation"></my-crumbs>
         <img src="../../assets/backgroundImages/personalResume.png" alt="个人简历">
@@ -21,13 +21,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div > img {
-    margin: 100px auto;
-    display: inherit;
-}
+.personal-resume {
+	margin: 0 auto;
+    width: fit-content;
 
+	> img {
+		margin: 0 auto 10px;
+		display: inherit;
+	}
+}
 @media (max-device-width: 435px) {
-    div > img {
+    .personal-resume > img {
 		width: 100%;
 		margin: 0 0 10px 0;
     }

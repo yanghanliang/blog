@@ -29,6 +29,10 @@
 				<span class="lb-class">svg</span>
 				<li><a href="connection">connection 连线</a></li>
 			</ul>
+			<ul>
+				<span class="lb-class">echarts</span>
+				<li><a href="echarts">myEcharts</a></li>
+			</ul>
 		</div>
 		<div class="right-box">
 			<router-view />

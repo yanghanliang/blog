@@ -1,5 +1,5 @@
 <template>
-	<div :class="['echarts-box', { 'pd20': !time }]">
+	<div :class="['echarts-box', { 'pd20': !time }]" :style="style" ref="echartsBox">
 		<template v-if="time">
 			<div class="eb-header clearfix">
 				<span class="ebh-title">{{ title }}</span>
@@ -7,9 +7,11 @@
 			</div>
 			<div class="line"></div>
 		</template>
-		<my-bar class="eb-content" v-if="type === 'bar'" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
-		<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData" :seriesCenter="seriesCenter"></my-pie>
-		<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
+		<template v-if="style">
+			<my-bar class="eb-content" v-if="type === 'bar'" :option="option" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
+			<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData" :seriesName="title" :seriesCenter="seriesCenter"></my-pie>
+			<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
+		</template>
 	</div>
 </template>
 
@@ -44,9 +46,12 @@ export default {
 		},
 		axisLabel: {
 			type: Object,
+			default: function() {
+				return {}
+			}
 		},
 		time: {
-			type: [Number, String],
+			type: Number,
 			defaulte: ''
 		},
 		getDataFn: {
@@ -58,6 +63,21 @@ export default {
 			default: function() {
 				return ['50%', '60%']
 			}
+		},
+		// 为了更好的适配，宽高需要带单位
+		width: {
+			type: String,
+			default: '100%'
+		},
+		height: {
+			type: String,
+		},
+		defaultHeight: {
+			type: Number,
+			default: 400
+		},
+		option: {
+			type: Object
 		}
 	},
 	components: {
@@ -83,6 +103,8 @@ export default {
 			},
 			date: [],
 			seriesData: [], // echarts 数据
+			style: '',
+			show: false
 		}
 	},
 	filters: {
@@ -109,6 +131,9 @@ export default {
 	created() {
 		this.handleData()
 	},
+	mounted() {
+		this.setBoxWH()
+	},
 	methods: {
 		handleData() {
 			if (this.type === 'pie') {
@@ -129,10 +154,26 @@ export default {
 				}
 				this.seriesData = await this.getDataFn(params)
 			}
+		},
+		// 设置容器宽高
+		// 可以根据父元素的高度来判断
+		// 如果父元素的高度小于100px或大于默认高度，则设置为默认高度
+		// 如果父元素的高度大于100px且小于默认高度，则继承父元素的高度
+		// 同时还可以传入高度，自定义高度,
+		// 宽度默认100%，可自定义高度
+		setBoxWH() {
+			let height = ''
+			let boxInfo = this.$refs.echartsBox.parentElement.getBoundingClientRect()
+			if (this.height || boxInfo.height < 100 || boxInfo.height > this.defaultHeight) {
+				height = this.defaultHeight + 'px'
+			} else {
+				height = boxInfo.height + 'px'
+			}
+			this.style = `width:${this.width}; height: ${height};`
 		}
 	},
 	watch: {
-		data(v) {
+		data() {
 			this.handleData()
 		}
 	},

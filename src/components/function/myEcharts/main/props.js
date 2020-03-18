@@ -31,6 +31,9 @@ let props = {
 	date: {
 		type: Array,
 		default: []
+	},
+	option: { // echarts 的配置项
+		type: Object
 	}
 }
 

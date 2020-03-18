@@ -30,8 +30,7 @@ export default {
 				}
 				series.push(value)
 			})
-			// 绘制图表
-			myChart.setOption({
+			let option = {
 				color: ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642'],
 				tooltip: {
 					trigger: 'axis',
@@ -65,7 +64,19 @@ export default {
 					type: 'value'
 				}],
 				series: series
-			})
+			}
+
+			// 可以直接传入echarts的配置项
+			if (this.option) {
+				option = this.Global.paramsInherit({
+					params: this.option,
+					defaultValue: option
+				})
+			}
+			console.log(option, 'optio')
+
+			// 绘制图表
+			myChart.setOption(option)
 		}
 	},
 	watch: {

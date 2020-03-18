@@ -9,7 +9,7 @@ import echarts from 'echarts'
 export default {
 	name: 'pie', // 饼状图
 	props: {
-		title: {
+		seriesName: {
 			type: String,
 			default: '标题'
 		},
@@ -30,6 +30,9 @@ export default {
 			default: function() {
 				return ['50%', '60%']
 			}
+		},
+		option: {
+			type: Object
 		}
 	},
 	mounted() {
@@ -40,9 +43,8 @@ export default {
 			// 基于准备好的dom，初始化echarts实例
 			// this.$refs.echarts
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
-			var myChart = echarts.init(this.$refs.echarts)
-			// 绘制图表
-			myChart.setOption({
+			let myChart = echarts.init(this.$refs.echarts)
+			let option = {
 				color: ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642'],
 				title: {
 					text: '',
@@ -64,7 +66,7 @@ export default {
 				},
 				series: [
 					{
-						name: '访问来源',
+						name: this.seriesName,
 						type: 'pie',
 						radius: '55%',
 						center: this.seriesCenter, // 可以控制饼图的位置，[x, y]
@@ -78,7 +80,18 @@ export default {
 						}
 					}
 				]
-			})
+			}
+
+			// 可以直接传入echarts的配置项
+			if (this.option) {
+				option = this.Global.paramsInherit({
+					params: this.option,
+					defaultValue: option
+				})
+			}
+
+			// 绘制图表
+			myChart.setOption(option)
 		},
 	},
 	watch: {

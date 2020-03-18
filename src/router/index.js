@@ -32,6 +32,7 @@ const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
 const connection = () => import('@/views/index/components/document/connection')
+const myEcharts = () => import('@/views/index/components/document/echarts')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 // index-end
@@ -97,6 +98,11 @@ const router = new Router({
 							path: 'connection',
 							name: 'connection',
 							component: connection
+						},
+						{
+							path: 'echarts',
+							name: 'myEcharts',
+							component: myEcharts
 						}
 					]
 				},
