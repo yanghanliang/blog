@@ -240,11 +240,16 @@ export default {
 					margin-right: 10px;
 				}
 
+				.category-icon {
+					font-size: 17px;
+				}
+
 				.shengri-copy {
 					vertical-align: initial;
 				}
 
 				.liulan {
+					font-size: 17px;
 					vertical-align: bottom;
 				}
 			}
