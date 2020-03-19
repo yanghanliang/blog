@@ -45,7 +45,6 @@ export default {
 		},
 		async getEditCategoryData() { // 获取需要修改的分类数据
 			const data = await this.$http.get(`editCategory/${this.form.id}`)
-			console.log(data, 'data')
 			this.form.classname = data[0].classname
 			this.form.pid = data[0].pid
 			this.form.layername = data[0].layername

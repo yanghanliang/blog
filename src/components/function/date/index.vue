@@ -30,7 +30,7 @@ export default {
 		},
 		dateType: {
 			type: Number,
-			default: 1 // 1-今天，2-这周，3这月，4近三个月，5近六个月，4这年
+			default: 1 // 1(今天)，2(本周)，3(本月至今)，4(近三个月)，5(近六个月)，4(今年至今)
 		}
 	},
 	components: {},

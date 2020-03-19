@@ -2,9 +2,9 @@
     <div class="webinfo w">
 		<div class="we-content clearfix">
 			<my-echarts :txt="xAxisData" title="站点信息" type="line" :getDataFn="getData" :time="3" class="echarts fl" :axisLabel="{}"></my-echarts>
-			<my-echarts class="min-echarts mt20 fl" :txt="barData.xAxisData" :data="barData.seriesData" :axisLabel="{}"></my-echarts>
-			<my-echarts class="min-echarts mt20 fr" type="pie" :txt="article.xAxisData" :data="article.seriesData" :axisLabel="{}"></my-echarts>
-			<my-echarts class="min-echarts mt20 fl" type="pie" :txt="comment.xAxisData" :data="comment.seriesData" :axisLabel="{}"></my-echarts>
+			<my-echarts class="min-echarts mt20 fl" width="576px" height="300px" :txt="barData.xAxisData" :data="barData.seriesData" :axisLabel="{}"></my-echarts>
+			<my-echarts class="min-echarts mt20 fr" type="pie" width="576px" height="300px" title="博文" :txt="article.xAxisData" :data="article.seriesData" :axisLabel="{}"></my-echarts>
+			<my-echarts class="min-echarts mt20 fl" type="pie" width="576px" height="300px" title="文章评论" :txt="comment.xAxisData" :data="comment.seriesData" :axisLabel="{}"></my-echarts>
 		</div>
     </div>
 </template>
@@ -46,6 +46,7 @@ export default {
 			}
 			try {
 				const data = await this.$http.post('echarts/web/info', postData)
+				console.log(Object.values(data), 'Object.values(data)')
 				return Object.values(data)
 			} catch (e) {
 				return []
@@ -75,7 +76,6 @@ export default {
 
 	.we-content {
 		width: 1200px;
-		margin: 40px auto;
 
 		.echarts-box {
 			height: 500px;

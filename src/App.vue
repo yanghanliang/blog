@@ -66,7 +66,6 @@ export default {
 					console.log(e)
 				}
 			} else {
-				console.log('123')
 				// 第一次浏览本站
 				try {
 					const postData = {

@@ -32,6 +32,7 @@ const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
 const connection = () => import('@/views/index/components/document/connection')
+const myEcharts = () => import('@/views/index/components/document/echarts')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 // index-end
@@ -97,6 +98,11 @@ const router = new Router({
 							path: 'connection',
 							name: 'connection',
 							component: connection
+						},
+						{
+							path: 'echarts',
+							name: 'myEcharts',
+							component: myEcharts
 						}
 					]
 				},
@@ -130,7 +136,7 @@ const router = new Router({
 			children: [
 				{
 					path: 'addArticle',
-					name: 'handleArticle',
+					name: 'addArticle',
 					component: addArticle
 				},
 				{
@@ -140,7 +146,7 @@ const router = new Router({
 				},
 				{
 					path: 'addArticle/:articleId',
-					name: 'handleArticle',
+					name: 'editArticle',
 					component: addArticle
 				},
 				{
@@ -203,7 +209,7 @@ const router = new Router({
 				},
 				{
 					path: 'personal/resume',
-					name: 'personalResume',
+					name: 'mPersonalResume',
 					component: personalResume
 				},
 			]
@@ -220,7 +226,6 @@ router.beforeEach((to, from, next) => {
 			path: from.path
 		})
 	} else {
-		console.log(Global.equipment, 'Global.equipment')
 		if (Global.equipment === 'mobile') {
 			const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
 			next({ path: toPath })

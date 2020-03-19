@@ -48,7 +48,6 @@ export default {
 		// 点击开关时执行
 		clickSwitch(row) {
 			row.status = row.status === 'close' ? 'open' : 'close'
-			console.log(this.data, 'data', row)
 			return false
 		},
 		// 组件跳转不刷新页面

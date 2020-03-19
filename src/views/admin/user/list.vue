@@ -113,7 +113,6 @@ export default {
 			}
 			try {
 				const data = await this.$http.post('user/jurisdictions', postData)
-				console.log(data, 'data')
 				this.tags = data
 			} catch (e) {
 				console.log(e)

@@ -8,11 +8,14 @@ import props from './props'
 // import typeOption from './typeOption.js'
 
 export default {
-	name: 'bar',
+	name: 'line',
 	mixins: [].concat(props),
 	created() {
+		console.log(this.xAxisData, 'this.seriesData****')
 	},
 	mounted() {
+		// 直接传入数据，则自动初始化
+		!this.getData && this.init()
 	},
 	methods: {
 		init() {
@@ -30,9 +33,9 @@ export default {
 				}
 				series.push(value)
 			})
-			// 绘制图表
-			myChart.setOption({
-				color: ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642'],
+			let option = {
+				color: this.color,
+				toolbox: this.toolbox,
 				tooltip: {
 					trigger: 'axis',
 					axisPointer: {
@@ -44,11 +47,6 @@ export default {
 				},
 				legend: {
 					// data: ['联盟广告', '视频广告', ]
-				},
-				toolbox: {
-					feature: {
-						saveAsImage: {}
-					}
 				},
 				grid: {
 					left: '3%',
@@ -65,7 +63,19 @@ export default {
 					type: 'value'
 				}],
 				series: series
-			})
+			}
+
+			// 可以直接传入echarts的配置项
+			if (this.option) {
+				option = this.Global.paramsInherit({
+					params: this.option,
+					defaultValue: option
+				})
+			}
+			console.log(option, 'oprion')
+
+			// 绘制图表
+			myChart.setOption(option)
 		}
 	},
 	watch: {
@@ -74,7 +84,10 @@ export default {
 		},
 		time(date) { // 监听时间变化
 			this.init()
-		}
+		},
+		option(now, before) { // 监听数据变化，更新图表
+			this.init()
+		},
 	},
 }
 </script>

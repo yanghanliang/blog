@@ -1,5 +1,5 @@
 <template>
-    <div class="content-left" ref="contentLeft">
+    <div class="content-left" @scroll.passive="scroll($event)" ref="contentLeft">
         <div class="cl_box" v-for="data in article" :key="data.id">
             <div class="clb_top clearfix">
 				<div class="clbt_left">
@@ -7,10 +7,10 @@
 						<!-- <img src="../../../../assets/index/index/images/text02.jpg" alt=""> -->
 					</template>
 					<template v-else-if="isExistence(data) === 4">
-						<my-echarts class="pd0 pie" :txt="xAxisData" :title="data.title" :data="data | seriesData" type="pie" :seriesCenter="['50%', '70%']"></my-echarts>
+						<my-echarts class="pie" :txt="xAxisData" :toolbox="{}" :title="data.title" :data="data | seriesData" type="pie" :seriesCenter="['50%', '70%']"></my-echarts>
 					</template>
 					<template v-else>
-						<my-echarts class="bar" :txt="xAxisData" :title="data.title" :data="data | seriesData"></my-echarts>
+						<my-echarts class="bar" :txt="xAxisData" :toolbox="{}" :axisLabel="{ interval: 0, rotate: -30 }" :title="data.title" :data="data | seriesData"></my-echarts>
 					</template>
 				</div>
                 <div class="clbt_right">
@@ -86,9 +86,6 @@ export default {
 	created() {
 		this.searchFn() // 加载数据
 	},
-	mounted() {
-		this.scroll()
-	},
 	methods: {
 		// 判断是否值全部存在
 		isExistence(row) {
@@ -100,30 +97,28 @@ export default {
 			return Identification.length
 		},
 		// 页面滚到底部(懒加载)
-		scroll() {
-			const ele = this.$refs.contentLeft // 获取左边容器
-			const that = this // 保存 this
-			ele.onscroll = async function () {
-				// clientHeight 可见区域的高度（不加边线）
-				// scrollTop 滚动条卷上去的高度
-				// scrollHeight 元素的总高度
-				if (this.scrollTop + this.clientHeight >= this.scrollHeight && that.pageData.lock) { // 判断是否置底
-					that.pageData.lock = false // 关闭
-					that.loading = true
-					const {
-						data
-					} = await that.$http.post(`paging`, that.pageData)
-					if (data.getData.status === 200) {
-						for (var i = 0; i < data.getData.data.length; i++) {
-							that.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
-						}
-						that.pageData.currentPage += 1 // 加一页
-						that.pageData.lock = true // 开启
-					} else {
-						that.pageData.tips = data.getData.msg // 当没有数据时, 添加一条提示信息
+		async scroll($event) {
+			if (!$event) return false
+			let ele = $event.target
+			// clientHeight 可见区域的高度（不加边线）
+			// scrollTop 滚动条卷上去的高度
+			// scrollHeight 元素的总高度
+			if (ele.scrollTop + ele.clientHeight >= ele.scrollHeight && this.pageData.lock) { // 判断是否置底
+				this.pageData.lock = false // 关闭
+				this.loading = true
+				const {
+					data
+				} = await this.$http.post(`paging`, this.pageData)
+				if (data.getData.status === 200) {
+					for (var i = 0; i < data.getData.data.length; i++) {
+						this.article.push(data.getData.data[i]) // 将获取到的文章数据赋值给 vue
 					}
-					that.loading = false
+					this.pageData.currentPage += 1 // 加一页
+					this.pageData.lock = true // 开启
+				} else {
+					this.pageData.tips = data.getData.msg // 当没有数据时, 添加一条提示信息
 				}
+				this.loading = false
 			}
 		},
 		// 搜索内容
@@ -141,7 +136,6 @@ export default {
 					type: 'success'
 				})
 			} else {
-				console.log('?????', data.getData.msg)
 				this.$emit('noData', data.getData.msg)
 			}
 			this.pageData.lock = true
@@ -214,6 +208,14 @@ export default {
 
 				.echarts-box {
 					background-color: #fff;
+				}
+
+				.bar {
+					padding: 0 5px 10px 10px;
+				}
+
+				.pie {
+					padding: 5px 0;
 				}
 			}
 
