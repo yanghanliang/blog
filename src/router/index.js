@@ -40,6 +40,7 @@ const webinfo = () => import('@/views/index/webinfo/index')
 // mobile-start
 const mobile = () => import('@/views/mobile/index')
 const mArticleList = () => import('@/views/mobile/index/article/list')
+const inDevelopment = () => import('@/views/public/inDevelopment')
 // mobile-end
 
 Vue.use(Router)
@@ -212,6 +213,11 @@ const router = new Router({
 					name: 'mPersonalResume',
 					component: personalResume
 				},
+				{
+					path: 'inDevelopment',
+					name: 'inDevelopment',
+					component: inDevelopment
+				}
 			]
 		}
 	]

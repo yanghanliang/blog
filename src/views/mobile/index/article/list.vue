@@ -8,12 +8,16 @@
             </div>
             <div class="mo-nav clearfix line">
                 <ul>
-                    <li><i class="my-icon-houtaiguanli"></i></li>
-                    <li>后台</li>
+                    <router-link to="inDevelopment">
+                        <li><i class="my-icon-houtaiguanli"></i></li>
+                        <li>后台</li>
+                    </router-link>
                 </ul>
                 <ul>
-                    <li><i class="my-icon-xiangmuxuqiu-"></i></li>
-                    <li>小需求</li>
+                    <router-link to="inDevelopment">
+                        <li><i class="my-icon-xiangmuxuqiu-"></i></li>
+                        <li>小需求</li>
+                    </router-link>
                 </ul>
                 <ul>
                    <router-link to="personal/resume">
@@ -22,12 +26,16 @@
                    </router-link>
                 </ul>
                 <ul>
-                    <li><i class="my-icon-zhandianshujutongji"></i></li>
-                    <li>站点信息</li>
+                    <router-link to="inDevelopment">
+                        <li><i class="my-icon-zhandianshujutongji"></i></li>
+                        <li>站点信息</li>
+                    </router-link>
                 </ul>
                 <ul>
-                    <li><i class="my-icon-github"></i></li>
-                    <li>github</li>
+                    <a href="https://github.com/yanghanliang/blog/tree/online" target="_blank">
+                        <li><i class="my-icon-github"></i></li>
+                        <li>github</li>
+                    </a>
                 </ul>
             </div>
         </div>
