@@ -13,7 +13,8 @@ export default {
 	created() {
 	},
 	mounted() {
-		this.init()
+		// 直接传入数据，则自动初始化
+		!this.getData && this.init()
 	},
 	methods: {
 		init() {
@@ -22,7 +23,8 @@ export default {
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
 			let myChart = echarts.init(this.$refs.echarts)
 			let option = {
-				color: ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642'],
+				color: this.color,
+				toolbox: this.toolbox,
 				tooltip: {},
 				xAxis: {
 					axisTick: {
@@ -66,6 +68,7 @@ export default {
 					defaultValue: option
 				})
 			}
+			console.log(option, 'option')
 
 			// 绘制图表
 			myChart.setOption(option)
@@ -74,7 +77,13 @@ export default {
 	watch: {
 		seriesData(now, before) { // 监听数据变化，更新图表
 			this.init()
-		}
+		},
+		time(date) { // 监听时间变化
+			this.init()
+		},
+		option(now, before) { // 监听数据变化，更新图表
+			this.init()
+		},
 	},
 }
 </script>

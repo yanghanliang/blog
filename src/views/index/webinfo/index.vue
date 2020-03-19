@@ -46,6 +46,7 @@ export default {
 			}
 			try {
 				const data = await this.$http.post('echarts/web/info', postData)
+				console.log(Object.values(data), 'Object.values(data)')
 				return Object.values(data)
 			} catch (e) {
 				return []

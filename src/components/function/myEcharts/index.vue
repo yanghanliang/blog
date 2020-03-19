@@ -8,9 +8,21 @@
 			<div class="line"></div>
 		</template>
 		<template v-if="style">
-			<my-bar class="eb-content" v-if="type === 'bar'" :option="option" :xAxisData="txt" :seriesName="title" :seriesData="data" :axisLabel="axisLabel"></my-bar>
-			<my-pie class="eb-content" v-else-if="type === 'pie'" :seriesData="pieData.seriesData" :seriesName="title" :seriesCenter="seriesCenter"></my-pie>
-			<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :date="date" :seriesData="seriesData"></my-line>
+			<component class="eb-content" :is="currentComponent"
+				:option="option"
+				:xAxisData="xAxisData"
+				:seriesData="seriesData"
+				:seriesName="title"
+				:axisLabel="axisLabel"
+				:date="date"
+				:seriesCenter="seriesCenter"
+				:toolbox="toolbox"
+				:color="color"
+				>
+			</component>
+			<!-- <my-bar class="eb-content" v-if="type === 'bar'" :option="option" :xAxisData="txt" :seriesData="data" :seriesName="title" :axisLabel="axisLabel"></my-bar>
+			<my-pie class="eb-content" v-else-if="type === 'pie'" :xAxisData="txt" :seriesData="data" :seriesName="title" :seriesCenter="seriesCenter"></my-pie>
+			<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :seriesData="data" :date="date"></my-line> -->
 		</template>
 	</div>
 </template>
@@ -30,19 +42,13 @@ export default {
 		},
 		title: {
 			type: String,
-			defaulte: '标题'
+			default: '标题'
 		},
 		txt: {
 			type: Array,
-			defaulte: function() {
-				return []
-			}
 		},
 		data: {
 			type: Array,
-			defaulte: function() {
-				return []
-			}
 		},
 		axisLabel: {
 			type: Object,
@@ -52,11 +58,10 @@ export default {
 		},
 		time: {
 			type: Number,
-			defaulte: ''
 		},
 		getDataFn: {
 			type: Function,
-			defaulte: null
+			default: null
 		},
 		seriesCenter: { // 控制饼状图的位置
 			type: Array,
@@ -78,7 +83,28 @@ export default {
 		},
 		option: {
 			type: Object
-		}
+		},
+		// 工具栏
+		toolbox: {
+			type: Object,
+			default: function() {
+				return {
+					feature: {
+						dataView: {}, // 数据视图
+						saveAsImage: { // 可点击下载为图片
+							pixelRatio: 2
+						}
+					}
+				}
+			}
+		},
+		// 主题颜色
+		color: {
+			type: Array,
+			default: function() {
+				return ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642']
+			}
+		},
 	},
 	components: {
 		myBar,
@@ -98,17 +124,14 @@ export default {
 					name: 'myBar'
 				}
 			],
-			pieData: {
-				seriesData: []
-			},
 			date: [],
-			seriesData: [], // echarts 数据
 			style: '',
-			show: false
+			show: false,
+			fnGetData: [], // 调用方法获取的数据
 		}
 	},
-	filters: {
-		currentComponent(type) {
+	computed: {
+		currentComponent() {
 			const typeList = [
 				{
 					type: 'pie',
@@ -117,34 +140,119 @@ export default {
 				{
 					type: 'bar',
 					name: 'myBar'
+				},
+				{
+					type: 'line',
+					name: 'myLine'
 				}
 			]
 
 			for (let i = 0, length = typeList.length; i < length; i++) {
 				let item = typeList[i]
-				if (item.type === type) {
+				if (item.type === this.type) {
 					return item.name
+				}
+			}
+		},
+		seriesData() {
+			if (this.getDataFn) {
+				return this.fnGetData
+			} else {
+				if (this.data) {
+					return this.data
+				} else {
+					if (this.type === 'bar') {
+						return [5, 20, 36, 10, 10, 20]
+					} else if (this.type === 'line') {
+						return [
+							{
+								'2020-03-01': 0,
+								'2020-03-02': 0,
+								'2020-03-03': 0,
+								'2020-03-04': 20,
+								'2020-03-05': 0,
+								'2020-03-06': 0,
+								'2020-03-07': 0,
+								'2020-03-08': 0,
+								'2020-03-09': 0,
+								'2020-03-10': 30,
+								'2020-03-11': 0,
+								'2020-03-12': 0,
+								'2020-03-13': 0,
+								'2020-03-14': 0,
+								'2020-03-15': 5,
+								'2020-03-16': 0,
+								'2020-03-17': 0,
+								'2020-03-18': 0,
+							},
+							{
+								'2020-03-01': 0,
+								'2020-03-02': 90,
+								'2020-03-03': 0,
+								'2020-03-04': 0,
+								'2020-03-05': 0,
+								'2020-03-06': 0,
+								'2020-03-07': 50,
+								'2020-03-08': 0,
+								'2020-03-09': 0,
+								'2020-03-10': 0,
+								'2020-03-11': 0,
+								'2020-03-12': 0,
+								'2020-03-13': 0,
+								'2020-03-14': 0,
+								'2020-03-15': 0,
+								'2020-03-16': 10,
+								'2020-03-17': 0,
+								'2020-03-18': 0,
+							},
+							{
+								'2020-03-01': 0,
+								'2020-03-02': 0,
+								'2020-03-03': 0,
+								'2020-03-04': 0,
+								'2020-03-05': 60,
+								'2020-03-06': 0,
+								'2020-03-07': 0,
+								'2020-03-08': 0,
+								'2020-03-09': 0,
+								'2020-03-10': 20,
+								'2020-03-11': 0,
+								'2020-03-12': 0,
+								'2020-03-13': 0,
+								'2020-03-14': 0,
+								'2020-03-15': 0,
+								'2020-03-16': 40,
+								'2020-03-17': 0,
+								'2020-03-18': 0,
+							}
+						]
+					} else if (this.type === 'pie') {
+						return [55, 80, 60]
+					}
+				}
+			}
+		},
+		xAxisData() {
+			if (this.txt) {
+				return this.txt
+			} else {
+				if (this.type === 'bar') {
+					return ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+				} else if (this.type === 'line') {
+					return ['衬衫', '羊毛衫', '雪纺衫']
+				} else if (this.type === 'pie') {
+					return ['衬衫', '羊毛衫', '雪纺衫']
 				}
 			}
 		}
 	},
-	created() {
-		this.handleData()
-	},
 	mounted() {
 		this.setBoxWH()
+		if (!this.time && this.getDataFn) {
+			this.fnGetData = this.getDataFn()
+		}
 	},
 	methods: {
-		handleData() {
-			if (this.type === 'pie') {
-				this.pieData.seriesData = this.data.map((item, index) => {
-					return {
-						value: item,
-						name: this.txt[index]
-					}
-				})
-			}
-		},
 		// 时间改变时执行
 		async dateChange(date) {
 			if (this.getDataFn) {
@@ -152,7 +260,7 @@ export default {
 				let params = {
 					date: date
 				}
-				this.seriesData = await this.getDataFn(params)
+				this.fnGetData = await this.getDataFn(params)
 			}
 		},
 		// 设置容器宽高
@@ -170,11 +278,6 @@ export default {
 				height = boxInfo.height + 'px'
 			}
 			this.style = `width:${this.width}; height: ${height};`
-		}
-	},
-	watch: {
-		data() {
-			this.handleData()
 		}
 	},
 }
