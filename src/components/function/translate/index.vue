@@ -1,12 +1,17 @@
 <template>
-    <div :class="['translate', {'active': reply}]">
+    <div :class="['translate', {'active': reply}]" @click="tipsShow = !tipsShow">
         <i class="my-icon-jiqiren"></i>
-        <div :class="['bubble', {'no': length > 20}]">
-            <div v-if="length <= 20">{{ reply }}</div>
+        <div :class="['bubble', {'no': length > 10}]">
+            <div v-if="length <= 10">{{ reply }}</div>
 			<p v-else>{{ reply }}</p>
         </div>
+		<div :class="['tips', {block: tipsShow}]">
+			<p>选择机器人，支持功能： 天气、歌词、人工智能聊天</p>
+			<el-radio v-model="radio" :label="1">纯中英文翻译</el-radio>
+			<el-radio v-model="radio" :label="2">机器人</el-radio>
+		</div>
         <div class="input-box">
-            <input type="text" v-model="value" @keyup.enter="getTranslateData" title="调用百度接口做的中英文翻译" placeholder="畅想未来">
+            <input type="text" v-model="value" @keyup.enter="getData" title="调用百度接口做的中英文翻译" placeholder="畅想未来">
         </div>
     </div>
 </template>
@@ -22,6 +27,8 @@ export default {
 			value: '', // 输入的值
 			reply: '', // 回复的值
 			length: 0, // 回复值的长度
+			radio: 1, // 模式
+			tipsShow: false, // 提示，默认隐藏
 		}
 	},
 	computed: {
@@ -30,6 +37,7 @@ export default {
 		}
 	},
 	methods: {
+		// 获取翻译数据
 		async getTranslateData() {
 			let appid = '20200303000391987',
 				from = 'auto',
@@ -59,7 +67,31 @@ export default {
 				console.log(e)
 				this.reply = ''
 			}
-		}
+		},
+		// 机器人
+		async robot() {
+			try {
+				const { data } = await axios({
+					method: 'get',
+					url: `/robot?key=free&appid=0&msg=${this.value}`
+				})
+
+				if (data.result === 0) {
+					this.length = data.content.length
+					this.reply = data.content
+				}
+			} catch (e) {
+				console.log(e)
+			}
+		},
+		// 获取数据
+		getData() {
+			if (this.radio === 1) {
+				this.getTranslateData()
+			} else {
+				this.robot()
+			}
+		},
 	}
 }
 </script>
@@ -189,5 +221,39 @@ export default {
             border-bottom-color: currentColor;
         }
     }
+
+	.tips {
+		padding: 10px;
+		display: none;
+		position: absolute;
+		border-radius: 5px;
+		background-color: #fff;
+		transform: translateX(-100%);
+		box-shadow: -2px 1px 8px -3px black;
+
+		&.block {
+			display: block;
+		}
+
+		&::after{
+			content:'';
+			position:absolute;
+			left:100%;
+			top:0px;
+			width:16px;
+			height:16px;
+			border-width:0;
+			border-style:solid;
+			border-color:transparent;
+			border-bottom-width:10px;
+			border-bottom-color: #dddddd;
+			border-radius:0 0 32px 0;
+			color:#dddddd;
+		}
+
+		p {
+			margin-bottom: 10px;
+		}
+	}
 }
 </style>

@@ -17,6 +17,13 @@ module.exports = {
         pathRewrite: {
           '^/baidu': '/'
         }
+      },
+      '/robot': {
+        target: 'http://api.qingyunke.com/api.php',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/robot': '/'
+        }
       }
     },
 
