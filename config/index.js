@@ -18,11 +18,11 @@ module.exports = {
           '^/baidu': '/'
         }
       },
-      '/jqr': {
+      '/robot': {
         target: 'http://api.qingyunke.com/api.php',
         changeOrigin: true,
         pathRewrite: {
-          '^/jqr': '/'
+          '^/robot': '/'
         }
       }
     },
