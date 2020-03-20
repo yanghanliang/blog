@@ -24,6 +24,9 @@ export default {
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
 			var myChart = echarts.init(this.$refs.echarts)
 			let series = []
+			if (!this.seriesData || this.seriesData.length === 0) {
+				return false
+			}
 			Object.values(this.seriesData).forEach((item, key) => {
 				let value = {
 					name: this.xAxisData[key],
