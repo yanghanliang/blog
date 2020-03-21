@@ -1,5 +1,5 @@
 <template>
-    <div :class="['translate', {'active': reply}]" @click="tipsShow = !tipsShow">
+    <div :class="['robot', {'active': reply}]" @click="tipsShow = !tipsShow">
         <i class="my-icon-jiqiren"></i>
         <div :class="['bubble', {'no': length > 10}]">
             <div v-if="length <= 10">{{ reply }}</div>
@@ -21,7 +21,7 @@ import axios from 'axios'
 import md5 from 'md5'
 
 export default {
-	name: 'translate',
+	name: 'robot',
 	data() {
 		return {
 			value: '', // 输入的值
@@ -165,7 +165,7 @@ export default {
 	}
 }
 
-.translate {
+.robot {
     top: 60%;
     right: 30px;
     transform: translateY(-50%);

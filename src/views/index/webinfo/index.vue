@@ -2,7 +2,7 @@
     <div class="webinfo w">
 		<div class="we-content clearfix">
 			<my-echarts :txt="xAxisData" title="站点信息" type="line" :getDataFn="getData" :time="3" class="echarts fl"></my-echarts>
-			<my-echarts class="min-echarts mt20 fl" width="576px" height="300px" :txt="barData.xAxisData" :data="barData.seriesData" :axisLabel="{}"></my-echarts>
+			<my-echarts class="min-echarts mt20 fl" title="博文" width="576px" height="300px" :txt="barData.xAxisData" :data="barData.seriesData" :axisLabel="{}"></my-echarts>
 			<my-echarts class="min-echarts mt20 fr" type="pie" width="576px" height="300px" title="博文" :txt="article.xAxisData" :data="article.seriesData" :axisLabel="{}"></my-echarts>
 			<my-echarts class="min-echarts mt20 fl" type="pie" width="576px" height="300px" title="文章评论" :txt="comment.xAxisData" :data="comment.seriesData" :axisLabel="{}"></my-echarts>
 		</div>

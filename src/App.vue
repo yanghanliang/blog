@@ -43,7 +43,7 @@ export default {
 					this.$notify({
 						offset: 100,
 						duration: 30000,
-						title: '欢迎浏览，这次是您的第一次浏览~',
+						title: '欢迎浏览~',
 						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人，在分辨率大于1800时才能看`)
 					})
 				}
