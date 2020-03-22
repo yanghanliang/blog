@@ -58,6 +58,10 @@ export default {
 		searchData: {
 			type: String,
 			default: ''
+		},
+		classname: {
+			type: String,
+			default: ''
 		}
 	},
 	filters: {
@@ -164,6 +168,10 @@ export default {
 			this.pageData.currentPage = 1
 			this.pageData.searchData = now
 			this.searchFn()
+		},
+		classname(now, old) {
+			console.log(now, 'now')
+			this.pageData.classname = now
 		}
 	},
 }
