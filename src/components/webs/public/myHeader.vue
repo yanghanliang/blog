@@ -1,6 +1,6 @@
 <template>
     <div class="header-box">
-		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" :router="true"
+		<el-menu :default-active="defaultActive" class="el-menu-demo" mode="horizontal" :router="true"
 			background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
 			<!-- <a href="#">logo</a> -->
 			<!-- <el-menu-item index="1">目录</el-menu-item> -->
@@ -89,6 +89,17 @@ export default {
 	name: 'myHeard',
 	components: {
 		// logo,
+	},
+	computed: {
+		// 高亮
+		defaultActive() {
+			let url = this.$route.path.split('/')
+			if (url.length > 3) {
+				return url.slice(0, 3).join('/')
+			} else {
+				return this.$route.path
+			}
+		}
 	},
 	data() {
 		return {
