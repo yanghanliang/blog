@@ -1,9 +1,17 @@
 @media (max-device-width: 435px) {
+    body {
+        background-color: #fff;
+    }
+
     .article-details {
         height: 100%;
     
         .w {
             height: 100%;
+        }
+
+        .search {
+            display: none;
         }
     }
 
@@ -30,10 +38,6 @@
                     margin-bottom: 5px;
                     display: inline-block;
                 }
-            }
-
-            .subscript {
-                // margin: ;
             }
         }
 

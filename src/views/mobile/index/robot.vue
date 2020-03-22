@@ -1,21 +1,19 @@
 <template>
     <div class="robot">
         <div class="content">
-			<div class="rc-box">
-				<template v-for="(item, index) in data">
-					<div :key="index">
-						<div class="rc-left clearfix" v-if="item.status === 0">
-							<div class="head-portrait"></div>
-							<div class="rcl-content">{{ item.send }}</div>
-						</div>
-						<div class="rc-right clearfix" v-else>
-							<div class="head-portrait"></div>
-							<div class="rcl-content">{{ item.reply }}</div>
-						</div>
-					</div>
-				</template>
-				<div class="show" ref="show"></div>
-			</div>
+            <template v-for="(item, index) in data">
+                <div :key="index">
+                    <div class="rc-left clearfix" v-if="item.status === 0">
+                        <div class="head-portrait"></div>
+                        <div class="rcl-content">{{ item.send }}</div>
+                    </div>
+                    <div class="rc-right clearfix" v-else>
+                        <div class="head-portrait"></div>
+                        <div class="rcl-content">{{ item.reply }}</div>
+                    </div>
+                </div>
+            </template>
+            <div class="show" ref="show"></div>
         </div>
         <div class="input-box clearfix">
             <div class="input" contenteditable="true" @input="textChange" ref="input" placeholder="和机器人聊聊~"></div>
@@ -94,13 +92,10 @@ export default {
     position: relative;
 
     .content {
-        height: 20%;
+        height: 80%;
 		padding: 10px;
 		overflow: auto;
 		position: relative;
-
-		.rc-box {
-		}
 
         .rc-left, .rc-right {
             .head-portrait {
@@ -117,7 +112,6 @@ export default {
                 padding: 10px;
                 position: relative;
                 border-radius: 5px;
-                background-color: #fff;
             }
         }
 
@@ -132,6 +126,7 @@ export default {
             .rcl-content {
                 float: left;
                 margin-left: 20px;
+                background-color: #fff;
 
                 &::before {
                     content:'';
@@ -160,6 +155,7 @@ export default {
             .rcl-content {
                 float: right;
                 margin-right: 20px;
+                background-color: #64edc0;
 
                 &::before {
 					content:'';
@@ -171,7 +167,7 @@ export default {
 					border-top:10px solid transparent;
 					border-right:10px solid transparent;
 					border-bottom:10px solid transparent;
-					border-left:10px solid #fff;
+					border-left:10px solid #64edc0;
                 }
             }
         }
