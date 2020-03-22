@@ -73,7 +73,7 @@ export default {
 			try {
 				const { data } = await axios({
 					method: 'get',
-					url: `/robot?key=free&appid=0&msg=${this.value}`
+					url: `/robot?key=free&appid=0&msg=${encodeURI(this.value)}`
 				})
 
 				if (data.result === 0) {

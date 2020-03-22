@@ -8,9 +8,9 @@
             </div>
             <div class="mo-nav clearfix line">
                 <ul>
-                    <router-link to="inDevelopment">
-                        <li><i class="my-icon-houtaiguanli"></i></li>
-                        <li>后台</li>
+                    <router-link to="/mobile/robot">
+                        <li><i class="my-icon-jiqiren"></i></li>
+                        <li>机器人</li>
                     </router-link>
                 </ul>
                 <ul>

@@ -1,21 +1,24 @@
 <template>
     <div class="robot">
         <div class="content">
-            <template v-for="(item, index) in data">
-				<div :key="index">
-					<div class="rc-left clearfix" v-if="item.status === 0">
-						<div class="head-portrait"></div>
-						<div class="rcl-content">{{ item.send }}</div>
+			<div class="rc-box">
+				<template v-for="(item, index) in data">
+					<div :key="index">
+						<div class="rc-left clearfix" v-if="item.status === 0">
+							<div class="head-portrait"></div>
+							<div class="rcl-content">{{ item.send }}</div>
+						</div>
+						<div class="rc-right clearfix" v-else>
+							<div class="head-portrait"></div>
+							<div class="rcl-content">{{ item.reply }}</div>
+						</div>
 					</div>
-					<div class="rc-right clearfix" v-else>
-						<div class="head-portrait"></div>
-						<div class="rcl-content">{{ item.reply }}</div>
-					</div>
-				</div>
-            </template>
+				</template>
+				<div class="show" ref="show"></div>
+			</div>
         </div>
         <div class="input-box clearfix">
-            <div class="input" contenteditable="true" @input="textChange" ref="input"></div>
+            <div class="input" contenteditable="true" @input="textChange" ref="input" placeholder="和机器人聊聊~"></div>
             <button @click="send">发送</button>
         </div>
     </div>
@@ -35,22 +38,23 @@ export default {
 				// 	status: 1
 				// }
 			],
-			value: '我喜欢你',
+			value: '',
 		}
 	},
 	methods: {
+		// 获取数据
 		async send() {
 			this.data.push({
 				send: this.value,
 				status: 0 // 发送是0，回复是1
 			})
-			this.value = ''
 			this.$refs.input.innerText = ''
+			this.bottomSetting()
 
 			try {
 				const { data } = await axios({
 					method: 'get',
-					url: `/robot?key=free&appid=0&msg=${this.value}`
+					url: `/robot?key=free&appid=0&msg=${encodeURI(this.value)}`
 				})
 
 				if (data.result === 0) {
@@ -59,13 +63,24 @@ export default {
 						reply: data.content,
 						status: 1 // 发送是0，回复是1
 					})
+
+					this.bottomSetting()
 				}
 			} catch (e) {
 				console.log(e)
 			}
+			this.value = ''
 		},
+		// 实现数据双向绑定
 		textChange() {
 			this.value = this.$refs.input.innerText
+		},
+		// 置底
+		bottomSetting() {
+			// 让页面置底
+			this.$nextTick(() => {
+				this.$refs.show.scrollIntoView()
+			})
 		}
 	},
 }
@@ -79,8 +94,13 @@ export default {
     position: relative;
 
     .content {
-        height: 80%;
-        padding: 10px;
+        height: 20%;
+		padding: 10px;
+		overflow: auto;
+		position: relative;
+
+		.rc-box {
+		}
 
         .rc-left, .rc-right {
             .head-portrait {
@@ -171,9 +191,20 @@ export default {
             padding: 0 5px;
             line-height: 30px;
             float: left;
+            caret-color: $theme-color2;
             outline-style: none;
             border-radius: 5px;
             background-color: #fff;
+
+            /*为空时显示 element attribute content*/
+            &:empty:before {
+                content: attr(placeholder);
+                color: $secondary;
+            }
+            /*焦点时内容为空*/
+            &:focus:before {
+                content: none;
+            }
         }
 
         button {
