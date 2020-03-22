@@ -53,8 +53,9 @@ export default {
 				data
 			} = await this.$http.get(`articleCategory/${content}`)
 			if (data.getData.status === 200) {
-				data.classname = content // 把点击的值传给父组件
-				this.$emit('getData', data)
+				// 把点击的值传给父组件
+				let params = Object.assign({ className: content }, data)
+				this.$emit('getData', params)
 			} else {
 				this.$message({
 					message: '此为测试模块，暂无数据!',

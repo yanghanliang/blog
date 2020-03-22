@@ -18,7 +18,7 @@
                 </div>
                 <category @getData="setCatgoryData"></category>
             </div>
-            <article-list ref="contentLeft" :data="article" :searchData="searchData" @noData="jump"></article-list>
+            <article-list ref="contentLeft" :data="article" :classname="className" :searchData="searchData" @noData="jump"></article-list>
         </div>
     </div>
 </template>
@@ -41,7 +41,8 @@ export default {
 			lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
 			searchData: '', // 传入组件中的搜索内容
 			article: [],
-			search: ''
+			search: '',
+			className: ''
 		}
 	},
 	created() {
@@ -107,10 +108,7 @@ export default {
 		},
 		setCatgoryData(data) {
 			this.article = data.getData.data
-			this.pageData.classname = data.classname // 重置分类
-			this.pageData.currentPage = 2 // 重置当前页
-			this.pageData.tips = '' // 重置提示
-			this.pageData.lock = true // 开启
+			this.className = data.className // 重置分类
 			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离
 			// 给出提示
 			this.$message({
