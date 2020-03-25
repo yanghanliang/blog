@@ -112,7 +112,7 @@ export default {
 			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离
 			// 给出提示
 			this.$message({
-				message: `搜索到与 "${data.classname}" 相关的数据共有 ${data.getNumber} 条!`,
+				message: `搜索到与 "${data.className}" 相关的数据共有 ${data.getNumber} 条!`,
 				type: 'success'
 			})
 		}
