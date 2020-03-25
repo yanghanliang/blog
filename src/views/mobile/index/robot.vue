@@ -116,6 +116,7 @@ export default {
         }
 
         .rc-left {
+            margin: 10px 0;
             .head-portrait {
                 float: left;
                 background-image: url('../../../assets/backgroundImages/headPortrait/lxl.gif');
