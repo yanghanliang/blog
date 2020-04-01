@@ -321,13 +321,7 @@ export default {
 				.clbt_right {
 					float: left;
 					width: auto;
-					height: 1rem;
 					max-width: 45%;
-					display: -webkit-box;
-					-webkit-line-clamp: 3;
-					overflow: hidden;
-					-webkit-box-orient: vertical;
-					text-overflow: ellipsis;
 
 					h2 {
 						margin: .05rem 0;
@@ -339,6 +333,11 @@ export default {
                     p {
                         font-size: .12rem;
                         color: $secondary;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+						overflow: hidden;
+						-webkit-box-orient: vertical;
+						text-overflow: ellipsis;
                     }
 				}
 			}
