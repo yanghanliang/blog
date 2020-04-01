@@ -23,6 +23,14 @@
             height: 100%;
             padding: 0;
 
+            >>>.v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+                padding: 10px;
+            }
+
+            >>>.markdown-body p {
+                padding: 0 15px;
+            }
+            
             >>>.markdown-body pre {
                 padding: 5px;
             }
