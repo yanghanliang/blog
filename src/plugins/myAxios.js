@@ -1,6 +1,7 @@
 // 导入发生请求的模块
 import axios from 'axios'
-
+// 引入消息提示
+// import { Message } from 'element-ui'
 // 引入全局变量
 import Global from '@/plugins/global'
 
@@ -37,6 +38,17 @@ MyAxios.install = function (Vue) {
 		if (data.data && data.type !== 'token') {
 			// 这样做之后取数据的时候可以少取一层
 			return data.data
+		} else if (data.type === 'token' && data.status === 201) {
+			// 清空登录状态
+			window.localStorage.removeItem('token')
+			// window.localStorage.removeItem('user')
+
+			// Message.info({
+			// 	message: data.msg,
+			// 	onClose: () => {
+			// 		location.href = '/login'
+			// 	}
+			// })
 		}
 		return response
 	}, function (error) {

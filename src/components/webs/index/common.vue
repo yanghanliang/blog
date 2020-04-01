@@ -74,7 +74,7 @@ export default {
 					showClose: true,
 					customClass: 'shuai',
 					data: this.searchData, // 把数据存储在这
-					duration: 4000, // 不会自动关闭 4s 可以，超过4秒会被浏览器拦截
+					duration: 4000, // 4s 可以，超过4秒会被浏览器拦截
 					onClose: function (message) { // 参数为message实例,所以想要获取数据,则必须将数据以以上方式存储
 						window.open(`https://www.baidu.com/s?wd=${message.data}`, '_blank')
 					}
@@ -171,7 +171,6 @@ export default {
 
 			.s_bg {
 				width: 100%;
-				margin-bottom: 0.3rem;
 			}
 
 			.s_head_portrait {

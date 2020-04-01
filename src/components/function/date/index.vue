@@ -29,8 +29,8 @@ export default {
 			type: Array
 		},
 		dateType: {
-			type: Number,
-			default: 1 // 1(今天)，2(本周)，3(本月至今)，4(近三个月)，5(近六个月)，4(今年至今)
+			type: Number, // 1(今天)，2(本周)，3(本月至今)，4(近三个月)，5(近六个月)，6(今年至今)，7(近一周)
+			default: 6
 		}
 	},
 	components: {},
@@ -64,6 +64,7 @@ export default {
 					{
 						text: '最近三个月',
 						onClick(picker) {
+							console.log(dateType[3].date, dateType[3])
 							picker.$emit('pick', dateType[3].date)
 						}
 					},
@@ -77,6 +78,12 @@ export default {
 						text: '今年至今',
 						onClick(picker) {
 							picker.$emit('pick', dateType[5].date)
+						}
+					},
+					{
+						text: '近一周',
+						onClick(picker) {
+							picker.$emit('pick', dateType[6].date)
 						}
 					},
 				]
@@ -96,23 +103,8 @@ export default {
 			this.dateTitle()
 		},
 		initData() {
-			if (this.dateType === 1) {
-				// [今天, 今天]
-				this.time = dateType[0].date
-				this.title = dateType[0].title
-			} else if (this.dateType === 2) {
-				// [周一, 今天]
-				this.time = dateType[1].date
-				this.title = dateType[1].title
-			} else if (this.dateType === 3) {
-				// [月初, 今天]
-				this.time = dateType[2].date
-				this.title = dateType[2].title
-			} else if (this.dateType === 4) {
-				// [年初, 今天]
-				this.time = dateType[3].date
-				this.title = dateType[3].title
-			}
+			this.time = dateType[this.dateType - 1].date
+			this.title = dateType[this.dateType - 1].title
 			// 将初始化的时间返回
 			this.$emit('dateChange', this.time)
 		},

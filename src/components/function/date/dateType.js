@@ -17,14 +17,18 @@ module.exports = [
 	},
 	{
 		title: '近三个月',
-		date: [moment(now).subtract(3, 'months').format('YYYY-MM-'), today]
+		date: [moment(now).subtract(3, 'months').format('YYYY-MM-DD'), today]
 	},
 	{
 		title: '近六个月',
-		date: [moment(now).subtract(6, 'months').format('YYYY-MM-'), today]
+		date: [moment(now).subtract(6, 'months').format('YYYY-MM-DD'), today]
 	},
 	{
 		title: '今年至今',
 		date: [moment(now).format('YYYY-') + '01-01', today]
+	},
+	{
+		title: '近一周',
+		date: [moment().subtract(7, 'days').format('YYYY-MM-DD'), today]
 	}
 ]
