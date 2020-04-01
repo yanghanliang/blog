@@ -58,7 +58,7 @@
 			</el-menu-item> -->
 			<el-menu-item index="/admin">后台</el-menu-item>
 			<el-menu-item index="/views/components">小需求</el-menu-item>
-			<el-menu-item index="/personal/resume">个人简历</el-menu-item>
+			<!-- <el-menu-item index="/personal/resume">个人简历</el-menu-item> -->
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>

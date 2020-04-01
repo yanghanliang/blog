@@ -20,9 +20,10 @@
                     </router-link>
                 </ul>
                 <ul>
-                   <router-link to="personal/resume">
-                        <li><i class="my-icon-yulanjianli"></i></li>
-                        <li>个人简历</li>
+                    <!-- personal/resume -->
+                   <router-link to="inDevelopment">
+                        <li><i class="my-icon-houtaiguanli"></i></li>
+                        <li>后台</li>
                    </router-link>
                 </ul>
                 <ul>

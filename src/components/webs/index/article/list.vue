@@ -321,7 +321,13 @@ export default {
 				.clbt_right {
 					float: left;
 					width: auto;
-					max-width: 46%;
+					height: 1rem;
+					max-width: 45%;
+					display: -webkit-box;
+					-webkit-line-clamp: 3;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
+					text-overflow: ellipsis;
 
 					h2 {
 						margin: .05rem 0;
@@ -378,6 +384,12 @@ export default {
 		.tips {
 			border-radius: 0;
 		}
+	}
+}
+
+@media (max-device-width: 320px) {
+	.content-left .cl_box .clb_bottom .clbb_left>span {
+		max-width: 56px;
 	}
 }
 </style>
