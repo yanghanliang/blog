@@ -195,7 +195,7 @@ export default {
 				p {
 					color: #888;
 					line-height: 0.26rem;
-					padding: 0.1rem 0.3rem;
+					padding: 0.1rem 0.3rem 0.2rem;
 				}
 			}
 		}

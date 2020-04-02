@@ -167,9 +167,10 @@ export default {
 
 .robot {
     top: 60%;
-    right: 30px;
-    transform: translateY(-50%);
+	right: 30px;
+	z-index: 9999;
     position: fixed;
+    transform: translateY(-50%);
 
     .my-icon-jiqiren {
         font-size: 50px;
