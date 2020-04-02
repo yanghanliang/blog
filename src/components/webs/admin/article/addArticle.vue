@@ -15,6 +15,10 @@
             <el-form-item label="文章简介" prop="synopsis">
                 <el-input type="textarea" v-model="form.synopsis"></el-input>
             </el-form-item>
+			<el-form-item label="文章出自">
+				<el-radio v-model="form.original" :label="0">原创</el-radio>
+				<el-radio v-model="form.original" :label="1">转载</el-radio>
+			</el-form-item>
             <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="form.content" :subfield="true" />
             <el-form-item style="margin-top: 22px;">
                 <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
@@ -35,7 +39,8 @@ export default {
 				synopsis: '', // 文章描述
 				content: '', // 文章内容
 				categoryId: '', // 保存原类名 ID
-				id: '' // 文章 id(修改时才用到)
+				id: '', // 文章 id(修改时才用到)
+				original: 0, // 默认是原创文章
 			},
 			buttonText: '添加文章', // 默认提交按钮文字
 			url: 'addArticle', // 默认提交地址
@@ -103,6 +108,7 @@ export default {
 			this.form.categoryId = data.category_id // 保存原类名 ID
 			this.form.synopsis = data.synopsis
 			this.form.content = data.content
+			this.form.original = data.original
 			this.buttonText = '修改文章'
 			this.url = `editArticle/${articleId}` // 修改url
 			this.type = 'put' // 修改请求类型

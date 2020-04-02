@@ -1,7 +1,7 @@
 <template>
     <div>
         <my-progress class="progress" :progressValue="50">
-			<div slot="content">123</div>
+			<div slot="content">文字描述</div>
 		</my-progress>
         <mavon-editor
 			class="rich-text"

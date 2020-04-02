@@ -1,7 +1,7 @@
 <template>
     <ul>
         <li v-for="(item, index) in data" :key="index">
-            <div :class="['clearfix', item.router === $route.path ? 'active' : '']">
+            <div :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
 				<i @click.stop="clickSwitch(item)" :class="item | iconClass" :style="item | style"></i>
 				<a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a>
 			</div>
@@ -40,6 +40,10 @@ export default {
 		style(item) {
 			let left = 2 + item.level * 20
 			return `margin-left: ${left}px;`
+		},
+		active(router, $route) {
+			let active = $route.includes(router)
+			return active
 		}
 	},
 	methods: {
