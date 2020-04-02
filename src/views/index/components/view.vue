@@ -55,6 +55,9 @@ export default {
 	mounted() {
 		this.effect()
 	},
+	beforeDestroy() {
+		this.removeCanvas()
+	},
 	methods: {
 		// 刷新圆
 		refreshCircular(ele) {
@@ -74,6 +77,7 @@ export default {
 					attr = getAttr()
 				// 设置创建的canvas的相关属性
 				canvas.id = 'c_n' + attr.length
+				canvas.className = 'effect'
 				canvas.style.cssText = 'position:fixed;top:0;left:0;z-index:' + attr.z + ';opacity:' + attr.opacity
 				// 将canvas元素添加到body元素中
 				document.getElementsByTagName('body')[0].appendChild(canvas)
@@ -213,6 +217,10 @@ export default {
 				},
 				100)
 			}())
+		},
+		// 清除效果
+		removeCanvas() {
+			document.querySelector('.effect').remove()
 		}
 	},
 }
