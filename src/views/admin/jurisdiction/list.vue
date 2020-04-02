@@ -58,7 +58,7 @@ export default {
 	methods: {
 		async getTableData() {
 			try {
-				const data =  await this.$http.get('jurisdiction/list')
+				const data =  await this.$http.get(`jurisdiction/list/${this.$route.query.distribution}`)
 				this.tableData = data
 			} catch (e) {
 				console.log(e)
@@ -100,6 +100,11 @@ export default {
 					}
 				}
 			})
+		}
+	},
+	watch: {
+		'$route': function(now, old) {
+			this.getTableData()
 		}
 	},
 }

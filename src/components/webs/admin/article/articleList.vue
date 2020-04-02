@@ -23,9 +23,12 @@
             </el-table-column>
             <el-table-column prop="read" label="阅读数" sortable width="180">
             </el-table-column>
-            <el-table-column prop="praise" label="点赞" sortable width="180">
+            <el-table-column prop="praise" label="点赞数" sortable width="180">
             </el-table-column>
-            <el-table-column prop="original" label="原创0,转载1" sortable width="180">
+            <el-table-column prop="original" label="文章出处" sortable width="180">
+				<template slot-scope="{row}">
+					<span>{{ row.original ? '原创' : '转载' }}</span>
+				</template>
             </el-table-column>
             <!-- <el-table-column
         fixed="right"

@@ -104,7 +104,20 @@ export default {
 						{
 							name: '权限列表',
 							level: 1,
+							status: 'close',
 							router: '/admin/jurisdiction/list',
+							children: [
+								{
+									name: '页面',
+									level: 2,
+									router: '/admin/jurisdiction/list?distribution=1',
+								},
+								{
+									name: '接口',
+									level: 2,
+									router: '/admin/jurisdiction/list?distribution=0',
+								}
+							]
 						},
 						{
 							name: '添加权限',
@@ -178,6 +191,7 @@ export default {
 	watch: {
 		$route: {
 			handler: function(route) {
+				console.log(route, 'route')
 				this.routerChange(route)
 			},
 			// deep: true

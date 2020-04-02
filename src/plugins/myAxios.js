@@ -41,7 +41,7 @@ MyAxios.install = function (Vue) {
 		} else if (data.type === 'token' && data.status === 201) {
 			// 清空登录状态
 			window.localStorage.removeItem('token')
-			// window.localStorage.removeItem('user')
+			window.localStorage.removeItem('user')
 
 			// Message.info({
 			// 	message: data.msg,
