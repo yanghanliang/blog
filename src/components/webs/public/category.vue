@@ -113,7 +113,7 @@ export default {
 
     /* s_box-start */
     .category .s_box {
-        min-height: 2.8rem;
+        min-height: 3.09rem;
         margin-top: 0.02rem;
         background-color: #fff;
         padding: 0.08rem 0.2rem 0.2rem;
