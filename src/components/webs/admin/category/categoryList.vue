@@ -1,7 +1,7 @@
 <template>
     <div class="content_right">
         <!-- 面包屑 -->
-        <el-table height="400" :data="tableData">
+        <el-table height="600" :data="tableData">
             <el-table-column type="index" width="50">
             </el-table-column>
             <el-table-column prop="classname" label="类名" width="180">
@@ -10,6 +10,11 @@
                 <template slot-scope="scope">
                     <span v-if="scope.row.pid === 0">一级</span>
                     <span v-else>{{ scope.row.pid_classname }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="分类" width="180">
+                <template slot-scope="{row}">
+					<span>{{ row.type | type }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
@@ -33,6 +38,30 @@
 
 <script>
 export default {
+	filters: {
+		type(value) {
+			const typeList = [
+				{
+					name: '文章',
+					value: '1'
+				},
+				{
+					name: '书签',
+					value: '2'
+				}
+			]
+			let text = []
+			let tempArr = value.split(',')
+			for (let i = 0, length = tempArr.length; i < length; i++) {
+				for(let j = 0, leng = typeList.length; j < leng; j++) {
+					if (tempArr[i] === typeList[j].value) {
+						text.push(typeList[j].name)
+					}
+				}
+			}
+			return text.join(',')
+		}
+	},
 	data() {
 		return {
 			tableData: [],
@@ -45,9 +74,10 @@ export default {
 	},
 	methods: {
 		async loadData() { // 获取分类数据
+			let postData = this.$route.query.type ? this.$route.query.type : 1
 			const {
 				data
-			} = await this.$http.get('category')
+			} = await this.$http.get(`category?type=${postData}`)
 			if (data.status !== 201) {
 				this.tableData = data
 			}
@@ -78,14 +108,19 @@ export default {
 				})
 			}
 		}
-	}
+	},
+	watch: {
+		'$route': function(now, old) {
+			this.loadData()
+		}
+	},
 }
 
 </script>
 
 <style scoped>
     .content_right .el-table {
-        width: 525px;
+        width: 725px;
         margin: 100px auto;
     }
 

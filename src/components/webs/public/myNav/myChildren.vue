@@ -1,8 +1,8 @@
 <template>
     <ul>
         <li v-for="(item, index) in data" :key="index">
-            <div :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
-				<i @click.stop="clickSwitch(item)" :class="item | iconClass" :style="item | style"></i>
+            <div @click.stop="clickSwitch(item)" :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
+				<i :class="item | iconClass" :style="item | style"></i>
 				<a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a>
 			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>

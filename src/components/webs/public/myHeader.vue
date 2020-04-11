@@ -60,6 +60,7 @@
 			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<!-- <el-menu-item index="/personal/resume">个人简历</el-menu-item> -->
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
+			<el-menu-item index="/bookmark">书签</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>

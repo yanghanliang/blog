@@ -35,6 +35,7 @@ const connection = () => import('@/views/index/components/document/connection')
 const myEcharts = () => import('@/views/index/components/document/echarts')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
+const bookmark = () => import('@/views/index/bookmark')
 // index-end
 
 // mobile-start
@@ -117,6 +118,11 @@ const router = new Router({
 					path: 'webinfo',
 					name: 'webinfo',
 					component: webinfo
+				},
+				{
+					path: 'bookmark',
+					name: 'bookmark',
+					component: bookmark
 				}
 			]
 		},

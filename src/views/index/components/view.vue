@@ -221,7 +221,7 @@ export default {
 		// 清除效果
 		removeCanvas() {
 			document.querySelector('.effect').remove()
-		}
+		},
 	},
 }
 </script>

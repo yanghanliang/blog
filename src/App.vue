@@ -12,7 +12,7 @@ export default {
 			ip: returnCitySN['cip'],
 			region: returnCitySN['cname'], // 地域
 			ipInfo: null,
-			time: new Date().getTime()
+			time: new Date().getTime(),
 		}
 	},
 	created() {
@@ -77,7 +77,7 @@ export default {
 					console.log(e)
 				}
 			}
-		}
+		},
 	},
 	watch: {
 		// $route(to, from) {
