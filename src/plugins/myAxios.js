@@ -37,6 +37,7 @@ MyAxios.install = function (Vue) {
 		} = response
 		if (data.data && data.type !== 'token') {
 			// 这样做之后取数据的时候可以少取一层
+			console.log(data, '?????')
 			return data.data
 		} else if (data.type === 'token' && data.status === 201) {
 			// 清空登录状态

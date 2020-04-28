@@ -20,6 +20,7 @@ const jurisdictionList = () => import('@/views/admin/jurisdiction/list')
 const addJurisdiction = () => import('@/views/admin/jurisdiction/add')
 const editJurisdiction = () => import('@/views/admin/jurisdiction/edit')
 const userList = () => import('@/views/admin/user/list')
+const addBookmark = () => import('@/views/admin/bookmark/add')
 // admin-end
 
 // index-start
@@ -191,6 +192,11 @@ const router = new Router({
 					path: 'user/list',
 					name: 'userList',
 					component: userList
+				},
+				{
+					path: 'bookmark/add',
+					name: 'addBookmark',
+					component: addBookmark
 				}
 			]
 		},

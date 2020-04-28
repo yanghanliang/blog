@@ -1,14 +1,8 @@
 <template>
     <div class="content_right">
-        <el-form class="admin_category form-box"  ref="form" :model="form" label-width="80px">
+        <el-form class="admin_category form-box" ref="form" :model="form" label-width="80px">
             <el-form-item label="分类名称">
                 <el-input v-model="form.classname"></el-input>
-            </el-form-item>
-			<el-form-item label="类型">
-                <el-select v-model="form.type" multiple placeholder="请选择分类类型">
-                    <el-option label="文章" value="1">文章</el-option>
-                    <el-option label="书签" value="2">书签</el-option>
-                </el-select>
             </el-form-item>
             <el-form-item label="层级">
                 <el-select v-model="form.layername" placeholder="请选择层级" @change="changeSelectValue">
@@ -59,10 +53,7 @@ export default {
 				})
 				// 跳转页面
 				this.$router.push({
-					name: 'categoryList',
-					query: {
-						type: this.form.type[0]
-					}
+					name: 'categoryList'
 				})
 			} else {
 				this.$message({

@@ -31,7 +31,7 @@ export default {
 		async getCategoryData() { // 获取分类数据
 			const {
 				data
-			} = await this.$http.get('category') // 发送请求
+			} = await this.$http.get('category?type=1') // 发送请求
 
 			if (this.categoryId) {
 				this.categoryData = data.filter(item => {

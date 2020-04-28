@@ -17,7 +17,7 @@
 				<div class="title">
 					{{ currentTitle }}
 				</div>
-				<my-children :data="currentChildren"></my-children>
+				<my-children :data="currentChildren" :isBlank="isBlank"></my-children>
 			</div>
 		</div>
     </nav>
@@ -93,20 +93,7 @@ export default {
 							{
 								name: '分类列表',
 								level: 1,
-								status: 'close',
 								router: '/admin/categoryList',
-								children: [
-									{
-										name: '文章分类',
-										level: 2,
-										router: '/admin/categoryList?type=1'
-									},
-									{
-										name: '书签分类',
-										level: 2,
-										router: '/admin/categoryList?type=2'
-									}
-								]
 							}
 						]
 					},
@@ -157,6 +144,26 @@ export default {
 								router: '/admin/user/list',
 							}
 						]
+					},
+					{
+						name: '书签',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-yonghufangkeshu',
+						router: '/admin/bookmark/add',
+						identification: 'bookmark',
+						children: [
+							{
+								name: '添加分类',
+								level: 1,
+								router: '/admin/bookmark/add',
+							},
+							{
+								name: '分类列表',
+								level: 1,
+								router: '/admin/bookmark/list',
+							}
+						]
 					}
 				]
 			}
@@ -170,13 +177,16 @@ export default {
 		firstTrigger: {
 			type: Boolean,
 			default: true
+		},
+		// 站内跳转（false）站外跳转（true）
+		isBlank: {
+			type: Boolean,
 		}
 	},
 	data() {
 		return {
 			currentChildren: [], // 当前的子集数据
 			currentTitle: '标题',
-			// navStatus: false, 
 		}
 	},
 	created() {
@@ -208,6 +218,7 @@ export default {
 		},
 		// 路由变化时更新导航状态
 		routerChange(route) {
+			console.log(route, 'route')
 			let url = route.path.toLocaleLowerCase()
 			this.data.forEach((item) => {
 				if (url.includes(item.identification)) {
@@ -226,6 +237,9 @@ export default {
 				this.routerChange(route)
 			},
 			// deep: true
+		},
+		data: function() {
+			this.routerChange(this.$route)
 		}
 	},
 }
@@ -286,6 +300,7 @@ nav {
 			line-height: 76px;
 			font-weight: bold;
 			text-indent: 40px;
+			text-align: left;
 		}
 	}
 }

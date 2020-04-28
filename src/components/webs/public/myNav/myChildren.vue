@@ -20,11 +20,17 @@ export default {
 		title: {
 			type: String,
 			defalute: '标题'
+		},
+		// 站内跳转（false）站外跳转（true）
+		isBlank: {
+			type: Boolean,
+			defalut: false
 		}
 	},
 	filters: {
 		iconClass(item) {
 			let className = [item.status]
+			let icon = item.icon ? item.icon : 'my-icon-icon-test'
 			if (item.children && item.children.length > 0) {
 				if (item.status === 'open') {
 					className.push('my-icon-sanjiaoxia')
@@ -32,7 +38,7 @@ export default {
 					className.push('my-icon-sanjiaoyou')
 				}
 			} else if (item.level > 1) {
-				className.push('my-icon-icon-test')
+				className.push(icon)
 			}
 
 			return className.join(' ')
@@ -56,9 +62,15 @@ export default {
 		},
 		// 组件跳转不刷新页面
 		jump(router) {
-			this.$router.push({
-				path: router
-			})
+			if (this.isBlank) {
+				// 站外跳转
+				window.open(router, '_blank')
+			} else {
+				// 站内跳转
+				this.$router.push({
+					path: router
+				})
+			}
 		}
 	},
 }
@@ -94,7 +106,7 @@ ul {
 				height: 40px;
 				float: left;
 				margin-left: 30px;
-				margin-right: 10px;
+				margin-right: 14px;
 
 				&.iconzhijiaochi {
 					font-size: 12px;
