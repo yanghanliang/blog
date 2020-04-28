@@ -58,8 +58,7 @@ export default {
 	methods: {
 		async getTableData() {
 			try {
-				const data =  await this.$http.get('jurisdiction/list')
-				console.log(data, 'data权限列表')
+				const data =  await this.$http.get(`jurisdiction/list/${this.$route.query.distribution}`)
 				this.tableData = data
 			} catch (e) {
 				console.log(e)
@@ -74,7 +73,6 @@ export default {
 				pid: row.j_pid,
 				isOpen: row.is_open
 			}
-			console.log(row.is_open, 'row.is_open')
 			try {
 				const { data } = await this.$http.put(`jurisdiction/edit/${row.id}`, postData)
 				if (data.status === 200) {
@@ -102,6 +100,11 @@ export default {
 					}
 				}
 			})
+		}
+	},
+	watch: {
+		'$route': function(now, old) {
+			this.getTableData()
 		}
 	},
 }

@@ -13,10 +13,12 @@
 			</a>
 		</div>
 		<div :class="['nav-right', {'open': navStatus}]">
-			<div class="title">
-				{{ currentTitle }}
+			<div class="nr-content">
+				<div class="title">
+					{{ currentTitle }}
+				</div>
+				<my-children :data="currentChildren" :isBlank="isBlank"></my-children>
 			</div>
-			<my-children :data="currentChildren"></my-children>
 		</div>
     </nav>
 </template>
@@ -29,109 +31,162 @@ export default {
 	components: {
 		myChildren
 	},
+	props: {
+		data: {
+			type: Array,
+			default: function() {
+				return [
+					{
+						name: '文章',
+						level: 0,
+						status: 'open',
+						icon: 'my-icon-wenzhang',
+						router: '/admin/articleList',
+						identification: 'article',
+						children: [
+							{
+								name: '添加文章',
+								level: 1,
+								status: 'open',
+								router: '/admin/addArticle',
+								children: [
+									// {
+									// 	index: '1-7-2-1',
+									// 	name: 'hh',
+									// 	status: 'open',
+									// 	level: 2,
+									// 	children: [
+									// 		{
+									// 			index: '1-7-2-1-1',
+									// 			name: 'gg',
+									// 			level: 3,
+									// 		}
+									// 	]
+									// },
+									// {
+									// 	name: 'hh',
+									// 	status: 'open',
+									// 	level: 2,
+									// }
+								]
+							},
+							{
+								name: '文章列表',
+								level: 1,
+								router: '/admin/articleList',
+							}
+						]
+					},
+					{
+						name: '分类',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-category',
+						router: '/admin/categoryList?type=1',
+						identification: 'category',
+						children: [
+							{
+								name: '添加分类',
+								level: 1,
+								router: '/admin/addCategory',
+							},
+							{
+								name: '分类列表',
+								level: 1,
+								router: '/admin/categoryList',
+							}
+						]
+					},
+					{
+						name: '权限',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-setting-permissions',
+						router: '/admin/jurisdiction/list',
+						identification: 'jurisdiction',
+						children: [
+							{
+								name: '权限列表',
+								level: 1,
+								status: 'close',
+								router: '/admin/jurisdiction/list',
+								children: [
+									{
+										name: '页面',
+										level: 2,
+										router: '/admin/jurisdiction/list?distribution=1',
+									},
+									{
+										name: '接口',
+										level: 2,
+										router: '/admin/jurisdiction/list?distribution=0',
+									}
+								]
+							},
+							{
+								name: '添加权限',
+								level: 1,
+								router: '/admin/jurisdiction/add',
+							}
+						]
+					},
+					{
+						name: '用户',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-yonghufangkeshu',
+						router: '/admin/user/list',
+						identification: 'user',
+						children: [
+							{
+								name: '用户列表',
+								level: 1,
+								router: '/admin/user/list',
+							}
+						]
+					},
+					{
+						name: '书签',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-yonghufangkeshu',
+						router: '/admin/bookmark/add',
+						identification: 'bookmark',
+						children: [
+							{
+								name: '添加分类',
+								level: 1,
+								router: '/admin/bookmark/add',
+							},
+							{
+								name: '分类列表',
+								level: 1,
+								router: '/admin/bookmark/list',
+							}
+						]
+					}
+				]
+			}
+		},
+		// 菜单状态(打开||关闭)
+		navStatus: {
+			type: Boolean,
+			default: false
+		},
+		// 点击第一层级是否进行跳转
+		firstTrigger: {
+			type: Boolean,
+			default: true
+		},
+		// 站内跳转（false）站外跳转（true）
+		isBlank: {
+			type: Boolean,
+		}
+	},
 	data() {
 		return {
-			data: [
-				{
-					name: '文章',
-					level: 0,
-					status: 'open',
-					icon: 'my-icon-wenzhang',
-					router: '/admin/articleList',
-					identification: 'article',
-					children: [
-						{
-							name: '添加文章',
-							level: 1,
-							status: 'open',
-							router: '/admin/addArticle',
-							children: [
-								{
-									index: '1-7-2-1',
-									name: 'hh',
-									status: 'open',
-									level: 2,
-									children: [
-										{
-											index: '1-7-2-1-1',
-											name: 'gg',
-											level: 3,
-										}
-									]
-								},
-								{
-									name: 'hh',
-									status: 'open',
-									level: 2,
-								}
-							]
-						},
-						{
-							name: '文章列表',
-							level: 1,
-							router: '/admin/articleList',
-						}
-					]
-				},
-				{
-					name: '分类',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-category',
-					router: '/admin/categoryList',
-					identification: 'category',
-					children: [
-						{
-							name: '添加分类',
-							level: 1,
-							router: '/admin/addCategory',
-						},
-						{
-							name: '分类列表',
-							level: 1,
-							router: '/admin/categoryList',
-						}
-					]
-				},
-				{
-					name: '权限',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-setting-permissions',
-					router: '/admin/jurisdiction/list',
-					identification: 'jurisdiction',
-					children: [
-						{
-							name: '权限列表',
-							level: 1,
-							router: '/admin/jurisdiction/list',
-						},
-						{
-							name: '添加权限',
-							level: 1,
-							router: '/admin/jurisdiction/add',
-						}
-					]
-				},
-				{
-					name: '用户',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-yonghufangkeshu',
-					router: '/admin/user/list',
-					identification: 'user',
-					children: [
-						{
-							name: '用户列表',
-							level: 1,
-							router: '/admin/user/list',
-						}
-					]
-				}
-			],
 			currentChildren: [], // 当前的子集数据
 			currentTitle: '标题',
-			navStatus: false, // 菜单状态(打开||关闭)
 		}
 	},
 	created() {
@@ -142,11 +197,12 @@ export default {
 		mouseenter(item) {
 			this.currentChildren = item.children
 			this.currentTitle = item.name
-
+			// 防止自己跳转到自己
+			if (item.router === this.$route.path) return false
 			this.data.forEach(obj => {
 				if (item === obj) {
 					obj.status = 'open'
-					this.$router.push(obj.router)
+					this.firstTrigger && this.$router.push(obj.router)
 				} else {
 					obj.status = 'close'
 				}
@@ -162,6 +218,7 @@ export default {
 		},
 		// 路由变化时更新导航状态
 		routerChange(route) {
+			console.log(route, 'route')
 			let url = route.path.toLocaleLowerCase()
 			this.data.forEach((item) => {
 				if (url.includes(item.identification)) {
@@ -180,6 +237,9 @@ export default {
 				this.routerChange(route)
 			},
 			// deep: true
+		},
+		data: function() {
+			this.routerChange(this.$route)
 		}
 	},
 }
@@ -190,6 +250,7 @@ export default {
 
 nav {
 	height: 100%;
+	position: relative;
 
 	>div {
 		float: left;
@@ -220,7 +281,14 @@ nav {
 		width: 182px;
 		height: 100%;
 		display: none;
-		background-color: #F2F2F3;
+
+		.nr-content {
+			width: 182px;
+			top: 0;
+			bottom: 0;
+			position: absolute;
+			background-color: #F2F2F3;
+		}
 
 		&.open {
 			display: block;
@@ -232,6 +300,7 @@ nav {
 			line-height: 76px;
 			font-weight: bold;
 			text-indent: 40px;
+			text-align: left;
 		}
 	}
 }

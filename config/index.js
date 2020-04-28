@@ -10,7 +10,22 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/baidu': {
+        target: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/baidu': '/'
+        }
+      },
+      '/robot': {
+        target: 'http://api.qingyunke.com/api.php',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/robot': '/'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -55,8 +70,8 @@ module.exports = {
     /**
      * Source Maps
      */
-
-    productionSourceMap: true,
+    // 选false会提高打包速度
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

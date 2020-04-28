@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div class="article-details">
         <div class="w">
             <div class="search">
                 <!-- <form name="form1" method="post" action="?c=Index&a=search" target="_blank">
                 <input class="sear_input" name="textword" autofocus="autofocus" type="text" placeholder="搜索从这里开始...">
                 <button type="submit" class="iconfont icon-sousuo"></button>
             </form> -->
-                <el-form ref="form" label-width="80px">
+                <!-- <el-form ref="form" label-width="80px">
                     <el-input placeholder="请输入内容" clearable></el-input>
                     <el-button icon="el-icon-search" circle></el-button>
-                </el-form>
+                </el-form> -->
             </div>
 
             <!-- 调用自己封装的面包屑组件 -->
@@ -40,89 +40,105 @@
                         <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)"
                             class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
                     </div>
-					<div class="line mt20 mb20"></div>
-                    <div class="comment">
-                        <my-icon color class="fs40" identification="pinglun1"></my-icon>
-                    </div>
-                    <!-- 发布评论-start -->
-                    <el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
-                        <template v-if="!userInfo">
-							<el-form-item label="昵称" prop="alias">
-								<el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
+					<template v-if="equipment === 'pc'">
+						<div class="line mt20 mb20"></div>
+						<div class="comment">
+							<my-icon color class="fs40" identification="pinglun1"></my-icon>
+						</div>
+						<!-- 发布评论-start -->
+						<el-form :model="commentForm" status-icon :rules="rules" ref="commentForm" label-width="100px" class="demo-ruleForm">
+							<template v-if="!userInfo">
+								<el-form-item label="昵称" prop="alias">
+									<el-input v-model="commentForm.alias" @input="aliasLock=true"></el-input>
+								</el-form-item>
+								<el-form-item label="邮箱" prop="mailbox">
+									<el-input v-model="commentForm.mailbox" placeholder="请输入邮箱"></el-input>
+								</el-form-item>
+								<el-form-item label="密码" prop="password">
+									<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.password" autocomplete="off"></el-input>
+								</el-form-item>
+								<el-form-item label="确认密码" prop="checkPass">
+									<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.checkPass" autocomplete="off"></el-input>
+								</el-form-item>
+							</template>
+							<el-form-item label="评论" prop="comment_content">
+								<el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content">
+								</el-input>
 							</el-form-item>
-							<el-form-item label="邮箱" prop="mailbox">
-								<el-input v-model="commentForm.mailbox" placeholder="请输入邮箱"></el-input>
+							<el-form-item>
+								<el-button type="primary" @click="submitForm('commentForm', '/addComment', commentForm)">走你~
+								</el-button>
+								<el-button @click="resetForm('commentForm')">重置</el-button>
 							</el-form-item>
-							<el-form-item label="密码" prop="password">
-								<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.password" autocomplete="off"></el-input>
-							</el-form-item>
-							<el-form-item label="确认密码" prop="checkPass">
-								<el-input type="text" onfocus="this.type = 'password'" v-model="commentForm.checkPass" autocomplete="off"></el-input>
-							</el-form-item>
-						</template>
-                        <el-form-item label="评论" prop="comment_content">
-                            <el-input type="textarea" placeholder="畅所欲言~" v-model="commentForm.comment_content">
-                            </el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('commentForm', '/addComment', commentForm)">走你~
-                            </el-button>
-                            <el-button @click="resetForm('commentForm')">重置</el-button>
-                        </el-form-item>
-                    </el-form>
-					<template v-if="commentData.length > 0">
-						<!-- 显示评论-start -->
-						<div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
-							<div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data"
-								:key="index">
-								<div class="scb_header clearfix">
-									<div class="scbh_img_box" @click="editHeadPortrait(item)">
-										<img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
+						</el-form>
+						<template v-if="commentData.length > 0">
+							<!-- 显示评论-start -->
+							<div class="show_comment" v-for="(data, parentIndex) in commentData" :key="parentIndex">
+								<div :class="index%2 === 1 ? 'sc_box right' : 'sc_box'" v-for="(item, index) in data"
+									:key="index">
+									<div class="scb_header clearfix">
+										<div class="scbh_img_box" @click="editHeadPortrait(item)">
+											<img :src="Global.baseURL+ item.head_portrait_url" alt="头像">
+										</div>
+										<div class="scbh_arrow"></div>
+										<span>{{ item.alias }}</span>
 									</div>
-									<div class="scbh_arrow"></div>
-									<span>{{ item.alias }}</span>
-								</div>
-								<div class="scb_body">
-									<my-icon identification="caozuoqipao" color class="icon"></my-icon>
-									<p>{{ item.comment_content }}</p>
-								</div>
-								<div class="scb_footer clearfix">
-									<div class="commentary_time">
-										<my-icon identification="shijian1"></my-icon> {{ item.time }}
+									<div class="scb_body">
+										<my-icon identification="caozuoqipao" color class="icon"></my-icon>
+										<p>{{ item.comment_content }}</p>
 									</div>
-									<el-button class="replay" type="text"
-										@click="replay(item.alias, item.id, parentIndex, index)">
-										<my-icon identification="chakantiezihuifu"></my-icon>
-									</el-button>
+									<div class="scb_footer clearfix">
+										<div class="commentary_time">
+											<my-icon identification="shijian1"></my-icon> {{ item.time }}
+										</div>
+										<el-button class="replay" type="text"
+											@click="replay(item.alias, item.id, parentIndex, index)">
+											<my-icon identification="chakantiezihuifu"></my-icon>
+										</el-button>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- 显示评论-end -->
+							<!-- 显示评论-end -->
+						</template>
+						<template v-else>
+							<ul class="no_data">
+								<li>
+									<my-icon class="fs40" identification="meiyouxiangguan"></my-icon>
+								</li>
+								<li>没有数据~</li>
+							</ul>
+						</template>
+						<!-- 发布评论-end -->
 					</template>
-					<template v-else>
-						<ul class="no_data">
-							<li>
-								<my-icon class="fs40" identification="meiyouxiangguan"></my-icon>
-							</li>
-							<li>没有数据~</li>
-						</ul>
-					</template>
-					<!-- 发布评论-end -->
                 </div>
                 <div class="right">
                     <!-- Relevant recommendations Abbreviations rr -->
                     <!-- 相关推荐 简写 rr -->
-                    <ol class="rr">
-                        <h3>你可能需要</h3>
-                        <li><a href="#">CSS 从喜欢到厌烦</a></li>
-                        <li><a href="#">CSS 从简单到烦躁</a></li>
-                        <li><a href="#">CSS 从了解到全然不解</a></li>
-                        <li><a href="#">CSS 线性渐变</a></li>
-                        <li><a href="#">CSS 径向渐变</a></li>
-                        <li><a href="#">CSS animation</a></li>
-                    </ol>
-
-                    <category></category>
+                    <ul class="rr" v-if="recommend.data.length > 0">
+                        <h3>您可能需要</h3>
+                        <li v-for="(item, index) in recommend.data" :key="item.id">
+							<a :href="item.id">{{ (index + 1) + (recommend.currentPage - 1) * recommend.pageSize }}. {{ item.title }}</a>
+						</li>
+                       <el-pagination class="mt20" small :hide-on-single-page="isPagination"
+							:pager-count="5"
+							background
+							:page-size="recommend.pageSize"
+							:current-page.sync="recommend.currentPage"
+							layout="prev, pager, next"
+							@current-change="getRecommendData"
+							:total="recommend.total">
+						</el-pagination>
+                    </ul>
+                    <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category>
+					<div class="secondary">
+						<el-popover
+							placement="top-start"
+							width="200"
+							trigger="hover"
+							content="如果您觉得这篇文章还不错，就点个赞吧~">
+							<i slot="reference" :class="['my-icon-dianzan', { 'active': praiseStatus }]" @click="editPraise"></i>
+						</el-popover>
+					</div>
                 </div>
             </div>
         </div>
@@ -222,7 +238,7 @@ import category from '@/components/webs/public/category'
 import myProgress from '@/components/canvas/progress/index'
 
 export default {
-	name: 'articles_details',
+	name: 'articlesDetails',
 	components: {
 		category,
 		myProgress
@@ -230,6 +246,14 @@ export default {
 	computed: {
 		imgSrc () {
 			return this.Global.baseURL + this.src
+		},
+		// 是否显示分页
+		isPagination() {
+			if (this.recommend.total > this.recommend.pageSize) {
+				return false
+			} else {
+				return true
+			}
 		}
 	},
 	data() {
@@ -449,6 +473,13 @@ export default {
 			progressPercent: 0,
 			// 登录后的用户信息
 			userInfo: null,
+			recommend: {
+				data: [],
+				pageSize: 6,
+				currentPage: 1,
+				total: 0,
+			},
+			praiseStatus: false, // 点赞的状态 false 没有点赞
 		}
 	},
 	created() {
@@ -462,8 +493,15 @@ export default {
 				data
 			} = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
 			this.articleData = data[0] // 将数据赋值给 vue
-			const bodyEle = document.querySelector('html') // 获取 html 元素
+			// 兼容移动端
+			let bodyEle = null
+			if (this.Global.equipment === 'pc') {
+				bodyEle = document.querySelector('html') // 获取 html 元素
+			} else {
+				bodyEle = document.querySelector('.article-details .left')
+			}
 			bodyEle.scrollTop = 0 // 置顶
+			this.getRecommendData() // 获取推荐数据
 			this.during() // 获取上一篇和下一篇的数据
 		},
 		async during() { // 获取上一篇和下一篇的数据
@@ -528,6 +566,7 @@ export default {
 			this.user.mailbox = data.mailbox ? '' : data.mailbox
 			this.src = data.head_portrait_url
 			this.user.comment_content = data.comment_content
+			this.progressPercent = 0
 			localStorage.setItem('alias', data.alias) // 记录昵称
 		},
 		// 阻止upload的自己上传，进行再操作
@@ -539,7 +578,7 @@ export default {
 			// this.param = new FormData()
 			// this.param.append('file', file, file.name)
 			// return false
-			console.log(file)
+			// console.log(file)
 		},
 		async onSubmit() { // 表单提交的事件
 			this.$refs.user.validate(async (valid) => {
@@ -552,7 +591,6 @@ export default {
 						name_used_before: localStorage.getItem('alias'), // 获取曾用名
 						head_portrait_url: this.src, // 头像
 					}
-					console.log(postData, 'postData')
 					// 然后通过下面的方式把内容通过axios来传到后台
 					// 下面的this.$http 是在主js中通过Vue.prototype.$http = axios 来把axios赋给它;
 					const {
@@ -574,6 +612,7 @@ export default {
 		async httpRequest(file) {
 			let formdata = new FormData()
 			formdata.append('file', file.file)
+			this.progressPercent = 0
 
 			try {
 				let { data } = await this.$http({
@@ -596,6 +635,7 @@ export default {
 				this.$message.error('请求超时~')
 			}
 		},
+		// 获取用户信息
 		getUserInfo() {
 			const userInfo = JSON.parse(window.localStorage.getItem('user'))
 			if (userInfo) {
@@ -606,6 +646,49 @@ export default {
 				this.replyForm.alias = userInfo.alias
 				this.replyForm.mailbox = userInfo.mailbox
 				this.replyForm.password = userInfo.password
+			}
+		},
+		// 获取推荐的数据
+		async getRecommendData() {
+			let postData = {
+				currentPage: this.recommend.currentPage,
+				pageSize: this.recommend.pageSize,
+				categoryId: this.articleData.category_id,
+				title: this.articleData.title,
+				id: this.articleData.id
+			}
+
+			try {
+				const { list, total } = await this.$http.post('article/recommend', postData)
+				this.recommend.data = list
+				this.recommend.total = total
+			} catch (e) {
+				console.log(e)
+			}
+		},
+		// 更新点赞数
+		async editPraise() {
+			const top = document.documentElement.scrollTop
+			let postData = {
+				articleId: this.articleData.id,
+				praise: this.articleData.praise
+			}
+			if (!this.praiseStatus) {
+				// 点赞
+				this.praiseStatus = true
+				postData.praise = postData.praise + 1
+			} else {
+				// 取消点赞
+				this.praiseStatus = false
+				postData.praise = postData.praise - 1
+			}
+
+			try {
+				await this.$http.post('article/praise', postData)
+				await this.loadData()
+				document.documentElement.scrollTop = top // 防止页面置顶
+			} catch (e) {
+				console.log(e)
 			}
 		}
 	},
@@ -624,354 +707,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fs40 {
-	font-size: 40px;
-}
-
-.w .el-breadcrumb {
-    margin-bottom: 0.2rem;
-}
-
-/* search-start */
-.search {
-    width: 4rem;
-    margin: 0.2rem auto 0.2rem;
-}
-
-.search .el-form .el-input {
-    float: left;
-    width: 3.1rem;
-}
-
-/* search-end */
-
-/* content-start */
-.content {
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-/* left-start */
-.content .left {
-    width: 8.4rem;
-    float: left;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-    padding-bottom: 0.1rem;
-    background-color: #fff;
-    padding: 0 0.2rem 0.2rem 0.2rem;
-}
-
-.content .left .no_data {
-    margin-top: 0.6rem;
-}
-
-.content .left .no_data .icon {
-    font-size: 0.5rem;
-}
-
-/* describe-start */
-.content .left .title h1 {
-    display: inline-block;
-}
-
-.content .left .title i {
-    margin-right: 10px;
-    vertical-align: text-top;
-}
-
-.content .left .describe {
-    margin: 0 auto 0.1rem;
-    display: inline-block;
-}
-
-.content .left .describe li {
-    float: left;
-    color: #4ec3a4;
-    margin-right: 0.1rem;
-    border-radius: 0.15rem;
-    padding: 0.04rem 0.08rem;
-    border: 0.01rem solid #a9d6cd;
-}
-
-/* describe-end */
-
-/* subscript-start */
-.content .left .subscript {
-    color: #d4d4d4;
-	margin: 0.2rem 0;
-}
-
-.content .left .subscript .icon {
-    font-size: 0.35rem;
-}
-
-/* subscript-end */
-
-.content .left .line {
-    width: 100%;
-    height: 0.01rem;
-    margin-bottom: 0.2rem;
-    background-color: #ececec;
-}
-
-/* page-start */
-.page {
-    color: #e26060;
-    padding: 0 1rem;
-}
-
-.page .page_pre {
-    float: left;
-    cursor: pointer;
-}
-
-.page .page_pre i {
-    margin-right: 0.1rem;
-}
-
-.page .page_next {
-    float: right;
-    cursor: pointer;
-}
-
-.page .page_next i {
-    margin-left: 0.1rem;
-}
-
-/* page-end */
-
-/* reset-element-ui-style-start */
-.el-textarea>>>.el-textarea__inner {
-    min-height: 1.35rem !important;
-}
-
-.el-form-item.is-success>>>.el-input__inner,
-.el-form-item.is-success>>>.el-textarea__inner {
-    border-color: #3299bb;
-}
-
-.el-dialog__header>>>.el-dialog__title {
-    color: #159484;
-    text-shadow: 0.01rem 0.01rem white, -0.01rem -0.01rem #444;
-}
-
-.el-form-item>>>.el-form-item__content {
-    text-align: center;
-}
-
-/* reset-element-ui-style-end */
-
-/* reset-markdown-style-start */
-.content .left>>>.v-note-wrapper .v-note-panel .v-note-show .v-show-content {
-    background-color: #fff;
-}
-
-.content .left>>>.v-note-wrapper .v-note-panel {
-    border: none;
-}
-
-/* reset-markdown-style-end */
-
-.content .left .comment {
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 50%;
-    box-shadow: -0.03rem 0.03rem 0.09rem black;
-}
-
-.comment .icon {
-    font-size: 0.5rem;
-    line-height: 0.7rem;
-}
-
-/* show_comment-start */
-.show_comment {
-    margin-bottom: 0.2rem;
-    padding-bottom: 0.2rem;
-    border-bottom: 0.01rem dashed #dad6d6;
-}
-
-/* scb_header-start */
-.show_comment .sc_box {
-    margin-bottom: 0.5rem;
-}
-
-.sc_box .scb_header .scbh_img_box {
-    width: 0.4rem;
-    height: 0.4rem;
-    float: left;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 50%;
-    position: relative;
-    border: 0.03rem solid #999;
-}
-
-.sc_box .scb_header .scbh_img_box img {
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-}
-
-.sc_box .scb_header .scbh_arrow {
-    width: 0;
-    height: 0;
-    float: left;
-    margin-top: 0.12rem;
-    border-top: 0.1rem solid transparent;
-    border-right: 0.1rem solid transparent;
-    border-bottom: 0.1rem solid transparent;
-    border-left: 0.1rem solid #4ec3a4;
-}
-
-.sc_box .scb_header>span {
-    float: left;
-    color: #a9d6cd;
-    line-height: 0.46rem;
-    margin-left: 0.2rem;
-}
-
-/* scb_header-end */
-.sc_box .scb_body {
-    padding: 0.2rem;
-    text-align: left;
-    border-radius: 0.05rem;
-    position: relative;
-    margin: 0.5rem 0 0.2rem 0;
-    border: 0.01rem solid #b355b1;
-}
-
-.sc_box .scb_body p {
-    color: #da5858;
-}
-
-.sc_box.right .scb_body p {
-    text-align: right;
-}
-
-.sc_box .scb_body .icon {
-    top: -0.32rem;
-    font-size: 0.3rem;
-    position: absolute;
-}
-
-.sc_box .scb_body .icon {
-    left: 0.1rem;
-}
-
-.sc_box.right .scb_body .icon {
-    left: auto;
-    right: 0.1rem;
-}
-
-.sc_box .scb_footer .commentary_time {
-    float: left;
-    color: #999;
-}
-
-.sc_box .scb_footer .replay {
-    float: right;
-    font-size: 0.18rem;
-    cursor: pointer;
-}
-
-/* .scb_header.right-start */
-.sc_box.right .scb_header .scbh_img_box,
-.sc_box.right .scb_header>span {
-    float: right;
-}
-
-.sc_box.right .scb_header .scbh_arrow {
-    float: right;
-    border-top: 0.1rem solid transparent;
-    border-right: 0.1rem solid #4ec3a4;
-    border-bottom: 0.1rem solid transparent;
-    border-left: 0.1rem solid transparent;
-}
-
-.sc_box.right .scb_header>span {
-    margin-right: 0.2rem;
-}
-
-/* .scb_header.right-end */
-/* show_comment-end */
-/* left-end */
-
-/* right-start */
-.content>.right {
-    width: 3rem;
-    float: right;
-    vertical-align: top;
-}
-
-.content .right .rr {
-    padding: 0.2rem;
-    text-align: left;
-    background-color: #fff;
-}
-
-.content .right .rr li {
-    color: #666;
-    height: 0.3rem;
-    line-height: 0.3rem;
-    font-weight: normal;
-    margin-left: 0.16rem;
-}
-
-.content .right .rr li a {
-    color: #666;
-}
-
-.content .right>.bg_img_b {
-    width: 50%;
-}
-
-.category {
-    margin-bottom: 0.2rem;
-}
-
-/* right-end */
-/* content-end */
-
-.upload-demo {
-    margin-bottom: 30px;
-}
-
-.edit_head_portrait {
-    float: left;
-    text-align: center;
-}
-
-.head_portrait_preview {
-    float: right;
-    // width: 160px;
-    // height: 160px;
-    // border-radius: 50%;
-    // position: relative;
-
-	.el-progress--circle {
-		top: 50%;
-		left: 50%;
-		z-index: 1;
-		position: relative;
-		transform: translate(-50%, -50%);
-	}
-
-	img {
-		top: 50%;
-		left: 50%;
-		width: 100%;
-		position: absolute;
-		transform: translate(-50%, -50%);
-	}
-}
-
-.demo-ruleForm .password {
-    width: 360px;
-}
-
+@import '@/assets/css/color/index.scss'; // 使用方法
+@import './index.scss';
+@import './media.scss';
 </style>

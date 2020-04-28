@@ -8,23 +8,23 @@ import props from './props'
 // import typeOption from './typeOption.js'
 
 export default {
-	name: 'bar',
+	name: 'bar', // 柱状图
 	mixins: [].concat(props),
 	created() {
-		console.log('2222')
 	},
 	mounted() {
-		this.init()
+		// 直接传入数据，则自动初始化
+		!this.getData && this.init()
 	},
 	methods: {
 		init() {
 			// 基于准备好的dom，初始化echarts实例
 			// this.$refs.echarts
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
-			var myChart = echarts.init(this.$refs.echarts)
-			// 绘制图表
-			myChart.setOption({
-				color: ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642'],
+			let myChart = echarts.init(this.$refs.echarts)
+			let option = {
+				color: this.color,
+				toolbox: this.toolbox,
 				tooltip: {},
 				xAxis: {
 					axisTick: {
@@ -32,10 +32,7 @@ export default {
 							boundaryGap: true, // 让文字居中对齐刻度
 						},
 					},
-					axisLabel: { // 使文字倾斜，达到展示全部的值
-						interval: 0, // 0 展示全部
-						rotate: -30, // 倾斜角度
-					},
+					axisLabel: this.axisLabel, // 使文字倾斜，达到展示全部的文字
 					data: this.xAxisData
 				},
 				yAxis: {
@@ -62,8 +59,31 @@ export default {
 						}
 					}
 				}],
-			})
+			}
+
+			// 可以直接传入echarts的配置项
+			if (this.option) {
+				option = this.Global.paramsInherit({
+					params: this.option,
+					defaultValue: option
+				})
+			}
+			console.log(option, 'option')
+
+			// 绘制图表
+			myChart.setOption(option)
 		}
+	},
+	watch: {
+		seriesData(now, before) { // 监听数据变化，更新图表
+			this.init()
+		},
+		time(date) { // 监听时间变化
+			this.init()
+		},
+		option(now, before) { // 监听数据变化，更新图表
+			this.init()
+		},
 	},
 }
 </script>
@@ -71,6 +91,6 @@ export default {
 <style lang="scss" scoped>
 .echarts {
 	width: 100%;
-	height: 100%;
+	height: -webkit-fill-available;
 }
 </style>

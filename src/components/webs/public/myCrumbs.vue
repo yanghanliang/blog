@@ -27,4 +27,9 @@ export default {
 	color: #dedede;
 }
 
+@media (max-device-width: 435px) {
+    .el-breadcrumb {
+		font-size: 12px;
+	}
+}
 </style>

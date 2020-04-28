@@ -68,7 +68,6 @@ export default {
 						this.liAll[i].style.backgroundColor = this.defaultColor
 					} else {
 						if (i <= this.index) {
-							console.log('b', this.liAll[i])
 							this.liAll[i].style.backgroundColor = this.color[i]
 						} else {
 							this.liAll[i].style.backgroundColor = this.defaultColor
@@ -82,7 +81,7 @@ export default {
 				let that = this
 				this.slider.addEventListener('mousedown', function(e) {
 					that.isDown = true
-					console.log('鼠标按下事件')
+					// console.log('鼠标按下事件')
 				})
 			}
 
@@ -153,7 +152,7 @@ export default {
 					left = left + this.liWidth - this.borderRight - this.sliderWidth / 2
 				}
 
-				console.log(this.borderRight, 'this.borderRight ')
+				// console.log(this.borderRight, 'this.borderRight ')
 				this.slider.style.left = left + 'px'
 
 				this.setColor()

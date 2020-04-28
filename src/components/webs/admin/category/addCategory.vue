@@ -8,8 +8,6 @@
                 <el-select v-model="form.layername" placeholder="请选择层级" @change="changeSelectValue">
                     <el-option v-for="data in categoryData" :key="data.id" :label="data.classname" :value="data.id">
                     </el-option>
-                    <!-- <el-option label="HTML" value="3"></el-option>
-                <el-option label="javaSript" value="3"></el-option> -->
                 </el-select>
             </el-form-item>
             <el-form-item style="margin-top: 22px;">
@@ -29,6 +27,7 @@ export default {
 			form: {
 				classname: '',
 				pid: 0,
+				type: ['1'],
 				layername: '第一层级'
 			}
 		}

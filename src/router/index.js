@@ -1,3 +1,5 @@
+// 引入全局变量
+import Global from '@/plugins/global'
 import Vue from 'vue'
 import Router from 'vue-router'
 // 导入消息提示
@@ -18,18 +20,31 @@ const jurisdictionList = () => import('@/views/admin/jurisdiction/list')
 const addJurisdiction = () => import('@/views/admin/jurisdiction/add')
 const editJurisdiction = () => import('@/views/admin/jurisdiction/edit')
 const userList = () => import('@/views/admin/user/list')
+const addBookmark = () => import('@/views/admin/bookmark/add')
 // admin-end
 
 // index-start
 const common = () => import('@/components/webs/index/common')
-const articleDetails = () => import('@/components/webs/index/article/articleDetails')
+const articleDetails = () => import('@/components/webs/index/article/details/index')
 const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 const componentsViews = () => import('@/views/index/components/view')
 const progress = () => import('@/views/index/components/document/progress')
 const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
+const connection = () => import('@/views/index/components/document/connection')
+const myEcharts = () => import('@/views/index/components/document/echarts')
+const personalResume = () => import('@/views/index/personalResume')
+const webinfo = () => import('@/views/index/webinfo/index')
+const bookmark = () => import('@/views/index/bookmark')
 // index-end
+
+// mobile-start
+const mobile = () => import('@/views/mobile/index')
+const mArticleList = () => import('@/views/mobile/index/article/list')
+const inDevelopment = () => import('@/views/public/inDevelopment')
+const robot = () => import('@/views/mobile/index/robot')
+// mobile-end
 
 Vue.use(Router)
 
@@ -82,8 +97,33 @@ const router = new Router({
 							path: 'slider',
 							name: 'slider',
 							component: slider
+						},
+						{
+							path: 'connection',
+							name: 'connection',
+							component: connection
+						},
+						{
+							path: 'echarts',
+							name: 'myEcharts',
+							component: myEcharts
 						}
 					]
+				},
+				{
+					path: '/personal/resume',
+					name: 'personalResume',
+					component: personalResume
+				},
+				{
+					path: 'webinfo',
+					name: 'webinfo',
+					component: webinfo
+				},
+				{
+					path: 'bookmark',
+					name: 'bookmark',
+					component: bookmark
 				}
 			]
 		},
@@ -105,7 +145,7 @@ const router = new Router({
 			children: [
 				{
 					path: 'addArticle',
-					name: 'handleArticle',
+					name: 'addArticle',
 					component: addArticle
 				},
 				{
@@ -115,7 +155,7 @@ const router = new Router({
 				},
 				{
 					path: 'addArticle/:articleId',
-					name: 'handleArticle',
+					name: 'editArticle',
 					component: addArticle
 				},
 				{
@@ -152,6 +192,49 @@ const router = new Router({
 					path: 'user/list',
 					name: 'userList',
 					component: userList
+				},
+				{
+					path: 'bookmark/add',
+					name: 'addBookmark',
+					component: addBookmark
+				}
+			]
+		},
+		{
+			path: '/mobile',
+			name: 'mobile',
+			component: mobile,
+			redirect: '/mobile/article/list',
+			children: [
+				{
+					path: 'common',
+					name: 'mCommon',
+					component: mArticleList
+				},
+				{
+					path: 'article/list',
+					name: 'mArticleList',
+					component: mArticleList
+				},
+				{
+					path: 'articleDetails/:articleId',
+					name: 'mArticleDetails',
+					component: articleDetails
+				},
+				{
+					path: 'personal/resume',
+					name: 'mPersonalResume',
+					component: personalResume
+				},
+				{
+					path: 'inDevelopment',
+					name: 'inDevelopment',
+					component: inDevelopment
+				},
+				{
+					path: 'robot',
+					name: 'robot',
+					component: robot
 				}
 			]
 		}
@@ -167,7 +250,12 @@ router.beforeEach((to, from, next) => {
 			path: from.path
 		})
 	} else {
-		next()
+		if (Global.equipment === 'mobile') {
+			const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
+			next({ path: toPath })
+		} else {
+			next()
+		}
 	}
 })
 

@@ -1,6 +1,6 @@
 <template>
     <div class="header-box">
-		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" :router="true"
+		<el-menu :default-active="defaultActive" class="el-menu-demo" mode="horizontal" :router="true"
 			background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
 			<!-- <a href="#">logo</a> -->
 			<!-- <el-menu-item index="1">目录</el-menu-item> -->
@@ -20,7 +20,7 @@
 				<!-- <router-link to="/catalogList">日志</router-link> -->
 				首页
 			</el-menu-item>
-			<el-submenu index="1">
+			<!-- <el-submenu index="1">
 				<template slot="title">分类</template>
 				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					<template slot="title">{{ catalog.classname }}</template>
@@ -52,19 +52,15 @@
 				</el-submenu>
 				<el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					{{ catalog.classname }}</el-menu-item>
-				<!-- <el-submenu index="2-4">
-					<template slot="title">选项4</template>
-					<el-menu-item index="2-4-1">选项1</el-menu-item>
-					<el-menu-item index="2-4-2">选项2</el-menu-item>
-					<el-menu-item index="2-4-3">选项3</el-menu-item>
-				</el-submenu> -->
-			</el-submenu>
-			<el-menu-item index="/catalogList">
-				<!-- <router-link to="/catalogList">日志</router-link> -->
+			</el-submenu> -->
+			<!-- <el-menu-item index="/catalogList">
 				日志
-			</el-menu-item>
+			</el-menu-item> -->
 			<el-menu-item index="/admin">后台</el-menu-item>
 			<el-menu-item index="/views/components">小需求</el-menu-item>
+			<!-- <el-menu-item index="/personal/resume">个人简历</el-menu-item> -->
+			<el-menu-item index="/webinfo">站点信息</el-menu-item>
+			<el-menu-item index="/bookmark">书签</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
@@ -94,6 +90,17 @@ export default {
 	name: 'myHeard',
 	components: {
 		// logo,
+	},
+	computed: {
+		// 高亮
+		defaultActive() {
+			let url = this.$route.path.split('/')
+			if (url.length > 3) {
+				return url.slice(0, 3).join('/')
+			} else {
+				return this.$route.path
+			}
+		}
 	},
 	data() {
 		return {
@@ -208,7 +215,6 @@ export default {
 				}
 			}
 
-			console.log(finalData, 'finalData')
 			ipc(finalData)
 			return finalData
 		},

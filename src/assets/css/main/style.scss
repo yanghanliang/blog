@@ -1,3 +1,6 @@
+// 颜色
+@import '@/assets/css/color/index.scss';
+
 // 波浪线
 .wavy_line {
     height: 0.1rem;
@@ -16,3 +19,25 @@
     }
 }
 
+.line {
+    position: relative;
+
+    &::before {
+        content: "";
+        height: 1px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        display: block;
+        position: absolute;
+        background-color: $border-color;
+    }
+}
+
+// 渐变色
+.gradation {
+    background: -webkit-linear-gradient(160deg, #89e5ff, #ff1e45); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(160deg, #89e5ff, #ff1e45); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(160deg, #89e5ff, #ff1e45); /* Firefox 3.6 - 15 */
+    background: linear-gradient(160deg, #89e5ff, #ff1e45); /* 标准的语法 */
+}

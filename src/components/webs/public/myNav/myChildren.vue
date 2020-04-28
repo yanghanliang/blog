@@ -1,8 +1,8 @@
 <template>
     <ul>
         <li v-for="(item, index) in data" :key="index">
-            <div :class="['clearfix', item.router === $route.path ? 'active' : '']">
-				<i @click.stop="clickSwitch(item)" :class="item | iconClass" :style="item | style"></i>
+            <div @click.stop="clickSwitch(item)" :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
+				<i :class="item | iconClass" :style="item | style"></i>
 				<a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a>
 			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>
@@ -20,19 +20,25 @@ export default {
 		title: {
 			type: String,
 			defalute: '标题'
+		},
+		// 站内跳转（false）站外跳转（true）
+		isBlank: {
+			type: Boolean,
+			defalut: false
 		}
 	},
 	filters: {
 		iconClass(item) {
 			let className = [item.status]
-			if (item.children) {
+			let icon = item.icon ? item.icon : 'my-icon-icon-test'
+			if (item.children && item.children.length > 0) {
 				if (item.status === 'open') {
 					className.push('my-icon-sanjiaoxia')
 				} else {
 					className.push('my-icon-sanjiaoyou')
 				}
 			} else if (item.level > 1) {
-				className.push('my-icon-icon-test')
+				className.push(icon)
 			}
 
 			return className.join(' ')
@@ -40,6 +46,10 @@ export default {
 		style(item) {
 			let left = 2 + item.level * 20
 			return `margin-left: ${left}px;`
+		},
+		active(router, $route) {
+			let active = $route.includes(router)
+			return active
 		}
 	},
 	methods: {
@@ -48,14 +58,19 @@ export default {
 		// 点击开关时执行
 		clickSwitch(row) {
 			row.status = row.status === 'close' ? 'open' : 'close'
-			console.log(this.data, 'data', row)
 			return false
 		},
 		// 组件跳转不刷新页面
 		jump(router) {
-			this.$router.push({
-				path: router
-			})
+			if (this.isBlank) {
+				// 站外跳转
+				window.open(router, '_blank')
+			} else {
+				// 站内跳转
+				this.$router.push({
+					path: router
+				})
+			}
 		}
 	},
 }
@@ -91,7 +106,7 @@ ul {
 				height: 40px;
 				float: left;
 				margin-left: 30px;
-				margin-right: 10px;
+				margin-right: 14px;
 
 				&.iconzhijiaochi {
 					font-size: 12px;

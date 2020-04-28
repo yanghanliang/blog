@@ -770,6 +770,31 @@ meteorShower()
 路由方式加载的文件：
   + 需要经过`路由`跳转（切换）的文件
 
+### 3. 解析es6语法
+
+安装包：
+
+`cnpm i babel-core babel-loader babel-plugin-transform-runtime -D` // 先看一下之前有没有安装，没有再安装
+`cnpm i babel-preset-env babel-preset-stage-0 -D`
+
+修改`.babelrc`文件
+
+```json
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+      }
+    }],
+    "stage-0" // 就是这里了,stage-1,stage-2 stage 数值越小越高级
+  ],
+  "plugins": ["transform-vue-jsx", "transform-runtime"]
+}
+```
+
+
 
 ### 3. 重新 `npm run build`
 
@@ -831,7 +856,7 @@ beta  测试版本
 
 进入`webpake`官网，搜索cdn，选择 externals 找到 webpack.config.js webpake配置项
 
-在自己的项目中找到webpake配置文件build/vue-loader.conf.js
+在自己的项目中找到webpake配置文件build/webpack.base.conf.js
 
 ```js
 module.exports = {
@@ -924,6 +949,45 @@ module.exports = {
 ```
 
 
+### 部署时接口地址需要写成公网地址
+
+```js
+{
+  baseURL: 'http://47.98.182.149:3001/', // 接口基地址
+}
+```
+
+
+### http-server 部署服务（其实也可以不配，直接使用nginx代理即可）
+
+在dist项目文件夹下输入screen -S httpserver
+输入完这个命令之后，就已经进入screen的一个终端去了  在这个终端里面输入http-server -p端口命令 
+最后按住ctrl+a+d    就是后台运行了
+
+
+screen r 名称   // 进入会话
+screen -ls  // 显示目前所有的screen作业
+
+screen -X -S 122128 quit // 删除
+
+
+### 配置 nginx 让他指向dist文件
+
+server {
+    listen          3000;
+	server_name     localhost;
+	root            C:/webs/blog_v1.1/blog/dist;
+	index           index.html;
+
+	location / {
+		try_files  $uri $uri/ @router;
+		index      index.html;
+	}
+
+	location @router {
+		rewrite ^.*$ /index.html last;
+	}
+}
 
 -----
 
@@ -973,6 +1037,40 @@ $bac: blue;
 ```
 
 
+### 服务器部署的时候报`net::ERR_CONNECTION_REFUSED` 错误
+
+在build文件夹下有个webpack.dev.conf.js文件。然后添加一个配置项：inline: false  即可关闭热更新操作。
+
+```js
+
+devServer: {
+  clientLogLevel: 'warning',
+  historyApiFallback: {
+    rewrites: [
+      { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
+    ],
+  },
+  hot: true,
+  contentBase: false, // since we use CopyWebpackPlugin.
+  compress: true,
+  host: HOST || config.dev.host,
+  port: PORT || config.dev.port,
+  // 即可关闭热更新操作
+  inline: false,
+  open: config.dev.autoOpenBrowser,
+  overlay: config.dev.errorOverlay
+    ? { warnings: false, errors: true }
+    : false,
+  publicPath: config.dev.assetsPublicPath,
+  proxy: config.dev.proxyTable,
+  quiet: true, // necessary for FriendlyErrorsPlugin
+  watchOptions: {
+    poll: config.dev.poll,
+  }
+},
+
+```
+
 #### nginx 配置
 
 > 1. 让手机可以访问电脑（本地） web 服务（自己的网站）
@@ -996,3 +1094,22 @@ server {
 `.\node_modules\.bin\eslint --fix .\src\components\function\myEcharts\main\typeOption.js`
 
 
+### Vue 在index.html添加小图标 icon
+
+> build/webpack.dev.conf.js
+
+```js
+new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: 'index.html',
+    inject: true,
+    favicon: './static/logo.ico'   // 加上这个，重点
+})
+
+```
+
+> index.htm
+
+```html
+<link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
+```

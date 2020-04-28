@@ -13,7 +13,7 @@ $link: #1785FF;
 $main-font: #0A0A0A;
 
 /* 次要文字 */
-$secondary: #0a0a0a99;
+$secondary: #888;
 
 /* 边框hover色 */
 $border-hover: #CCCCCC;
@@ -39,15 +39,21 @@ $hover: #efefef;
 
 $green: #00ca3e;
 
+$purple: purple;
+
+$blue: blue;
+
+$red: red;
+
 // 循环
 $creativeList: (
-    (attr: 'red', color: 'red'),
+    (attr: 'red', color: $red),
     (attr: 'orange', color: 'orange'),
     (attr: 'yellow', color: 'yellow'),
     (attr: 'green', color: $green),
-    (attr: 'blue', color: 'blue'),
-    (attr: 'Indigo', color: 'Indigo'),
-    (attr: 'purple', color: 'purple'),
+    (attr: 'blue', color: $blue),
+    (attr: 'Indigo', color: 'Indigo'), // 靛
+    (attr: 'purple', color: $purple), // 紫
     (attr: 'ash', color: $ash),
     (attr: 'color', color: $theme-color),
     (attr: 'color2', color: $theme-color2)
@@ -60,8 +66,4 @@ $creativeList: (
     *[#{$attr}] {
         color: unquote($color);
 	}
-	
-	// *[blue] {
-	// 	color: blue;
-	// }
 }

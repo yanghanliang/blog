@@ -15,7 +15,11 @@
             <el-form-item label="文章简介" prop="synopsis">
                 <el-input type="textarea" v-model="form.synopsis"></el-input>
             </el-form-item>
-            <mavon-editor v-model="form.content" :subfield="true" />
+			<el-form-item label="文章出自">
+				<el-radio v-model="form.original" :label="0">原创</el-radio>
+				<el-radio v-model="form.original" :label="1">转载</el-radio>
+			</el-form-item>
+            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="form.content" :subfield="true" />
             <el-form-item style="margin-top: 22px;">
                 <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
                 <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>
@@ -35,7 +39,8 @@ export default {
 				synopsis: '', // 文章描述
 				content: '', // 文章内容
 				categoryId: '', // 保存原类名 ID
-				id: '' // 文章 id(修改时才用到)
+				id: '', // 文章 id(修改时才用到)
+				original: 0, // 默认是原创文章
 			},
 			buttonText: '添加文章', // 默认提交按钮文字
 			url: 'addArticle', // 默认提交地址
@@ -103,6 +108,7 @@ export default {
 			this.form.categoryId = data.category_id // 保存原类名 ID
 			this.form.synopsis = data.synopsis
 			this.form.content = data.content
+			this.form.original = data.original
 			this.buttonText = '修改文章'
 			this.url = `editArticle/${articleId}` // 修改url
 			this.type = 'put' // 修改请求类型
@@ -112,6 +118,41 @@ export default {
 				data
 			} = await this.$http.get('category')
 			this.categoryData = data
+		},
+		// 添加图片
+		async imgAdd(pos, $file) {
+			var formdata = new FormData()
+			formdata.append('file', $file)
+			formdata.append('url', '/uploadFileURl/article')
+			try {
+				let { data } = await this.$http({
+					url: 'uploadFile?uploadDir=./uploadFileURl/article',
+					method: 'post',
+					data: formdata, // 必须是 FormData 对象
+					headers: {'Content-Type': 'multipart/form-data'},
+				})
+
+				if (data.status === 200) {
+					this.$refs.mavonEditor.$img2Url(pos, this.Global.baseURL + data.url)
+				}
+			} catch (e) {
+				console.log(e)
+				this.$message.error('请求超时~')
+			}
+		},
+		// 删除图片
+		async imgDel(files) {
+			let index = files[0].indexOf('uploadFileURl')
+			let path = './' + files[0].slice(index)
+			const postData = {
+				path: path
+			}
+
+			try {
+				this.$http.post('deleteFile', postData)
+			} catch (e) {
+				console.log(e)
+			}
 		}
 	},
 	watch: {

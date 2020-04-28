@@ -40,6 +40,12 @@ module.exports = {
     'no-eval': 'off',
     // 防止 在原型上操作的错误Array.prototype.remove = fn
     'no-extend-native': 'off',
-    'no-proto': 'off'
+    'no-proto': 'off',
+    // 防止定义多个值，只写一个 var
+    'one-var': 'off',
+    // 防止未定义直接使用
+    'no-undef': 'off',
+    // 防止文字间距
+    // 'object-curly-spacing': 'off'
   }
 }

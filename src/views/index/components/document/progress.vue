@@ -1,7 +1,7 @@
 <template>
     <div>
-        <my-progress :progressValue="50">
-			<div slot="content">123</div>
+        <my-progress class="progress" :progressValue="50">
+			<div slot="content">文字描述</div>
 		</my-progress>
         <mavon-editor
 			class="rich-text"
@@ -132,9 +132,9 @@ export default {
 		}
 	},
 	watch: {
-		content(v) {
-			console.log(v, 'v')
-		}
+		// content(v) {
+		// 	console.log(v, 'v')
+		// }
 	},
 }
 </script>
@@ -142,5 +142,13 @@ export default {
 <style lang="scss" scoped>
 .rich-text {
 	margin: 20px 0;
+}
+
+.progress {
+	.content {
+		>div {
+			margin-top: 70px;
+		}
+	}
 }
 </style>

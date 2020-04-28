@@ -10,6 +10,13 @@
     margin-top: 0.2rem;
 }
 
+.mt10 {
+    margin-top: 0.1rem;
+}
+.mt0 {
+    margin-top: 0 !important;
+}
+
 .mr20 {
     margin-right: 20rem;
 }
@@ -28,4 +35,12 @@
 
 .pb90 {
     padding-bottom: 0.9rem;
+}
+
+.pd20 {
+    padding: .2rem;
+}
+
+.pd0 {
+    padding: 0 !important;
 }

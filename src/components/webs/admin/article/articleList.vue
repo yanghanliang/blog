@@ -23,9 +23,12 @@
             </el-table-column>
             <el-table-column prop="read" label="阅读数" sortable width="180">
             </el-table-column>
-            <el-table-column prop="praise" label="点赞" sortable width="180">
+            <el-table-column prop="praise" label="点赞数" sortable width="180">
             </el-table-column>
-            <el-table-column prop="original" label="原创0,转载1" sortable width="180">
+            <el-table-column prop="original" label="文章出处" sortable width="180">
+				<template slot-scope="{row}">
+					<span>{{ row.original ? '原创' : '转载' }}</span>
+				</template>
             </el-table-column>
             <!-- <el-table-column
         fixed="right"
@@ -40,7 +43,7 @@
             <el-table-column fixed="right" align="center" label="操作" width="200">
                 <template slot-scope="scope">
                     <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
-                    <router-link class="edit" :to="{ name: 'handleArticle', params: { articleId: scope.row.id }}">编辑
+                    <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
                     </router-link>
                 </template>
                 <template slot="header" slot-scope="scope">
@@ -116,7 +119,6 @@ export default {
 		async deleteData() { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
 			const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
-			console.log(data, 'data')
 			this.total = data.getArticleNumber
 			if (data.deleteData && data.deleteData.status === 200) {
 				// 为了减轻服务器压力,所做的js优化(使用分页后不行了)
@@ -129,7 +131,6 @@ export default {
 					center: true
 				})
 			} else {
-				console.log(data.msg, 'data.msg')
 				// 弹出提示框
 				this.$message({
 					type: 'error',
