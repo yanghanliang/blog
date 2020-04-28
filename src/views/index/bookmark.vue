@@ -203,9 +203,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bookmark {
-	nav {
-
-	}
-}
 </style>
