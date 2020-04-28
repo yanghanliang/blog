@@ -160,7 +160,7 @@ export default {
 		handleData(data) {
 			let arr = []
 			let ipc = function(obj, level) {
-				for(let i = 0, length = data.length; i < length; i++) {
+				for (let i = 0, length = data.length; i < length; i++) {
 					let item = data[i]
 					if (item.pid === obj.id) {
 						ipc(item, level + 1)
@@ -183,7 +183,7 @@ export default {
 				return obj
 			}
 
-			for(let i = 0, length = data.length; i < length; i++) {
+			for (let i = 0, length = data.length; i < length; i++) {
 				let item = data[i]
 				if (item.pid === 0) {
 					Object.assign(item, {

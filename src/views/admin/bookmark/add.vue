@@ -62,7 +62,7 @@ export default {
 	},
 	methods: {
 		async loadData() {
-			const data= await this.$http.get('bookmark/list') // 获取分类数据
+			const data = await this.$http.get('bookmark/list') // 获取分类数据
 			this.bookmarkList = [{ id: 0, name: '第一层级', pid: 0 }].concat(data) // 将分类数据赋值给 vue
 		},
 		// 添加书签
