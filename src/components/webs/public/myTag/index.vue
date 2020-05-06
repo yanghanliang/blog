@@ -127,17 +127,20 @@ export default {
     .icon-box {
         float: right;
         position: relative;
-        transition: all 0s 1s linear;
+
+		i {
+			cursor: pointer;
+		}
 
         .handle {
             top: 0;
             right: 0;
             position: absolute;
         }
-    }
+	}
 
     &.active,&.edit {
-		border-color: turquoise;
+		box-shadow: 0px 0px 5px -3px black;
 
         .icon-box {
             width: 50px;
@@ -146,6 +149,36 @@ export default {
                 display: none;
             }
         }
-    }
+	}
+
+	&.active {
+		background-color: #00000014;
+
+		i {
+			color: turquoise;
+			text-shadow: 0px 1px 1px black;
+		}
+
+		.div-input {
+			color: rgba(0, 0, 0, 0.2);
+		}
+	}
+	&.edit {
+		border-color: turquoise;
+
+		i {
+			color: turquoise;
+
+			&:hover {
+				color: #fff;
+				border-radius: 50%;
+				background-color: turquoise;
+			}
+		}
+	}
+
+	&:hover {
+		box-shadow: 0px 0px 5px -3px black;
+	}
 }
 </style>
