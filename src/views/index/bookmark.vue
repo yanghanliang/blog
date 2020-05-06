@@ -155,6 +155,7 @@ export default {
 		async getBookmarkData() {
 			let data = await this.$http.get('bookmark/list')
 			this.bookmarkData = this.handleData(data)
+			console.log(this.bookmarkData, 'this.bookmarkData')
 		},
 		// 处理数据
 		handleData(data) {
@@ -168,7 +169,7 @@ export default {
 						Object.assign(item, {
 							level: level,
 							status: 'open',
-							icon: 'my-icon-wenzhang',
+							icon: item.icon ? item.icon : 'my-icon-wenzhang',
 							router: item.link,
 							identification: '/bookmark',
 						})
@@ -189,7 +190,7 @@ export default {
 					Object.assign(item, {
 						level: 0,
 						status: 'open',
-						icon: 'my-icon-wenzhang',
+						icon: item.icon ? item.icon : 'my-icon-wenzhang',
 						router: '/index/bookmark',
 						identification: i === 0 ? '/bookmark' : '/abc',
 					})

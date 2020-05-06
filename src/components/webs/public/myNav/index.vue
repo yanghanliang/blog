@@ -9,7 +9,7 @@
 				:key="index"
 				:title="item.name"
 			>
-				<i :class="item.icon"></i>
+				<i :title="item.icon" :class="item.icon"></i>
 			</a>
 		</div>
 		<div :class="['nav-right', {'open': navStatus}]">

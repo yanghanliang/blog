@@ -40,7 +40,7 @@
                         <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)"
                             class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
                     </div>
-					<template v-if="equipment === 'pc'">
+					<template v-if="Global.equipment === 'pc'">
 						<div class="line mt20 mb20"></div>
 						<div class="comment">
 							<my-icon color class="fs40" identification="pinglun1"></my-icon>
@@ -495,6 +495,7 @@ export default {
 			this.articleData = data[0] // 将数据赋值给 vue
 			// 兼容移动端
 			let bodyEle = null
+			console.log(this.Global.equipment, 'this.Global.equipment')
 			if (this.Global.equipment === 'pc') {
 				bodyEle = document.querySelector('html') // 获取 html 元素
 			} else {
