@@ -6,6 +6,7 @@
 
 <script>
 import myTag from '@/components/webs/public/myTag/index'
+
 export default {
 	components: {
 		myTag
