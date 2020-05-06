@@ -1,20 +1,20 @@
 <template>
-    <div :class="['my-tag', 'mt20', 'clearfix', status]">
+    <div :class="['my-tag', 'clearfix', status, { 'simple': simple }]">
 		<!-- <input
 			type="text"
 			ref="content"
 			:disabled="disabled"
 			v-model="tagData.value"
 			size="auto"
-			:class="['div-input', { 'max-w-unset': contentWidth }]" /> -->
+			:class="['div-input', { 'max-w-unset': widthAuto }]" /> -->
 		<div
 			type="text"
 			ref="content"
 			:contenteditable="disabled"
-			:class="['div-input', { 'max-w-unset': contentWidth }]"
+			:class="['div-input', { 'max-w-unset': widthAuto }]"
 			@keyup.enter ="handleConfig"
 		>
-			{{ tagData.value }}
+			{{ tagData[field] }}
 		</div>
         <div class="fr icon-box">
             <i @click="status = 'active'" class="my-icon-more display-ib rotate90" title="点击展开"></i>
@@ -46,7 +46,18 @@ export default {
 				}
 			}
 		},
-		contentWidth: {
+		// 宽度自适应
+		widthAuto: {
+			type: Boolean,
+			default: false
+		},
+		// 值的字段
+		field: {
+			type: String,
+			default: 'value'
+		},
+		// 开启极简模式
+		simple: {
 			type: Boolean,
 			default: false
 		}
@@ -92,7 +103,7 @@ export default {
 			let value = this.$refs.content.innerText.trim()
 			this.$refs.content.innerText = value // 兼容回车键
 			this.status = 'defalut'
-			this.tagData.value = value
+			this.tagData[this.field] = value
 			this.$emit('handleConfirm', this.tagData)
 		},
 		// 点击删除时执行
@@ -107,14 +118,21 @@ export default {
 @import '@/assets/css/color/index.scss';
 
 .my-tag {
-    height: 30px;
     padding: 0 10px;
     min-width: 100px;
-    line-height: 30px;
     border-radius: 5px;
     position: relative;
     display: inline-block;
-    border: 1px solid $border-color;
+
+	&:not(.simple) {
+		height: 30px;
+		line-height: 30px;
+		border: 1px solid $border-color;
+	}
+
+	&.simple {
+		box-sizing: border-box;
+	}
 
     .div-input {
 		float: left;
@@ -159,7 +177,9 @@ export default {
 	}
 
     &.active,&.edit {
-		box-shadow: 0px 0px 5px -3px black;
+		&:not(.simple) {
+			box-shadow: 0px 0px 5px -3px black;
+		}
 
         .icon-box {
             width: 50px;
@@ -170,7 +190,7 @@ export default {
         }
 	}
 
-	&.active {
+	&.active:not(.simple) {
 		background-color: #00000014;
 
 		i {
@@ -197,7 +217,7 @@ export default {
 		}
 	}
 
-	&:hover {
+	&:hover:not(.simple) {
 		box-shadow: 0px 0px 5px -3px black;
 	}
 }

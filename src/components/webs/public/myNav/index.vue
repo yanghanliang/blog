@@ -17,7 +17,9 @@
 				<div class="title">
 					{{ currentTitle }}
 				</div>
-				<my-children :data="currentChildren" :isBlank="isBlank"></my-children>
+				<my-children :data="currentChildren" :isBlank="isBlank">
+					<div slot="content">a</div>
+				</my-children>
 			</div>
 		</div>
     </nav>

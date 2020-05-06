@@ -1,6 +1,6 @@
 <template>
     <div class="w">
-		<my-tag :contentWidth="true" :tagData="{ id: 1, value: '测试一下' }" @handleDelete="handleDelete" @handleConfirm="handleConfirm"></my-tag>
+		<my-tag :contentWidth="true" :tagData="{ id: 1, name: '测试一下' }" field="name" @handleDelete="handleDelete" @handleConfirm="handleConfirm"></my-tag>
     </div>
 </template>
 

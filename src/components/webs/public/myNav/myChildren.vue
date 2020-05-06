@@ -2,8 +2,10 @@
     <ul>
         <li v-for="(item, index) in data" :key="index">
             <div @click.stop="clickSwitch(item)" :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
-				<i :class="item | iconClass" :style="item | style"></i>
-				<a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a>
+				<!-- {{ item }} -->
+				<i v-if="item.children" :class="item | iconClass" :style="item | style"></i>
+				<!-- <a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a> -->
+				<my-tag :tagData="item" field="name" class="fr" :simple="true"></my-tag>
 			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>
         </li>
@@ -11,6 +13,8 @@
 </template>
 
 <script>
+import myTag from '@/components/webs/public/myTag/index'
+
 export default {
 	name: 'myChildren',
 	props: {
@@ -26,6 +30,9 @@ export default {
 			type: Boolean,
 			defalut: false
 		}
+	},
+	components: {
+		myTag
 	},
 	filters: {
 		iconClass(item) {
@@ -93,7 +100,7 @@ ul {
 				background-color: #E5E8EC;
 			}
 
-			&.active {
+			&.active:not(.simple) {
 				background-color: #E5E8EC;
 
 				a {
