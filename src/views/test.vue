@@ -1,6 +1,6 @@
 <template>
     <div class="w">
-		<my-tag></my-tag>
+		<my-tag :contentWidth="true" :tagData="{ id: 1, value: '测试一下' }" @handleDelete="handleDelete" @handleConfirm="handleConfirm"></my-tag>
     </div>
 </template>
 
@@ -11,7 +11,14 @@ export default {
 	components: {
 		myTag
 	},
-	methods: {},
+	methods: {
+		handleDelete(data) {
+			console.log(data, '删除')
+		},
+		handleConfirm(data) {
+			console.log(data.value, '确定')
+		}
+	},
 }
 </script>
 

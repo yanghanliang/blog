@@ -1,12 +1,21 @@
 <template>
     <div :class="['my-tag', 'mt20', 'clearfix', status]">
-		<input
+		<!-- <input
 			type="text"
 			ref="content"
 			:disabled="disabled"
 			v-model="tagData.value"
-			:class="['div-input', { 'max-w-unset': contenteditable }]"
+			size="auto"
+			:class="['div-input', { 'max-w-unset': contentWidth }]" /> -->
+		<div
+			type="text"
+			ref="content"
+			:contenteditable="disabled"
+			:class="['div-input', { 'max-w-unset': contentWidth }]"
+			@keyup.enter ="handleConfig"
 		>
+			{{ tagData.value }}
+		</div>
         <div class="fr icon-box">
             <i @click="status = 'active'" class="my-icon-more display-ib rotate90 cursor-pointer" title="点击展开"></i>
             <div class="handle">
@@ -37,13 +46,17 @@ export default {
 				}
 			}
 		},
+		contentWidth: {
+			type: Boolean,
+			default: false
+		}
 	},
 	computed: {
 		disabled() {
 			if (this.status === 'edit') {
-				return false
-			} else {
 				return true
+			} else {
+				return false
 			}
 		}
 	},
@@ -62,21 +75,24 @@ export default {
 			// 将光标移动到最后
 			this.$nextTick(() => {
 				// div 的方式
-				// let range = document.createRange()
-				// range.selectNodeContents(ele)
-				// range.collapse(false)
-				// let sel = window.getSelection()
-				// sel.removeAllRanges()
-				// sel.addRange(range)
+				let range = document.createRange()
+				range.selectNodeContents(ele)
+				range.collapse(false)
+				let sel = window.getSelection()
+				sel.removeAllRanges()
+				sel.addRange(range)
 
 				// input 的方式
-				ele.focus()
-				ele.selectionStart = (this.tagData.value + '').length
+				// ele.focus()
+				// ele.selectionStart = (this.tagData.value + '').length
 			})
 		},
 		// 点击确认时执行
 		handleConfig() {
+			let value = this.$refs.content.innerText.trim()
+			this.$refs.content.innerText = value // 兼容回车键
 			this.status = 'defalut'
+			this.tagData.value = value
 			this.$emit('handleConfirm', this.tagData)
 		},
 		// 点击删除时执行
@@ -111,7 +127,6 @@ export default {
 		outline-style: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-
 		background-color: transparent;
 
 		&::-webkit-scrollbar {
@@ -163,6 +178,7 @@ export default {
 			color: rgba(0, 0, 0, 0.2);
 		}
 	}
+
 	&.edit {
 		border-color: turquoise;
 
