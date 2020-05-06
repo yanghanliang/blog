@@ -17,7 +17,7 @@
 			{{ tagData.value }}
 		</div>
         <div class="fr icon-box">
-            <i @click="status = 'active'" class="my-icon-more display-ib rotate90 cursor-pointer" title="点击展开"></i>
+            <i @click="status = 'active'" class="my-icon-more display-ib rotate90" title="点击展开"></i>
             <div class="handle">
                 <template v-if="status === 'active'">
                     <i @click="edit" class="my-icon-bianji" title="编辑"></i>
@@ -74,7 +74,7 @@ export default {
 			let ele = this.$refs.content
 			// 将光标移动到最后
 			this.$nextTick(() => {
-				// div 的方式
+				// div 的方式 (操作DOM)
 				let range = document.createRange()
 				range.selectNodeContents(ele)
 				range.collapse(false)
@@ -82,7 +82,7 @@ export default {
 				sel.removeAllRanges()
 				sel.addRange(range)
 
-				// input 的方式
+				// input 的方式 (不好做宽度自适应)
 				// ele.focus()
 				// ele.selectionStart = (this.tagData.value + '').length
 			})
@@ -108,7 +108,7 @@ export default {
 
 .my-tag {
     height: 30px;
-    padding: 0 5px;
+    padding: 0 10px;
     min-width: 100px;
     line-height: 30px;
     border-radius: 5px;
@@ -145,6 +145,10 @@ export default {
 
 		i {
 			cursor: pointer;
+		}
+
+		.my-icon-more {
+			margin-right: -5px;
 		}
 
         .handle {
