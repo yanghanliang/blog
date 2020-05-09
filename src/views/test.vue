@@ -1,15 +1,18 @@
 <template>
     <div class="w">
 		<my-tag :contentWidth="true" :tagData="{ id: 1, name: '测试一下' }" field="name" @handleDelete="handleDelete" @handleConfirm="handleConfirm"></my-tag>
+		<contract-seal></contract-seal>
     </div>
 </template>
 
 <script>
 import myTag from '@/components/webs/public/myTag/index'
+import contractSeal from '@/components/webs/public/contractSeal/index.vue'
 
 export default {
 	components: {
-		myTag
+		myTag,
+		contractSeal
 	},
 	methods: {
 		handleDelete(data) {
