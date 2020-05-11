@@ -3,6 +3,10 @@
 		<!-- <my-tag :contentWidth="true" :tagData="{ id: 1, name: '测试一下' }" field="name" @handleDelete="handleDelete" @handleConfirm="handleConfirm"></my-tag> -->
 		<contract-seal></contract-seal>
 		<!-- <picture-synthesis></picture-synthesis> -->
+		<div>
+			<span>123</span>
+			<i class="my-icon-queding"></i>
+		</div>
     </div>
 </template>
 

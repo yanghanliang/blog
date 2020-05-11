@@ -69,27 +69,37 @@ export default {
 		mousedown(e) {
 			// 获取点击的元素
 			let ele = e.target
+			// 获取父级元素
+			let parentElement = ele.parentElement
 			// 获取元素信息
 			let eleInfo = ele.getBoundingClientRect()
 			// 克隆这个元素及它的所有子节点
 			let cloneEle = ele.cloneNode(true)
-			// 获取body
-			let body = document.querySelector('body')
 			// 把克隆的元素放入body中
-			body.appendChild(cloneEle)
+			parentElement.appendChild(cloneEle)
 			// console.log(e, 'e')
 			// 设置属性
-			cloneEle.style.position = 'absolute'
-			cloneEle.style.top = eleInfo.top + 'px'
-			cloneEle.style.left = eleInfo.left + 'px'
+			ele.style.position = 'absolute'
+			ele.style.top = eleInfo.top + 'px'
+			ele.style.left = eleInfo.left + 'px'
 			// 给克隆的元素注册事件
-			this.registerEvents(cloneEle)
+			this.registerEvents(ele)
 		},
 		// 注册事件
 		registerEvents(ele) {
 			let Drag = function(params) {
 				this.ele = params.ele
 				this.isDown = false // 鼠标状态： false 抬起 || true 按下
+				this.eleInfo = this.ele.getBoundingClientRect()
+
+				this.init()
+			}
+
+			// 初始化
+			Drag.prototype.init = function() {
+				this.mousedown()
+				this.mousemove()
+				this.mouseup()
 			}
 
 			// 鼠标按下事件
@@ -111,10 +121,8 @@ export default {
 					}
 
 					// 移动滑块
-					that.ele.style.left = e.x - that.sliderWidth + 'px'
-
-					// 移动滑块(块)
-					that.move(e)
+					that.ele.style.left = e.x - that.eleInfo.width / 2 + 'px'
+					that.ele.style.top = e.y - that.eleInfo.height / 2 + 'px'
 				})
 			}
 
