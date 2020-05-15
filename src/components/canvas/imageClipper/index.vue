@@ -1,0 +1,235 @@
+<template>
+    <div class="image-clipper">
+		<div class="handle-region">
+			<span @click="status = 'circular'">圆</span>
+			<hr>
+			<el-slider v-model="zoom" @input="clippingBoxClass = ''"></el-slider>
+			<hr>
+			<span @click="confirmCrop">裁剪</span>
+		</div>
+		<div class="content-region">
+			<img src="" alt="裁剪后的图片" ref="synthesis">
+			<div :class="['clipping-region', status]">
+				<canvas ref="canvas" class="canvas"></canvas>
+				<div class="clipping-box" :class="clippingBoxClass" ref="clippingBox" :style="style"></div>
+				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
+			</div>
+		</div>
+    </div>
+</template>
+
+<script>
+export default {
+	name: 'imageClipper', // 图片裁剪
+	props: {
+		imageUrl: {
+			type: String,
+			default: '',
+		}
+	},
+	computed: {
+		style() {
+			const proportion = 500 / 100 * this.zoom
+			this.clippingBoxClass = 'position'
+			return `width: ${proportion}px; height: ${proportion}px; top: 50%; left: 50%;` // 500 是clipping-box的宽度
+		}
+	},
+	data() {
+		return {
+			status: 'default',
+			zoom: 50,
+			clippingBoxClass: '',
+			Drag: null,
+			ctx: null,
+		}
+	},
+	mounted() {
+		this.pictureConversion()
+		this.registerEvents()
+	},
+	methods: {
+		/**
+		 * 1. 有图片作为背景图（可拖动）
+		 * 2. 有裁剪区域（div）先以圆形裁剪
+		 * 3. 圆可以拖动放大或缩小（以圆中心为基准）
+		 * 4. 利用canvas裁剪的方法clip进行裁剪
+		 * 5. 裁剪前需要先画圆ctx.arc(x , y, r, sAngle, eAngle, counterclockwise)，再裁剪
+		 * 6. x = box.x - canvas.x ; y = box.y - canvas.y
+		 * @param {object}           params
+		 * @param {}               params.
+		 */
+		registerEvents() {
+			let Drag = function(params) {
+				this.isDown = false
+				this.eleInfo = null
+				this.ele = null
+				this.scrollTop = 0
+				this.x = 0
+				this.y = 0
+				this.parent = document.querySelector('.clipping-region')
+				this.parentInfo = this.parent.getBoundingClientRect()
+				this.vm = params.vue
+
+				this.init()
+			}
+
+			Drag.prototype.init = function() {
+				this.mousedown()
+				this.mousemove()
+				this.mouseup()
+				this.scroll()
+			}
+
+			// 元素按下
+			Drag.prototype.mousedown = function() {
+				this.parent.addEventListener('mousedown', e => {
+					if (e.target.className.includes('clipping-box')) {
+						document.body.style.cursor = 'pointer'
+						this.ele = e.target
+						this.ele.style.position = 'absolute'
+						this.eleInfo = this.ele.getBoundingClientRect()
+						console.log(this.eleInfo, 'this.eleInfo')
+						this.isDown = true
+					}
+				})
+			}
+
+			// 鼠标移动
+			Drag.prototype.mousemove = function() {
+				document.addEventListener('mousemove', e => {
+					if (this.isDown) {
+						this.x = e.x
+						this.y = e.y
+						this.move()
+					}
+				})
+			}
+
+			// 元素抬起
+			Drag.prototype.mouseup = function() {
+				document.addEventListener('mouseup', e => {
+					this.isDown = false
+					document.body.style.cursor = 'default'
+				})
+			}
+
+			// 元素滚动
+			Drag.prototype.scroll = function() {
+				document.addEventListener('scroll', e => {
+					this.scrollTop = document.documentElement.scrollTop
+					this.move()
+				})
+			}
+
+			// 元素移动
+			Drag.prototype.move = function() {
+				if (this.ele && this.isDown) {
+					this.vm.clippingBoxClass = ''
+					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop - this.parent.offsetTop + 'px'
+					this.ele.style.left = this.x - this.eleInfo.width / 2 - this.parent.offsetLeft + 'px'
+				}
+			}
+
+			this.Drag = new Drag({ vue: this })
+		},
+		// image => canvas 图片转换
+		pictureConversion() {
+			const imageEle = this.$refs.bgImage
+			imageEle.addEventListener('load', e => {
+				const imageInfo = imageEle.getBoundingClientRect()
+				const canvas = this.$refs.canvas
+				canvas.width = imageInfo.width
+				canvas.height = imageInfo.height
+				// const canvasInfo = canvas.getBoundingClientRect()
+				this.ctx = canvas.getContext('2d')
+				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, imageInfo.width, imageInfo.height)
+			})
+		},
+		// 裁剪
+		confirmCrop() {
+			const synthesis = this.$refs.synthesis
+			const clippingBoxEle = this.$refs.clippingBox
+			const clippingBoxInfo = clippingBoxEle.getBoundingClientRect()
+
+			const x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
+			const y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
+			const r = clippingBoxInfo.height / 2
+			const top = clippingBoxEle.offsetTop
+			const left = clippingBoxEle.offsetLeft
+			this.ctx.beginPath()
+			this.ctx.globalCompositeOperation = 'destination-atop'
+			this.ctx.arc(x, y, r, 0, 2 * Math.PI)
+			// this.ctx.beginPath()
+			// this.ctx.clip()
+			this.ctx.fill()
+			// this.ctx.clearRect(0, 0, 1000, 1000)
+			// this.ctx.globalCompositeOperation = 'source-out'
+			// this.ctx.fillStyle='#ff0'
+			// console.log(synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, left, top, this.Drag.eleInfo.width, this.Drag.eleInfo.height, 'synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, this.Drag.ele.style.left, this.Drag.ele.style.top, this.Drag.eleInfo.width, this.Drag.eleInfo.height')
+			this.ctx.drawImage(synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, left, top, this.Drag.eleInfo.width, this.Drag.eleInfo.height)
+			// this.ctx.restore()
+			synthesis.setAttribute('src', this.$refs.canvas.toDataURL())
+		}
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.image-clipper {
+
+	.handle-region {
+		width: 300px;
+		height: 500px;
+		float: left;
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+
+	.content-region {
+		width: 800px;
+		height: 100%;
+		float: right;
+
+		.clipping-region {
+			position: relative;
+			display: inline-block;
+
+			canvas {
+				float: left;
+				// width: 500px;
+				// height: 500px;
+				// border-radius: 5px;
+				// border: 1px solid #ddd;
+			}
+
+			img {
+				left: 0;
+				visibility: hidden;
+				position: absolute;
+			}
+
+			.clipping-box {
+				display: none;
+
+				&.position {
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+
+			&.circular {
+				.clipping-box {
+					z-index: 1;
+					width: 100%;
+					height: 100%;
+					display: block;
+					position: absolute;
+					border-radius: 50%;
+					border: 1px dashed red;
+				}
+			}
+		}
+	}
+}
+</style>

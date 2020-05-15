@@ -1,8 +1,11 @@
 <template>
     <div class="signature">
+		<button @click="pictureSynthesis">合成</button>
+		<img src="" alt="合成后的图片" class="synthesis">
 		<div class="clearfix">
-			<div class="s-left fl">
-				<div class="chapter" @mousedown="mousedown">章</div>
+			<div class="s-left fl" id="chapter-box">
+				<!-- draggable="false" 禁用默认拖动效果 -->
+				<img src="../../../../assets/backgroundImages/headPortrait/chapter.jpg" draggable="false" class="chapter" id="chapter">
 			</div>
 			<div class="s-right fr">
 				<canvas ref='canvas'></canvas>
@@ -15,7 +18,7 @@
 import PDFJS from 'pdfjs-dist'
 
 export default {
-	name: 'signature',
+	name: 'signature', // 签章
 	data() {
 		return {
 			pdfurl: 'http://47.98.182.149:3001/uploadFileURl/pdf/user.pdf', // pdf链接地址
@@ -23,6 +26,7 @@ export default {
 			currentPage: 1, // 当前页
 			scale: 1.4, // 放大倍数
 			canvas: null, // pdf的canvas元素
+			coordinate: []  // 章的坐标
 		}
 	},
 	computed: {
@@ -32,6 +36,7 @@ export default {
 	},
 	mounted() {
 		this.initPdf()
+		this.registerEvents()
 	},
 	methods: {
 		// 渲染pdf
@@ -65,91 +70,116 @@ export default {
 				}
 			})
 		},
-		// 鼠标按下章时执行
-		mousedown(e) {
-			// 获取点击的元素
-			let ele = e.target
-			// 获取父级元素
-			let parentElement = ele.parentElement
-			// 获取元素信息
-			let eleInfo = ele.getBoundingClientRect()
-			// 克隆这个元素及它的所有子节点
-			let cloneEle = ele.cloneNode(true)
-			// 把克隆的元素放入body中
-			parentElement.appendChild(cloneEle)
-			// console.log(e, 'e')
-			// 设置属性
-			ele.style.position = 'absolute'
-			ele.style.top = eleInfo.top + 'px'
-			ele.style.left = eleInfo.left + 'px'
-			// 给克隆的元素注册事件
-			this.registerEvents(ele)
-		},
-		// 注册事件
-		registerEvents(ele) {
+		// 给章注册事件
+		registerEvents() {
 			let Drag = function(params) {
-				this.ele = params.ele
-				this.isDown = false // 鼠标状态： false 抬起 || true 按下
-				this.eleInfo = this.ele.getBoundingClientRect()
+				this.vue = params.vm
+				this.isDown = false
+				this.eleInfo = null
+				this.ele = null
+				this.scrollTop = 0
+				this.x = 0
+				this.y = 0
 
 				this.init()
 			}
 
-			// 初始化
+			// 事件初始化
 			Drag.prototype.init = function() {
 				this.mousedown()
 				this.mousemove()
 				this.mouseup()
+				this.scroll()
 			}
 
-			// 鼠标按下事件
+			// 元素按下
 			Drag.prototype.mousedown = function() {
-				let that = this
-				this.ele.addEventListener('mousedown', function(e) {
-					that.isDown = true
-					console.log('鼠标按下事件')
+				let parent = document.querySelector('#chapter-box')
+				parent.addEventListener('mousedown', e => {
+					if (e.target.className.includes('chapter')) {
+						this.ele = e.target
+						document.body.style.cursor = 'pointer'
+						let cloneEle = this.ele.cloneNode(true)
+						cloneEle.removeAttribute('id')
+						parent.appendChild(cloneEle)
+
+						this.eleInfo = cloneEle.getBoundingClientRect()
+						this.ele.style.position = 'absolute'
+						this.ele.style.zIndex = 999
+						this.isDown = true
+					}
 				})
 			}
 
 			// 鼠标移动
 			Drag.prototype.mousemove = function() {
-				let that = this
-				window.addEventListener('mousemove', function(e) {
-					// 防止鼠标在移动的过程中抬起
-					if (that.isDown === false) {
-						return
+				document.addEventListener('mousemove', e => {
+					if (this.isDown) {
+						this.x = e.x
+						this.y = e.y
+						this.move()
 					}
-
-					// 移动滑块
-					that.ele.style.left = e.x - that.eleInfo.width / 2 + 'px'
-					that.ele.style.top = e.y - that.eleInfo.height / 2 + 'px'
 				})
 			}
 
-			// 鼠标抬起
+			// 元素抬起
 			Drag.prototype.mouseup = function() {
-				let that = this
-				document.addEventListener('mouseup', function() {
-					that.isDown = false
+				document.addEventListener('mouseup', e => {
+					this.isDown = false
+					document.body.style.cursor = 'default'
+
+					if (e.target.className.includes('chapter')) {
+						// 保存坐标
+						let coordinate = {
+							x: this.x - this.eleInfo.width / 2,
+							y: this.y - this.scrollTop - this.eleInfo.height / 2
+						}
+						this.vue.coordinate.push(coordinate)
+						console.log(coordinate, 'coordinate')
+					}
 				})
 			}
 
-			new Drag({ ele: ele })
-		}
+			// 元素滚动
+			Drag.prototype.scroll = function() {
+				document.addEventListener('scroll', e => {
+					this.scrollTop = document.documentElement.scrollTop
+					this.move()
+				})
+			}
+
+			// 元素移动
+			Drag.prototype.move = function() {
+				if (this.ele && this.isDown) {
+					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop + 'px'
+					this.ele.style.left = this.x - this.eleInfo.width / 2 + 'px'
+				}
+			}
+
+			new Drag({
+				vm: this
+			})
+		},
+		// 图片合成
+		pictureSynthesis() {
+			const imgEle = document.querySelector('#chapter')
+			const imgInfo = imgEle.getBoundingClientRect()
+			const canvas = this.canvas.getBoundingClientRect()
+
+			for (let i = 0, length = this.coordinate.length; i < length; i++) {
+				let item = this.coordinate[i]
+				this.ctx.drawImage(imgEle, 0, 0, imgInfo.width, imgInfo.height, item.x - canvas.x, item.y - canvas.y, imgInfo.width, imgInfo.height)
+			}
+
+			document.querySelector('.synthesis').setAttribute('src', this.canvas.toDataURL())
+		},
+		// 点击下载
+		clickDownload() {
+			this.pictureSynthesis()
+		},
 	},
 }
 </script>
-
-<style lang="scss">
-.chapter {
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
-	line-height: 150px;
-	text-align: center;
-	background-color: pink;
-}
-</style>
 
 <style lang="scss" scoped>
 .signature {
@@ -160,6 +190,17 @@ export default {
 		height: 1000px;
 		padding: 20px;
 		border: 1px solid #fff;
+
+		.chapter {
+			width: 150px;
+			height: 150px;
+			display: block;
+			user-select: none;
+			border-radius: 50%;
+			line-height: 150px;
+			text-align: center;
+			background-color: pink;
+		}
 	}
 
 	.s-right {
