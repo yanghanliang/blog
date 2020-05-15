@@ -1,17 +1,19 @@
 <template>
     <div class="image-clipper">
 		<div class="handle-region">
-			<span @click="status = 'circular'">圆</span>
+			<span @click="clickShow">圆</span>
 			<hr>
-			<el-slider v-model="zoom" @input="clippingBoxClass = ''"></el-slider>
+			<el-slider v-model="zoom"></el-slider>
 			<hr>
 			<span @click="confirmCrop">裁剪</span>
 		</div>
 		<div class="content-region">
-			<img src="" alt="裁剪后的图片" ref="synthesis">
+			<a :href="imageUrl" download="beautifulGirl">
+				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
+			</a>
 			<div :class="['clipping-region', status]">
 				<canvas ref="canvas" class="canvas"></canvas>
-				<div class="clipping-box" :class="clippingBoxClass" ref="clippingBox" :style="style"></div>
+				<div :class="['clipping-box', { 'position': clippingBoxClass }]" ref="clippingBox" :style="style"></div>
 				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
 			</div>
 		</div>
@@ -22,25 +24,27 @@
 export default {
 	name: 'imageClipper', // 图片裁剪
 	props: {
-		imageUrl: {
-			type: String,
-			default: '',
-		}
+		// imageUrl: {
+		// 	type: String,
+		// 	default: '',
+		// }
 	},
 	computed: {
 		style() {
-			const proportion = 500 / 100 * this.zoom
-			this.clippingBoxClass = 'position'
-			return `width: ${proportion}px; height: ${proportion}px; top: 50%; left: 50%;` // 500 是clipping-box的宽度
+			const proportion = 600 / 100 * this.zoom
+			const left = 600 / 2 - proportion / 2
+			return `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
 		}
 	},
 	data() {
 		return {
 			status: 'default',
-			zoom: 50,
-			clippingBoxClass: '',
+			clippingBoxClass: false,
 			Drag: null,
 			ctx: null,
+			zoom: 50,
+			imageUrl: '',
+			isMove: false, // 是否移动过
 		}
 	},
 	mounted() {
@@ -124,9 +128,10 @@ export default {
 			// 元素移动
 			Drag.prototype.move = function() {
 				if (this.ele && this.isDown) {
-					this.vm.clippingBoxClass = ''
+					this.vm.clippingBoxClass = false
 					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop - this.parent.offsetTop + 'px'
 					this.ele.style.left = this.x - this.eleInfo.width / 2 - this.parent.offsetLeft + 'px'
+					this.mv = true
 				}
 			}
 
@@ -138,11 +143,11 @@ export default {
 			imageEle.addEventListener('load', e => {
 				const imageInfo = imageEle.getBoundingClientRect()
 				const canvas = this.$refs.canvas
-				canvas.width = imageInfo.width
-				canvas.height = imageInfo.height
+				canvas.width = 600
+				canvas.height = 600
 				// const canvasInfo = canvas.getBoundingClientRect()
 				this.ctx = canvas.getContext('2d')
-				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, imageInfo.width, imageInfo.height)
+				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, 600, 600)
 			})
 		},
 		// 裁剪
@@ -151,8 +156,12 @@ export default {
 			const clippingBoxEle = this.$refs.clippingBox
 			const clippingBoxInfo = clippingBoxEle.getBoundingClientRect()
 
-			const x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
-			const y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
+			// const x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
+			// const y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
+			const x = clippingBoxEle.offsetLeft
+			const y = clippingBoxEle.offsetTop
+			console.log(x, y)
+			console.log(clippingBoxEle.offsetLeft, clippingBoxEle.offsetTop)
 			const r = clippingBoxInfo.height / 2
 			const top = clippingBoxEle.offsetTop
 			const left = clippingBoxEle.offsetLeft
@@ -166,9 +175,14 @@ export default {
 			// this.ctx.globalCompositeOperation = 'source-out'
 			// this.ctx.fillStyle='#ff0'
 			// console.log(synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, left, top, this.Drag.eleInfo.width, this.Drag.eleInfo.height, 'synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, this.Drag.ele.style.left, this.Drag.ele.style.top, this.Drag.eleInfo.width, this.Drag.eleInfo.height')
-			this.ctx.drawImage(synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, left, top, this.Drag.eleInfo.width, this.Drag.eleInfo.height)
+			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			// this.ctx.restore()
-			synthesis.setAttribute('src', this.$refs.canvas.toDataURL())
+			this.imageUrl = this.$refs.canvas.toDataURL()
+		},
+		clickShow() {
+			this.status = 'circular'
+			this.clippingBoxClass = true
+			console.log(this.clippingBoxClass, 'this.clippingBoxClass')
 		}
 	},
 }
@@ -212,9 +226,9 @@ export default {
 				display: none;
 
 				&.position {
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
+					top: 50% !important;
+					left: 50% !important;
+					transform: translate(-50%, -50%) !important;
 				}
 			}
 
