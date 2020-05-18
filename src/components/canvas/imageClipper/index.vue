@@ -7,6 +7,7 @@
 			<hr>
 			<span @click="confirmCrop">裁剪</span>
 		</div>
+		<input type="text" v-model="zoom">
 		<div class="content-region">
 			<a :href="imageUrl" download="beautifulGirl">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
@@ -51,11 +52,11 @@ export default {
 			imageUrl: '',
 			isMove: false, // 是否移动过
 			style: '',
-			canvas: {}, // 裁剪区域盒子的信息
 			canvas: {
 				width: 600,
 				height: 600
-			}
+			},
+			lock: true
 		}
 	},
 	mounted() {
@@ -199,58 +200,40 @@ export default {
 	},
 	watch: {
 		zoom(newValue, oldValue) {
-			setTimeout(() => {
-				const proportion = 600 / 100 * this.zoom
-				const clippingBox = this.$refs.clippingBox
-				const clippingBoxInfo = clippingBox.getBoundingClientRect()
-				let top = clippingBox.offsetTop
-				let left = clippingBox.offsetLeft
-				// let top = 0
-				// let left = 0
-				if (newValue > oldValue) {
-					// 放大
-					const width = clippingBoxInfo.width
-					const value = (proportion - width) / 2
-					top -= value
-					left -= value
-					console.log('放大')
-				} else {
-					// 缩小
-					const width = clippingBoxInfo.width
-					const value = width - proportion
-					top = (value + top) / 2
-					left = (value + left) / 2
-					console.log('缩小')
-				}
-				this.style = `width: ${proportion}px; height: ${proportion}px; top: ${top}px; left: ${left}px;` // 600 是clipping-box的宽度
-			})
-		}
-	},
-	watch: {
-		zoom(newValue, oldValue) {
+			if (!this.lock) return false
 			this.$nextTick(() => {
 				setTimeout(() => {
+					this.lock = false
 					const proportion = this.canvas.width / 100 * newValue
 					const ele = this.$refs.clippingBox
 					const eleInfo = ele.getBoundingClientRect()
+					const width = ele.style.width.split('px')[0]
+					// const height = ele.style.height.split('px')[0]
 					let top = this.canvas.width / 2 - proportion / 2
 					let left = this.canvas.width / 2 - proportion / 2
 					if (newValue > oldValue) {
 						// 放大
-						let difference = (proportion * 100 - eleInfo.width * 100) / 100 / 1.2
+						console.log(eleInfo.width, width, 'width')
+						let difference = (proportion * 100 - width * 100) / 100 / 2
 						if (this.isMove) {
 							top = ele.offsetTop - difference
 							left = ele.offsetLeft - difference
+							console.log(ele.offsetTop, ele.offsetLeft)
 						}
 					} else {
+						console.log(eleInfo.width, width, 'width')
 						// 缩小
-						let difference = (eleInfo.width * 100 - proportion * 100) / 100 / 3
+						let difference = (width * 100 - proportion * 100) / 100 / 2
 						if (this.isMove) {
 							top = ele.offsetTop + difference
 							left = ele.offsetLeft + difference
+							console.log(ele.offsetTop, ele.offsetLeft)
 						}
 					}
 					this.style = `width: ${proportion}px; height: ${proportion}px; top: ${top}px; left: ${left}px;` // 600 是clipping-box的宽度
+					setTimeout(() => {
+						this.lock = true
+					})
 				})
 			})
 		}
