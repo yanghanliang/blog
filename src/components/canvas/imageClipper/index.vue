@@ -13,7 +13,7 @@
 			</a>
 			<div :class="['clipping-region', status]">
 				<canvas ref="canvas" class="canvas"></canvas>
-				<div :class="['clipping-box', { 'position': clippingBoxClass }]" ref="clippingBox" :style="style"></div>
+				<div class="clipping-box" ref="clippingBox" :style="style"></div>
 				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
 			</div>
 		</div>
@@ -30,21 +30,22 @@ export default {
 		// }
 	},
 	computed: {
-		style() {
-			const proportion = 600 / 100 * this.zoom
-			const left = 600 / 2 - proportion / 2
-			return `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
-		}
+		// style() {
+		// 	const proportion = 600 / 100 * this.zoom
+		// 	const left = 600 / 2 - proportion / 2
+		// 	return `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
+		// }
 	},
 	data() {
 		return {
 			status: 'default',
-			clippingBoxClass: false,
 			Drag: null,
 			ctx: null,
 			zoom: 50,
 			imageUrl: '',
 			isMove: false, // 是否移动过
+			top: 0,
+			left: 0,
 		}
 	},
 	mounted() {
@@ -128,10 +129,11 @@ export default {
 			// 元素移动
 			Drag.prototype.move = function() {
 				if (this.ele && this.isDown) {
-					this.vm.clippingBoxClass = false
 					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop - this.parent.offsetTop + 'px'
 					this.ele.style.left = this.x - this.eleInfo.width / 2 - this.parent.offsetLeft + 'px'
 					this.mv = true
+					this.mv.top = this.ele.style.top
+					this.mv.left = this.ele.style.left
 				}
 			}
 
@@ -153,36 +155,62 @@ export default {
 		// 裁剪
 		confirmCrop() {
 			const synthesis = this.$refs.synthesis
-			const clippingBoxEle = this.$refs.clippingBox
+			// 别给 clipping-box 裁剪盒子设置 transform: translate(-50%, 10px);
+			const clippingBoxEle = document.querySelector('.clipping-box')
 			const clippingBoxInfo = clippingBoxEle.getBoundingClientRect()
 
-			// const x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
-			// const y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
-			const x = clippingBoxEle.offsetLeft
-			const y = clippingBoxEle.offsetTop
-			console.log(x, y)
-			console.log(clippingBoxEle.offsetLeft, clippingBoxEle.offsetTop)
+			const x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
+			const y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
+
 			const r = clippingBoxInfo.height / 2
 			const top = clippingBoxEle.offsetTop
 			const left = clippingBoxEle.offsetLeft
+
+			// 核心-start
 			this.ctx.beginPath()
 			this.ctx.globalCompositeOperation = 'destination-atop'
 			this.ctx.arc(x, y, r, 0, 2 * Math.PI)
-			// this.ctx.beginPath()
-			// this.ctx.clip()
+			// 核心-end
 			this.ctx.fill()
-			// this.ctx.clearRect(0, 0, 1000, 1000)
-			// this.ctx.globalCompositeOperation = 'source-out'
-			// this.ctx.fillStyle='#ff0'
-			// console.log(synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, left, top, this.Drag.eleInfo.width, this.Drag.eleInfo.height, 'synthesis, 0, 0, this.Drag.eleInfo.width, this.Drag.eleInfo.height, this.Drag.ele.style.left, this.Drag.ele.style.top, this.Drag.eleInfo.width, this.Drag.eleInfo.height')
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
-			// this.ctx.restore()
 			this.imageUrl = this.$refs.canvas.toDataURL()
 		},
 		clickShow() {
 			this.status = 'circular'
-			this.clippingBoxClass = true
-			console.log(this.clippingBoxClass, 'this.clippingBoxClass')
+			const proportion = 600 / 100 * this.zoom
+			let left = 600 / 2 - proportion / 2
+			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
+			this.top = left
+			this.left = left
+		}
+	},
+	watch: {
+		zoom(newValue, oldValue) {
+			setTimeout(() => {
+				const proportion = 600 / 100 * this.zoom
+				const clippingBox = this.$refs.clippingBox
+				const clippingBoxInfo = clippingBox.getBoundingClientRect()
+				let top = clippingBox.offsetTop
+				let left = clippingBox.offsetLeft
+				// let top = 0
+				// let left = 0
+				if (newValue > oldValue) {
+					// 放大
+					const width = clippingBoxInfo.width
+					const value = (proportion - width) / 2
+					top -= value
+					left -= value
+					console.log('放大')
+				} else {
+					// 缩小
+					const width = clippingBoxInfo.width
+					const value = width - proportion
+					top = (value + top) / 2
+					left = (value + left) / 2
+					console.log('缩小')
+				}
+				this.style = `width: ${proportion}px; height: ${proportion}px; top: ${top}px; left: ${left}px;` // 600 是clipping-box的宽度
+			})
 		}
 	},
 }
@@ -210,10 +238,6 @@ export default {
 
 			canvas {
 				float: left;
-				// width: 500px;
-				// height: 500px;
-				// border-radius: 5px;
-				// border: 1px solid #ddd;
 			}
 
 			img {
@@ -224,12 +248,6 @@ export default {
 
 			.clipping-box {
 				display: none;
-
-				&.position {
-					top: 50% !important;
-					left: 50% !important;
-					transform: translate(-50%, -50%) !important;
-				}
 			}
 
 			&.circular {
