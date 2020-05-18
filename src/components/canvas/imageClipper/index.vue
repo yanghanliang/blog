@@ -1,20 +1,30 @@
 <template>
     <div class="image-clipper">
 		<div class="handle-region">
-			<span @click="clickShow">圆</span>
+			<span @click="clickCircular">圆</span>
+			<hr>
+			<span @click="clickRectangle">方形</span>
 			<hr>
 			<el-slider v-model="zoom"></el-slider>
 			<hr>
 			<span @click="confirmCrop">裁剪</span>
 		</div>
-		<input type="text" v-model="zoom">
 		<div class="content-region">
 			<a :href="imageUrl" download="beautifulGirl">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
 			<div ref="cRBox" :class="['clipping-region', status]">
 				<canvas ref="canvas" class="canvas"></canvas>
-				<div class="clipping-box" ref="clippingBox" :style="style"></div>
+				<ul class="clipping-box" ref="clippingBox" id="clippingBox" :style="style">
+					<li class="tl"></li>
+					<li class="tm"></li>
+					<li class="tr"></li>
+					<li class="rm"></li>
+					<li class="rb"></li>
+					<li class="bm"></li>
+					<li class="bl"></li>
+					<li class="lm"></li>
+				</ul>
 				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
 			</div>
 		</div>
@@ -27,6 +37,11 @@
  * 裁剪区域可随意拖动且可截取区域内的内容
  * 裁剪区域可按随意放大或缩小且可截取区域内的内容
  * 裁剪区域可随意拖动且随意放大或缩小且可截取区域内的内容
+ * ---
+ * 如果是长方形或者是正方形
+ * 可拖动的地方有边和角
+ * 点击的时候回显示8个点，其中4个是夹角，当选择夹角的时候已对角作为参考。
+ * 当选择一个边的时候，已另一个边作为参考
  */
 export default {
 	name: 'imageClipper', // 图片裁剪
@@ -85,6 +100,14 @@ export default {
 				this.parent = document.querySelector('.clipping-region')
 				this.parentInfo = this.parent.getBoundingClientRect()
 				this.vm = params.vue
+				// 用来裁剪点的
+				this.temp = {
+					ele: '',
+					x: 0, // 参照点
+					y: 0, // 参照点
+					className: '',
+				}
+				this.classList = ['tl', 'tm', 'tr', 'rm', 'rb', 'bm', 'bl', 'lm']
 
 				this.init()
 			}
@@ -99,13 +122,35 @@ export default {
 			// 元素按下
 			Drag.prototype.mousedown = function() {
 				this.parent.addEventListener('mousedown', e => {
-					if (e.target.className.includes('clipping-box')) {
+					let className = e.target.className
+					// 元素移动
+					if (className.includes('clipping-box')) {
 						document.body.style.cursor = 'pointer'
 						this.ele = e.target
 						this.ele.style.position = 'absolute'
 						this.eleInfo = this.ele.getBoundingClientRect()
-						console.log(this.eleInfo, 'this.eleInfo')
 						this.isDown = true
+					}
+
+					// 裁剪点的缩放
+					if (className.includes('tl')) {
+						this.temp.ele = document.querySelector('#clippingBox')
+						const eleInfo = this.temp.ele.getBoundingClientRect()
+						this.temp.className = 'tl'
+						this.temp.x = this.temp.ele.offsetLeft + eleInfo.width // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop + eleInfo.height // 赋值之后不会改变
+						console.log(this.temp, 'temp')
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('tr')) {
+						this.temp.ele = document.querySelector('#clippingBox')
+						const eleInfo = this.temp.ele.getBoundingClientRect()
+						this.temp.className = 'tr'
+						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop + eleInfo.height // 赋值之后不会改变
+						console.log(this.temp, 'temp')
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
 					}
 				})
 			}
@@ -126,6 +171,11 @@ export default {
 				document.addEventListener('mouseup', e => {
 					this.isDown = false
 					document.body.style.cursor = 'default'
+
+					// 矩形
+					if (this.classList.includes(e.target.className)) {
+						this.temp.ele = ''
+					}
 				})
 			}
 
@@ -144,6 +194,32 @@ export default {
 					this.ele.style.left = this.x - this.eleInfo.width / 2 - this.parent.offsetLeft + 'px'
 					this.vm.isMove = true
 				}
+
+				if (this.temp.ele && this.isDown) {
+					let params = {
+						x: this.x - this.parent.offsetLeft,
+						y: this.y + this.scrollTop - this.parent.offsetTop
+					}
+					this.changeClippingBox(params)
+				}
+			}
+
+			/**
+			 * 改变裁剪区域
+			 * @param {object}           params
+			 * @param {number}           params.x
+			 * @param {number}           params.y
+			 */
+			Drag.prototype.changeClippingBox = function(params) {
+				console.log(params, this.temp, '???????', this.temp.x - params.x, this.temp.y - params.y)
+				this.temp.ele.style.width = Math.abs(this.temp.x - params.x) + 'px'
+				this.temp.ele.style.height = Math.abs(this.temp.y - params.y) + 'px'
+
+				this.temp.ele.style.top = params.y + 'px'
+				this.temp.ele.style.left = params.x + 'px'
+
+				// this.temp.ele.style.top = params.y + 'px'
+				// this.temp.ele.style.left = this.temp.x + 'px'
 			}
 
 			this.Drag = new Drag({ vue: this })
@@ -188,14 +264,22 @@ export default {
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.imageUrl = this.$refs.canvas.toDataURL()
 		},
-		clickShow() {
-			this.zoom = 50
+		// 点击圆
+		clickCircular() {
 			this.status = 'circular'
+			this.cropInit()
+		},
+		// 点击矩形
+		clickRectangle() {
+			this.status = 'rectangle'
+			this.cropInit()
+		},
+		// 裁剪初始化
+		cropInit() {
+			this.zoom = 50
 			const proportion = 600 / 100 * this.zoom
 			let left = 600 / 2 - proportion / 2
 			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
-			this.top = left
-			this.left = left
 		}
 	},
 	watch: {
@@ -284,6 +368,80 @@ export default {
 					position: absolute;
 					border-radius: 50%;
 					border: 1px dashed red;
+				}
+			}
+
+			&.rectangle {
+				.clipping-box {
+					z-index: 1;
+					width: 100%;
+					height: 100%;
+					display: block;
+					position: absolute;
+					border: 1px dashed red;
+
+					li {
+						width: 10px;
+						height: 10px;
+						content: "";
+						display: block;
+						position: absolute;
+						background-color: aquamarine;
+
+						&:nth-child(1) {
+							top: 0;
+							left: 0;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(2) {
+							top: 0;
+							left: 50%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(3) {
+							top: 0;
+							left: 100%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(4) {
+							top: 50%;
+							left: 100%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(5) {
+							top: 100%;
+							left: 100%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(6) {
+							top: 100%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(6) {
+							top: 100%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(7) {
+							top: 100%;
+							left: 0;
+							transform: translate(-50%, -50%);
+						}
+
+						&:nth-child(8) {
+							top: 50%;
+							left: 0;
+							transform: translate(-50%, -50%);
+						}
+					}
 				}
 			}
 		}
