@@ -11,7 +11,7 @@
 			<a :href="imageUrl" download="beautifulGirl">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
-			<div :class="['clipping-region', status]">
+			<div ref="cRBox" :class="['clipping-region', status]">
 				<canvas ref="canvas" class="canvas"></canvas>
 				<div :class="['clipping-box', { 'position': clippingBoxClass }]" ref="clippingBox" :style="style"></div>
 				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
@@ -21,6 +21,12 @@
 </template>
 
 <script>
+/**
+ * 可以实现：
+ * 裁剪区域可随意拖动且可截取区域内的内容
+ * 裁剪区域可按随意放大或缩小且可截取区域内的内容
+ * 裁剪区域可随意拖动且随意放大或缩小且可截取区域内的内容
+ */
 export default {
 	name: 'imageClipper', // 图片裁剪
 	props: {
@@ -46,6 +52,11 @@ export default {
 			imageUrl: '',
 			isMove: false, // 是否移动过
 			style: '',
+			canvas: {}, // 裁剪区域盒子的信息
+			canvas: {
+				width: 600,
+				height: 600
+			}
 		}
 	},
 	mounted() {
@@ -144,11 +155,11 @@ export default {
 			imageEle.addEventListener('load', e => {
 				const imageInfo = imageEle.getBoundingClientRect()
 				const canvas = this.$refs.canvas
-				canvas.width = 600
-				canvas.height = 600
+				canvas.width = this.canvas.width
+				canvas.height = this.canvas.height
 				// const canvasInfo = canvas.getBoundingClientRect()
 				this.ctx = canvas.getContext('2d')
-				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, 600, 600)
+				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, this.canvas.width, this.canvas.height)
 			})
 		},
 		// 裁剪
@@ -190,28 +201,31 @@ export default {
 	},
 	watch: {
 		zoom(newValue, oldValue) {
-			const proportion = 600 / 100 * newValue
-			const ele = this.$refs.clippingBox
-			const eleInfo = ele.getBoundingClientRect()
-			let top = 600 / 2 - proportion / 2
-			let left = 600 / 2 - proportion / 2
-			// const left = 600 / 2 - proportion / 2
-			if (newValue > oldValue) {
-				// 放大
-				let difference = (proportion - eleInfo.width) / 2
-				if (this.isMove) {
-					top = ele.offsetTop - difference
-					left = ele.offsetLeft - difference
-				}
-			} else {
-				// 缩小
-				let difference = (eleInfo.width - proportion) / 2
-				if (this.isMove) {
-					top = ele.offsetTop + difference
-					left = ele.offsetLeft + difference
-				}
-			}
-			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${top}px; left: ${left}px;` // 600 是clipping-box的宽度
+			this.$nextTick(() => {
+				setTimeout(() => {
+					const proportion = this.canvas.width / 100 * newValue
+					const ele = this.$refs.clippingBox
+					const eleInfo = ele.getBoundingClientRect()
+					let top = this.canvas.width / 2 - proportion / 2
+					let left = this.canvas.width / 2 - proportion / 2
+					if (newValue > oldValue) {
+						// 放大
+						let difference = (proportion * 100 - eleInfo.width * 100) / 100 / 1.2
+						if (this.isMove) {
+							top = ele.offsetTop - difference
+							left = ele.offsetLeft - difference
+						}
+					} else {
+						// 缩小
+						let difference = (eleInfo.width * 100 - proportion * 100) / 100 / 3
+						if (this.isMove) {
+							top = ele.offsetTop + difference
+							left = ele.offsetLeft + difference
+						}
+					}
+					this.style = `width: ${proportion}px; height: ${proportion}px; top: ${top}px; left: ${left}px;` // 600 是clipping-box的宽度
+				})
+			})
 		}
 	},
 }
