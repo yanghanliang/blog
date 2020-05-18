@@ -106,6 +106,8 @@ export default {
 					x: 0, // 参照点
 					y: 0, // 参照点
 					className: '',
+					width: 0,
+					height: 0,
 				}
 				this.classList = ['tl', 'tm', 'tr', 'rm', 'rb', 'bm', 'bl', 'lm']
 
@@ -133,9 +135,10 @@ export default {
 					}
 
 					// 裁剪点的缩放
+					this.temp.ele = document.querySelector('#clippingBox')
+					const eleInfo = this.temp.ele.getBoundingClientRect()
 					if (className.includes('tl')) {
-						this.temp.ele = document.querySelector('#clippingBox')
-						const eleInfo = this.temp.ele.getBoundingClientRect()
+						// 左上角
 						this.temp.className = 'tl'
 						this.temp.x = this.temp.ele.offsetLeft + eleInfo.width // 赋值之后不会改变
 						this.temp.y = this.temp.ele.offsetTop + eleInfo.height // 赋值之后不会改变
@@ -143,12 +146,58 @@ export default {
 						this.isDown = true
 						this.temp.ele.style.position = 'absolute'
 					} else if (className.includes('tr')) {
-						this.temp.ele = document.querySelector('#clippingBox')
-						const eleInfo = this.temp.ele.getBoundingClientRect()
+						// 右上角
 						this.temp.className = 'tr'
 						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
 						this.temp.y = this.temp.ele.offsetTop + eleInfo.height // 赋值之后不会改变
-						console.log(this.temp, 'temp')
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('rb')) {
+						// 右下角
+						this.temp.className = 'rb'
+						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop // 赋值之后不会改变
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('bl')) {
+						// 左下角
+						this.temp.className = 'bl'
+						this.temp.x = this.temp.ele.offsetLeft + eleInfo.width // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop // 赋值之后不会改变
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('tm')) {
+						// 上中
+						this.temp.className = 'tm'
+						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop + eleInfo.height // 赋值之后不会改变
+						this.temp.width = eleInfo.width // 赋值之后不会改变
+						this.temp.height = eleInfo.height // 赋值之后不会改变
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('rm')) {
+						// 右中
+						this.temp.className = 'rm'
+						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop // 赋值之后不会改变
+						this.temp.width = eleInfo.width // 赋值之后不会改变
+						this.temp.height = eleInfo.height // 赋值之后不会改变
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('bm')) {
+						// 下中
+						this.temp.className = 'bm'
+						this.temp.x = this.temp.ele.offsetLeft // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop // 赋值之后不会改变
+						this.temp.width = eleInfo.width // 赋值之后不会改变
+						this.isDown = true
+						this.temp.ele.style.position = 'absolute'
+					} else if (className.includes('lm')) {
+						// 下中
+						this.temp.className = 'lm'
+						this.temp.x = this.temp.ele.offsetLeft + eleInfo.width // 赋值之后不会改变
+						this.temp.y = this.temp.ele.offsetTop // 赋值之后不会改变
+						this.temp.width = eleInfo.width // 赋值之后不会改变
 						this.isDown = true
 						this.temp.ele.style.position = 'absolute'
 					}
@@ -206,20 +255,59 @@ export default {
 
 			/**
 			 * 改变裁剪区域
-			 * @param {object}           params
+			 * @param {object}           params 鼠标的位置
 			 * @param {number}           params.x
 			 * @param {number}           params.y
 			 */
 			Drag.prototype.changeClippingBox = function(params) {
 				console.log(params, this.temp, '???????', this.temp.x - params.x, this.temp.y - params.y)
-				this.temp.ele.style.width = Math.abs(this.temp.x - params.x) + 'px'
-				this.temp.ele.style.height = Math.abs(this.temp.y - params.y) + 'px'
 
-				this.temp.ele.style.top = params.y + 'px'
-				this.temp.ele.style.left = params.x + 'px'
+				if (['tl', 'tr', 'rb', 'bl'].includes(this.temp.className)) {
+					this.temp.ele.style.width = Math.abs(this.temp.x - params.x) + 'px'
+					this.temp.ele.style.height = Math.abs(this.temp.y - params.y) + 'px'
+				}
 
-				// this.temp.ele.style.top = params.y + 'px'
-				// this.temp.ele.style.left = this.temp.x + 'px'
+				if (this.temp.className === 'tl') {
+					// 左上角
+					this.temp.ele.style.top = params.y + 'px'
+					this.temp.ele.style.left = params.x + 'px'
+				} else if (this.temp.className === 'tr') {
+					// 右上角
+					this.temp.ele.style.top = params.y + 'px'
+					this.temp.ele.style.left = this.temp.x + 'px'
+				} else if (this.temp.className === 'rb') {
+					// 右下角
+					this.temp.ele.style.top = this.temp.y + 'px'
+					this.temp.ele.style.left = this.temp.x + 'px'
+				} else if (this.temp.className === 'bl') {
+					// 右下角
+					this.temp.ele.style.top = this.temp.y + 'px'
+					this.temp.ele.style.left = params.x + 'px'
+				} else if (this.temp.className === 'tm') {
+					// 上中
+					this.temp.ele.style.width = params.width + 'px'
+					this.temp.ele.style.height = Math.abs(params.y - this.temp.y) + 'px'
+					this.temp.ele.style.top = params.y + 'px'
+					this.temp.ele.style.left = this.temp.x + 'px'
+				} else if (this.temp.className === 'rm') {
+					// 右中
+					this.temp.ele.style.width = Math.abs(params.x - this.temp.x) + 'px'
+					this.temp.ele.style.height = params.height + 'px'
+					this.temp.ele.style.top = this.temp.y + 'px'
+					this.temp.ele.style.left = this.temp.x + 'px'
+				} else if (this.temp.className === 'bm') {
+					// 下中
+					this.temp.ele.style.width = params.width + 'px'
+					this.temp.ele.style.height = Math.abs(params.y - this.temp.y) + 'px'
+					this.temp.ele.style.top = this.temp.y + 'px'
+					this.temp.ele.style.left = this.temp.x + 'px'
+				} else if (this.temp.className === 'lm') {
+					// 左中
+					this.temp.ele.style.width = Math.abs(params.x - this.temp.x) + 'px'
+					this.temp.ele.style.height = params.height + 'px'
+					this.temp.ele.style.top = this.temp.y + 'px'
+					this.temp.ele.style.left = params.x + 'px'
+				}
 			}
 
 			this.Drag = new Drag({ vue: this })
