@@ -1,5 +1,5 @@
 <template>
-    <div class="image-clipper">
+    <div class="image-clipper clearfix">
 		<div class="handle-region">
 			<span @click="clickCircular">圆</span>
 			<hr>
@@ -9,8 +9,8 @@
 			<hr>
 			<span @click="confirmCrop">裁剪</span>
 		</div>
-		<div class="content-region">
-			<a :href="imageUrl" download="beautifulGirl">
+		<div class="content-region" ref="contentRegion">
+			<a v-if="imageUrl" :href="imageUrl" download="beautifulGirl">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
 			<div ref="cRBox" :class="['clipping-region', status]">
@@ -49,13 +49,6 @@ export default {
 		// imageUrl: {
 		// 	type: String,
 		// 	default: '',
-		// }
-	},
-	computed: {
-		// style() {
-		// 	const proportion = 600 / 100 * this.zoom
-		// 	const left = 600 / 2 - proportion / 2
-		// 	return `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
 		// }
 	},
 	data() {
@@ -320,11 +313,33 @@ export default {
 			imageEle.addEventListener('load', e => {
 				const imageInfo = imageEle.getBoundingClientRect()
 				const canvas = this.$refs.canvas
+				const parentInfo = this.$refs.contentRegion.getBoundingClientRect()
+				this.canvas.width = parentInfo.width
 				canvas.width = this.canvas.width
 				canvas.height = this.canvas.height
-				// const canvasInfo = canvas.getBoundingClientRect()
+				let width = imageInfo.width
+				let height = imageInfo.height
+				let proportion = 0
+				let top = 0
+				let left = 0
+				if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
+					if (imageInfo.width > imageInfo.height) {
+						proportion = canvas.width / imageInfo.width
+						width = canvas.width
+						height = imageInfo.height * proportion
+						top = (canvas.height - height) / 2
+					} else {
+						proportion = canvas.height / imageInfo.height
+						width = imageInfo.width * proportion
+						height = canvas.height
+						left = (canvas.width - width) / 2
+					}
+				} else {
+					top = (canvas.height - height) / 2
+					left = (canvas.width - width) / 2
+				}
 				this.ctx = canvas.getContext('2d')
-				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, 0, 0, this.canvas.width, this.canvas.height)
+				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
 			})
 		},
 		// 裁剪
@@ -371,8 +386,8 @@ export default {
 		// 裁剪初始化
 		cropInit() {
 			this.zoom = 50
-			const proportion = 600 / 100 * this.zoom
-			let left = 600 / 2 - proportion / 2
+			const proportion = this.canvas.width / 100 * this.zoom
+			let left = this.canvas.width / 2 - proportion / 2
 			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
 		}
 	},
@@ -426,9 +441,8 @@ export default {
 	}
 
 	.content-region {
-		width: 800px;
 		height: 100%;
-		float: right;
+		margin-left: 300px;
 
 		.clipping-region {
 			position: relative;
@@ -436,6 +450,7 @@ export default {
 
 			canvas {
 				float: left;
+				background-color: #ffffff;
 			}
 
 			img {

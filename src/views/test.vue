@@ -4,7 +4,8 @@
 		<!-- <contract-seal></contract-seal> -->
 		<!-- <picture-synthesis></picture-synthesis> -->
 		<!-- <u-key></u-key> -->
-		<image-clipper></image-clipper>
+		<!-- <image-clipper></image-clipper> -->
+		<layout-common></layout-common>
     </div>
 </template>
 
@@ -13,7 +14,8 @@
 // import contractSeal from '@/components/webs/public/contractSeal/index.vue'
 // import pictureSynthesis from '@/components/canvas/pictureSynthesis/index.vue'
 // import uKey from '@/components/ukey'
-import imageClipper from '@/components/canvas/imageClipper/index'
+// import imageClipper from '@/components/canvas/imageClipper/index'
+import layoutCommon from '@/components/webs/public/layout/common'
 
 export default {
 	components: {
@@ -21,7 +23,8 @@ export default {
 		// contractSeal,
 		// uKey,
 		// pictureSynthesis,
-		imageClipper
+		// imageClipper,
+		layoutCommon
 	},
 	methods: {
 		handleDelete(data) {
