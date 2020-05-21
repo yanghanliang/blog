@@ -1,7 +1,9 @@
 <template>
 	<div class="layout">
+        <header>header</header>
 		<div class="layout-left"></div>
 		<div class="layout-right"></div>
+        <footer>footer</footer>
 	</div>
 </template>
 
@@ -18,19 +20,31 @@ export default {
     min-height: 100%;
     position: absolute;
     border: 1px solid #ddd;
-}
 
-.layout-left {
-    top: 0;
-    bottom: 0;
-    width: 300px;
-    position: absolute;
-    border: 1px solid #ddd;
-}
+    header {
+        height: 50px;
+        line-height: 50px;
+    }
 
-.layout-right {
-    width: 200px;
-    margin-left: 320px;
-    background-color: cornflowerblue;
+    footer {
+        bottom: 0;
+        height: 50px;
+        line-height: 50px;
+        position: absolute;
+    }
+
+    .layout-left {
+        top: 50px;
+        bottom: 50px;
+        width: 300px;
+        position: absolute;
+        border: 1px solid #ddd;
+    }
+
+    .layout-right {
+        width: 200px;
+        margin-left: 320px;
+        background-color: cornflowerblue;
+    }
 }
 </style>
