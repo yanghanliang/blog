@@ -13,12 +13,12 @@ export default {
 @import '@/assets/css/color/index.scss';
 
 .content_right {
-    overflow: hidden;
-    color: #b1bdd4;
-    min-height: 100%;
-    background-color: $bgc;
-    border-left: 20px solid $bgc;
-    border-right: 20px solid $bgc;
+    // overflow: hidden;
+    // color: #b1bdd4;
+    // min-height: 100%;
+    // background-color: $bgc;
+    // border-left: 20px solid $bgc;
+    // border-right: 20px solid $bgc;
 }
 
 .el-breadcrumb {

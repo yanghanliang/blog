@@ -1,12 +1,28 @@
 <template>
     <div id="app" class="app">
-        <router-view />
+		<layout-common>
+			<my-header slot="header" />
+			<router-view slot="content" />
+			<my-footer slot="footer" />
+		</layout-common>
     </div>
 </template>
 
 <script>
+// 导入布局
+import layoutCommon from '@/components/webs/public/layout/common'
+// 导入 header
+import myHeader from '@/components/webs/public/myHeader'
+// 导入 footer
+import myFooter from '@/components/webs/public/myFooter'
+
 export default {
 	name: 'App',
+	components: {
+		layoutCommon,
+		myHeader,
+		myFooter
+	},
 	data() {
 		return {
 			ip: returnCitySN['cip'],

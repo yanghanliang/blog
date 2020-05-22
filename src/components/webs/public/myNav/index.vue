@@ -216,11 +216,10 @@ export default {
 		},
 		// 关闭菜单
 		closeNav() {
-			// this.navStatus = false
+			this.navStatus = false
 		},
 		// 路由变化时更新导航状态
 		routerChange(route) {
-			console.log(route, 'route')
 			let url = route.path.toLocaleLowerCase()
 			this.data.forEach((item) => {
 				if (url.includes(item.identification)) {
@@ -259,7 +258,16 @@ nav {
 	}
 
 	.nav-left {
-		width: 58px;
+		width: 58px;;
+
+		// &::before {
+		// 	top: 0;
+		// 	bottom: 0;
+		// 	width: 58px;
+		// 	content: "";
+		// 	position: absolute;
+		// 	border-right: 1px solid #ddd
+		// }
 
 		a {
 			width: 100%;

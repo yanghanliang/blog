@@ -1,29 +1,45 @@
 <template>
-	<div class="layout">
-        <header>header</header>
-		<div class="layout-left"></div>
-		<div class="layout-right"></div>
-        <footer>footer</footer>
-	</div>
+	<section class="layout">
+        <header>
+            <slot name="header">header</slot>
+        </header>
+        <slot name="content">content</slot>
+        <footer>
+            <slot name="footer">footer</slot>
+        </footer>
+	</section>
 </template>
 
 <script>
 export default {
-	name: 'layoutCommon'
+	name: 'layoutCommon',
+	props: {
+		content: {
+			type: String,
+			default: 'left' // 默认左边是内容
+		}
+	},
+	computed: {
+		// 内容位置
+		contentLocation() {
+			return this.content === 'left'
+		}
+	}
 }
 </script>
 
 <style lang="scss" scoped>
 .layout {
-    width: 1200px;
-    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
     min-height: 100%;
     position: absolute;
-    border: 1px solid #ddd;
+    padding-bottom: 50px;
+    box-sizing: border-box;
 
     header {
-        height: 50px;
-        line-height: 50px;
+        height: 60px;
+        line-height: 60px;
     }
 
     footer {
@@ -31,20 +47,6 @@ export default {
         height: 50px;
         line-height: 50px;
         position: absolute;
-    }
-
-    .layout-left {
-        top: 50px;
-        bottom: 50px;
-        width: 300px;
-        position: absolute;
-        border: 1px solid #ddd;
-    }
-
-    .layout-right {
-        width: 200px;
-        margin-left: 320px;
-        background-color: cornflowerblue;
     }
 }
 </style>
