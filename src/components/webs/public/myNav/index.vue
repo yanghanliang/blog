@@ -252,6 +252,9 @@ export default {
 nav {
 	height: 100%;
 	position: relative;
+	border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: -4px 3px 10px -1px black;
 
 	>div {
 		float: left;
@@ -260,14 +263,19 @@ nav {
 	.nav-left {
 		width: 58px;;
 
-		// &::before {
-		// 	top: 0;
-		// 	bottom: 0;
-		// 	width: 58px;
-		// 	content: "";
-		// 	position: absolute;
-		// 	border-right: 1px solid #ddd
-		// }
+		&::before {
+			top: 5px;
+			bottom: 5px;
+			width: 0;
+			content: "";
+			z-index: 1;
+			left: 58px;
+			position: absolute;
+			border-right: 1px solid #fff;
+			border-image: -webkit-linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+			border-image: -moz-linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+			border-image: linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+		}
 
 		a {
 			width: 100%;
@@ -291,13 +299,14 @@ nav {
 		width: 182px;
 		height: 100%;
 		display: none;
+		background-color: transparent;
 
 		.nr-content {
 			width: 182px;
 			top: 0;
 			bottom: 0;
 			position: absolute;
-			background-color: #F2F2F3;
+			background-color: transparent;
 		}
 
 		&.open {

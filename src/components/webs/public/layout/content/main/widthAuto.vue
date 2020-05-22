@@ -1,12 +1,13 @@
 <template>
-    <section class="width-auto">
-        <section class="wa-left">
-            <slot name="layout-left">layout-left</slot>
-        </section>
-        <section class="wa-right">
-            <slot name="layout-right">layout-right</slot>
-        </section>
-    </section>
+    <section class="layout-content">
+		<section class="layout-left">
+			<slot name="layout-left"></slot>
+		</section>
+		<div class="ll-before"></div>
+		<section class="layout-right">
+			<slot name="layout-right"></slot>
+		</section>
+	</section>
 </template>
 
 <script>
@@ -16,44 +17,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.width-auto {
-	min-height: 100%;
-	position: relative;
+.layout-content {
+	.layout-left {
+		top: 60px;
+		bottom: 50px;
+		width: 58px;
+		position: absolute;
+	}
 
-	.wa-left {
-		float: left;
-		height: 300px;
-		
-		&::before {
-			top: 0;
-			bottom: 0;
-			width: 58px;
-			content: "";
-			z-index: -1;
-			position: absolute;
-			border-right: 1px solid #ddd;
+	.layout-left:hover {
+		width: 240px;
+
+		+ .ll-before {
+			width: 240px;
 		}
 	}
 
-	.wa-right {
-		/* 关键 */
+	.layout-left nav > .open{
+		width: 240px;
+
+		+ .ll-before {
+			width: 240px;
+		}
+	}
+
+	.ll-before {
+		width: 58px;
+		height: 20px;
+		float: left;
+		margin-right: 15px;
+		transition: width .15s linear;
+	}
+
+	.layout-right {
 		overflow: hidden;
 	}
 }
-
-// .layout-left:hover {
-//     width: 300px;
-// }
-
-// .layout-left::before {
-//     top: 0;
-//     bottom: 0;
-//     content: "";
-//     width: 200px;
-//     position: absolute;
-// }
-
-// .layout-left:hover::before {
-//     width: 300px;
-// }
 </style>

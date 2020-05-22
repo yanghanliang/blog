@@ -1,8 +1,8 @@
 <template>
-	<right-auto>
-		<my-nav slot="layout-left"></my-nav>
+	<width-auto>
+		<my-nav @resize="resize" slot="layout-left"></my-nav>
         <right-content slot="layout-right"></right-content>
-	</right-auto>
+	</width-auto>
     <!-- <div class="admin">
         <my-nav class="fl"></my-nav>
         <right-content></right-content>
@@ -11,7 +11,7 @@
 
 <script>
 // 导入布局组件
-import rightAuto from '@/components/webs/public/layout/content/main/rightAuto'
+import widthAuto from '@/components/webs/public/layout/content/main/widthAuto'
 // 导航
 import myNav from '@/components/webs/public/myNav/index'
 // 引入右边内容区域
@@ -20,7 +20,7 @@ import RightContent from '@/components/webs/admin/RightContent'
 export default {
 	name: 'admin',
 	components: {
-		rightAuto,
+		widthAuto,
 		myNav,
 		RightContent
 	},
@@ -44,7 +44,7 @@ export default {
 				name: 'login'
 			})
 		}
-	}
+	},
 }
 
 </script>

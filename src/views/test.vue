@@ -5,7 +5,6 @@
 		<!-- <picture-synthesis></picture-synthesis> -->
 		<!-- <u-key></u-key> -->
 		<!-- <image-clipper></image-clipper> -->
-		<layout-common></layout-common>
     </div>
 </template>
 
@@ -15,7 +14,6 @@
 // import pictureSynthesis from '@/components/canvas/pictureSynthesis/index.vue'
 // import uKey from '@/components/ukey'
 // import imageClipper from '@/components/canvas/imageClipper/index'
-import layoutCommon from '@/components/webs/public/layout/common'
 
 export default {
 	components: {
@@ -24,7 +22,6 @@ export default {
 		// uKey,
 		// pictureSynthesis,
 		// imageClipper,
-		layoutCommon
 	},
 	methods: {
 		handleDelete(data) {
