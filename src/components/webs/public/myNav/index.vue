@@ -17,7 +17,7 @@
 				<div class="title">
 					{{ currentTitle }}
 				</div>
-				<my-children :data="currentChildren" :isBlank="isBlank">
+				<my-children :data="currentChildren" :isBlank="isBlank" :isEdit="isEdit">
 					<div slot="content">a</div>
 				</my-children>
 			</div>
@@ -183,6 +183,16 @@ export default {
 		// 站内跳转（false）站外跳转（true）
 		isBlank: {
 			type: Boolean,
+		},
+		// 是否可以编辑
+		isEdit: {
+			type: Boolean,
+			default: false
+		},
+		// 是否只是预览（右边是否隐藏）
+		isView: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -192,6 +202,7 @@ export default {
 		}
 	},
 	created() {
+		console.log(this.isEdit, 'this.isEdit')
 		this.routerChange(this.$route)
 	},
 	methods: {
@@ -216,6 +227,8 @@ export default {
 		},
 		// 关闭菜单
 		closeNav() {
+			// this.isView = true 时不允许关闭
+			if (this.isView) return false
 			this.navStatus = false
 		},
 		// 路由变化时更新导航状态

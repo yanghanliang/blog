@@ -1,6 +1,6 @@
 <template>
     <div class="w bookmark">
-		<my-nav :nav-status="true" :firstTrigger="false" :data="bookmarkData" ref="myNav" :isBlank="true"></my-nav>
+		<my-nav :nav-status="true" :firstTrigger="false" :isEdit="true" :isView="true" :data="bookmarkData" ref="myNav" :isBlank="true"></my-nav>
     </div>
 </template>
 
@@ -204,4 +204,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bookmark {
+	text-align: left;
+}
 </style>

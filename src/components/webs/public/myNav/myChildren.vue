@@ -3,9 +3,12 @@
         <li v-for="(item, index) in data" :key="index">
             <div @click.stop="clickSwitch(item)" :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
 				<!-- {{ item }} -->
-				<i v-if="item.children" :class="item | iconClass" :style="item | style"></i>
-				<!-- <a @click="jump(item.router)" href="javascript:;">{{ item.name }}</a> -->
-				<my-tag :tagData="item" field="name" class="fr" :simple="true"></my-tag>
+				<!-- 是否可以编辑 -->
+				<a @click="jump(item.router)" href="javascript:;">
+					<i v-if="item.children" :class="item | iconClass"></i>
+					<span :class="{ 'ml32': !item.children }" :style="item | style">{{ item.name }}</span>
+				</a>
+				<!-- <my-tag :tagData="item" field="name" class="fr" :simple="true"></my-tag> -->
 			</div>
             <my-children v-if="item.children && item.status === 'open'" :data="item.children"></my-children>
         </li>
@@ -29,6 +32,11 @@ export default {
 		isBlank: {
 			type: Boolean,
 			defalut: false
+		},
+		// 是否可以编辑
+		isEdit: {
+			type: Boolean,
+			default: false
 		}
 	},
 	components: {
@@ -73,10 +81,13 @@ export default {
 				// 站外跳转
 				window.open(router, '_blank')
 			} else {
-				// 站内跳转
-				this.$router.push({
-					path: router
-				})
+				// 防止自己跳自己
+				if (this.$route.path !== router) {
+					// 站内跳转
+					this.$router.push({
+						path: router
+					})
+				}
 			}
 		}
 	},
@@ -86,6 +97,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/color/index.scss'; // 使用方法
+
+.ml32 {
+	margin-left: 32px;
+}
 
 ul {
 	li {
@@ -112,8 +127,6 @@ ul {
 				width: 0;
 				height: 40px;
 				float: left;
-				margin-left: 30px;
-				margin-right: 14px;
 
 				&.iconzhijiaochi {
 					font-size: 12px;
@@ -121,9 +134,11 @@ ul {
 			}
 
 			a {
+				width: 100%;
 				float: left;
 				color: #000;
-				margin-left: 8px;
+				padding-left: 20px;
+				box-sizing: border-box;
 			}
 		}
 	}

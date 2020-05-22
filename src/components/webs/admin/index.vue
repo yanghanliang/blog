@@ -1,6 +1,6 @@
 <template>
 	<width-auto>
-		<my-nav @resize="resize" slot="layout-left"></my-nav>
+		<my-nav slot="layout-left"></my-nav>
         <right-content slot="layout-right"></right-content>
 	</width-auto>
     <!-- <div class="admin">

@@ -19,8 +19,8 @@ export default {
 <style lang="scss" scoped>
 .layout-content {
 	.layout-left {
-		top: 60px;
-		bottom: 50px;
+		top: 0;
+		bottom: 0;
 		width: 58px;
 		position: absolute;
 	}
