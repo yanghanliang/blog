@@ -1,8 +1,8 @@
 <template>
 	<el-breadcrumb separator-class="el-icon-arrow-right">
 		<!-- routing information 缩写为 RI 路由信息 -->
-		<el-breadcrumb-item :to="{ path: ri.router }">{{ ri.name1 }}</el-breadcrumb-item>
-		<el-breadcrumb-item>{{ ri.name2 }}</el-breadcrumb-item>
+		<!-- <el-breadcrumb-item :to="{ path: ri.router }">{{ ri.name1 }}</el-breadcrumb-item>
+		<el-breadcrumb-item>{{ ri.name2 }}</el-breadcrumb-item> -->
 	</el-breadcrumb>
 </template>
 
@@ -10,6 +10,11 @@
 export default {
 	name: 'MyCrumbs',
 	props: ['ri'],
+	data () {
+		return {
+			routeInfo: {}
+		}
+	},
 	created () {
 		// routingInformation: {
 		// 		name1: '首页',
@@ -26,40 +31,26 @@ export default {
 		 * @param {}               params.
 		 */
 		matchRoute () {
-			const params = {
-				routeList: this.$router.options.routes,
-				currentRoute: this.$router.history.current.path,
-				parentInfo: {
-					title: [],
-					path: []
-				},
-				tempPath: ''
-			}
+			const routeList = this.$router.options.routes
+			const currentRoute = this.$router.history.current.path
+			let lock = true
 
-			const recursion = function (params, tempPath) {
-				const data = params.routeList
-				for (let i = 0, length = data.length; i < length; i++) {
-					let item = data[i]
-					let path = tempPath + item.path
-					console.log(path, '===', params.currentRoute)
-					if (path === params.currentRoute) {
-						console.log('????????')
-						debugger
-						return false
-					} else if (item.children) {
-						params.parentInfo.title.push(item.name)
-						params.parentInfo.path.push(item.path)
-						let str = path === '/' ? '/' : path + '/'
-						params.routeList = item.children
-
-						recursion(params, str)
+			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
+				if (data[i] && lock) {
+					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path
+					if (tempPath === currentRoute) {
+						lock = false
+						this.routeInfo = { title, path }
+					} else if (data[i].children) {
+						recursion(data[i].children, title.concat(data[i].name), path.concat(data[i].path), tempPath)
 					}
+
+					recursion(data, title, path, prentPath, i + 1)
 				}
 			}
 
-			console.log(params, 'params')
-			const routeInfo = recursion(params, '')
-			console.log(routeInfo, 'routeInfo')
+			recursion(routeList)
+			console.log(this.routeInfo, 'routeInfo')
 		}
 	},
 }
