@@ -18,6 +18,9 @@ export default {
 
 <style lang="scss" scoped>
 .layout-content {
+    min-height: 100%;
+	position: relative;
+
 	.layout-left {
 		top: 0;
 		bottom: 0;
@@ -50,6 +53,7 @@ export default {
 	}
 
 	.layout-right {
+		min-height: 100%;
 		overflow: hidden;
 	}
 }
