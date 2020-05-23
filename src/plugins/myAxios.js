@@ -1,7 +1,7 @@
 // 导入发生请求的模块
 import axios from 'axios'
 // 引入消息提示
-// import { Message } from 'element-ui'
+import { Message } from 'element-ui'
 // 引入全局变量
 import Global from '@/plugins/global'
 
@@ -44,12 +44,12 @@ MyAxios.install = function (Vue) {
 			window.localStorage.removeItem('token')
 			window.localStorage.removeItem('user')
 
-			// Message.info({
-			// 	message: data.msg,
-			// 	onClose: () => {
-			// 		location.href = '/login'
-			// 	}
-			// })
+			Message.info({
+				message: data.msg,
+				onClose: () => {
+					location.href = '/login'
+				}
+			})
 		}
 		return response
 	}, function (error) {

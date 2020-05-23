@@ -11,7 +11,7 @@
             :default-sort="{prop: 'createtime', order: 'descending'}"
 			class="dataTable"
 		>
-            <el-table-column fixed sortable prop="title" label="文章标题" width="300">
+            <el-table-column fixed="left" sortable prop="title" label="文章标题" width="300">
             </el-table-column>
             <el-table-column prop="classname" label="分类" sortable width="180">
             </el-table-column>

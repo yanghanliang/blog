@@ -19,7 +19,7 @@
 				<el-radio v-model="form.original" :label="0">原创</el-radio>
 				<el-radio v-model="form.original" :label="1">转载</el-radio>
 			</el-form-item>
-            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="form.content" :subfield="true" />
+            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @save="addArticle" @imgDel="imgDel" v-model="form.content" :subfield="true" />
             <el-form-item style="margin-top: 22px;">
                 <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
                 <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>

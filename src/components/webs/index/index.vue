@@ -22,7 +22,7 @@ import robot from '@/components/function/robot/index'
 export default {
 	name: 'index',
 	components: {
-        layoutCommon,
+		layoutCommon,
 		myHeader,
 		myFooter,
 		robot
