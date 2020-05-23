@@ -24,17 +24,20 @@ export default [
 	{
 		path: 'catalogList',
 		name: 'catalogList',
-		component: catalogList
+		component: catalogList,
+		meta: { title: '日志列表' },
 	},
 	{
 		path: '/articleDetails/:articleId',
 		name: 'articleDetails',
-		component: articleDetails
+		component: articleDetails,
+		meta: { title: '文章详情' },
 	},
 	{
 		path: 'views/components',
 		name: 'componentsViews',
 		component: componentsViews,
+		meta: { title: '组件' },
 		redirect: 'views/components/progress',
 		children: [
 			{
@@ -87,6 +90,7 @@ export default [
 	{
 		path: 'test',
 		name: 'test',
-		component: test
+		component: test,
+		meta: { title: '操作' },
 	}
 ]

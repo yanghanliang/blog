@@ -57,7 +57,7 @@ variableList.forEach(function (name) {
 }, window)
 // 导入./mian下所有的路由
 const requireModule = require.context('./main', true, /\.js$/)
-
+// 循环导入
 requireModule.keys().forEach(fileName => {
 	// 把路径 ./index.js 变成 index
 	let variableName = fileName.match(/[a-zA-Z0-9]+/)[0]
@@ -80,16 +80,19 @@ const router = new Router({
 			name: 'index',
 			component: webIndex,
 			redirect: '/common',
+			meta: { title: '首页' },
 			children: _index
 		},
 		{
 			path: '/login',
 			name: 'login',
+			meta: { title: '登录' },
 			component: login
 		},
 		{
 			path: '/register',
 			name: 'register',
+			meta: { title: '注册' },
 			component: login
 		},
 		{
@@ -97,6 +100,7 @@ const router = new Router({
 			name: 'admin',
 			component: webAdmin,
 			redirect: '/admin/articleList',
+			meta: { title: '后台' },
 			children: _admin
 		},
 		{
@@ -104,6 +108,7 @@ const router = new Router({
 			name: 'mobile',
 			component: webMobile,
 			redirect: '/mobile/article/list',
+			meta: { title: '首页' },
 			children: _mobile
 		}
 	]

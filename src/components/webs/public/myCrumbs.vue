@@ -1,8 +1,9 @@
 <template>
 	<el-breadcrumb separator-class="el-icon-arrow-right">
 		<!-- routing information 缩写为 RI 路由信息 -->
-		<!-- <el-breadcrumb-item :to="{ path: ri.router }">{{ ri.name1 }}</el-breadcrumb-item>
-		<el-breadcrumb-item>{{ ri.name2 }}</el-breadcrumb-item> -->
+		<template v-for="(item, index) in routeInfo.path">
+			<el-breadcrumb-item :to="{ path: ri.router }" :key="index">{{ routeInfo.title[index] }}</el-breadcrumb-item>
+		</template>
 	</el-breadcrumb>
 </template>
 
@@ -10,9 +11,16 @@
 export default {
 	name: 'MyCrumbs',
 	props: ['ri'],
+	filters: {
+		jump (value) {
+		}
+	},
 	data () {
 		return {
-			routeInfo: {}
+			routeInfo: {
+				path: [],
+				title: []
+			}
 		}
 	},
 	created () {
@@ -32,17 +40,21 @@ export default {
 		 */
 		matchRoute () {
 			const routeList = this.$router.options.routes
-			const currentRoute = this.$router.history.current.path
+			const currentRoute = this.$route
 			let lock = true
 
 			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
 				if (data[i] && lock) {
 					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path
-					if (tempPath === currentRoute) {
+					if (tempPath === currentRoute.path) {
+						// 停止递归
 						lock = false
+						// 把当前路由追加到数据中
+						title.concat(currentRoute.meta.title)
+						path.concat(currentRoute.path)
 						this.routeInfo = { title, path }
 					} else if (data[i].children) {
-						recursion(data[i].children, title.concat(data[i].name), path.concat(data[i].path), tempPath)
+						recursion(data[i].children, title.concat(data[i].meta.title), path.concat(data[i].path), tempPath)
 					}
 
 					recursion(data, title, path, prentPath, i + 1)

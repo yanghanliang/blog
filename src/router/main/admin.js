@@ -17,56 +17,67 @@ export default [
 	{
 		path: 'addArticle',
 		name: 'addArticle',
-		component: addArticle
+		component: addArticle,
+		meta: { title: '添加文章' },
 	},
 	{
 		path: 'articleList',
 		name: 'articleList',
-		component: articleList
+		component: articleList,
+		meta: { title: '文章列表' },
 	},
 	{
 		path: 'addArticle/:articleId',
 		name: 'editArticle',
-		component: addArticle
+		component: addArticle,
+		meta: { title: '修改文章' },
 	},
 	{
 		path: 'addCategory',
 		name: 'addCategory',
-		component: addCategory
+		component: addCategory,
+		meta: { title: '添加分类' },
 	},
 	{
 		path: 'categoryList',
 		name: 'categoryList',
-		component: categoryList
+		component: categoryList,
+		meta: { title: '分类列表' },
 	},
 	{
 		path: 'editCategory/:categoryId',
 		name: 'editCategory',
-		component: editCategory
+		component: editCategory,
+		meta: { title: '修改分类' },
 	},
 	{
 		path: 'jurisdiction/list',
 		name: 'jurisdictionList',
-		component: jurisdictionList
+		component: jurisdictionList,
+		meta: { title: '权限列表' },
 	},
 	{
 		path: 'jurisdiction/add',
 		name: 'addJurisdiction',
-		component: addJurisdiction
+		component: addJurisdiction,
+		meta: { title: '添加权限' },
 	},
 	{
 		path: 'jurisdiction/edit/:id',
 		name: 'editJurisdiction',
-		component: editJurisdiction
+		component: editJurisdiction,
+		meta: { title: '修改权限' },
 	},
 	{
 		path: 'user/list',
 		name: 'userList',
-		component: userList
+		component: userList,
+		meta: { title: '用户列表' },
 	},
 	{
 		path: 'bookmark/add',
 		name: 'addBookmark',
-		component: addBookmark
+		component: addBookmark,
+		meta: { title: '添加用户' },
 	}
 ]
