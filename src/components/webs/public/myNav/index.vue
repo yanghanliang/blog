@@ -36,7 +36,7 @@ export default {
 	props: {
 		data: {
 			type: Array,
-			default: function() {
+			default: function () {
 				return [
 					{
 						name: '文章',
@@ -195,19 +195,19 @@ export default {
 			default: false
 		}
 	},
-	data() {
+	data () {
 		return {
 			currentChildren: [], // 当前的子集数据
 			currentTitle: '标题',
 		}
 	},
-	created() {
+	created () {
 		console.log(this.isEdit, 'this.isEdit')
 		this.routerChange(this.$route)
 	},
 	methods: {
 		// 鼠标移入时,将对应的数据给子菜单,并变化数据
-		mouseenter(item) {
+		mouseenter (item) {
 			this.currentChildren = item.children
 			this.currentTitle = item.name
 			// 防止自己跳转到自己
@@ -222,17 +222,17 @@ export default {
 			})
 		},
 		// 打开菜单
-		openNav() {
+		openNav () {
 			this.navStatus = true
 		},
 		// 关闭菜单
-		closeNav() {
+		closeNav () {
 			// this.isView = true 时不允许关闭
 			if (this.isView) return false
 			this.navStatus = false
 		},
 		// 路由变化时更新导航状态
-		routerChange(route) {
+		routerChange (route) {
 			let url = route.path.toLocaleLowerCase()
 			this.data.forEach((item) => {
 				if (url.includes(item.identification)) {
@@ -247,12 +247,12 @@ export default {
 	},
 	watch: {
 		$route: {
-			handler: function(route) {
+			handler: function (route) {
 				this.routerChange(route)
 			},
 			// deep: true
 		},
-		data: function() {
+		data: function () {
 			this.routerChange(this.$route)
 		}
 	},

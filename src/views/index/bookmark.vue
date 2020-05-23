@@ -12,7 +12,7 @@ export default {
 	components: {
 		myNav
 	},
-	data() {
+	data () {
 		return {
 			bookmarkData: [
 				{
@@ -147,20 +147,20 @@ export default {
 			]
 		}
 	},
-	created() {
+	created () {
 		this.getBookmarkData()
 	},
 	methods: {
 		// 获取书签数据
-		async getBookmarkData() {
+		async getBookmarkData () {
 			let data = await this.$http.get('bookmark/list')
 			this.bookmarkData = this.handleData(data)
 			console.log(this.bookmarkData, 'this.bookmarkData')
 		},
 		// 处理数据
-		handleData(data) {
+		handleData (data) {
 			let arr = []
-			let ipc = function(obj, level) {
+			let ipc = function (obj, level) {
 				for (let i = 0, length = data.length; i < length; i++) {
 					let item = data[i]
 					if (item.pid === obj.id) {

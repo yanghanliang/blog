@@ -18,17 +18,17 @@
 
 <script>
 export default {
-	mounted() {
+	mounted () {
 		this.init()
 	},
 	methods: {
-		init() {
+		init () {
 			/**
              * 滑块
              * @param {object}           params
              * @param {string}           params.ele 盒子元素
              */
-			let Slider = function(params) {
+			let Slider = function (params) {
 				this.box = document.querySelector(params.ele)
 				this.ul = this.box.querySelector('ul')
 				this.liAll = this.ul.querySelectorAll('li')
@@ -46,23 +46,23 @@ export default {
 				this.init()
 			}
 
-			Slider.prototype.init = function() {
+			Slider.prototype.init = function () {
 				this.clickUl()
 				this.mousedown()
 				this.mousemove()
 				this.mouseup()
 			}
 
-			Slider.prototype.clickUl = function() {
+			Slider.prototype.clickUl = function () {
 				let that = this
-				this.ul.addEventListener('click', function(e) {
+				this.ul.addEventListener('click', function (e) {
 					// 移动滑块(块)
 					that.move(e)
 				})
 			}
 
 			// 设置颜色
-			Slider.prototype.setColor = function() {
+			Slider.prototype.setColor = function () {
 				for (let i = 0; i < this.color.length; i++) {
 					if (this.index === -1) {
 						this.liAll[i].style.backgroundColor = this.defaultColor
@@ -77,18 +77,18 @@ export default {
 			}
 
 			// 鼠标按下事件
-			Slider.prototype.mousedown = function() {
+			Slider.prototype.mousedown = function () {
 				let that = this
-				this.slider.addEventListener('mousedown', function(e) {
+				this.slider.addEventListener('mousedown', function (e) {
 					that.isDown = true
 					// console.log('鼠标按下事件')
 				})
 			}
 
 			// 鼠标移动
-			Slider.prototype.mousemove = function() {
+			Slider.prototype.mousemove = function () {
 				let that = this
-				window.addEventListener('mousemove', function(e) {
+				window.addEventListener('mousemove', function (e) {
 					// 防止鼠标在移动的过程中抬起
 					if (that.isDown === false) {
 						return
@@ -115,9 +115,9 @@ export default {
 			}
 
 			// 鼠标抬起事件
-			Slider.prototype.mouseup = function() {
+			Slider.prototype.mouseup = function () {
 				let that = this
-				document.addEventListener('mouseup', function() {
+				document.addEventListener('mouseup', function () {
 					that.isDown = false
 				})
 			}
@@ -126,7 +126,7 @@ export default {
              * 移动滑块
              * @param {object}           e - event
              */
-			Slider.prototype.move = function(e) {
+			Slider.prototype.move = function (e) {
 				// 获取 x
 				let x = e.clientX - this.ulInfo.x
 				let step = Math.floor(x / this.liWidth)

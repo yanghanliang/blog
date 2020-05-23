@@ -52,7 +52,7 @@ export default {
 		},
 		axisLabel: {
 			type: Object,
-			default: function() {
+			default: function () {
 				return {}
 			}
 		},
@@ -65,7 +65,7 @@ export default {
 		},
 		seriesCenter: { // 控制饼状图的位置
 			type: Array,
-			default: function() {
+			default: function () {
 				return ['50%', '60%']
 			}
 		},
@@ -87,7 +87,7 @@ export default {
 		// 工具栏
 		toolbox: {
 			type: Object,
-			default: function() {
+			default: function () {
 				return {
 					feature: {
 						dataView: {}, // 数据视图
@@ -101,7 +101,7 @@ export default {
 		// 主题颜色
 		color: {
 			type: Array,
-			default: function() {
+			default: function () {
 				return ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642']
 			}
 		},
@@ -112,7 +112,7 @@ export default {
 		myData,
 		myLine
 	},
-	data() {
+	data () {
 		return {
 			typeList: [
 				{
@@ -131,7 +131,7 @@ export default {
 		}
 	},
 	computed: {
-		currentComponent() {
+		currentComponent () {
 			const typeList = [
 				{
 					type: 'pie',
@@ -154,7 +154,7 @@ export default {
 				}
 			}
 		},
-		seriesData() {
+		seriesData () {
 			if (this.getDataFn) {
 				return this.fnGetData
 			} else {
@@ -232,7 +232,7 @@ export default {
 				}
 			}
 		},
-		xAxisData() {
+		xAxisData () {
 			if (this.txt) {
 				return this.txt
 			} else {
@@ -246,7 +246,7 @@ export default {
 			}
 		}
 	},
-	mounted() {
+	mounted () {
 		this.setBoxWH()
 		if (!this.time && this.getDataFn) {
 			this.fnGetData = this.getDataFn()
@@ -254,7 +254,7 @@ export default {
 	},
 	methods: {
 		// 时间改变时执行
-		async dateChange(date) {
+		async dateChange (date) {
 			if (this.getDataFn) {
 				// 获取数据
 				let params = {
@@ -269,7 +269,7 @@ export default {
 		// 如果父元素的高度大于100px且小于默认高度，则继承父元素的高度
 		// 同时还可以传入高度，自定义高度,
 		// 宽度默认100%，可自定义高度
-		setBoxWH() {
+		setBoxWH () {
 			let height = ''
 			let boxInfo = this.$refs.echartsBox.parentElement.getBoundingClientRect()
 			if (this.height || boxInfo.height < 100 || boxInfo.height > this.defaultHeight) {

@@ -4,12 +4,12 @@
 
 <script>
 export default {
-	mounted() {
+	mounted () {
 		this.init()
 	},
 	methods: {
-		init() {
-			function Circular() {
+		init () {
+			function Circular () {
 				this.box = document.querySelector('#square')
 				this.width = this.getStyle(this.box, 'width')
 				this.height = this.getStyle(this.box, 'height')

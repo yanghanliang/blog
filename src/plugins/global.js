@@ -34,7 +34,7 @@ export default {
 	 * @param {object}          params.defaultValue - 默认值 不存在默认值时，默认为 0
 	 * @return {object}         param 继承默认值后的参数
 	 */
-	paramsInherit: function(params) {
+	paramsInherit: function (params) {
 		let recursion = function (param, defaultValue) {
 			// 循环默认值
 			for (let key in defaultValue) {

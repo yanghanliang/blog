@@ -51,7 +51,7 @@ export default {
 		// 	default: '',
 		// }
 	},
-	data() {
+	data () {
 		return {
 			status: 'default',
 			Drag: null,
@@ -67,7 +67,7 @@ export default {
 			lock: true
 		}
 	},
-	mounted() {
+	mounted () {
 		this.pictureConversion()
 		this.registerEvents()
 	},
@@ -82,8 +82,8 @@ export default {
 		 * @param {object}           params
 		 * @param {}               params.
 		 */
-		registerEvents() {
-			let Drag = function(params) {
+		registerEvents () {
+			let Drag = function (params) {
 				this.isDown = false
 				this.eleInfo = null
 				this.ele = null
@@ -107,7 +107,7 @@ export default {
 				this.init()
 			}
 
-			Drag.prototype.init = function() {
+			Drag.prototype.init = function () {
 				this.mousedown()
 				this.mousemove()
 				this.mouseup()
@@ -115,7 +115,7 @@ export default {
 			}
 
 			// 元素按下
-			Drag.prototype.mousedown = function() {
+			Drag.prototype.mousedown = function () {
 				this.parent.addEventListener('mousedown', e => {
 					let className = e.target.className
 					// 元素移动
@@ -199,7 +199,7 @@ export default {
 			}
 
 			// 鼠标移动
-			Drag.prototype.mousemove = function() {
+			Drag.prototype.mousemove = function () {
 				document.addEventListener('mousemove', e => {
 					if (this.isDown) {
 						this.x = e.x
@@ -210,7 +210,7 @@ export default {
 			}
 
 			// 元素抬起
-			Drag.prototype.mouseup = function() {
+			Drag.prototype.mouseup = function () {
 				document.addEventListener('mouseup', e => {
 					this.isDown = false
 					document.body.style.cursor = 'default'
@@ -224,7 +224,7 @@ export default {
 			}
 
 			// 元素滚动
-			Drag.prototype.scroll = function() {
+			Drag.prototype.scroll = function () {
 				document.addEventListener('scroll', e => {
 					this.scrollTop = document.documentElement.scrollTop
 					this.move()
@@ -232,7 +232,7 @@ export default {
 			}
 
 			// 元素移动
-			Drag.prototype.move = function() {
+			Drag.prototype.move = function () {
 				if (this.ele && this.isDown) {
 					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop - this.parent.offsetTop + 'px'
 					this.ele.style.left = this.x - this.eleInfo.width / 2 - this.parent.offsetLeft + 'px'
@@ -254,7 +254,7 @@ export default {
 			 * @param {number}           params.x
 			 * @param {number}           params.y
 			 */
-			Drag.prototype.changeClippingBox = function(params) {
+			Drag.prototype.changeClippingBox = function (params) {
 				console.log(params, this.temp, '???????', this.temp.x - params.x, this.temp.y - params.y)
 
 				if (['tl', 'tr', 'rb', 'bl'].includes(this.temp.className)) {
@@ -308,7 +308,7 @@ export default {
 			this.Drag = new Drag({ vue: this })
 		},
 		// image => canvas 图片转换
-		pictureConversion() {
+		pictureConversion () {
 			const imageEle = this.$refs.bgImage
 			imageEle.addEventListener('load', e => {
 				const imageInfo = imageEle.getBoundingClientRect()
@@ -343,7 +343,7 @@ export default {
 			})
 		},
 		// 裁剪
-		confirmCrop() {
+		confirmCrop () {
 			const synthesis = this.$refs.synthesis
 			// 别给 clipping-box 裁剪盒子设置 transform: translate(-50%, 10px);
 			const clippingBoxEle = document.querySelector('.clipping-box')
@@ -374,17 +374,17 @@ export default {
 			this.imageUrl = this.$refs.canvas.toDataURL()
 		},
 		// 点击圆
-		clickCircular() {
+		clickCircular () {
 			this.status = 'circular'
 			this.cropInit()
 		},
 		// 点击矩形
-		clickRectangle() {
+		clickRectangle () {
 			this.status = 'rectangle'
 			this.cropInit()
 		},
 		// 裁剪初始化
-		cropInit() {
+		cropInit () {
 			this.zoom = 50
 			const proportion = this.canvas.width / 100 * this.zoom
 			let left = this.canvas.width / 2 - proportion / 2
@@ -392,7 +392,7 @@ export default {
 		}
 	},
 	watch: {
-		zoom(newValue, oldValue) {
+		zoom (newValue, oldValue) {
 			if (!this.lock) return false
 			this.$nextTick(() => {
 				setTimeout(() => {

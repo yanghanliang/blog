@@ -9,7 +9,7 @@ export default {
 	name: 'App',
 	components: {
 	},
-	data() {
+	data () {
 		return {
 			ip: returnCitySN['cip'],
 			region: returnCitySN['cname'], // 地域
@@ -17,13 +17,13 @@ export default {
 			time: new Date().getTime(),
 		}
 	},
-	created() {
+	created () {
 		this.getUserJurisdiction()
 		this.ipIsExistence()
 	},
 	methods: {
 		// 获取用户权限
-		async getUserJurisdiction() {
+		async getUserJurisdiction () {
 			try {
 				const data = await this.$http.get('user/jurisdiction')
 				this.__proto__._jurisdiction = data
@@ -33,7 +33,7 @@ export default {
 			}
 		},
 		// 判断ip是否存在
-		async ipIsExistence() {
+		async ipIsExistence () {
 			try {
 				const data = await this.$http.post('echarts/web/is/ip', {
 					ip: this.ip
@@ -54,7 +54,7 @@ export default {
 				console.log(e, 'e')
 			}
 		},
-		async addBrowseUser() {
+		async addBrowseUser () {
 			if (this.ipInfo) {
 				// 第二次浏览本站
 				try {

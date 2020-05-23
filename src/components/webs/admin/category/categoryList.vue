@@ -33,18 +33,18 @@
 
 <script>
 export default {
-	data() {
+	data () {
 		return {
 			tableData: [],
 			dialogVisible: false,
 			row: {} // 行数据
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 获取分类数据
 	},
 	methods: {
-		async loadData() { // 获取分类数据
+		async loadData () { // 获取分类数据
 			const {
 				data
 			} = await this.$http.get('category')
@@ -52,11 +52,11 @@ export default {
 				this.tableData = data
 			}
 		},
-		showDialog(row) { // 显示对话框
+		showDialog (row) { // 显示对话框
 			this.dialogVisible = true // 显示提示框
 			this.row = row // 将行数据存储在 vue 中
 		},
-		async deleteCategory() { // 删除分类数据
+		async deleteCategory () { // 删除分类数据
 			this.dialogVisible = false // 关闭对话框
 			const {
 				data
@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	watch: {
-		'$route': function(now, old) {
+		'$route': function (now, old) {
 			this.loadData()
 		}
 	},

@@ -19,7 +19,7 @@
 
 <script>
 export default {
-	data() {
+	data () {
 		return {
 			show: 0,
 			modelData: [], // 模板数据
@@ -28,7 +28,7 @@ export default {
 	},
 	methods: {
 		// 点击修改时执行
-		edit(e) {
+		edit (e) {
 			// 显示按钮
 			// this.show = 1
 			// 获取元素
@@ -49,7 +49,7 @@ export default {
 			input.selectionStart = len
 		},
 		// 点击保存时执行
-		success(e) {
+		success (e) {
 			// 获取元素
 			let ele = e.currentTarget
 			let input = ele.parentElement.previousElementSibling

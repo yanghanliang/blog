@@ -64,20 +64,20 @@ export default {
 		}
 	},
 	computed: {
-		style() {
+		style () {
 			return `width: ${this.width}px; height:${this.width}px;`
 		}
 	},
-	mounted() {
+	mounted () {
 		this.init()
 	},
-	data() {
+	data () {
 		return {
 			progress: null
 		}
 	},
 	methods: {
-		init() {
+		init () {
 			let that = this
 
 			var My = function (params) {
@@ -466,7 +466,7 @@ export default {
             * @param {number} params.value
             * @return {number} angle
             */
-			My.prototype.valueTangle = function(params) {
+			My.prototype.valueTangle = function (params) {
 				let angle = 360 / 100 * params.value
 
 				if (this.direction) {
@@ -484,7 +484,7 @@ export default {
 		}
 	},
 	watch: {
-		progressValue(value) {
+		progressValue (value) {
 			// 把值转换成角
 			let angle = this.progress.valueTangle({
 				value: value

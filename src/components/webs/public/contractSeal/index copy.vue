@@ -38,7 +38,7 @@ console.log(PDFJS, 'PDFJS')
 
 export default {
 	name: 'helpCenter',
-	data() {
+	data () {
 		return {
 			pdfurl: 'http://47.98.182.149:3001/uploadFileURl/pdf/user.pdf', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
@@ -55,7 +55,7 @@ export default {
 			isready: false
 		}
 	},
-	created() {
+	created () {
 		var root = '$Urlhttp'
 		if (root !== '/ssocorp') {
 			this.ajaxUrl = ''
@@ -68,10 +68,10 @@ export default {
 		};
 	},
 	methods: {
-		signPic(e) {
+		signPic (e) {
 			document.addEventListener('mousemove', this.signmouseMve, false)
 		},
-		removeSignPic(e) {
+		removeSignPic (e) {
 			let signPicdom = document.querySelector('.sign-img')
 			let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
 			console.log(e)
@@ -88,7 +88,7 @@ export default {
 			console.log({perX: parseInt(perX * 100) + '%', perY: parseInt(perY * 100) + '%'})
 			return {perX: perX, perY: perY}// 获取到最后的位置；反出来；
 		},
-		signmouseMve(e) {
+		signmouseMve (e) {
 			var signPicdom = document.querySelector('.sign-img')
 			if (!(document.querySelector('.sign-wrap').firstChild === null)) {
 				signPicdom.appendChild(document.querySelector('.sign-wrap').firstChild)
@@ -98,12 +98,12 @@ export default {
 			signPicdom.style.top = (this.getPos(ev).y - signPicdom.clientHeight / 2) + 'px'
 			signPicdom.style.left = (this.getPos(ev).x - signPicdom.clientWidth / 2) + 'px'
 		},
-		getPos(ev) {
+		getPos (ev) {
 			// let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 			// let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
 			return {x: ev.clientX, y: ev.clientY}
 		},
-		getOffsetLeft(obj) {
+		getOffsetLeft (obj) {
 			var tmp = obj.offsetLeft
 			var val = obj.offsetParent
 			while (val != null) {
@@ -112,7 +112,7 @@ export default {
 			}
 			return tmp
 		},
-		getOffsetTop(obj) {
+		getOffsetTop (obj) {
 			var tmp = obj.offsetTop
 			var val = obj.offsetParent
 			while (val != null) {
@@ -121,15 +121,15 @@ export default {
 			}
 			return tmp
 		},
-		downpdf() { // 下载pdf
+		downpdf () { // 下载pdf
 			window.open(this.pdfurl)
 		},
-		renderPage(num) { // 渲染pdf
+		renderPage (num) { // 渲染pdf
 			let vm = this
 			this.pageRendering = true
 			let canvas = document.getElementById('the-canvas')
 			// Using promise to fetch the page
-			this.pdfDoc.getPage(num).then(function(page) {
+			this.pdfDoc.getPage(num).then(function (page) {
 				var viewport = page.getViewport(vm.compuscale)
 				// alert(vm.canvas.height)
 				canvas.height = viewport.height
@@ -144,7 +144,7 @@ export default {
 				var renderTask = page.render(renderContext)
 
 				// Wait for rendering to finish
-				renderTask.promise.then(function() {
+				renderTask.promise.then(function () {
 					vm.pageRendering = false
 					if (vm.pageNumPending !== null) {
 						// New page rendering is pending
@@ -155,21 +155,21 @@ export default {
 			})
 			vm.page_num = vm.pageNum
 		},
-		addscale() { // 放大
+		addscale () { // 放大
 			if (this.compuscale >= this.maxscale) {
 				return
 			}
 			this.compuscale += 0.1
 			this.queueRenderPage(this.pageNum)
 		},
-		minus() { // 缩小
+		minus () { // 缩小
 			if (this.compuscale <= this.minscale) {
 				return
 			}
 			this.compuscale -= 0.1
 			this.queueRenderPage(this.pageNum)
 		},
-		prev() { // 上一页
+		prev () { // 上一页
 			let vm = this
 			if (vm.pageNum <= 1) {
 				return
@@ -177,7 +177,7 @@ export default {
 			vm.pageNum--
 			vm.queueRenderPage(vm.pageNum)
 		},
-		next() { // 下一页
+		next () { // 下一页
 			let vm = this
 			if (vm.pageNum >= vm.page_count) {
 				return
@@ -186,7 +186,7 @@ export default {
 			vm.queueRenderPage(vm.pageNum)
 		},
 		// 跳转到指定的页
-		goTopage() {
+		goTopage () {
 			var that = this
 			if (Number.isNaN(that.gotopage_num / 1)) {
 				this.$message.error('请输入数字')
@@ -201,17 +201,17 @@ export default {
 			this.pageNum = this.gotopage_num
 			this.queueRenderPage(that.gotopage_num)
 		},
-		closepdf() { // 关闭PDF
+		closepdf () { // 关闭PDF
 			this.pageNum = 1
 			this.pdfDoc = null
 			this.isready = false
 			this.compuscale = this.scale
 			this.$emit('closepdf')
 		},
-		throwerr(err) {
+		throwerr (err) {
 			this.$emit('pdferr', err)
 		},
-		queueRenderPage(num) {
+		queueRenderPage (num) {
 			var a = parseInt(num)
 			console.log(a)
 			if (this.pageRendering) {
@@ -222,25 +222,25 @@ export default {
 		}
 	},
 	computed: {
-		ctx() {
+		ctx () {
 			let id = document.getElementById('the-canvas')
 			return id.getContext('2d')
 		},
-		isshowpdf() {
+		isshowpdf () {
 			if (this.value === undefined) return false
 			return this.value
 		}
 	},
-	mounted() {
+	mounted () {
 		this.compuscale = this.scale
 		let vm = this
 		var val = vm.pdfurl
 		if (val === '' || val === undefined) return
-		PDFJS.getDocument(val).then(function(pdfDoc_) { // 初始化pdf
+		PDFJS.getDocument(val).then(function (pdfDoc_) { // 初始化pdf
 			vm.pdfDoc = pdfDoc_
 			vm.page_count = vm.pdfDoc.numPages
 			vm.renderPage(vm.pageNum)
-		}).catch(function(err) {
+		}).catch(function (err) {
 			if (err) {
 				console.log(err)
 				vm.throwerr(vm.pdfurl)

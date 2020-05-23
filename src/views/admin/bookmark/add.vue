@@ -27,7 +27,7 @@
 <script>
 export default {
 	name: 'addBookmark',
-	data() {
+	data () {
 		let validatePass = async (rule, value, callback) => {
 			if (value) {
 				const data = await this.$http.get(`bookmark/query?bookmarkName=${value}`)
@@ -57,16 +57,16 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 获取分类数据
 	},
 	methods: {
-		async loadData() {
+		async loadData () {
 			const data = await this.$http.get('bookmark/list') // 获取分类数据
 			this.bookmarkList = [{ id: 0, name: '第一层级', pid: 0 }].concat(data) // 将分类数据赋值给 vue
 		},
 		// 添加书签
-		async addBookmark() {
+		async addBookmark () {
 			// 验证
 			const verification =  await this.Global.verification(this, 'form')
 			if (!verification) {

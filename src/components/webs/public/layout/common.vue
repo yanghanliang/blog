@@ -21,7 +21,7 @@ export default {
 	},
 	computed: {
 		// 内容位置
-		contentLocation() {
+		contentLocation () {
 			return this.content === 'left'
 		}
 	}

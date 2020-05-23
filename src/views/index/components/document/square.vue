@@ -14,14 +14,14 @@ export default {
 	components: {
 		mySquare
 	},
-	data() {
+	data () {
 		return {
 			showSquare: true
 		}
 	},
 	methods: {
 		// 刷新圆
-		refreshCircular(ele) {
+		refreshCircular (ele) {
 			this[ele] = false
 			this.$nextTick(() => {
 				this[ele] = true

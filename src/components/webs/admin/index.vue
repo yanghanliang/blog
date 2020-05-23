@@ -24,12 +24,12 @@ export default {
 		myNav,
 		RightContent
 	},
-	data() {
+	data () {
 		return {
 			isCollapse: true
 		}
 	},
-	beforeCreate() {
+	beforeCreate () {
 		const token = localStorage.getItem('token')
 		if (!token) {
 			// 弹出提示

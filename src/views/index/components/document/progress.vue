@@ -30,7 +30,7 @@ export default {
 	components: {
 		myProgress,
 	},
-	data() {
+	data () {
 		return {
 			tableData: [
 				{
@@ -100,16 +100,16 @@ export default {
 		}
 	},
 	computed: {
-		edit() {
+		edit () {
 			return !this.noJurisdiction.includes('component')
 		}
 	},
-	created() {
+	created () {
 		this.getComponentsDetails()
 	},
 	methods: {
 		// 保存内容
-		async saveContent(content) {
+		async saveContent (content) {
 			let postData = {
 				name: this.name,
 				content: content
@@ -122,7 +122,7 @@ export default {
 			}
 		},
 		// 获取组件详情
-		async getComponentsDetails() {
+		async getComponentsDetails () {
 			try {
 				const data = await this.$http.get(`components/details?name=${this.name}`)
 				this.content = data[0].content

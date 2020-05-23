@@ -34,55 +34,55 @@ export default {
 		}
 	},
 	components: {},
-	data() {
+	data () {
 		return {
 			time: [],
 			title: '今天',
 			pickerOptions: {
-				disabledDate(time) {
+				disabledDate (time) {
 					return time.getTime() > Date.now()
 				},
 				shortcuts: [
 					{
 						text: '今天',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[0].date)
 						}
 					},
 					{
 						text: '本周至今',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[1].date)
 						}
 					},
 					{
 						text: '本月至今',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[2].date)
 						}
 					},
 					{
 						text: '最近三个月',
-						onClick(picker) {
+						onClick (picker) {
 							console.log(dateType[3].date, dateType[3])
 							picker.$emit('pick', dateType[3].date)
 						}
 					},
 					{
 						text: '最近六个月',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[4].date)
 						}
 					},
 					{
 						text: '今年至今',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[5].date)
 						}
 					},
 					{
 						text: '近一周',
-						onClick(picker) {
+						onClick (picker) {
 							picker.$emit('pick', dateType[6].date)
 						}
 					},
@@ -91,25 +91,25 @@ export default {
 		}
 	},
 	computed: {},
-	created() {
+	created () {
 		this.initData() // 初始化时间
 	},
 	methods: {
-		triggerFocus() {
+		triggerFocus () {
 			this.$refs.date.focus()
 		},
-		dateChange(params) {
+		dateChange (params) {
 			this.$emit('dateChange', this.time)
 			this.dateTitle()
 		},
-		initData() {
+		initData () {
 			this.time = dateType[this.dateType - 1].date
 			this.title = dateType[this.dateType - 1].title
 			// 将初始化的时间返回
 			this.$emit('dateChange', this.time)
 		},
 		// 识别时间后转换为文字
-		dateTitle() {
+		dateTitle () {
 			for (let i = 0, length = dateType.length; i < length; i++) {
 				let item = dateType[i]
 				if (item.date[0] === this.time[0] && item.date[1] === this.time[1]) {

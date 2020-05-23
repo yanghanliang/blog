@@ -43,7 +43,7 @@ export default {
 		myTag
 	},
 	filters: {
-		iconClass(item) {
+		iconClass (item) {
 			let className = [item.status]
 			let icon = item.icon ? item.icon : 'my-icon-icon-test'
 			if (item.children && item.children.length > 0) {
@@ -58,25 +58,25 @@ export default {
 
 			return className.join(' ')
 		},
-		style(item) {
+		style (item) {
 			let left = 2 + item.level * 20
 			return `margin-left: ${left}px;`
 		},
-		active(router, $route) {
+		active (router, $route) {
 			let active = $route.includes(router)
 			return active
 		}
 	},
 	methods: {
-		dataHandle() {
+		dataHandle () {
 		},
 		// 点击开关时执行
-		clickSwitch(row) {
+		clickSwitch (row) {
 			row.status = row.status === 'close' ? 'open' : 'close'
 			return false
 		},
 		// 组件跳转不刷新页面
-		jump(router) {
+		jump (router) {
 			if (this.isBlank) {
 				// 站外跳转
 				window.open(router, '_blank')

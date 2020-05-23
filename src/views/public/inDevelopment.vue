@@ -12,7 +12,7 @@
 <script>
 export default {
 	name: 'inDevelopment',
-	data() {
+	data () {
 		return {
 			routingInformation: {
 				name1: '首页',

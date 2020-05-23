@@ -71,7 +71,7 @@
 import moment from 'moment'
 
 export default {
-	data() {
+	data () {
 		return {
 			routingInformation: {
 				name1: '首页',
@@ -94,11 +94,11 @@ export default {
 			pageSizes: [5, 10, 15, 20]
 		}
 	},
-	created() {
+	created () {
 		this.getData() // 获取文章列表数据
 	},
 	methods: {
-		async getData() { // 获取文章列表数据
+		async getData () { // 获取文章列表数据
 			const data = await this.$http.get(
 				`articleList/${this.sortData.sortField}/${this.sortData.orderBy}/${this.sortData.pageSize}`
 			) // 发送请求
@@ -106,17 +106,17 @@ export default {
 			this.retainTotal = data.getArticleNumber // 保留表数据的总条数
 			this.tableData = data.data // 渲染表格数据
 		},
-		stitchingString(str) { // 字符串拼接
+		stitchingString (str) { // 字符串拼接
 			if (str.length > 26) {
 				return str.substr(0, 26) + '...'
 			}
 			return str
 		},
-		deleteArticle(id) { // 点击删除按钮时执行
+		deleteArticle (id) { // 点击删除按钮时执行
 			this.dialogVisible = true // 显示弹窗
 			this.id = id // 保存 id
 		},
-		async deleteData() { // 删除数据(在删除弹窗里,点击确定按钮时执行)
+		async deleteData () { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
 			const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
 			this.total = data.getArticleNumber
@@ -139,7 +139,7 @@ export default {
 				})
 			}
 		},
-		deleteTableData(id) { // 删除表格数据
+		deleteTableData (id) { // 删除表格数据
 			const data = this.tableData // 获取表格数据
 			for (let i = 0; i < data.length; i++) {
 				if (data[i].id === id) { // 找到删除的数据
@@ -148,15 +148,15 @@ export default {
 				}
 			}
 		},
-		handleSizeChange(val) { // 每页条数改变时执行
+		handleSizeChange (val) { // 每页条数改变时执行
 			this.sortData.pageSize = val // 更新每页条数
 			this.paging() // 获取分页数据并渲染
 		},
-		clickPage(val) { // 点击页码
+		clickPage (val) { // 点击页码
 			this.sortData.currentPage = val // 更新当前页码
 			this.paging() // 获取分页数据并渲染
 		},
-		async paging() { // 分页
+		async paging () { // 分页
 			const {
 				data
 			} = await this.$http.post('paging', this.sortData)
@@ -175,11 +175,11 @@ export default {
 				}
 			}
 		},
-		searchFn() { // 搜索内容
+		searchFn () { // 搜索内容
 			this.sortData.currentPage = 1 // 重置当前页
 			this.paging()
 		},
-		async sortChange(column) { // 排序方式改变时执行(文档说明)
+		async sortChange (column) { // 排序方式改变时执行(文档说明)
 			// 因为第一次页面加载就执行此函数,故做此判断,减少请求,优化代码(自己测试得出)
 			if (this.sortData.sortField !== column.prop || this.sortData.orderBy !== column.order) {
 				this.sortData.sortField = column.prop // 修改排序字段

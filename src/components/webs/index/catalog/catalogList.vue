@@ -46,7 +46,7 @@ export default {
 		myHeader,
 		myFooter
 	},
-	data() {
+	data () {
 		return {
 			catalogData: {
 				'a': [], // 2019
@@ -56,11 +56,11 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.loadData()
 	},
 	methods: {
-		async loadData() {
+		async loadData () {
 			try {
 				const data = await this.$http.get('catalog')
 				for (let i = 0; i < data.length; i++) {

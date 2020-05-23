@@ -21,7 +21,7 @@
 <script>
 export default {
 	name: 'addCategory',
-	data() {
+	data () {
 		return {
 			categoryData: [],
 			form: {
@@ -32,17 +32,17 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 获取分类数据
 	},
 	methods: {
-		async loadData() {
+		async loadData () {
 			const {
 				data
 			} = await this.$http.get('category') // 获取分类数据
 			this.categoryData = data // 将分类数据赋值给 vue
 		},
-		async addCategory() {
+		async addCategory () {
 			const {
 				data
 			} = await this.$http.post('addCategory', this.form)
@@ -62,7 +62,7 @@ export default {
 				})
 			}
 		},
-		changeSelectValue(pid) {
+		changeSelectValue (pid) {
 			this.form.pid = pid
 		}
 	}

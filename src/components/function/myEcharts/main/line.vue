@@ -10,15 +10,15 @@ import props from './props'
 export default {
 	name: 'line',
 	mixins: [].concat(props),
-	created() {
+	created () {
 		console.log(this.xAxisData, 'this.seriesData****')
 	},
-	mounted() {
+	mounted () {
 		// 直接传入数据，则自动初始化
 		!this.getData && this.init()
 	},
 	methods: {
-		init() {
+		init () {
 			// 基于准备好的dom，初始化echarts实例
 			// this.$refs.echarts
 			// document.getElementById('echarts') || document.querySelect('.echarts') 这种方式，只能渲染出一个
@@ -82,13 +82,13 @@ export default {
 		}
 	},
 	watch: {
-		seriesData(now, before) { // 监听数据变化，更新图表
+		seriesData (now, before) { // 监听数据变化，更新图表
 			this.init()
 		},
-		time(date) { // 监听时间变化
+		time (date) { // 监听时间变化
 			this.init()
 		},
-		option(now, before) { // 监听数据变化，更新图表
+		option (now, before) { // 监听数据变化，更新图表
 			this.init()
 		},
 	},

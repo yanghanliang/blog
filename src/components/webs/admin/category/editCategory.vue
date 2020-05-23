@@ -27,7 +27,7 @@
 <script>
 export default {
 	name: 'editCategory',
-	data() {
+	data () {
 		return {
 			categoryData: [],
 			form: {
@@ -39,18 +39,18 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.getCategoryData() // 获取分类数据
 		this.getEditCategoryData() // 获取需要修改的分类数据
 	},
 	methods: {
-		async getCategoryData() {
+		async getCategoryData () {
 			const {
 				data
 			} = await this.$http.get('category') // 获取分类数据
 			this.categoryData = data // 将分类数据赋值给 vue
 		},
-		async getEditCategoryData() { // 获取需要修改的分类数据
+		async getEditCategoryData () { // 获取需要修改的分类数据
 			const data = await this.$http.get(`editCategory/${this.form.id}`)
 			this.form.classname = data[0].classname
 			this.form.pid = data[0].pid
@@ -67,7 +67,7 @@ export default {
 				}
 			}
 		},
-		async editCategory() {
+		async editCategory () {
 			const {
 				data
 			} = await this.$http.put('updateCategory', this.form)
@@ -90,7 +90,7 @@ export default {
 				})
 			}
 		},
-		changeSelectValue(pid) {
+		changeSelectValue (pid) {
 			this.form.pid = pid
 			const data = this.categoryData
 			for (var i = 0; i < data.length; i++) {

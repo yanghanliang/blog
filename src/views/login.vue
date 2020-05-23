@@ -50,7 +50,7 @@
 <script>
 export default {
 	name: 'login',
-	data() {
+	data () {
 		var username = async (rule, value, callback) => {
 			if (value) {
 				// 如果是登录,则不需要下面的验证
@@ -115,10 +115,10 @@ export default {
 			lock: true
 		}
 	},
-	created() {
+	created () {
 		this.meteorShower()
 	},
-	beforeDestroy() {
+	beforeDestroy () {
 		// 如果不清除, 那么跳转到其他页面是还是会出现流星雨的效果，因为
 		// 1、setInterval事件和组件的生命周期没有直接关系。
 		// 2、setInterval会返回一个ID 值。setInterval() 方法会不停地调用函数，直到 clearInterval() 被调用或窗口被关闭
@@ -126,7 +126,7 @@ export default {
 	},
 	methods: {
 		// 登录
-		async login() {
+		async login () {
 			// 表单验证
 			const rules = await this.Global.verification(this, 'form')
 			if (!rules) {
@@ -164,7 +164,7 @@ export default {
 			}
 		},
 		// 流星
-		meteorShower(parameter) {
+		meteorShower (parameter) {
 			let pt = {
 				eachStep: 5, // 流星每次移动的距离
 				eachTime: 30, // 流行每 30 毫秒走一步
@@ -195,7 +195,7 @@ export default {
 				pt[key] = parameter[key]
 			}
 
-			function randomDistance(max, min) { // 封装随机数方法
+			function randomDistance (max, min) { // 封装随机数方法
 				let distance = Math.floor(Math.random() * (max - min + 1) + min)
 				return distance
 			}
@@ -266,7 +266,7 @@ export default {
 			})
 		},
 		// 注册
-		async register() {
+		async register () {
 			// 表单验证
 			const rules = await this.Global.verification(this, 'form')
 			if (rules) {
@@ -287,14 +287,14 @@ export default {
 			}
 		},
 		// 清空验证
-		resetForm() {
+		resetForm () {
 			this.form.username = ''
 			this.form.password = ''
 			this.form.confirmPassword = ''
 			this.$refs.form.resetFields()
 		},
 		// 这个是为了去掉浏览器默认的提示
-		passwordFocus() {
+		passwordFocus () {
 			if (String(this.form.password).length === 0) {
 				if (this.lock) {
 					this.$refs.password.blur()
@@ -307,7 +307,7 @@ export default {
 				}
 			}
 		},
-		confirmPasswordFocus() {
+		confirmPasswordFocus () {
 			if (String(this.form.confirmPassword).length === 0) {
 				if (this.lock) {
 					this.$refs.confirmPassword.blur()
@@ -323,7 +323,7 @@ export default {
 	},
 	watch: {
 		// 这个是为了去掉浏览器默认的提示
-		'form.password': function(value, v2) {
+		'form.password': function (value, v2) {
 			if (this.activeName === 'login') {
 				return false
 			}
@@ -341,7 +341,7 @@ export default {
 				})
 			}
 		},
-		'form.confirmPassword': function(value) {
+		'form.confirmPassword': function (value) {
 			if (this.activeName === 'login') {
 				return false
 			}

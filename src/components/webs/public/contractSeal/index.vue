@@ -19,7 +19,7 @@ import PDFJS from 'pdfjs-dist'
 
 export default {
 	name: 'signature', // 签章
-	data() {
+	data () {
 		return {
 			pdfurl: 'http://47.98.182.149:3001/uploadFileURl/pdf/user.pdf', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
@@ -30,17 +30,17 @@ export default {
 		}
 	},
 	computed: {
-		ctx() {
+		ctx () {
 			return this.canvas.getContext('2d')
 		}
 	},
-	mounted() {
+	mounted () {
 		this.initPdf()
 		this.registerEvents()
 	},
 	methods: {
 		// 渲染pdf
-		renderPage(num) {
+		renderPage (num) {
 			this.pdfDoc.getPage(num).then((page) => {
 				var viewport = page.getViewport(this.scale)
 				// console.log(viewport.width, 'viewport.width')
@@ -55,7 +55,7 @@ export default {
 			})
 		},
 		// 初始化PDF
-		initPdf() {
+		initPdf () {
 			// 获取 canvas
 			this.canvas = this.$refs.canvas
 			// 初始化pdf
@@ -63,7 +63,7 @@ export default {
 				this.pdfDoc = pdfDoc_
 				this.page_count = this.pdfDoc.numPages
 				this.renderPage(this.currentPage)
-			}).catch(function(err) {
+			}).catch(function (err) {
 				if (err) {
 					console.log(err)
 					this.throwerr(this.pdfurl)
@@ -71,8 +71,8 @@ export default {
 			})
 		},
 		// 给章注册事件
-		registerEvents() {
-			let Drag = function(params) {
+		registerEvents () {
+			let Drag = function (params) {
 				this.vue = params.vm
 				this.isDown = false
 				this.eleInfo = null
@@ -85,7 +85,7 @@ export default {
 			}
 
 			// 事件初始化
-			Drag.prototype.init = function() {
+			Drag.prototype.init = function () {
 				this.mousedown()
 				this.mousemove()
 				this.mouseup()
@@ -93,7 +93,7 @@ export default {
 			}
 
 			// 元素按下
-			Drag.prototype.mousedown = function() {
+			Drag.prototype.mousedown = function () {
 				let parent = document.querySelector('#chapter-box')
 				parent.addEventListener('mousedown', e => {
 					if (e.target.className.includes('chapter')) {
@@ -112,7 +112,7 @@ export default {
 			}
 
 			// 鼠标移动
-			Drag.prototype.mousemove = function() {
+			Drag.prototype.mousemove = function () {
 				document.addEventListener('mousemove', e => {
 					if (this.isDown) {
 						this.x = e.x
@@ -123,7 +123,7 @@ export default {
 			}
 
 			// 元素抬起
-			Drag.prototype.mouseup = function() {
+			Drag.prototype.mouseup = function () {
 				document.addEventListener('mouseup', e => {
 					this.isDown = false
 					document.body.style.cursor = 'default'
@@ -141,7 +141,7 @@ export default {
 			}
 
 			// 元素滚动
-			Drag.prototype.scroll = function() {
+			Drag.prototype.scroll = function () {
 				document.addEventListener('scroll', e => {
 					this.scrollTop = document.documentElement.scrollTop
 					this.move()
@@ -149,7 +149,7 @@ export default {
 			}
 
 			// 元素移动
-			Drag.prototype.move = function() {
+			Drag.prototype.move = function () {
 				if (this.ele && this.isDown) {
 					this.ele.style.top = this.y - this.eleInfo.height / 2 + this.scrollTop + 'px'
 					this.ele.style.left = this.x - this.eleInfo.width / 2 + 'px'
@@ -161,7 +161,7 @@ export default {
 			})
 		},
 		// 图片合成
-		pictureSynthesis() {
+		pictureSynthesis () {
 			const imgEle = document.querySelector('#chapter')
 			const imgInfo = imgEle.getBoundingClientRect()
 			const canvas = this.canvas.getBoundingClientRect()
@@ -174,7 +174,7 @@ export default {
 			document.querySelector('.synthesis').setAttribute('src', this.canvas.toDataURL())
 		},
 		// 点击下载
-		clickDownload() {
+		clickDownload () {
 			this.pictureSynthesis()
 		},
 	},

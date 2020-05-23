@@ -110,11 +110,11 @@ export default {
 		myEcharts
 	},
 	computed: {
-		edit() {
+		edit () {
 			return !this.noJurisdiction.includes('component')
 		}
 	},
-	data() {
+	data () {
 		return {
 			echartsBase: {
 				name: 'echartsBase',
@@ -245,14 +245,14 @@ export default {
 			]
 		}
 	},
-	created() {
+	created () {
 		this.getComponentsDetails('echartsBase')
 		this.getComponentsDetails('optionEcharts')
 		this.getComponentsDetails('configEcharts')
 	},
 	methods: {
 		// 保存内容
-		async saveContent(current) {
+		async saveContent (current) {
 			let postData = {
 				name: this[current].name,
 				content: this[current].content
@@ -265,7 +265,7 @@ export default {
 			}
 		},
 		// 获取组件详情
-		async getComponentsDetails(current) {
+		async getComponentsDetails (current) {
 			try {
 				const data = await this.$http.get(`components/details?name=${this[current].name}`)
 				this[current].content = data[0].content
@@ -274,7 +274,7 @@ export default {
 			}
 		},
 		// 获取数据
-		configGetData(params) {
+		configGetData (params) {
 			return [10, 40, 80, 120]
 		}
 	},

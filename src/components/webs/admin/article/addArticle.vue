@@ -31,7 +31,7 @@
 <script>
 export default {
 	name: 'handleArticle',
-	data() {
+	data () {
 		return {
 			form: {
 				title: '', // 文章标题
@@ -59,7 +59,7 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.getCategoryData() // 获取分类数据
 		const articleId = this.$route.params.articleId // 获取路由参数
 		if (articleId) {
@@ -67,7 +67,7 @@ export default {
 		}
 	},
 	methods: {
-		async addArticle() { // 点击添加文章||修改文章时执行
+		async addArticle () { // 点击添加文章||修改文章时执行
 			// 验证
 			const verification =  await this.Global.verification(this, 'form')
 			if (!verification) {
@@ -98,7 +98,7 @@ export default {
 				})
 			}
 		},
-		async getEditData(articleId) { // 获取修改数据
+		async getEditData (articleId) { // 获取修改数据
 			let {
 				data
 			} = await this.$http.get(`articleDetails/${articleId}`)
@@ -113,14 +113,14 @@ export default {
 			this.url = `editArticle/${articleId}` // 修改url
 			this.type = 'put' // 修改请求类型
 		},
-		async getCategoryData() { // 获取分类数据
+		async getCategoryData () { // 获取分类数据
 			const {
 				data
 			} = await this.$http.get('category')
 			this.categoryData = data
 		},
 		// 添加图片
-		async imgAdd(pos, $file) {
+		async imgAdd (pos, $file) {
 			var formdata = new FormData()
 			formdata.append('file', $file)
 			formdata.append('url', '/uploadFileURl/article')
@@ -141,7 +141,7 @@ export default {
 			}
 		},
 		// 删除图片
-		async imgDel(files) {
+		async imgDel (files) {
 			let index = files[0].indexOf('uploadFileURl')
 			let path = './' + files[0].slice(index)
 			const postData = {

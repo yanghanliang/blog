@@ -6,7 +6,7 @@
 
 <script>
 export default {
-	data() {
+	data () {
 		return {
 			scope: '<dogscope/>',
 			challenge: '', // 后台返回挑战数据
@@ -14,7 +14,7 @@ export default {
 		}
 	},
 	methods: {
-		checkDog() { // 检查超级狗
+		checkDog () { // 检查超级狗
 			let stat = ''
 			if (this.authCode === '') {
 				this.getAuthCode()
@@ -43,7 +43,7 @@ export default {
 			}
 			setTimeout(this.checkDog, 2000)
 		},
-		loadFunc() { // 加载相关函数
+		loadFunc () { // 加载相关函数
 			if (navigator.userAgent.indexOf('Window') > 0) {
 				if (navigator.userAgent.indexOf('Chrome') > 0) { // Chrome
 					emitter.$on('message', (event) => {
@@ -78,7 +78,7 @@ export default {
 				setTimeout(this.checkDog, 2000)
 			}
 		},
-		uKeyLogin(formName) { // 超级狗登录
+		uKeyLogin (formName) { // 超级狗登录
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					if (this.uKeyForm.password.length < 6 || this.uKeyForm.password.length > 16) {
@@ -179,7 +179,7 @@ export default {
 				}
 			})
 		},
-		uKeyDoAuth(dogId, digest) { // 超级狗验证
+		uKeyDoAuth (dogId, digest) { // 超级狗验证
 			loginService.uKeyLogin({
 				dogid: dogId,
 				digest: digest,

@@ -52,18 +52,18 @@ export default {
 	components: {
 		articleList
 	},
-	data() {
+	data () {
 		return {
 			lock: false,
 			searchData: '', // 传入组件中的搜索内容
 			search: ''
 		}
 	},
-	created() {
+	created () {
 	},
 	methods: {
 		// 输入搜索
-		searchInput() {
+		searchInput () {
 			this.lock = true // 关闭锁
 			// 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
 			if (!/[0-9a-zA-Z]+/.test(this.search)) { // 如果输入有数字字母则不执行
@@ -71,12 +71,12 @@ export default {
 			}
 		},
 		// 点击搜索
-		searchclick() {
+		searchclick () {
 			this.lock = true // 开启锁
 			this.searchData = this.search
 		},
 		// 没有想要的数据时跳转到百度搜索
-		jump(msg) {
+		jump (msg) {
 			if (this.lock) {
 				this.$message({
 					message: msg + '即将跳转百度搜索!',
@@ -97,7 +97,7 @@ export default {
 				icon.className = 'el-message__closeBtn el-icon-close'
 				message.appendChild(icon)
 
-				icon.onclick = function() {
+				icon.onclick = function () {
 					document.querySelector('.el-message').remove()
 				}
 			}

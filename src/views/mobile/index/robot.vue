@@ -24,7 +24,7 @@
 
 <script>
 export default {
-	data() {
+	data () {
 		return {
 			data: [
 				// {
@@ -41,7 +41,7 @@ export default {
 	},
 	methods: {
 		// 获取数据
-		async send() {
+		async send () {
 			this.data.push({
 				send: this.value,
 				status: 0 // 发送是0，回复是1
@@ -70,11 +70,11 @@ export default {
 			this.value = ''
 		},
 		// 实现数据双向绑定
-		textChange() {
+		textChange () {
 			this.value = this.$refs.input.innerText
 		},
 		// 置底
-		bottomSetting() {
+		bottomSetting () {
 			// 让页面置底
 			this.$nextTick(() => {
 				this.$refs.show.scrollIntoView()

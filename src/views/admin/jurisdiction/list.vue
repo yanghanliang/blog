@@ -42,7 +42,7 @@
 <script>
 export default {
 	name: 'jurisdictionList',
-	data() {
+	data () {
 		return {
 			routingInformation: {
 				name1: '首页',
@@ -52,11 +52,11 @@ export default {
 			tableData: [],
 		}
 	},
-	created() {
+	created () {
 		this.getTableData()
 	},
 	methods: {
-		async getTableData() {
+		async getTableData () {
 			try {
 				const data =  await this.$http.get(`jurisdiction/list/${this.$route.query.distribution}`)
 				this.tableData = data
@@ -65,7 +65,7 @@ export default {
 			}
 		},
 		// 状态改变时执行
-		async statusChange(row) {
+		async statusChange (row) {
 			const postData = {
 				name: row.j_name,
 				identification: row.identification,
@@ -87,7 +87,7 @@ export default {
 			}
 		},
 		// 删除权限
-		deleteJurisdiction(id) {
+		deleteJurisdiction (id) {
 			this.$alert('您是否确定删除此权限？', '删除权限', {
 				confirmButtonText: '确定',
 				callback: async action => {
@@ -103,7 +103,7 @@ export default {
 		}
 	},
 	watch: {
-		'$route': function(now, old) {
+		'$route': function (now, old) {
 			this.getTableData()
 		}
 	},

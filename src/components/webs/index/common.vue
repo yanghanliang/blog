@@ -35,7 +35,7 @@ export default {
 		articleList,
 		category,
 	},
-	data() {
+	data () {
 		return {
 			personalInformation: {}, // 个人信息数据
 			lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
@@ -45,13 +45,13 @@ export default {
 			className: ''
 		}
 	},
-	created() {
+	created () {
 		this.getUserInfo()
 		this.tips() // 友情提示
 	},
 	methods: {
 		// 获取用户信息
-		async getUserInfo() {
+		async getUserInfo () {
 			try {
 				this.personalInformation = await this.$http.get('user/details')
 			} catch (e) {
@@ -59,14 +59,14 @@ export default {
 			}
 		},
 		// 输入搜索
-		searchInput() {
+		searchInput () {
 			// 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
 			if (!/[0-9a-zA-Z]+/.test(this.search)) { // 如果输入有数字字母则不执行
 				this.searchData = this.search
 			}
 		},
 		// 没有想要的数据时跳转到百度搜索
-		jump(msg) {
+		jump (msg) {
 			if (this.lock) {
 				this.$message({
 					message: msg + '即将跳转百度搜索!',
@@ -87,17 +87,17 @@ export default {
 				icon.className = 'el-message__closeBtn el-icon-close'
 				message.appendChild(icon)
 
-				icon.onclick = function() {
+				icon.onclick = function () {
 					document.querySelector('.el-message').remove()
 				}
 			}
 		},
 		// 回车搜索
-		searchEnter() {
+		searchEnter () {
 			this.lock = true // 开启锁
 			this.searchData = this.search
 		},
-		tips() {
+		tips () {
 			const h = this.$createElement
 			this.$notify({
 				offset: 100,
@@ -106,7 +106,7 @@ export default {
 				message: h('i', { style: 'color: teal' }, '目前此网站正在持续更新中，或许您下一次打开就会不一样哦~')
 			})
 		},
-		setCatgoryData(data) {
+		setCatgoryData (data) {
 			this.article = data.getData.data
 			this.className = data.className // 重置分类
 			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离

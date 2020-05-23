@@ -248,7 +248,7 @@ export default {
 			return this.Global.baseURL + this.src
 		},
 		// 是否显示分页
-		isPagination() {
+		isPagination () {
 			if (this.recommend.total > this.recommend.pageSize) {
 				return false
 			} else {
@@ -256,7 +256,7 @@ export default {
 			}
 		}
 	},
-	data() {
+	data () {
 		let mailboxValidation = (rule, value, callback) => {
 			if (/\S/.test(value) && value !== null) {
 				const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
@@ -402,7 +402,7 @@ export default {
 						pattern: /[0-9a-zA-Z_.-\D]+/,
 						message: '说点啥',
 						trigger: 'change',
-						transform(value) {
+						transform (value) {
 							return value.trim()
 						}
 					}
@@ -482,13 +482,13 @@ export default {
 			praiseStatus: false, // 点赞的状态 false 没有点赞
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 获取文章详情数据
 		this.getCommentData() // 获取评论数据
 		this.getUserInfo() // 获取用户信息
 	},
 	methods: {
-		async loadData() { // 获取文章详情数据
+		async loadData () { // 获取文章详情数据
 			const {
 				data
 			} = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
@@ -505,14 +505,14 @@ export default {
 			this.getRecommendData() // 获取推荐数据
 			this.during() // 获取上一篇和下一篇的数据
 		},
-		async during() { // 获取上一篇和下一篇的数据
+		async during () { // 获取上一篇和下一篇的数据
 			const {
 				data
 			} = await this.$http.get(`during/${this.articleData.createtime}`) // 发送请求
 			this.preArticle = data.preArticle // 将值赋值给 vue
 			this.nextArticle = data.nextArticle
 		},
-		async getCommentData() { // 获取评论数据
+		async getCommentData () { // 获取评论数据
 			try {
 				const data = await this.$http.get(`comment/${this.$route.params.articleId}`)
 				this.commentData = data
@@ -520,12 +520,12 @@ export default {
 				console.log(e)
 			}
 		},
-		clickDuring(id) { // 点击上上一页或下一页时执行
+		clickDuring (id) { // 点击上上一页或下一页时执行
 			this.$router.push({
 				path: `/articleDetails/${id}`
 			})
 		},
-		submitForm(formName, uri, fromData, callback) { // 提交评论
+		submitForm (formName, uri, fromData, callback) { // 提交评论
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) { // 数据验证成功
 					this[formName].article_id = this.$route.params.articleId
@@ -548,19 +548,19 @@ export default {
 				}
 			})
 		},
-		resetForm(formName) { // 重置表单
+		resetForm (formName) { // 重置表单
 			// 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
 			this.$refs[formName].resetFields()
 		},
-		replay(alias, commentId, parentIndex, index) { // 回复评论
+		replay (alias, commentId, parentIndex, index) { // 回复评论
 			this.dialogFormVisible = true // 显示对话框
 			this.replyAlias = `回复 - ${alias} :` // 标题
 			this.replyForm.comment_id = commentId // 评论 id
 		},
-		closeDialogBoxes() { // 关闭对话框
+		closeDialogBoxes () { // 关闭对话框
 			this.dialogFormVisible = false
 		},
-		async editHeadPortrait(data) { // 点击评论头像时触发
+		async editHeadPortrait (data) { // 点击评论头像时触发
 			this.dialogFormVisible2 = true
 			this.user.id = data.id
 			this.user.alias = data.alias
@@ -571,7 +571,7 @@ export default {
 			localStorage.setItem('alias', data.alias) // 记录昵称
 		},
 		// 阻止upload的自己上传，进行再操作
-		beforeupload(file) {
+		beforeupload (file) {
 			// // 创建临时的路径来展示图片
 			// var windowURL = window.URL || window.webkitURL
 			// this.src = windowURL.createObjectURL(file)
@@ -581,7 +581,7 @@ export default {
 			// return false
 			// console.log(file)
 		},
-		async onSubmit() { // 表单提交的事件
+		async onSubmit () { // 表单提交的事件
 			this.$refs.user.validate(async (valid) => {
 				if (valid) { // 数据验证成功
 					let postData = {
@@ -610,7 +610,7 @@ export default {
 			})
 		},
 		// 覆盖默认的上传行为
-		async httpRequest(file) {
+		async httpRequest (file) {
 			let formdata = new FormData()
 			formdata.append('file', file.file)
 			this.progressPercent = 0
@@ -637,7 +637,7 @@ export default {
 			}
 		},
 		// 获取用户信息
-		getUserInfo() {
+		getUserInfo () {
 			const userInfo = JSON.parse(window.localStorage.getItem('user'))
 			if (userInfo) {
 				this.userInfo = userInfo
@@ -650,7 +650,7 @@ export default {
 			}
 		},
 		// 获取推荐的数据
-		async getRecommendData() {
+		async getRecommendData () {
 			let postData = {
 				currentPage: this.recommend.currentPage,
 				pageSize: this.recommend.pageSize,
@@ -668,7 +668,7 @@ export default {
 			}
 		},
 		// 更新点赞数
-		async editPraise() {
+		async editPraise () {
 			const top = document.documentElement.scrollTop
 			let postData = {
 				articleId: this.articleData.id,
@@ -694,7 +694,7 @@ export default {
 		}
 	},
 	watch: {
-		$route() { // 监听路由变化
+		$route () { // 监听路由变化
 			this.loadData()
 			this.getCommentData() // 重新获取评论数据
 		},

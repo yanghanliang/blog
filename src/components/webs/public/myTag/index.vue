@@ -63,7 +63,7 @@ export default {
 		}
 	},
 	computed: {
-		disabled() {
+		disabled () {
 			if (this.status === 'edit') {
 				return true
 			} else {
@@ -71,14 +71,14 @@ export default {
 			}
 		}
 	},
-	data() {
+	data () {
 		return {
 			status: 'default',
 		}
 	},
 	methods: {
 		// 编辑
-		edit() {
+		edit () {
 			// 改变状态
 			this.status = 'edit'
 			// 获取焦点
@@ -99,7 +99,7 @@ export default {
 			})
 		},
 		// 点击确认时执行
-		handleConfig() {
+		handleConfig () {
 			let value = this.$refs.content.innerText.trim()
 			this.$refs.content.innerText = value // 兼容回车键
 			this.status = 'defalut'
@@ -107,7 +107,7 @@ export default {
 			this.$emit('handleConfirm', this.tagData)
 		},
 		// 点击删除时执行
-		handleDelete() {
+		handleDelete () {
 			this.$emit('handleDelete', this.tagData)
 		}
 	},

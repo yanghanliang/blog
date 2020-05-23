@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	data() {
+	data () {
 		return {
 			routingInformation: { // 面包屑数据
 				name1: '首页',

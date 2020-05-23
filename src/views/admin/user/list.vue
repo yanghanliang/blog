@@ -58,7 +58,7 @@
 <script>
 export default {
 	name: 'userList',
-	data() {
+	data () {
 		return {
 			routingInformation: {
 				name1: '首页',
@@ -76,7 +76,7 @@ export default {
 		}
 	},
 	filters: {
-		statusHandle(value) {
+		statusHandle (value) {
 			if (value) {
 				return 'success'
 			} else {
@@ -86,19 +86,19 @@ export default {
 	},
 	computed: {
 		// 已选的 tag id 数组
-		tagIds() {
+		tagIds () {
 			return this.tags.map((item) => {
 				return item.id
 			})
 		}
 	},
-	created() {
+	created () {
 		this.getUserList()
 		this.getJurisdictionList()
 	},
 	methods: {
 		// 获取用户列表
-		async getUserList() {
+		async getUserList () {
 			try {
 				const data = await this.$http.get('user/list')
 				this.tableData = data
@@ -107,7 +107,7 @@ export default {
 			}
 		},
 		// 获取用户权限
-		async getUserJurisdiction(userName) {
+		async getUserJurisdiction (userName) {
 			const postData = {
 				userName: userName
 			}
@@ -119,7 +119,7 @@ export default {
 			}
 		},
 		// 点击展开行时执行
-		async rowExpand(row, event, column) {
+		async rowExpand (row, event, column) {
 			Array.prototype.remove = function (val) {
 				let index = this.indexOf(val)
 				if (index > -1) {
@@ -138,7 +138,7 @@ export default {
 			}
 		},
 		// 获取权限列表
-		async getJurisdictionList() {
+		async getJurisdictionList () {
 			try {
 				const data = await this.$http.get('jurisdiction/list')
 				this.jurisdictionList = data
@@ -147,7 +147,7 @@ export default {
 			}
 		},
 		// 添加用户权限
-		addUserJurisdiction(value) {
+		addUserJurisdiction (value) {
 			// 下拉框隐藏 && 选中值
 			if (!value && this.selectedList.length > 0) {
 				const itemObjArr = this.jurisdictionList.filter((item) => {
@@ -161,7 +161,7 @@ export default {
 			}
 		},
 		// 删除用户权限
-		deleteUserJurisdiction(id) {
+		deleteUserJurisdiction (id) {
 			this.tags = this.tags.filter((item) => {
 				if (item.id !== id) {
 					return item
@@ -170,7 +170,7 @@ export default {
 			this.editUserJurisdiction('删除成功~')
 		},
 		// 修改用户权限
-		async editUserJurisdiction(msg) {
+		async editUserJurisdiction (msg) {
 			const postData = {
 				jurisdictionId: this.tagIds.join(','),
 				id: this.currentRow.id

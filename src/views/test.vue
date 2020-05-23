@@ -5,6 +5,8 @@
 		<!-- <picture-synthesis></picture-synthesis> -->
 		<!-- <u-key></u-key> -->
 		<!-- <image-clipper></image-clipper> -->
+		<!-- <content-block></content-block> -->
+		<my-crumbs></my-crumbs>
     </div>
 </template>
 
@@ -14,6 +16,8 @@
 // import pictureSynthesis from '@/components/canvas/pictureSynthesis/index.vue'
 // import uKey from '@/components/ukey'
 // import imageClipper from '@/components/canvas/imageClipper/index'
+// import contentBlock from '@/components/webs/public/contentBlock/index'
+import myCrumbs from '@/components/webs/public/myCrumbs'
 
 export default {
 	components: {
@@ -22,12 +26,14 @@ export default {
 		// uKey,
 		// pictureSynthesis,
 		// imageClipper,
+		// contentBlock,
+		myCrumbs,
 	},
 	methods: {
-		handleDelete(data) {
+		handleDelete (data) {
 			console.log(data, '删除')
 		},
-		handleConfirm(data) {
+		handleConfirm (data) {
 			console.log(data.value, '确定')
 		}
 	},

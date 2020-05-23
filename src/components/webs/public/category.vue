@@ -18,17 +18,17 @@ export default {
 			default: null
 		}
 	},
-	data() {
+	data () {
 		return {
 			categoryData: [],
 			articleId: this.$route.params.articleId
 		}
 	},
-	created() {
+	created () {
 		this.getCategoryData() // 获取分类数据
 	},
 	methods: {
-		async getCategoryData() { // 获取分类数据
+		async getCategoryData () { // 获取分类数据
 			const {
 				data
 			} = await this.$http.get('category?type=1') // 发送请求
@@ -43,12 +43,12 @@ export default {
 				this.categoryData = data // 将获取到的数据绑定到 vue 中
 			}
 		},
-		getData(content) {
+		getData (content) {
 			if (this.$route.name === 'common') {
 				this.getArticleCategoryData(content)
 			}
 		},
-		async getArticleCategoryData(content) {
+		async getArticleCategoryData (content) {
 			const {
 				data
 			} = await this.$http.get(`articleCategory/${content}`)

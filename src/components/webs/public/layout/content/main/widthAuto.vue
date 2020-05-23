@@ -48,11 +48,11 @@ export default {
 		width: 58px;
 		height: 20px;
 		float: left;
-		margin-right: 15px;
 		transition: width .15s linear;
 	}
 
 	.layout-right {
+		padding: 20px;
 		min-height: 100%;
 		overflow: hidden;
 	}
