@@ -126,10 +126,6 @@ export default {
 	font-size: 17px;
 }
 
-.common-box {
-	margin-bottom: 47px;
-}
-
 /* search-start */
 .search {
     left: 50%;

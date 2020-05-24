@@ -185,7 +185,7 @@ export default {
 	float: left;
 	width: 8.4rem;
 	/* min-height: 10rem; */
-	height: 7rem;
+	height: 7.1rem;
 	overflow-y: scroll;
 	overflow-x: auto;
 
