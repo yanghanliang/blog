@@ -1,7 +1,7 @@
 <template>
 	<width-auto>
-		<my-nav slot="layout-left"></my-nav>
-        <right-content slot="layout-right"></right-content>
+		<my-nav slot="layout-left" />
+        <router-view slot="layout-right" />
 	</width-auto>
     <!-- <div class="admin">
         <my-nav class="fl"></my-nav>
@@ -14,15 +14,12 @@
 import widthAuto from '@/components/webs/public/layout/content/main/widthAuto'
 // 导航
 import myNav from '@/components/webs/public/myNav/index'
-// 引入右边内容区域
-import RightContent from '@/components/webs/admin/RightContent'
 
 export default {
 	name: 'admin',
 	components: {
 		widthAuto,
 		myNav,
-		RightContent
 	},
 	data () {
 		return {

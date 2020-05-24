@@ -1,10 +1,9 @@
 <template>
-	<el-breadcrumb separator-class="el-icon-arrow-right">
-		<!-- routing information 缩写为 RI 路由信息 -->
+	<section class="crumbs">
 		<template v-for="(item, index) in routeInfo.path">
-			<el-breadcrumb-item :to="{ path: ri.router }" :key="index">{{ routeInfo.title[index] }}</el-breadcrumb-item>
+			<router-link :key="index" :class="{ 'linker': index !== 0 }" :to="{ path: routeInfo.path[index] }">{{ routeInfo.title[index] }}</router-link>
 		</template>
-	</el-breadcrumb>
+	</section>
 </template>
 
 <script>
@@ -45,13 +44,14 @@ export default {
 
 			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
 				if (data[i] && lock) {
-					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path
-					if (tempPath === currentRoute.path) {
+					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path + '/'
+					// console.log(tempPath , '===' , currentRoute.path)
+					if (tempPath.slice(0, -1) === currentRoute.path) {
 						// 停止递归
 						lock = false
 						// 把当前路由追加到数据中
-						title.concat(currentRoute.meta.title)
-						path.concat(currentRoute.path)
+						title.push(this.$route.meta.title)
+						path.push(this.$route.path)
 						this.routeInfo = { title, path }
 					} else if (data[i].children) {
 						recursion(data[i].children, title.concat(data[i].meta.title), path.concat(data[i].path), tempPath)
@@ -69,22 +69,30 @@ export default {
 
 </script>
 
-<style>
-.el-breadcrumb {
-	margin: 15px 0;
-}
+<style lang="scss" scoped>
+.crumbs {
+	height: 20px;
+	padding: 20px;
+	line-height: 20px;
+	border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
 
-.el-breadcrumb>>>.el-breadcrumb__inner.is-link {
-	color: #a1c0ff;
-}
-
-.el-breadcrumb>>>.el-breadcrumb__item:last-child .el-breadcrumb__inner {
-	color: #dedede;
-}
-
-@media (max-device-width: 435px) {
-    .el-breadcrumb {
-		font-size: 12px;
-	}
+	.linker {
+		&::before {
+			content: "";
+			width: 0;
+			height: 0;
+			margin: 0 15px;
+			margin: 0 15px;
+			display: inline-block;
+			transform: rotate(-47deg);
+			border-top: 5px solid #ff00e0;
+			border-left: 5px solid #d4d4d4;
+			border-right: 5px solid #3993d4;
+			border-bottom: 5px solid #01ffff;
+			box-shadow: -2px 2px 20px -1px #00f0fb;
+		}
+	}	
 }
 </style>

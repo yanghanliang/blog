@@ -1,7 +1,7 @@
 <template>
     <div class="content_right">
         <!-- 调用自己封装的面包屑组件 -->
-        <my-crumbs :ri="routingInformation"></my-crumbs>
+        <my-crumbs></my-crumbs>
 
         <!-- dataTable -->
         <el-table
@@ -73,11 +73,6 @@ import moment from 'moment'
 export default {
 	data () {
 		return {
-			routingInformation: {
-				name1: '首页',
-				name2: '文章列表',
-				router: '/'
-			},
 			tableData: [], // 表格中的所有数据
 			dialogVisible: false, // 弹窗(显示||隐藏)
 			id: '',
@@ -205,6 +200,7 @@ export default {
 <style scoped>
     .dataTable {
         margin: 0 auto;
+		border-radius: 5px;
     }
 
     .dataTable>>>tr td:nth-child(3)>div {
