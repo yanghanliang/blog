@@ -1,26 +1,26 @@
 <template>
-    <div class="common-box">
-        <el-input placeholder="请输入您要搜索的内容" v-model="search" :autofocus="true" @input="searchInput"
-            @keyup.enter.native="searchEnter" clearable class="search">
-        </el-input>
+	<div class="common-box">
+		<el-input placeholder="请输入您要搜索的内容" v-model="search" :autofocus="true" @input="searchInput"
+			@keyup.enter.native="searchEnter" clearable class="search">
+		</el-input>
 
-        <div class="content clearfix">
-            <div class="content_right">
-                <div class="synopsis">
-                    <!-- s_bg 背景 -->
-                    <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
-                    <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
-                    <div class="s_content">
-                        <h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
-                        <h3>- {{ personalInformation.occupation }} -</h3>
-                        <p>{{ personalInformation.synopsis }}</p>
-                    </div>
-                </div>
-                <category @getData="setCatgoryData"></category>
-            </div>
-            <article-list ref="contentLeft" :data="article" :classname="className" :searchData="searchData" @noData="jump"></article-list>
-        </div>
-    </div>
+		<div class="content clearfix">
+			<div class="content_right">
+				<div class="synopsis">
+					<!-- s_bg 背景 -->
+					<img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
+					<img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
+					<div class="s_content">
+						<h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
+						<h3>- {{ personalInformation.occupation }} -</h3>
+						<p>{{ personalInformation.synopsis }}</p>
+					</div>
+				</div>
+				<category @getData="setCatgoryData"></category>
+			</div>
+			<article-list ref="contentLeft" :data="article" :classname="className" :searchData="searchData" @noData="jump"></article-list>
+		</div>
+	</div>
 </template>
 
 <script>

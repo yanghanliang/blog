@@ -46,7 +46,7 @@
                     <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
                     </router-link>
                 </template>
-                <template slot="header" slot-scope="scope">
+                <template slot="header">
                     <el-input v-model="sortData.searchData" size="mini" @input="searchFn" placeholder="输入关键字搜索" />
                 </template>
             </el-table-column>

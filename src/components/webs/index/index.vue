@@ -3,7 +3,9 @@
         <my-header slot="header" />
         <my-footer slot="footer" />
         <section slot="content">
-            <router-view />
+            <keep-alive include="common">
+                <router-view />
+            </keep-alive>
             <robot class="robot"></robot>
         </section>
     </layout-common>

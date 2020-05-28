@@ -28,7 +28,7 @@ export default [
 		meta: { title: '日志列表' },
 	},
 	{
-		path: '/articleDetails/:articleId',
+		path: 'articleDetails/:articleId',
 		name: 'articleDetails',
 		component: articleDetails,
 		meta: { title: '文章详情' },
@@ -73,7 +73,7 @@ export default [
 		]
 	},
 	{
-		path: '/personal/resume',
+		path: 'personal/resume',
 		name: 'personalResume',
 		component: personalResume
 	},

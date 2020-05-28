@@ -45,7 +45,9 @@ export default {
 			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
 				if (data[i] && lock) {
 					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path + '/'
-					// console.log(tempPath , '===' , currentRoute.path)
+					console.log(tempPath, '===', currentRoute.path)
+					if (tempPath.includes('/:')) {
+					}
 					if (tempPath.slice(0, -1) === currentRoute.path) {
 						// 停止递归
 						lock = false
@@ -93,6 +95,6 @@ export default {
 			border-bottom: 5px solid #01ffff;
 			box-shadow: -2px 2px 20px -1px #00f0fb;
 		}
-	}	
+	}
 }
 </style>
