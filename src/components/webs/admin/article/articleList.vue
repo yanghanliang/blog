@@ -1,8 +1,6 @@
 <template>
     <div class="content_right">
-        <!-- 调用自己封装的面包屑组件 -->
         <my-crumbs></my-crumbs>
-
         <!-- dataTable -->
         <el-table
 			:data="tableData"
@@ -31,15 +29,15 @@
 				</template>
             </el-table-column>
             <!-- <el-table-column
-        fixed="right"
-        label="操作"
-        align="center"
-        width="100">
-        <template slot-scope="scope">
-            <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
-            <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
-        </template>
-      </el-table-column> -->
+				fixed="right"
+				label="操作"
+				align="center"
+				width="100">
+				<template slot-scope="scope">
+					<el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
+					<router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑</router-link>
+				</template>
+			</el-table-column> -->
             <el-table-column fixed="right" align="center" label="操作" width="200">
                 <template slot-scope="scope">
                     <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>

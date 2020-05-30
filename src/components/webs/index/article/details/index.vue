@@ -13,7 +13,7 @@
             </div>
 
             <!-- 调用自己封装的面包屑组件 -->
-            <my-crumbs :ri="routingInformation"></my-crumbs>
+            <my-crumbs model="simple" />
 
             <div class="content clearfix scrollbar">
                 <div class="left" ref="articleContent">
@@ -356,11 +356,6 @@ export default {
 		}
 		return {
 			articleData: {}, // 文章数据
-			routingInformation: { // 面包屑数据
-				name1: '首页',
-				name2: '文章详情',
-				router: '/'
-			},
 			preArticle: {}, // 上一篇
 			nextArticle: {}, // 下一篇
 			commentForm: { // 发布评论的数据

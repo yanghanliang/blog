@@ -1,5 +1,5 @@
 <template>
-	<section class="crumbs">
+	<section :class="['crumbs', model]">
 		<template v-for="(item, index) in routeInfo.path">
 			<router-link :key="index" :class="{ 'linker': index !== 0 }" :to="{ path: routeInfo.path[index] }">{{ routeInfo.title[index] }}</router-link>
 		</template>
@@ -9,7 +9,13 @@
 <script>
 export default {
 	name: 'MyCrumbs',
-	props: ['ri'],
+	props: {
+		// 模式，传类也可以 [simple]
+		model: {
+			type: String,
+			default: ''
+		}
+	},
 	filters: {
 		jump (value) {
 		}
@@ -44,11 +50,9 @@ export default {
 
 			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
 				if (data[i] && lock) {
-					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path + '/'
+					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path
 					console.log(tempPath, '===', currentRoute.path)
-					if (tempPath.includes('/:')) {
-					}
-					if (tempPath.slice(0, -1) === currentRoute.path) {
+					if (tempPath === currentRoute.path) {
 						// 停止递归
 						lock = false
 						// 把当前路由追加到数据中
@@ -56,7 +60,19 @@ export default {
 						path.push(this.$route.path)
 						this.routeInfo = { title, path }
 					} else if (data[i].children) {
-						recursion(data[i].children, title.concat(data[i].meta.title), path.concat(data[i].path), tempPath)
+						recursion(data[i].children, title.concat(data[i].meta.title), path.concat(data[i].path), tempPath === '/' ? '/' : tempPath + '/')
+					} else if (tempPath.includes('/:')) {
+						// 针对待参数的路由
+						let tempPathStr = tempPath.split('/').slice(0, -1).join('')
+						let currentRouteStr = currentRoute.path.split('/').slice(0, -1).join('')
+						if (tempPathStr === currentRouteStr) {
+							// 停止递归
+							lock = false
+							// 把当前路由追加到数据中
+							title.push(this.$route.meta.title)
+							path.push(this.$route.path)
+							this.routeInfo = { title, path }
+						}
 					}
 
 					recursion(data, title, path, prentPath, i + 1)
@@ -74,11 +90,15 @@ export default {
 <style lang="scss" scoped>
 .crumbs {
 	height: 20px;
-	padding: 20px;
+	text-align: left;
 	line-height: 20px;
 	border-radius: 5px;
     margin-bottom: 10px;
-    background-color: #fff;
+
+	&:not(.simple) {
+		padding: 20px;
+		background-color: #fff;
+	}
 
 	.linker {
 		&::before {
