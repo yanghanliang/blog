@@ -948,7 +948,7 @@ $color-secondary: #b9b9b9;
 						}
 
 						.sc-box {
-							width: 20%;
+							width: 37%;
 							padding-left: 2%;
 							min-width: 192px;
 							line-height: 25px;
