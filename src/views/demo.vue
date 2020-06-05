@@ -64,7 +64,7 @@
 					</div>
 					<ul class="cards-item bgc-red">
 						<li>Assakdkasjdka</li>
-						<li>$2,200</li>
+						<li>${{ 220000 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</li>
 						<li>*** *** *** *** *** **23</li>
 						<li>
 							<span>Monzo</span>
@@ -78,7 +78,7 @@
 					</ul>
 					<ul class="cards-item bgc-blue">
 						<li>Assakdkasjdka</li>
-						<li>$2,200</li>
+						<li>${{ 6854179522 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</li>
 						<li>*** *** *** *** *** **23</li>
 						<li>
 							<span>Monzo</span>
@@ -141,17 +141,17 @@
 							<div class="current-item clearfix">
 								<span class="fl">10638736812545</span>
 								<div class="line"></div>
-								<span class="fr money">${{ 10 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
+								<span class="fr money">${{ 123456 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 							</div>
 							<div class="current-item clearfix">
 								<span class="fl">10638736812545</span>
 								<div class="line"></div>
-								<span class="fr money">$2,200.02</span>
+								<span class="fr money">${{ 666456 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 							</div>
 							<div class="current-item clearfix">
 								<span class="fl">10638736812545</span>
 								<div class="line"></div>
-								<span class="fr money">$2,200.02</span>
+								<span class="fr money">${{ 654321 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 							</div>
 						</div>
 						<div class="savings mt40">
@@ -164,15 +164,15 @@
 								<ul class="fr sc-box">
 									<li class="clearfix">
 										<span class="fl">Total</span>
-										<span class="fr money">$100.09</span>
+										<span class="fr money">${{ 10000 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 									</li>
 									<li class="clearfix">
 										<span class="fl">Total week</span>
-										<span class="fr money">$2567.89</span>
+										<span class="fr money">${{ 256789 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 									</li>
 									<li class="clearfix">
 										<span class="fl">This month</span>
-										<span class="fr money">$123.09</span>
+										<span class="fr money">${{ 68541 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 									</li>
 								</ul>
 							</div>
@@ -413,7 +413,7 @@ export default {
 
 			let option = {
 				title: {
-					text: '$5.349',
+					text: '$5,349',
 					textStyle: {
 						color: '#01c4a3',
 						fontSize: 30
@@ -795,7 +795,7 @@ $color-secondary: #b9b9b9;
 					padding: 20px;
 					float: left;
 					border-radius: 20px;
-					margin: 0 15px 15px 0;
+					margin: 0 20px 20px 0;
 
 					li {
 						height: 27px;
