@@ -20,6 +20,9 @@ export default {
 		textAlign: {
 			type: String,
 			default: 'tz-right'
+		},
+		id: {
+			type: [Number, String]
 		}
 	},
 	data () {
@@ -42,18 +45,29 @@ export default {
 			]
 		}
 	},
+	created () {
+		this.setDefalut()
+	},
 	methods: {
 		setOption (item) {
 			this.selectedItem = item
 			this.status = false
+			this.$emit('update:id', item.id)
 		},
 		openSelect () {
 			this.status = true
 		},
 		closeSelect () {
 			this.status = false
+		},
+		setDefalut () {
+			this.optionList.forEach(item => {
+				if (item.id === this.id) {
+					this.selectedItem = item
+				}
+			})
 		}
-	},
+	}
 }
 </script>
 
