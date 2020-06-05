@@ -132,7 +132,7 @@ export default {
 						// 保存坐标
 						let coordinate = {
 							x: this.x - this.eleInfo.width / 2,
-							y: this.y - this.scrollTop - this.eleInfo.height / 2
+							y: this.y + this.scrollTop - this.eleInfo.height / 2
 						}
 						this.vue.coordinate.push(coordinate)
 					}
@@ -143,6 +143,7 @@ export default {
 			Drag.prototype.scroll = function () {
 				document.addEventListener('scroll', e => {
 					this.scrollTop = document.documentElement.scrollTop
+					console.log(this.scrollTop, 'this.scrollTop')
 					this.move()
 				})
 			}

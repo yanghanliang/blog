@@ -155,7 +155,6 @@ export default {
 		async getBookmarkData () {
 			let data = await this.$http.get('bookmark/list')
 			this.bookmarkData = this.handleData(data)
-			console.log(this.bookmarkData, 'this.bookmarkData')
 		},
 		// 处理数据
 		handleData (data) {

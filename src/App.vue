@@ -46,7 +46,7 @@ export default {
 						offset: 100,
 						duration: 30000,
 						title: '欢迎浏览~',
-						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人，在分辨率大于1800时才能看`)
+						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人`)
 					})
 				}
 				this.addBrowseUser()
@@ -75,6 +75,9 @@ export default {
 						sumTime: new Date().getTime() - this.time, // 毫秒
 					}
 					console.log(postData, 'postData', this.time)
+					if (!postData.sumTime) {
+						return false
+					}
 					await this.$http.post('echarts/add/browse/user', postData)
 				} catch (e) {
 					console.log(e)

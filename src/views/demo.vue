@@ -27,7 +27,7 @@
 					<li class="t-item">
 						<i class="my-icon-tubiaoku"></i>
 						<span class="ti-title">Dribbble Pro Plan</span>
-						<span class="fr" red>-$100</span>
+						<span class="fr color-blue">+$100</span>
 					</li>
 					<li class="t-item">
 						<i class="my-icon-tubiaoku"></i>
@@ -69,10 +69,10 @@
 						<li>
 							<span>Monzo</span>
 							<el-switch
-								v-model="value"
+								v-model="one"
 								class="fr"
 								active-color="#13ce66"
-								inactive-color="#ff4949">
+								inactive-color="#065af3">
 							</el-switch>
 						</li>
 					</ul>
@@ -84,7 +84,7 @@
 							<span>Monzo</span>
 							<el-switch
 								class="fr"
-								v-model="value"
+								v-model="two"
 								active-color="#13ce66"
 								inactive-color="#ff4949">
 							</el-switch>
@@ -191,7 +191,8 @@ export default {
 	},
 	data () {
 		return {
-			value: '',
+			one: '',
+			two: '',
 			navList: [
 				{
 					id: 1,
@@ -383,10 +384,10 @@ export default {
 									normal: {
 										color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
 											offset: 0,
-											color: '#ff0000bf'
+											color: '#f36a6a'
 										}, {
 											offset: 1,
-											color: '#ff0000bf'
+											color: '#ff0000'
 										}])
 									}
 								},
@@ -504,6 +505,10 @@ $color-secondary: #b9b9b9;
 
 .bgc-red {
 	background-color: $color-red;
+}
+
+.color-blue {
+	color: $color-blue;
 }
 
 .money {

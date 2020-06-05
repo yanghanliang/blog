@@ -10,10 +10,10 @@
 			<span @click="confirmCrop">裁剪</span>
 		</div>
 		<div class="content-region" ref="contentRegion">
-			<a v-if="imageUrl" :href="imageUrl" download="beautifulGirl">
+			<a v-show="imageUrl" :href="imageUrl" download="beautifulGirl" title="点击下载">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
-			<div ref="cRBox" :class="['clipping-region', status]">
+			<div v-show="!imageUrl" ref="cRBox" :class="['clipping-region', status]">
 				<canvas ref="canvas" class="canvas"></canvas>
 				<ul class="clipping-box" ref="clippingBox" id="clippingBox" :style="style">
 					<li class="tl"></li>
@@ -369,7 +369,8 @@ export default {
 			}
 			this.ctx.fill()
 			// 核心-end
-
+			console.log(this.ctx, 'this.ctx')
+			console.log(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.imageUrl = this.$refs.canvas.toDataURL()
 		},
