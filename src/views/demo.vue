@@ -614,7 +614,9 @@ $color-secondary: #b9b9b9;
 	>>> .layout-right {
 		top: 0;
 		bottom: 0;
-		width: 324px;
+		width: 20%;
+		min-width: 296px;
+		max-width: 350px;
 		background-color: #fff;
 		border-top-left-radius: 50px;
 		border-bottom-left-radius: 50px;
@@ -677,6 +679,10 @@ $color-secondary: #b9b9b9;
 				i {
 					font-size: 16px;
 				}
+
+				.my-select {
+					width: 60%;
+				}
 			}
 
 			.transactions {
@@ -736,7 +742,7 @@ $color-secondary: #b9b9b9;
 	}
 
 	>>> .layout-left  {
-		margin-right: 324px;
+		margin-right: 25%;
 		background-color: #fff;
 
 		.demo-content {
@@ -895,9 +901,9 @@ $color-secondary: #b9b9b9;
 				}
 
 				.dcc-right {
-					flex: 1;
 					float: right;
-					min-width: 735px;
+					width: 77%;
+					min-width: 400px;
 
 					.line {
 						margin: 0 110px 0 170px;
@@ -937,14 +943,14 @@ $color-secondary: #b9b9b9;
 
 					.savings-content {
 						.savings-echarts {
-							width: 78%;
+							min-width: 60%;
 							height: 30vh;
 						}
 
 						.sc-box {
 							width: 20%;
 							padding-left: 2%;
-							min-width: 186px;
+							min-width: 192px;
 							line-height: 25px;
 							box-sizing: border-box;
 
