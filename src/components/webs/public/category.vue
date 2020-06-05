@@ -114,7 +114,7 @@ export default {
     /* s_box-start */
     .category .s_box {
         overflow: auto;
-        height: 3.09rem;
+        height: 3.2rem;
         margin-top: 0.02rem;
         background-color: #fff;
         padding: 0.08rem 0.2rem 0.2rem;

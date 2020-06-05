@@ -129,8 +129,8 @@
 							:total="recommend.total">
 						</el-pagination>
                     </ul>
-                    <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category>
-					<div class="secondary">
+                    <!-- <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category> -->
+					<div class="secondary mt10">
 						<el-popover
 							placement="top-start"
 							width="200"
@@ -233,14 +233,14 @@
 
 <script>
 // 导入 category
-import category from '@/components/webs/public/category'
+// import category from '@/components/webs/public/category'
 // 滑块(进度条)
 import myProgress from '@/components/canvas/progress/index'
 
 export default {
 	name: 'articlesDetails',
 	components: {
-		category,
+		// category,
 		myProgress
 	},
 	computed: {
