@@ -27,7 +27,7 @@ export default [
 		meta: { title: '文章列表' },
 	},
 	{
-		path: 'addArticle/:articleId',
+		path: 'editArticle/:articleId',
 		name: 'editArticle',
 		component: addArticle,
 		meta: { title: '修改文章' },

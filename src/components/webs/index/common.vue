@@ -195,6 +195,12 @@ export default {
 				}
 			}
 		}
+
+		.category {
+			.s_box {
+				height: 3.18rem;
+			}
+		}
 	}
 }
 </style>

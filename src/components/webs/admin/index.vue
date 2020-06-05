@@ -1,7 +1,11 @@
 <template>
 	<width-auto>
 		<my-nav slot="layout-left" />
-        <router-view slot="layout-right" />
+		<section slot="layout-right">
+			<keep-alive include="articleList">
+				<router-view />
+			</keep-alive>
+		</section>
 	</width-auto>
     <!-- <div class="admin">
         <my-nav class="fl"></my-nav>
@@ -18,12 +22,12 @@ import myNav from '@/components/webs/public/myNav/index'
 export default {
 	name: 'admin',
 	components: {
-		widthAuto,
 		myNav,
+		widthAuto,
 	},
 	data () {
 		return {
-			isCollapse: true
+			isCollapse: true,
 		}
 	},
 	beforeCreate () {

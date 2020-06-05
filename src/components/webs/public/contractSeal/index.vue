@@ -135,7 +135,6 @@ export default {
 							y: this.y - this.scrollTop - this.eleInfo.height / 2
 						}
 						this.vue.coordinate.push(coordinate)
-						console.log(coordinate, 'coordinate')
 					}
 				})
 			}

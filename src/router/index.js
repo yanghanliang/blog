@@ -48,6 +48,7 @@ const webMobile = () => import('@/views/mobile/index')
 // const inDevelopment = () => import('@/views/public/inDevelopment')
 // const robot = () => import('@/views/mobile/index/robot')
 // mobile-end
+const demo = () => import('@/views/demo')
 
 // 需要导入的模块
 const variableList = ['index', 'admin', 'mobile']
@@ -110,6 +111,11 @@ const router = new Router({
 			redirect: '/mobile/article/list',
 			meta: { title: '首页' },
 			children: _mobile
+		},
+		{
+			path: '/demo',
+			name: 'demo',
+			component: demo
 		}
 	]
 })

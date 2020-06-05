@@ -170,7 +170,6 @@ export default {
 			this.searchFn()
 		},
 		classname (now, old) {
-			console.log(now, 'now')
 			this.pageData.classname = now
 		}
 	},

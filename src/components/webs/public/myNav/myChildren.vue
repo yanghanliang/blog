@@ -26,7 +26,7 @@ export default {
 		},
 		title: {
 			type: String,
-			defalute: '标题'
+			defalut: '标题'
 		},
 		// 站内跳转（false）站外跳转（true）
 		isBlank: {

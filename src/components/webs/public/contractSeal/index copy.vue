@@ -32,7 +32,6 @@
 
 <script>
 import PDFJS from '../../../../../node_modules/pdfjs-dist/build/pdf.js'
-console.log(PDFJS, 'PDFJS')
 // let PDFJS = require('pdfjs-dist')
 // PDFJS.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.min')
 
@@ -74,10 +73,10 @@ export default {
 		removeSignPic (e) {
 			let signPicdom = document.querySelector('.sign-img')
 			let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-			console.log(e)
-			console.dir(signPicdom)
-			console.log('scrollTop:', scrollTop)
-			console.dir(this.$refs.canvasDOM)
+			// console.log(e)
+			// console.dir(signPicdom)
+			// console.log('scrollTop:', scrollTop)
+			// console.dir(this.$refs.canvasDOM)
 			let perX = (this.getOffsetLeft(signPicdom) - this.getOffsetLeft(this.$refs.canvasDOM)) / this.$refs.canvasDOM.clientWidth
 			let perY = (this.getOffsetTop(signPicdom) - this.getOffsetTop(this.$refs.canvasDOM) + scrollTop + 21) / this.$refs.canvasDOM.clientHeight
 			let signWraphtml = document.querySelector('.sign-wrap')
@@ -85,7 +84,7 @@ export default {
 			signWraphtml.style.left = this.$refs.canvasDOM.clientWidth * perX + 'px'
 			signWraphtml.appendChild(signPicdom.firstChild)
 			document.removeEventListener('mousemove', this.signmouseMve, false)
-			console.log({perX: parseInt(perX * 100) + '%', perY: parseInt(perY * 100) + '%'})
+			// console.log({perX: parseInt(perX * 100) + '%', perY: parseInt(perY * 100) + '%'})
 			return {perX: perX, perY: perY}// 获取到最后的位置；反出来；
 		},
 		signmouseMve (e) {
@@ -213,7 +212,6 @@ export default {
 		},
 		queueRenderPage (num) {
 			var a = parseInt(num)
-			console.log(a)
 			if (this.pageRendering) {
 				this.pageNumPending = a
 			} else {

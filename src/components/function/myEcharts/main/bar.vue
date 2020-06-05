@@ -68,7 +68,6 @@ export default {
 					defaultValue: option
 				})
 			}
-			console.log(option, 'option')
 
 			// 绘制图表
 			myChart.setOption(option)

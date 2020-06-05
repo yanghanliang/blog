@@ -13,6 +13,7 @@
 .mt10 {
     margin-top: 0.1rem;
 }
+
 .mt0 {
     margin-top: 0 !important;
 }
@@ -53,6 +54,22 @@
     display: inline-block;
 }
 
+.display-b {
+    display: block;
+}
+
 .cursor-pointer {
     cursor: pointer;
+}
+
+.tz-right {
+    text-align: right;
+}
+
+.tz-left {
+    text-align: left;
+}
+
+.position-relative {
+    position: relative;
 }

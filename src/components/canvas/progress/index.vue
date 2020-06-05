@@ -378,7 +378,6 @@ export default {
 			My.prototype.pressDown = function () {
 				let that = this
 				that.slider.addEventListener('mousedown', function (event) {
-					console.log('??????')
 					// 利用传参兼容火狐
 					let e = window.event || event
 					// 获取目标元素
@@ -386,7 +385,6 @@ export default {
 					// 获取元素标签内容
 					let className = target.className
 					if (className.includes('slider')) {
-						console.log(1, '!!')
 						that.isPressDown = true // 开启
 						document.documentElement.style.cursor = 'pointer' // 改变鼠标的样式
 						// that.slider.style.position = 'fixed' // 设置固定定位，以便移动
@@ -398,7 +396,6 @@ export default {
 			My.prototype.mousemove = function () {
 				let that = this
 				document.addEventListener('mousemove', function (event) {
-					console.log('2')
 					// 利用传参兼容火狐
 					let e = window.event || event
 
@@ -411,7 +408,6 @@ export default {
 					let y = e.clientY + scrollY - that.boxInfo.y
 
 					if (that.isPressDown) {
-						console.log('3')
 						// that.slider.style.left = x + 'px'
 						// that.slider.style.top = y + 'px'
 						// 获取当前鼠标的角度
@@ -438,7 +434,7 @@ export default {
 						// 设置位置
 						that.slider.style.left = coordinate.x + 'px'
 						that.slider.style.top = coordinate.y + 'px'
-						console.log(coordinate, 'coordinate')
+						// console.log(coordinate, 'coordinate')
 
 						that.ad({
 							startAngle: that.startAngle,

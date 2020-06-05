@@ -11,7 +11,6 @@ export default {
 	name: 'line',
 	mixins: [].concat(props),
 	created () {
-		console.log(this.xAxisData, 'this.seriesData****')
 	},
 	mounted () {
 		// 直接传入数据，则自动初始化
@@ -75,7 +74,6 @@ export default {
 					defaultValue: option
 				})
 			}
-			console.log(option, 'oprion')
 
 			// 绘制图表
 			myChart.setOption(option)

@@ -34,7 +34,6 @@ export default {
 		// 		name2: '添加权限',
 		// 		router: '/'
 		// 	},
-		console.log(this.$router, this.$route, 'router')
 		this.matchRoute()
 	},
 	methods: {
@@ -51,7 +50,6 @@ export default {
 			const recursion = (data, title = [], path = [], prentPath = '', i = 0) => {
 				if (data[i] && lock) {
 					let tempPath = data[i].path === '/' ? '/' : prentPath + data[i].path
-					console.log(tempPath, '===', currentRoute.path)
 					if (tempPath === currentRoute.path) {
 						// 停止递归
 						lock = false
@@ -80,7 +78,6 @@ export default {
 			}
 
 			recursion(routeList)
-			console.log(this.routeInfo, 'routeInfo')
 		}
 	},
 }

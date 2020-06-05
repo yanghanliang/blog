@@ -74,6 +74,7 @@ export default {
 						ip: this.ip,
 						sumTime: new Date().getTime() - this.time, // 毫秒
 					}
+					console.log(postData, 'postData', this.time)
 					await this.$http.post('echarts/add/browse/user', postData)
 				} catch (e) {
 					console.log(e)

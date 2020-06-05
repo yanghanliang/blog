@@ -216,7 +216,7 @@ export default {
 					document.body.style.cursor = 'default'
 
 					// 矩形
-					console.log(this.classList, 'this.classList', e.target.className)
+					// console.log(this.classList, 'this.classList', e.target.className)
 					if (this.temp.ele) {
 						this.temp.ele = ''
 					}
@@ -255,7 +255,7 @@ export default {
 			 * @param {number}           params.y
 			 */
 			Drag.prototype.changeClippingBox = function (params) {
-				console.log(params, this.temp, '???????', this.temp.x - params.x, this.temp.y - params.y)
+				// console.log(params, this.temp, '???????', this.temp.x - params.x, this.temp.y - params.y)
 
 				if (['tl', 'tr', 'rb', 'bl'].includes(this.temp.className)) {
 					this.temp.ele.style.width = Math.abs(this.temp.x - params.x) + 'px'

@@ -64,7 +64,6 @@ export default {
 					{
 						text: '最近三个月',
 						onClick (picker) {
-							console.log(dateType[3].date, dateType[3])
 							picker.$emit('pick', dateType[3].date)
 						}
 					},

@@ -1,5 +1,5 @@
 export default {
-	baseURL: 'http://47.98.182.149:3001/', // 接口基地址
+	baseURL: 'http://localhost:3001/', // 接口基地址
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法
 		// const verification =  await this.Global.verification(this, 'form')
@@ -25,7 +25,25 @@ export default {
 		}
 	},
 	// 用来判断是不是移动端
-	equipment: document.documentElement.offsetWidth >= 1200 ? 'pc' : 'mobile',
+	equipment: function () {
+		var ua = navigator.userAgent
+
+		var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+
+			isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+
+			isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+
+			isMobile = isIphone || isAndroid
+
+		// 判断
+
+		if (isMobile) {
+			return 'mobile'
+		} else {
+			return 'pc'
+		}
+	},
 	/**
 	 * 参数继承-如果传入的参数存在则替换掉默认值
 	 * 现在只支持对象的参数

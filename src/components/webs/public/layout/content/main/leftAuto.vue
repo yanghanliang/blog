@@ -18,7 +18,6 @@ export default {
 <style lang="scss" scoped>
 .layout-left {
     margin-right: 320px;
-    background-color: cornflowerblue;
 }
 
 .layout-right {
@@ -27,6 +26,5 @@ export default {
     bottom: 50px;
     width: 300px;
     position: absolute;
-    border: 1px solid #ddd;
 }
 </style>

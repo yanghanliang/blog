@@ -202,7 +202,6 @@ export default {
 		}
 	},
 	created () {
-		console.log(this.isEdit, 'this.isEdit')
 		this.routerChange(this.$route)
 	},
 	methods: {
@@ -268,6 +267,7 @@ nav {
 	border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     box-shadow: -4px 3px 10px -1px black;
+	// background-color: rgba(100, 149, 237, 0.2);
 
 	>div {
 		float: left;

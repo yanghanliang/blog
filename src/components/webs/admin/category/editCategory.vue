@@ -98,7 +98,6 @@ export default {
 					this.form.pid_classname = data[i].classname
 					break
 				}
-				console.log(i)
 			}
 		}
 	}

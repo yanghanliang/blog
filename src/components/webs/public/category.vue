@@ -4,7 +4,7 @@
             <span>分类</span>
             <div class="st_line"></div>
         </div>
-        <div class="s_box clearfix">
+        <div class="s_box scrollbar-hiddle clearfix">
             <span @click="getData(value.classname)" v-for="value in categoryData" :key="value.id">{{ value.classname }}</span>
         </div>
     </div>
@@ -113,7 +113,8 @@ export default {
 
     /* s_box-start */
     .category .s_box {
-        min-height: 3.09rem;
+        overflow: auto;
+        height: 3.09rem;
         margin-top: 0.02rem;
         background-color: #fff;
         padding: 0.08rem 0.2rem 0.2rem;
