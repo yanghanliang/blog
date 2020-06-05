@@ -8,7 +8,7 @@ export default {
 	props: {
 		data: {
 			type: Array,
-			default: function() {
+			default: function () {
 				return [
 					{
 						txt: '天气',
@@ -54,11 +54,11 @@ export default {
 			}
 		},
 	},
-	mounted() {
+	mounted () {
 		this.init()
 	},
 	methods: {
-		init() {
+		init () {
 			const that = this
 			let Circular = function () {
 				this.box = this.$('#circular')
@@ -454,7 +454,7 @@ export default {
 			 * @param {string,boolean}   param.sort  升序或降序 默认降序 可选值 true 'desc'
 			 * @return {array}           排序好之后的数组
 			 */
-			Circular.prototype.sort = function(params) {
+			Circular.prototype.sort = function (params) {
 				const data = params.data
 				const key = params.key
 				const sort = params.sort ? '>' : '<' // 默认是降序

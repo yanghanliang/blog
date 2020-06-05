@@ -9,14 +9,18 @@
 				:key="index"
 				:title="item.name"
 			>
-				<i :class="item.icon"></i>
+				<i :title="item.icon" :class="item.icon"></i>
 			</a>
 		</div>
 		<div :class="['nav-right', {'open': navStatus}]">
-			<div class="title">
-				{{ currentTitle }}
+			<div class="nr-content">
+				<div class="title">
+					{{ currentTitle }}
+				</div>
+				<my-children :data="currentChildren" :isBlank="isBlank" :isEdit="isEdit">
+					<div slot="content">a</div>
+				</my-children>
 			</div>
-			<my-children :data="currentChildren"></my-children>
 		</div>
     </nav>
 </template>
@@ -29,130 +33,180 @@ export default {
 	components: {
 		myChildren
 	},
-	data() {
-		return {
-			data: [
-				{
-					name: '文章',
-					level: 0,
-					status: 'open',
-					icon: 'my-icon-wenzhang',
-					router: '/admin/articleList',
-					identification: 'article',
-					children: [
-						{
-							name: '添加文章',
-							level: 1,
-							status: 'open',
-							router: '/admin/addArticle',
-							children: [
-								// {
-								// 	index: '1-7-2-1',
-								// 	name: 'hh',
-								// 	status: 'open',
-								// 	level: 2,
-								// 	children: [
-								// 		{
-								// 			index: '1-7-2-1-1',
-								// 			name: 'gg',
-								// 			level: 3,
-								// 		}
-								// 	]
-								// },
-								// {
-								// 	name: 'hh',
-								// 	status: 'open',
-								// 	level: 2,
-								// }
-							]
-						},
-						{
-							name: '文章列表',
-							level: 1,
-							router: '/admin/articleList',
-						}
-					]
-				},
-				{
-					name: '分类',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-category',
-					router: '/admin/categoryList',
-					identification: 'category',
-					children: [
-						{
-							name: '添加分类',
-							level: 1,
-							router: '/admin/addCategory',
-						},
-						{
-							name: '分类列表',
-							level: 1,
-							router: '/admin/categoryList',
-						}
-					]
-				},
-				{
-					name: '权限',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-setting-permissions',
-					router: '/admin/jurisdiction/list',
-					identification: 'jurisdiction',
-					children: [
-						{
-							name: '权限列表',
-							level: 1,
-							status: 'close',
-							router: '/admin/jurisdiction/list',
-							children: [
-								{
-									name: '页面',
-									level: 2,
-									router: '/admin/jurisdiction/list?distribution=1',
-								},
-								{
-									name: '接口',
-									level: 2,
-									router: '/admin/jurisdiction/list?distribution=0',
-								}
-							]
-						},
-						{
-							name: '添加权限',
-							level: 1,
-							router: '/admin/jurisdiction/add',
-						}
-					]
-				},
-				{
-					name: '用户',
-					level: 0,
-					status: 'close',
-					icon: 'my-icon-yonghufangkeshu',
-					router: '/admin/user/list',
-					identification: 'user',
-					children: [
-						{
-							name: '用户列表',
-							level: 1,
-							router: '/admin/user/list',
-						}
-					]
-				}
-			],
-			currentChildren: [], // 当前的子集数据
-			currentTitle: '标题',
-			navStatus: false, // 菜单状态(打开||关闭)
+	props: {
+		data: {
+			type: Array,
+			default: function () {
+				return [
+					{
+						name: '文章',
+						level: 0,
+						status: 'open',
+						icon: 'my-icon-wenzhang',
+						router: '/admin/articleList',
+						identification: 'article',
+						children: [
+							{
+								name: '添加文章',
+								level: 1,
+								status: 'open',
+								router: '/admin/addArticle',
+								children: [
+									// {
+									// 	index: '1-7-2-1',
+									// 	name: 'hh',
+									// 	status: 'open',
+									// 	level: 2,
+									// 	children: [
+									// 		{
+									// 			index: '1-7-2-1-1',
+									// 			name: 'gg',
+									// 			level: 3,
+									// 		}
+									// 	]
+									// },
+									// {
+									// 	name: 'hh',
+									// 	status: 'open',
+									// 	level: 2,
+									// }
+								]
+							},
+							{
+								name: '文章列表',
+								level: 1,
+								router: '/admin/articleList',
+							}
+						]
+					},
+					{
+						name: '分类',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-category',
+						router: '/admin/categoryList?type=1',
+						identification: 'category',
+						children: [
+							{
+								name: '添加分类',
+								level: 1,
+								router: '/admin/addCategory',
+							},
+							{
+								name: '分类列表',
+								level: 1,
+								router: '/admin/categoryList',
+							}
+						]
+					},
+					{
+						name: '权限',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-setting-permissions',
+						router: '/admin/jurisdiction/list',
+						identification: 'jurisdiction',
+						children: [
+							{
+								name: '权限列表',
+								level: 1,
+								status: 'close',
+								router: '/admin/jurisdiction/list',
+								children: [
+									{
+										name: '页面',
+										level: 2,
+										router: '/admin/jurisdiction/list?distribution=1',
+									},
+									{
+										name: '接口',
+										level: 2,
+										router: '/admin/jurisdiction/list?distribution=0',
+									}
+								]
+							},
+							{
+								name: '添加权限',
+								level: 1,
+								router: '/admin/jurisdiction/add',
+							}
+						]
+					},
+					{
+						name: '用户',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-yonghufangkeshu',
+						router: '/admin/user/list',
+						identification: 'user',
+						children: [
+							{
+								name: '用户列表',
+								level: 1,
+								router: '/admin/user/list',
+							}
+						]
+					},
+					{
+						name: '书签',
+						level: 0,
+						status: 'close',
+						icon: 'my-icon-yonghufangkeshu',
+						router: '/admin/bookmark/add',
+						identification: 'bookmark',
+						children: [
+							{
+								name: '添加分类',
+								level: 1,
+								router: '/admin/bookmark/add',
+							},
+							{
+								name: '分类列表',
+								level: 1,
+								router: '/admin/bookmark/list',
+							}
+						]
+					}
+				]
+			}
+		},
+		// 菜单状态(打开||关闭)
+		navStatus: {
+			type: Boolean,
+			default: false
+		},
+		// 点击第一层级是否进行跳转
+		firstTrigger: {
+			type: Boolean,
+			default: true
+		},
+		// 站内跳转（false）站外跳转（true）
+		isBlank: {
+			type: Boolean,
+		},
+		// 是否可以编辑
+		isEdit: {
+			type: Boolean,
+			default: false
+		},
+		// 是否只是预览（右边是否隐藏）
+		isView: {
+			type: Boolean,
+			default: false
 		}
 	},
-	created() {
+	data () {
+		return {
+			currentChildren: [], // 当前的子集数据
+			currentTitle: '标题',
+		}
+	},
+	created () {
 		this.routerChange(this.$route)
 	},
 	methods: {
 		// 鼠标移入时,将对应的数据给子菜单,并变化数据
-		mouseenter(item) {
+		mouseenter (item) {
 			this.currentChildren = item.children
 			this.currentTitle = item.name
 			// 防止自己跳转到自己
@@ -160,22 +214,24 @@ export default {
 			this.data.forEach(obj => {
 				if (item === obj) {
 					obj.status = 'open'
-					this.$router.push(obj.router)
+					this.firstTrigger && this.$router.push(obj.router)
 				} else {
 					obj.status = 'close'
 				}
 			})
 		},
 		// 打开菜单
-		openNav() {
+		openNav () {
 			this.navStatus = true
 		},
 		// 关闭菜单
-		closeNav() {
+		closeNav () {
+			// this.isView = true 时不允许关闭
+			if (this.isView) return false
 			this.navStatus = false
 		},
 		// 路由变化时更新导航状态
-		routerChange(route) {
+		routerChange (route) {
 			let url = route.path.toLocaleLowerCase()
 			this.data.forEach((item) => {
 				if (url.includes(item.identification)) {
@@ -190,11 +246,13 @@ export default {
 	},
 	watch: {
 		$route: {
-			handler: function(route) {
-				console.log(route, 'route')
+			handler: function (route) {
 				this.routerChange(route)
 			},
 			// deep: true
+		},
+		data: function () {
+			this.routerChange(this.$route)
 		}
 	},
 }
@@ -205,13 +263,32 @@ export default {
 
 nav {
 	height: 100%;
+	position: relative;
+	border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: -4px 3px 10px -1px black;
+	// background-color: rgba(100, 149, 237, 0.2);
 
 	>div {
 		float: left;
 	}
 
 	.nav-left {
-		width: 58px;
+		width: 58px;;
+
+		&::before {
+			top: 5px;
+			bottom: 5px;
+			width: 0;
+			content: "";
+			z-index: 1;
+			left: 58px;
+			position: absolute;
+			border-right: 1px solid #fff;
+			border-image: -webkit-linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+			border-image: -moz-linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+			border-image: linear-gradient(#f5f5f5, #00b3e8, #f300b3, #f5f5f5) 30 30;
+		}
 
 		a {
 			width: 100%;
@@ -235,7 +312,15 @@ nav {
 		width: 182px;
 		height: 100%;
 		display: none;
-		background-color: #F2F2F3;
+		background-color: transparent;
+
+		.nr-content {
+			width: 182px;
+			top: 0;
+			bottom: 0;
+			position: absolute;
+			background-color: transparent;
+		}
 
 		&.open {
 			display: block;
@@ -247,6 +332,7 @@ nav {
 			line-height: 76px;
 			font-weight: bold;
 			text-indent: 40px;
+			text-align: left;
 		}
 	}
 }

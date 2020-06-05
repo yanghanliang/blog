@@ -51,7 +51,7 @@ export default {
 	props: {
 		data: {
 			type: Array,
-			default: function() {
+			default: function () {
 				return []
 			}
 		},
@@ -65,13 +65,13 @@ export default {
 		}
 	},
 	filters: {
-		seriesData(row) {
+		seriesData (row) {
 			return fieldList.map((item) => {
 				return row[item]
 			})
 		},
 	},
-	data() {
+	data () {
 		return {
 			article: [], // 文章数据
 			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
@@ -87,12 +87,12 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.searchFn() // 加载数据
 	},
 	methods: {
 		// 判断是否值全部存在
-		isExistence(row) {
+		isExistence (row) {
 			let Identification = []
 			fieldList.forEach((item) => {
 				row[item] && Identification.push(row[item])
@@ -101,7 +101,7 @@ export default {
 			return Identification.length
 		},
 		// 页面滚到底部(懒加载)
-		async scroll($event) {
+		async scroll ($event) {
 			if (!$event) return false
 			let ele = $event.target
 			// clientHeight 可见区域的高度（不加边线）
@@ -126,7 +126,7 @@ export default {
 			}
 		},
 		// 搜索内容
-		async searchFn() {
+		async searchFn () {
 			this.pageData.lock = false
 			this.pageData.currentPage = 1
 			const { data } = await this.$http.post('searchData', {
@@ -148,7 +148,7 @@ export default {
 			this.pageData.tips = '' // 重置提示
 			this.pageData.classname = '' // 重置分类
 		},
-		async clickRead(id) { // 点击阅读全文时执行
+		async clickRead (id) { // 点击阅读全文时执行
 			// 跳转文章详情页
 			this.$router.push({
 				path: `/articleDetails/${id}`
@@ -159,18 +159,17 @@ export default {
 	},
 	watch: {
 		// 更新数据
-		data(now, old) {
+		data (now, old) {
 			if (now && now.length > 0) {
 				this.article = now
 			}
 		},
-		searchData(now, old) {
+		searchData (now, old) {
 			this.pageData.currentPage = 1
 			this.pageData.searchData = now
 			this.searchFn()
 		},
-		classname(now, old) {
-			console.log(now, 'now')
+		classname (now, old) {
 			this.pageData.classname = now
 		}
 	},
@@ -185,7 +184,7 @@ export default {
 	float: left;
 	width: 8.4rem;
 	/* min-height: 10rem; */
-	height: 7rem;
+	height: 7.1rem;
 	overflow-y: scroll;
 	overflow-x: auto;
 

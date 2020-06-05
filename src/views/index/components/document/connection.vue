@@ -40,7 +40,7 @@
 <script>
 export default {
 	name: 'connection',
-	data() {
+	data () {
 		return {
 			leftData: ['a', 'b', 'c'],
 			rightData: [1, 2, 3],
@@ -56,7 +56,7 @@ export default {
 		}
 	},
 	computed: {
-		coordinate() {
+		coordinate () {
 			if (this.points.startX && this.points.startY && this.points.endX && this.points.endY) {
 				let value = `${this.points.startX},${this.points.startY} ${this.points.endX},${this.points.endY}`
 				return value
@@ -65,25 +65,25 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.registerEvent()
 	},
-	mounted() {
+	mounted () {
 		// 获取svg信息
 		this.svg = this.$refs.svg.getBoundingClientRect()
 	},
 	methods: {
 		// 获取开始坐标
-		getStartCoordinate(event) {
+		getStartCoordinate (event) {
 			this.points.startX = '0'
 			this.points.startY = event.y - this.svg.y
 			this.isDown = true
 		},
 		// 注册事件
-		registerEvent() {
+		registerEvent () {
 			let that = this
 			// 鼠标移动
-			window.onmousemove = function(event) {
+			window.onmousemove = function (event) {
 				// 防止鼠标在移动的过程中抬起
 				if (that.isDown === false) {
 					return
@@ -101,7 +101,7 @@ export default {
 			}
 
 			// 鼠标抬起事件
-			document.onmouseup = function(event) {
+			document.onmouseup = function (event) {
 				// 防止鼠标在移动的过程中抬起-很有必要
 				if (that.isDown === false) {
 					return
@@ -117,7 +117,7 @@ export default {
 			}
 		},
 		// 鼠标移入线条
-		mouseenter(event) {
+		mouseenter (event) {
 			let use = event.target.nextElementSibling
 			// 注意这里修改位置必须是x,y而不是margin left ...
 			use.setAttribute('x', event.x - this.svg.x - 10)
@@ -125,12 +125,12 @@ export default {
 			use.style.display = 'block'
 		},
 		// 鼠标移出线条
-		mouseleave(event) {
+		mouseleave (event) {
 			let use = event.target.nextElementSibling
 			use.style.display = 'none'
 		},
 		// 删除线条
-		deleteLine(index) {
+		deleteLine (index) {
 			this.lineArr.splice(index, 1)
 		}
 	}

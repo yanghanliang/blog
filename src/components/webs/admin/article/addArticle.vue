@@ -19,10 +19,10 @@
 				<el-radio v-model="form.original" :label="0">原创</el-radio>
 				<el-radio v-model="form.original" :label="1">转载</el-radio>
 			</el-form-item>
-            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @imgDel="imgDel" v-model="form.content" :subfield="true" />
+            <mavon-editor ref="mavonEditor" @imgAdd="imgAdd" @save="addArticle" @imgDel="imgDel" v-model="form.content" :subfield="true" />
             <el-form-item style="margin-top: 22px;">
                 <el-button type="primary" @click="addArticle">{{ buttonText }}</el-button>
-                <el-button @click="$router.push({ name: 'articleList' })">取消</el-button>
+                <el-button @click="handleCancel">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -31,7 +31,7 @@
 <script>
 export default {
 	name: 'handleArticle',
-	data() {
+	data () {
 		return {
 			form: {
 				title: '', // 文章标题
@@ -59,46 +59,73 @@ export default {
 			}
 		}
 	},
-	created() {
-		this.getCategoryData() // 获取分类数据
-		const articleId = this.$route.params.articleId // 获取路由参数
+	created () {
+		// 获取分类数据
+		this.getCategoryData()
+
+		// 获取路由参数
+		const articleId = this.$route.params.articleId
+
+		// 将文章的数据还原
+		if (this.$route.path.includes('/admin/editArticle')) {
+			let articleData = window.sessionStorage.getItem('articleData')
+			if (articleData) {
+				this.form = JSON.parse(articleData)
+				// 修改请求类型
+				this.type = 'put'
+				// 修改按钮文字
+				this.buttonText = '修改文章'
+				// 修改url 状态
+				this.url = `editArticle/${articleId}`
+				return
+			}
+		}
+
+		// 获取文章详情
 		if (articleId) {
 			this.getEditData(articleId)
 		}
 	},
 	methods: {
-		async addArticle() { // 点击添加文章||修改文章时执行
+		// 点击添加文章||修改文章时执行
+		async addArticle () {
 			// 验证
 			const verification =  await this.Global.verification(this, 'form')
 			if (!verification) {
 				return false
 			}
+
 			// 如果没有修改类名，那么 this.form.classname 是字符串类型，则取原来的值
 			// 如果修改了类名， 那么 this.form.classname 是数字类型，则取当前的值
 			this.form.classname = typeof this.form.classname === 'string' ? this.form.categoryId : this.form
 				.classname
+
+			// 操作前先将数据保存，防止登录验证时自动跳转导致数据丢失
+			window.sessionStorage.setItem('articleData', JSON.stringify(this.form))
 			const data = await this.$http[this.type](this.url, this.form)
-			if (data.data.status === 200) {
+
+			if (data && data.data.status === 200) {
 				// 弹出提示框
 				this.$message({
 					type: 'success',
 					message: data.data.msg,
 					center: true
 				})
+
 				// 跳转文章列表页
 				this.$router.push({
 					name: 'articleList'
 				})
 			} else {
 				// 弹出提示框
-				this.$message({
+				data && this.$message({
 					type: 'error',
 					message: data.data.msg,
 					center: true
 				})
 			}
 		},
-		async getEditData(articleId) { // 获取修改数据
+		async getEditData (articleId) { // 获取修改数据
 			let {
 				data
 			} = await this.$http.get(`articleDetails/${articleId}`)
@@ -113,14 +140,14 @@ export default {
 			this.url = `editArticle/${articleId}` // 修改url
 			this.type = 'put' // 修改请求类型
 		},
-		async getCategoryData() { // 获取分类数据
+		async getCategoryData () { // 获取分类数据
 			const {
 				data
 			} = await this.$http.get('category')
 			this.categoryData = data
 		},
 		// 添加图片
-		async imgAdd(pos, $file) {
+		async imgAdd (pos, $file) {
 			var formdata = new FormData()
 			formdata.append('file', $file)
 			formdata.append('url', '/uploadFileURl/article')
@@ -141,7 +168,7 @@ export default {
 			}
 		},
 		// 删除图片
-		async imgDel(files) {
+		async imgDel (files) {
 			let index = files[0].indexOf('uploadFileURl')
 			let path = './' + files[0].slice(index)
 			const postData = {
@@ -153,6 +180,11 @@ export default {
 			} catch (e) {
 				console.log(e)
 			}
+		},
+		// 点击取消时执行
+		handleCancel () {
+			window.sessionStorage.removeItem('articleData')
+			$router.push({ name: 'articleList' })
 		}
 	},
 	watch: {

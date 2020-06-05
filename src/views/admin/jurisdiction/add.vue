@@ -34,7 +34,7 @@
 <script>
 export default {
 	name: 'addJurisdiction',
-	data() {
+	data () {
 		let name = async (rule, value, callback) => {
 			if (value) {
 				let postData = {
@@ -97,7 +97,7 @@ export default {
 			id: this.$route.params.id
 		}
 	},
-	created() {
+	created () {
 		this.getJurisdictionList()
 		if (this.id) {
 			this.getJurisdictionDetails()
@@ -105,7 +105,7 @@ export default {
 	},
 	methods: {
 		// 获取权限列表
-		async getJurisdictionList() {
+		async getJurisdictionList () {
 			try {
 				const data =  await this.$http.get('jurisdiction/list')
 				this.jurisdictionList = [{
@@ -117,7 +117,7 @@ export default {
 			}
 		},
 		// 添加权限
-		async onSubmit() {
+		async onSubmit () {
 			// 验证
 			const verification =  await this.Global.verification(this, 'form')
 			if (!verification) {
@@ -143,7 +143,7 @@ export default {
 			}
 		},
 		// 获取权限详情
-		async getJurisdictionDetails() {
+		async getJurisdictionDetails () {
 			try {
 				const data = await this.$http.get(`jurisdiction/details/${this.id}`)
 				this.form.name = data.j_name

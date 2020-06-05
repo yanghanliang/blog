@@ -13,7 +13,7 @@
             </div>
 
             <!-- 调用自己封装的面包屑组件 -->
-            <my-crumbs :ri="routingInformation"></my-crumbs>
+            <my-crumbs model="simple" />
 
             <div class="content clearfix scrollbar">
                 <div class="left" ref="articleContent">
@@ -40,7 +40,7 @@
                         <div v-if="nextArticle.status === 200" @click="clickDuring(nextArticle.data.id)"
                             class="page_next">{{ nextArticle.data.title }}<i class="icon">&#xe638;</i></div>
                     </div>
-					<template v-if="equipment === 'pc'">
+					<template v-if="Global.equipment === 'pc'">
 						<div class="line mt20 mb20"></div>
 						<div class="comment">
 							<my-icon color class="fs40" identification="pinglun1"></my-icon>
@@ -129,8 +129,8 @@
 							:total="recommend.total">
 						</el-pagination>
                     </ul>
-                    <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category>
-					<div class="secondary">
+                    <!-- <category :class="{'mt0': recommend.data.length === 0}" key="articles_details" :category-id="articleData.category_id"></category> -->
+					<div class="secondary mt10">
 						<el-popover
 							placement="top-start"
 							width="200"
@@ -233,14 +233,14 @@
 
 <script>
 // 导入 category
-import category from '@/components/webs/public/category'
+// import category from '@/components/webs/public/category'
 // 滑块(进度条)
 import myProgress from '@/components/canvas/progress/index'
 
 export default {
 	name: 'articlesDetails',
 	components: {
-		category,
+		// category,
 		myProgress
 	},
 	computed: {
@@ -248,7 +248,7 @@ export default {
 			return this.Global.baseURL + this.src
 		},
 		// 是否显示分页
-		isPagination() {
+		isPagination () {
 			if (this.recommend.total > this.recommend.pageSize) {
 				return false
 			} else {
@@ -256,7 +256,7 @@ export default {
 			}
 		}
 	},
-	data() {
+	data () {
 		let mailboxValidation = (rule, value, callback) => {
 			if (/\S/.test(value) && value !== null) {
 				const reg = /[0-9a-zA-Z_.-]+[@]{1}[0-9a-zA-Z_.-]+([.]\bcom\b)$/
@@ -356,11 +356,6 @@ export default {
 		}
 		return {
 			articleData: {}, // 文章数据
-			routingInformation: { // 面包屑数据
-				name1: '首页',
-				name2: '文章详情',
-				router: '/'
-			},
 			preArticle: {}, // 上一篇
 			nextArticle: {}, // 下一篇
 			commentForm: { // 发布评论的数据
@@ -402,7 +397,7 @@ export default {
 						pattern: /[0-9a-zA-Z_.-\D]+/,
 						message: '说点啥',
 						trigger: 'change',
-						transform(value) {
+						transform (value) {
 							return value.trim()
 						}
 					}
@@ -482,19 +477,20 @@ export default {
 			praiseStatus: false, // 点赞的状态 false 没有点赞
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 获取文章详情数据
 		this.getCommentData() // 获取评论数据
 		this.getUserInfo() // 获取用户信息
 	},
 	methods: {
-		async loadData() { // 获取文章详情数据
+		async loadData () { // 获取文章详情数据
 			const {
 				data
 			} = await this.$http.get(`articleDetails/${this.$route.params.articleId}`)
 			this.articleData = data[0] // 将数据赋值给 vue
 			// 兼容移动端
 			let bodyEle = null
+			console.log(this.Global.equipment, 'this.Global.equipment')
 			if (this.Global.equipment === 'pc') {
 				bodyEle = document.querySelector('html') // 获取 html 元素
 			} else {
@@ -504,14 +500,14 @@ export default {
 			this.getRecommendData() // 获取推荐数据
 			this.during() // 获取上一篇和下一篇的数据
 		},
-		async during() { // 获取上一篇和下一篇的数据
+		async during () { // 获取上一篇和下一篇的数据
 			const {
 				data
 			} = await this.$http.get(`during/${this.articleData.createtime}`) // 发送请求
 			this.preArticle = data.preArticle // 将值赋值给 vue
 			this.nextArticle = data.nextArticle
 		},
-		async getCommentData() { // 获取评论数据
+		async getCommentData () { // 获取评论数据
 			try {
 				const data = await this.$http.get(`comment/${this.$route.params.articleId}`)
 				this.commentData = data
@@ -519,12 +515,12 @@ export default {
 				console.log(e)
 			}
 		},
-		clickDuring(id) { // 点击上上一页或下一页时执行
+		clickDuring (id) { // 点击上上一页或下一页时执行
 			this.$router.push({
 				path: `/articleDetails/${id}`
 			})
 		},
-		submitForm(formName, uri, fromData, callback) { // 提交评论
+		submitForm (formName, uri, fromData, callback) { // 提交评论
 			this.$refs[formName].validate(async (valid) => {
 				if (valid) { // 数据验证成功
 					this[formName].article_id = this.$route.params.articleId
@@ -547,19 +543,19 @@ export default {
 				}
 			})
 		},
-		resetForm(formName) { // 重置表单
+		resetForm (formName) { // 重置表单
 			// 对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
 			this.$refs[formName].resetFields()
 		},
-		replay(alias, commentId, parentIndex, index) { // 回复评论
+		replay (alias, commentId, parentIndex, index) { // 回复评论
 			this.dialogFormVisible = true // 显示对话框
 			this.replyAlias = `回复 - ${alias} :` // 标题
 			this.replyForm.comment_id = commentId // 评论 id
 		},
-		closeDialogBoxes() { // 关闭对话框
+		closeDialogBoxes () { // 关闭对话框
 			this.dialogFormVisible = false
 		},
-		async editHeadPortrait(data) { // 点击评论头像时触发
+		async editHeadPortrait (data) { // 点击评论头像时触发
 			this.dialogFormVisible2 = true
 			this.user.id = data.id
 			this.user.alias = data.alias
@@ -570,7 +566,7 @@ export default {
 			localStorage.setItem('alias', data.alias) // 记录昵称
 		},
 		// 阻止upload的自己上传，进行再操作
-		beforeupload(file) {
+		beforeupload (file) {
 			// // 创建临时的路径来展示图片
 			// var windowURL = window.URL || window.webkitURL
 			// this.src = windowURL.createObjectURL(file)
@@ -580,7 +576,7 @@ export default {
 			// return false
 			// console.log(file)
 		},
-		async onSubmit() { // 表单提交的事件
+		async onSubmit () { // 表单提交的事件
 			this.$refs.user.validate(async (valid) => {
 				if (valid) { // 数据验证成功
 					let postData = {
@@ -609,7 +605,7 @@ export default {
 			})
 		},
 		// 覆盖默认的上传行为
-		async httpRequest(file) {
+		async httpRequest (file) {
 			let formdata = new FormData()
 			formdata.append('file', file.file)
 			this.progressPercent = 0
@@ -636,7 +632,7 @@ export default {
 			}
 		},
 		// 获取用户信息
-		getUserInfo() {
+		getUserInfo () {
 			const userInfo = JSON.parse(window.localStorage.getItem('user'))
 			if (userInfo) {
 				this.userInfo = userInfo
@@ -649,7 +645,7 @@ export default {
 			}
 		},
 		// 获取推荐的数据
-		async getRecommendData() {
+		async getRecommendData () {
 			let postData = {
 				currentPage: this.recommend.currentPage,
 				pageSize: this.recommend.pageSize,
@@ -667,7 +663,7 @@ export default {
 			}
 		},
 		// 更新点赞数
-		async editPraise() {
+		async editPraise () {
 			const top = document.documentElement.scrollTop
 			let postData = {
 				articleId: this.articleData.id,
@@ -693,7 +689,7 @@ export default {
 		}
 	},
 	watch: {
-		$route() { // 监听路由变化
+		$route () { // 监听路由变化
 			this.loadData()
 			this.getCommentData() // 重新获取评论数据
 		},

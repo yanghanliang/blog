@@ -64,20 +64,20 @@ export default {
 		}
 	},
 	computed: {
-		style() {
+		style () {
 			return `width: ${this.width}px; height:${this.width}px;`
 		}
 	},
-	mounted() {
+	mounted () {
 		this.init()
 	},
-	data() {
+	data () {
 		return {
 			progress: null
 		}
 	},
 	methods: {
-		init() {
+		init () {
 			let that = this
 
 			var My = function (params) {
@@ -395,7 +395,7 @@ export default {
 			// 鼠标滑动时执行
 			My.prototype.mousemove = function () {
 				let that = this
-				window.onmousemove = function (event) {
+				document.addEventListener('mousemove', function (event) {
 					// 利用传参兼容火狐
 					let e = window.event || event
 
@@ -434,6 +434,7 @@ export default {
 						// 设置位置
 						that.slider.style.left = coordinate.x + 'px'
 						that.slider.style.top = coordinate.y + 'px'
+						// console.log(coordinate, 'coordinate')
 
 						that.ad({
 							startAngle: that.startAngle,
@@ -443,7 +444,7 @@ export default {
 						// console.log(angle, '当前的角度')
 						// console.log((angle + 90) / 360 * 100, '百分比')
 					}
-				}
+				})
 			}
 
 			// 鼠标抬起事件
@@ -461,7 +462,7 @@ export default {
             * @param {number} params.value
             * @return {number} angle
             */
-			My.prototype.valueTangle = function(params) {
+			My.prototype.valueTangle = function (params) {
 				let angle = 360 / 100 * params.value
 
 				if (this.direction) {
@@ -479,8 +480,7 @@ export default {
 		}
 	},
 	watch: {
-		progressValue(value) {
-			console.log(value, 'progressPercent')
+		progressValue (value) {
 			// 把值转换成角
 			let angle = this.progress.valueTangle({
 				value: value

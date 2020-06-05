@@ -22,7 +22,7 @@ import md5 from 'md5'
 
 export default {
 	name: 'robot',
-	data() {
+	data () {
 		return {
 			value: '', // 输入的值
 			reply: '', // 回复的值
@@ -32,13 +32,13 @@ export default {
 		}
 	},
 	computed: {
-		to() {
+		to () {
 			return /[\u4e00-\u9fa5]/.test(this.value) ? 'en' : 'zh'
 		}
 	},
 	methods: {
 		// 获取翻译数据
-		async getTranslateData() {
+		async getTranslateData () {
 			let appid = '20200303000391987',
 				from = 'auto',
 				salt = '3456',
@@ -69,7 +69,7 @@ export default {
 			}
 		},
 		// 机器人
-		async robot() {
+		async robot () {
 			try {
 				const { data } = await axios({
 					method: 'get',
@@ -85,7 +85,7 @@ export default {
 			}
 		},
 		// 获取数据
-		getData() {
+		getData () {
 			if (this.radio === 1) {
 				this.getTranslateData()
 			} else {

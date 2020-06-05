@@ -60,6 +60,8 @@
 			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<!-- <el-menu-item index="/personal/resume">个人简历</el-menu-item> -->
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
+			<!-- <el-menu-item index="/bookmark">书签</el-menu-item> -->
+			<el-menu-item index="/test">test</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
@@ -92,7 +94,7 @@ export default {
 	},
 	computed: {
 		// 高亮
-		defaultActive() {
+		defaultActive () {
 			let url = this.$route.path.split('/')
 			if (url.length > 3) {
 				return url.slice(0, 3).join('/')
@@ -101,7 +103,7 @@ export default {
 			}
 		}
 	},
-	data() {
+	data () {
 		return {
 			// activeIndex: '/common',
 			catalogs: [{
@@ -166,18 +168,18 @@ export default {
 			userInfo: ''
 		}
 	},
-	created() {
+	created () {
 		this.loadData() // 加载数据
 		this.getUserInfo() // 获取用户信息
 	},
 	methods: {
-		async loadData() { // 加载数据
+		async loadData () { // 加载数据
 			const {
 				data
 			} = await this.$http.get('/category')
 			this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
 		},
-		InfinitePoleClassification(data) { // 无限极分类
+		InfinitePoleClassification (data) { // 无限极分类
 			const sourceData = Object.assign([], data) // 对象值传递
 			let finalData = [] // 存储最终数据
 			for (let i = 0; i < sourceData.length; i++) {
@@ -190,7 +192,7 @@ export default {
 				}
 			}
 
-			function ipc(finalData) {
+			function ipc (finalData) {
 				if (finalData.length <= 0) {
 					return false
 				}
@@ -218,11 +220,11 @@ export default {
 			return finalData
 		},
 		// 获取用户信息
-		getUserInfo() {
+		getUserInfo () {
 			this.userInfo = JSON.parse(window.localStorage.getItem('user'))
 		},
 		// 退出登录
-		signOut() {
+		signOut () {
 			this.$confirm('您是想直接退出还是换一个账号登录?', '退出登录', {
 				confirmButtonText: '直接退出',
 				cancelButtonText: '切换账户',

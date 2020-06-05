@@ -1,26 +1,26 @@
 <template>
-    <div class="common-box">
-        <el-input placeholder="请输入您要搜索的内容" v-model="search" :autofocus="true" @input="searchInput"
-            @keyup.enter.native="searchEnter" clearable class="search">
-        </el-input>
+	<div class="common-box">
+		<el-input placeholder="请输入您要搜索的内容" v-model="search" :autofocus="true" @input="searchInput"
+			@keyup.enter.native="searchEnter" clearable class="search">
+		</el-input>
 
-        <div class="content clearfix">
-            <div class="content_right">
-                <div class="synopsis">
-                    <!-- s_bg 背景 -->
-                    <img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
-                    <img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
-                    <div class="s_content">
-                        <h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
-                        <h3>- {{ personalInformation.occupation }} -</h3>
-                        <p>{{ personalInformation.synopsis }}</p>
-                    </div>
-                </div>
-                <category @getData="setCatgoryData"></category>
-            </div>
-            <article-list ref="contentLeft" :data="article" :classname="className" :searchData="searchData" @noData="jump"></article-list>
-        </div>
-    </div>
+		<div class="content clearfix">
+			<div class="content_right">
+				<div class="synopsis">
+					<!-- s_bg 背景 -->
+					<img class="s_bg" src="../../../assets/index/index/images/banner.png" alt="背景墙的图片">
+					<img class="s_head_portrait" src="../../../assets/index/index/images/avatar.jpg" alt="头像">
+					<div class="s_content">
+						<h2>{{ personalInformation.alias }} | {{ personalInformation.name }}</h2>
+						<h3>- {{ personalInformation.occupation }} -</h3>
+						<p>{{ personalInformation.synopsis }}</p>
+					</div>
+				</div>
+				<category @getData="setCatgoryData"></category>
+			</div>
+			<article-list ref="contentLeft" :data="article" :classname="className" :searchData="searchData" @noData="jump"></article-list>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
 		articleList,
 		category,
 	},
-	data() {
+	data () {
 		return {
 			personalInformation: {}, // 个人信息数据
 			lock: true, // 锁,为了手动防止删除搜索时,跳转到搜索页面
@@ -45,13 +45,13 @@ export default {
 			className: ''
 		}
 	},
-	created() {
+	created () {
 		this.getUserInfo()
 		this.tips() // 友情提示
 	},
 	methods: {
 		// 获取用户信息
-		async getUserInfo() {
+		async getUserInfo () {
 			try {
 				this.personalInformation = await this.$http.get('user/details')
 			} catch (e) {
@@ -59,14 +59,14 @@ export default {
 			}
 		},
 		// 输入搜索
-		searchInput() {
+		searchInput () {
 			// 为了不让用户输入字母数字时,没有数据时,出现多次跳转搜索页面
 			if (!/[0-9a-zA-Z]+/.test(this.search)) { // 如果输入有数字字母则不执行
 				this.searchData = this.search
 			}
 		},
 		// 没有想要的数据时跳转到百度搜索
-		jump(msg) {
+		jump (msg) {
 			if (this.lock) {
 				this.$message({
 					message: msg + '即将跳转百度搜索!',
@@ -87,17 +87,17 @@ export default {
 				icon.className = 'el-message__closeBtn el-icon-close'
 				message.appendChild(icon)
 
-				icon.onclick = function() {
+				icon.onclick = function () {
 					document.querySelector('.el-message').remove()
 				}
 			}
 		},
 		// 回车搜索
-		searchEnter() {
+		searchEnter () {
 			this.lock = true // 开启锁
 			this.searchData = this.search
 		},
-		tips() {
+		tips () {
 			const h = this.$createElement
 			this.$notify({
 				offset: 100,
@@ -106,7 +106,7 @@ export default {
 				message: h('i', { style: 'color: teal' }, '目前此网站正在持续更新中，或许您下一次打开就会不一样哦~')
 			})
 		},
-		setCatgoryData(data) {
+		setCatgoryData (data) {
 			this.article = data.getData.data
 			this.className = data.className // 重置分类
 			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离
@@ -124,10 +124,6 @@ export default {
 <style lang="scss" scoped>
 .fs17 {
 	font-size: 17px;
-}
-
-.common-box {
-	margin-bottom: 47px;
 }
 
 /* search-start */
@@ -197,6 +193,12 @@ export default {
 					line-height: 0.26rem;
 					padding: 0.1rem 0.3rem 0.2rem;
 				}
+			}
+		}
+
+		.category {
+			.s_box {
+				height: 3.18rem;
 			}
 		}
 	}

@@ -29,6 +29,7 @@
 		overflow-y: auto;
 		overflow-x: hidden;
 		position: relative;
+		border-radius: 5px;
 		padding-bottom: 0.1rem;
 		background-color: #fff;
 		padding: 0 0.2rem 0.2rem 0.2rem;
@@ -91,16 +92,24 @@
 
 	.right {
 		.rr {
-			padding: 0.2rem;
 			text-align: left;
+			border-radius: 5px;
 			background-color: #fff;
+			padding: 0.1rem 0.2rem 0.2rem 0.2rem;
+
+			h3 {
+				line-height: 0;
+			}
 
 			li {
 				color: #666;
 				height: 0.3rem;
+				overflow: hidden;
 				line-height: 0.3rem;
 				font-weight: normal;
 				margin-left: 0.16rem;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 
 				a {
 					color: #666;
@@ -119,6 +128,7 @@
 		.secondary {
 			padding: 0.2rem;
 			text-align: left;
+			border-radius: 5px;
 			background-color: #fff;
 
 			.my-icon-dianzan {

@@ -1,27 +1,29 @@
 <template>
     <div id="app" class="app">
-        <router-view />
+		<router-view />
     </div>
 </template>
 
 <script>
 export default {
 	name: 'App',
-	data() {
+	components: {
+	},
+	data () {
 		return {
 			ip: returnCitySN['cip'],
 			region: returnCitySN['cname'], // 地域
 			ipInfo: null,
-			time: new Date().getTime()
+			time: new Date().getTime(),
 		}
 	},
-	created() {
+	created () {
 		this.getUserJurisdiction()
 		this.ipIsExistence()
 	},
 	methods: {
 		// 获取用户权限
-		async getUserJurisdiction() {
+		async getUserJurisdiction () {
 			try {
 				const data = await this.$http.get('user/jurisdiction')
 				this.__proto__._jurisdiction = data
@@ -31,7 +33,7 @@ export default {
 			}
 		},
 		// 判断ip是否存在
-		async ipIsExistence() {
+		async ipIsExistence () {
 			try {
 				const data = await this.$http.post('echarts/web/is/ip', {
 					ip: this.ip
@@ -44,7 +46,7 @@ export default {
 						offset: 100,
 						duration: 30000,
 						title: '欢迎浏览~',
-						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人，在分辨率大于1800时才能看`)
+						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人`)
 					})
 				}
 				this.addBrowseUser()
@@ -52,7 +54,7 @@ export default {
 				console.log(e, 'e')
 			}
 		},
-		async addBrowseUser() {
+		async addBrowseUser () {
 			if (this.ipInfo) {
 				// 第二次浏览本站
 				try {
@@ -72,12 +74,16 @@ export default {
 						ip: this.ip,
 						sumTime: new Date().getTime() - this.time, // 毫秒
 					}
+					console.log(postData, 'postData', this.time)
+					if (!postData.sumTime) {
+						return false
+					}
 					await this.$http.post('echarts/add/browse/user', postData)
 				} catch (e) {
 					console.log(e)
 				}
 			}
-		}
+		},
 	},
 	watch: {
 		// $route(to, from) {

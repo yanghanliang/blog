@@ -48,27 +48,27 @@ export default {
 	components: {
 		logo,
 	},
-	data() {
+	data () {
 		return {
 		}
 	},
-	mounted() {
+	mounted () {
 		this.effect()
 	},
-	beforeDestroy() {
+	beforeDestroy () {
 		this.removeCanvas()
 	},
 	methods: {
 		// 刷新圆
-		refreshCircular(ele) {
+		refreshCircular (ele) {
 			this[ele] = false
 			this.$nextTick(() => {
 				this[ele] = true
 			})
 		},
 		// 效果
-		effect() {
-			(function() {
+		effect () {
+			(function () {
 				let W, H
 				// canvas元素相关
 				// 创建canvas元素，并设置canvas元素的id
@@ -91,7 +91,7 @@ export default {
 				// 所以得到的script数组中，引用了本文的script元素在该数组的末尾
 				// 该函数的用意为使开发者能直接修改在html中引入该文件的script元素的属性来修改画布的一些属性，画布的z-index，透明度和小方块数量，颜色
 				// 与前面往body元素添加canvas元素的代码配合，当开发者想要使用该特效作为背景时，只需在html文件中添加script元素并引用本文件即可
-				function getAttr() {
+				function getAttr () {
 					let scripts = document.getElementsByTagName('script'),
 						len = scripts.length,
 						script = scripts[len - 1] // v为最后一个script元素，即引用了本文件的script元素
@@ -104,7 +104,7 @@ export default {
 					}
 				}
 				// 获得窗口宽高，并设置canvas元素宽高
-				function getWindowWH() {
+				function getWindowWH () {
 					W = canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 					H = canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 				}
@@ -135,7 +135,7 @@ export default {
 					max: 20000
 				}
 				// 获取鼠标所在坐标
-				window.onmousemove = function(i) {
+				window.onmousemove = function (i) {
 					// i为W3C DOM，window.event 为 IE DOM，以实现兼容IE
 					// 不过目前似乎IE已经支持W3C DOM，我用的是IE11，我注释掉下一句代码也能实现鼠标交互效果，
 					// 网上说7/8/9是不支持的，本人没有试验，
@@ -145,22 +145,22 @@ export default {
 					mouse.y = i.clientY
 				}
 				// 鼠标移出窗口后，消除鼠标小方块
-				window.onmouseout = function() {
+				window.onmouseout = function () {
 					mouse.x = null
 					mouse.y = null
 				}
 				// 绘制小方块，小方块移动(碰到边界反向移动)，小方块受鼠标束缚
 				var animation = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-				function(i) {
+				function (i) {
 					window.setTimeout(i, 1000 / 45)
 				} // 各个浏览器支持的requestAnimationFrame有所不同，兼容各个浏览器
-				function draw() {
+				function draw () {
 					// 清除画布
 					context.clearRect(0, 0, W, H)
 					var w = [mouse].concat(squares) // 连接(合并)鼠标小方块数组和其他小方块数组
 					var x, A
 					// square属性表：x，y，xa，ya，max
-					squares.forEach(function(i) {
+					squares.forEach(function (i) {
 						// 实现小方块定向移动
 						i.x += i.xa
 						i.y += i.ya
@@ -212,16 +212,16 @@ export default {
 					animation(draw)
 				}
 				// 此处是等待0.1秒后，执行一次draw()，真正的动画效果是用window.requestAnimationFrame实现的
-				setTimeout(function() {
+				setTimeout(function () {
 					draw()
 				},
 				100)
 			}())
 		},
 		// 清除效果
-		removeCanvas() {
+		removeCanvas () {
 			document.querySelector('.effect').remove()
-		}
+		},
 	},
 }
 </script>

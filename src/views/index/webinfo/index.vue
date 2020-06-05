@@ -17,7 +17,7 @@ export default {
 	components: {
 		myEcharts
 	},
-	data() {
+	data () {
 		return {
 			xAxisData: ['注册人数', '站点访问量', '文章发布量'],
 			barData: {
@@ -34,11 +34,11 @@ export default {
 			}
 		}
 	},
-	created() {
+	created () {
 		this.articleSumReport()
 	},
 	methods: {
-		async getData(params) {
+		async getData (params) {
 			const postData = {
 				startTime: params.date[0],
 				endTime: params.date[1],
@@ -51,7 +51,7 @@ export default {
 				return []
 			}
 		},
-		async articleSumReport() {
+		async articleSumReport () {
 			try {
 				const { title, data } =  await this.$http.get('echarts/article/sum/report')
 				this.barData.xAxisData = title

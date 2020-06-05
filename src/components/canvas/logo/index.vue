@@ -4,11 +4,11 @@
 
 <script>
 export default {
-	mounted() {
+	mounted () {
 		this.init()
 	},
 	methods: {
-		init() {
+		init () {
 			let that = this
 
 			let My = function () {
@@ -188,7 +188,7 @@ export default {
             * params {object}  params.start
             * params {object}  params.end
             */
-			My.prototype.drawCurvePaths = function(params) {
+			My.prototype.drawCurvePaths = function (params) {
 				let middle = {
 					x: (params.start.x + params.end.x) / 2,
 					y: params.end.y

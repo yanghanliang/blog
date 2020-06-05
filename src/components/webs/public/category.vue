@@ -4,7 +4,7 @@
             <span>分类</span>
             <div class="st_line"></div>
         </div>
-        <div class="s_box clearfix">
+        <div class="s_box scrollbar-hiddle clearfix">
             <span @click="getData(value.classname)" v-for="value in categoryData" :key="value.id">{{ value.classname }}</span>
         </div>
     </div>
@@ -18,20 +18,20 @@ export default {
 			default: null
 		}
 	},
-	data() {
+	data () {
 		return {
 			categoryData: [],
 			articleId: this.$route.params.articleId
 		}
 	},
-	created() {
+	created () {
 		this.getCategoryData() // 获取分类数据
 	},
 	methods: {
-		async getCategoryData() { // 获取分类数据
+		async getCategoryData () { // 获取分类数据
 			const {
 				data
-			} = await this.$http.get('category') // 发送请求
+			} = await this.$http.get('category?type=1') // 发送请求
 
 			if (this.categoryId) {
 				this.categoryData = data.filter(item => {
@@ -43,12 +43,12 @@ export default {
 				this.categoryData = data // 将获取到的数据绑定到 vue 中
 			}
 		},
-		getData(content) {
+		getData (content) {
 			if (this.$route.name === 'common') {
 				this.getArticleCategoryData(content)
 			}
 		},
-		async getArticleCategoryData(content) {
+		async getArticleCategoryData (content) {
 			const {
 				data
 			} = await this.$http.get(`articleCategory/${content}`)
@@ -113,7 +113,8 @@ export default {
 
     /* s_box-start */
     .category .s_box {
-        min-height: 3.09rem;
+        overflow: auto;
+        height: 3.2rem;
         margin-top: 0.02rem;
         background-color: #fff;
         padding: 0.08rem 0.2rem 0.2rem;

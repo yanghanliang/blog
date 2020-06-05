@@ -17,14 +17,14 @@ export default {
 	components: {
 		myCircular
 	},
-	data() {
+	data () {
 		return {
 			showCircular: true,
 		}
 	},
 	methods: {
 		// 刷新圆
-		refreshCircular(ele) {
+		refreshCircular (ele) {
 			this[ele] = false
 			this.$nextTick(() => {
 				this[ele] = true

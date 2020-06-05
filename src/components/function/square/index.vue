@@ -4,12 +4,12 @@
 
 <script>
 export default {
-	mounted() {
+	mounted () {
 		this.init()
 	},
 	methods: {
-		init() {
-			function Circular() {
+		init () {
+			function Circular () {
 				this.box = document.querySelector('#square')
 				this.width = this.getStyle(this.box, 'width')
 				this.height = this.getStyle(this.box, 'height')
@@ -32,7 +32,7 @@ export default {
 					arr: this.xCoordinate,
 					arrs: this.yCoordinate
 				})
-				console.log('数据最多能放' + this.coordinate.length + '个')
+				// console.log('数据最多能放' + this.coordinate.length + '个')
 				// 打乱数组
 				this.coordinate = this.disruptedArr({
 					data: this.coordinate

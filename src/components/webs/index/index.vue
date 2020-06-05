@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <!-- 调用头部公共组件 -->
-        <my-header></my-header>
-        <div class="container">
-            <router-view :key="$route.path"></router-view>
+    <layout-common>
+        <my-header slot="header" />
+        <my-footer slot="footer" />
+        <section slot="content">
+            <keep-alive include="common">
+                <router-view />
+            </keep-alive>
             <robot class="robot"></robot>
-        </div>
-        <!-- 调用底部公共组件 -->
-        <my-footer></my-footer>
-    </div>
+        </section>
+    </layout-common>
 </template>
 
 <script>
+// 导入布局
+import layoutCommon from '@/components/webs/public/layout/common'
 // 导入 header
 import myHeader from '@/components/webs/public/myHeader'
 // 导入 footer
@@ -22,6 +24,7 @@ import robot from '@/components/function/robot/index'
 export default {
 	name: 'index',
 	components: {
+		layoutCommon,
 		myHeader,
 		myFooter,
 		robot
@@ -35,9 +38,5 @@ export default {
     .robot {
         display: none;
     }
-}
-
-.container {
-    min-height: 827px;
 }
 </style>
