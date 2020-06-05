@@ -117,7 +117,10 @@ export default {
         height: 3.2rem;
         margin-top: 0.02rem;
         background-color: #fff;
-        padding: 0.08rem 0.2rem 0.2rem;
+        border-top: 8px solid #fff;
+        border-left: 20px solid #fff;
+        border-right: 20px solid #fff;
+        border-bottom: 20px solid #fff;
     }
 
     .category .s_box span {
