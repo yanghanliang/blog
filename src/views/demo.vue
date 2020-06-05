@@ -16,7 +16,7 @@
 				<div ref="balance" class="balance"></div>
 				<div class="clearfix transitions-title">
 					<span class="fl ">Transitions</span>
-					<my-select class="fr"></my-select>
+					<my-select class="fr" :id.sync="id"></my-select>
 				</div>
 				<ul class="transactions">
 					<li class="t-item">
@@ -141,7 +141,7 @@
 							<div class="current-item clearfix">
 								<span class="fl">10638736812545</span>
 								<div class="line"></div>
-								<span class="fr money">$2,200.02</span>
+								<span class="fr money">${{ 10 | money({ conversion: 'up', symbol: ',', decimal: true }) }}</span>
 							</div>
 							<div class="current-item clearfix">
 								<span class="fl">10638736812545</span>
@@ -166,6 +166,14 @@
 										<span class="fl">Total</span>
 										<span class="fr money">$100.09</span>
 									</li>
+									<li class="clearfix">
+										<span class="fl">Total week</span>
+										<span class="fr money">$2567.89</span>
+									</li>
+									<li class="clearfix">
+										<span class="fl">This month</span>
+										<span class="fr money">$123.09</span>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -189,6 +197,82 @@ export default {
 		mySelect,
 		logo
 	},
+	filters: {
+		money (value, params) {
+			if (params && params.conversion) {
+				// 为了避免小数点做运算的问题： 201 * 0.01 = 2.0100000000000002
+				if (params.conversion === 'up') {
+					value = value / 100
+				} else if (params.conversion === 'down') {
+					value = value * 100
+				}
+			}
+
+			// 千分位符号
+			if (params && params.symbol) {
+				const arr = String(value).split('.')
+
+				/**
+				 * 从后往前截取字符串
+				 * @param {object}           params
+				 * @param {string}           params.str
+				 * @param {number}           params.step
+				 */
+				const newArr = []
+				const recursion = function (params) {
+					if (params.str.length > params.step) {
+						const item = params.str.slice(-params.step)
+						newArr.unshift(item)
+						recursion({
+							str: params.str.slice(0, -params.step),
+							step: params.step
+						})
+					} else {
+						if (params.str) {
+							newArr.unshift(params.str)
+						}
+					}
+				}
+				recursion({
+					str: String(arr[0]),
+					step: 3
+				})
+
+				const str = newArr.join(params.symbol)
+
+				if (arr.length > 1) {
+					if (String(arr[1]).length === 1 && params.decimal) {
+						return str + '.' + arr[1] + '0'
+					} else {
+						return str + '.' + arr[1]
+					}
+				} else {
+					if (params.decimal) {
+						return str + '.00'
+					} else {
+						return str
+					}
+				}
+			}
+
+			console.log(params, 'params')
+
+			// 保留小数点
+			if (params && params.decimal) {
+				let temp = String(value)
+				console.log(temp.indexOf('.'), temp.slice(temp.indexOf('.')).length, '????')
+				if (!temp.includes('.')) {
+					console.log(0)
+					return value + '.00'
+				} else if (temp.slice(temp.indexOf('.')).length === 1) {
+					// 小数点只有一位时走这
+					console.log(1)
+					return value + '0'
+				}
+			}
+			return value
+		}
+	},
 	data () {
 		return {
 			one: '',
@@ -202,15 +286,22 @@ export default {
 				{
 					id: 2,
 					status: false,
-					text: 'Dashboard'
+					text: 'Services'
 				},
 				{
 					id: 3,
 					status: false,
-					text: 'Dashboard'
+					text: 'History'
+				},
+				{
+					id: 4,
+					status: false,
+					text: 'Actions'
 				}
 			],
-			savingsEcharts: null
+			savingsEcharts: null,
+			balanceEcharts: null,
+			id: 1
 		}
 	},
 	mounted () {
@@ -477,6 +568,7 @@ export default {
 			window.addEventListener('resize', function () {
 				setTimeout(() => {
 					that.savingsEcharts.resize()
+					that.balanceEcharts.resize()
 				})
 			})
 		},
@@ -489,7 +581,7 @@ export default {
 				}
 			})
 		}
-	},
+	}
 }
 </script>
 
@@ -522,7 +614,7 @@ $color-secondary: #b9b9b9;
 	>>> .layout-right {
 		top: 0;
 		bottom: 0;
-		width: 400px;
+		width: 324px;
 		background-color: #fff;
 		border-top-left-radius: 50px;
 		border-bottom-left-radius: 50px;
@@ -572,8 +664,8 @@ $color-secondary: #b9b9b9;
 			}
 
 			.balance {
-				width: 350px;
-				height: 350px;
+				width: 100%;
+				height: 40vh;
 				margin: 20px auto;
 			}
 
@@ -610,7 +702,7 @@ $color-secondary: #b9b9b9;
 			}
 
 			.btn {
-				width: 320px;
+				width: 90%;
 				height: 40px;
 				color: #fff;
 				margin: 40px auto 0;
@@ -644,7 +736,7 @@ $color-secondary: #b9b9b9;
 	}
 
 	>>> .layout-left  {
-		margin-right: 400px;
+		margin-right: 324px;
 		background-color: #fff;
 
 		.demo-content {
@@ -765,14 +857,17 @@ $color-secondary: #b9b9b9;
 				display: flex;
 
 				.services {
-					width: 260px;
-					margin-right: 70px;
+					width: 23%;
+					max-width: 260px;
+					min-width: 200px;
+					margin-right: 3%;
 
 					.services-item {
-						width: 100px;
-						height: 100px;
+						width: 35%;
+						height: 35%;
+						max-width: 100px;
+						max-height: 100px;
 						padding: 10px;
-						float: left;
 						margin-bottom: 20px;
 						text-align: center;
 						border-radius: 20px;
@@ -781,6 +876,11 @@ $color-secondary: #b9b9b9;
 
 						&:nth-child(odd) {
 							margin-right: 20px;
+							float: left;
+						}
+
+						&:nth-child(even) {
+							float: right;
 						}
 
 						i {
@@ -795,8 +895,9 @@ $color-secondary: #b9b9b9;
 				}
 
 				.dcc-right {
-					float: right;
 					flex: 1;
+					float: right;
+					min-width: 735px;
 
 					.line {
 						margin: 0 110px 0 170px;
@@ -836,14 +937,24 @@ $color-secondary: #b9b9b9;
 
 					.savings-content {
 						.savings-echarts {
-							width: 80%;
+							width: 78%;
 							height: 30vh;
 						}
 
 						.sc-box {
 							width: 20%;
-							padding-left: 20px;
+							padding-left: 2%;
+							min-width: 186px;
+							line-height: 25px;
 							box-sizing: border-box;
+
+							span {
+								font-size: 17px;
+
+								&:nth-child(1) {
+									color: $color-secondary;
+								}
+							}
 						}
 					}
 				}
