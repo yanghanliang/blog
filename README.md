@@ -1036,6 +1036,31 @@ $bac: blue;
 
 ```
 
+> 4. 如果需要全局注入scss变量则需要
+
+```
+yarn add -D sass-resources-loader
+
+在 build/utils.js 中把scss的配置改为
+```
+
+```js
+{
+  css: generateLoaders(),
+  postcss: generateLoaders(),
+  less: generateLoaders('less'),
+  sass: generateLoaders('sass', { indentedSyntax: true }),
+  scss: generateLoaders('sass').concat({ // 注意是 scss, 不是 sass
+    loader:'sass-resources-loader',
+    options:{
+      resources:path.resolve(__dirname,'../src/assets/css/color/index.scss')
+    }
+  }),
+  stylus: generateLoaders('stylus'),
+  styl: generateLoaders('stylus')
+}
+
+```
 
 ### 服务器部署的时候报`net::ERR_CONNECTION_REFUSED` 错误
 

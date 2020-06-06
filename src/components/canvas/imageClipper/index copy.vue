@@ -476,7 +476,7 @@ export default {
 		}
 
 		.rectangle {
-			
+
 		}
 	}
 

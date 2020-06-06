@@ -64,7 +64,7 @@ export default {
 			reader.onload = () => {
 				this.imgSrc = reader.result
 				// 图片展示成功后，将图片信息通过以下方法暴露出去
-				Object.assign(file, { ele: this.$refs.img})
+				Object.assign(file, { ele: this.$refs.img })
 				this.$emit('showSuccess', file)
 			}
 		}

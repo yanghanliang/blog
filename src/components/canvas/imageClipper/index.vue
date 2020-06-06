@@ -2,6 +2,10 @@
     <div class="image-clipper clearfix">
 		<ul class="handle-region clearfix">
 			<li>工具栏</li>
+			<li>请选择图片</li>
+			<li>
+				<i class="el-icon-picture" @click="dialogVisible = true"></i>
+			</li>
 			<li>请选择裁剪形状</li>
 			<li>
 				<div class="circular mr20" @click="clickCircular">圆</div>
@@ -11,8 +15,9 @@
 			<li>
 				<el-slider v-model="zoom"></el-slider>
 			</li>
+			<li>确定裁剪</li>
 			<li>
-				<el-button type="success" icon="el-icon-check" circle @click="confirmCrop" title="裁剪"></el-button>
+				<my-icon identification="jiandao" class="jiandao" @click.native="confirmCrop"></my-icon>
 			</li>
 		</ul>
 		<div class="content-region" ref="contentRegion">
@@ -20,7 +25,7 @@
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
 			<div v-show="!imageUrl" ref="cRBox" :class="['clipping-region', status]">
-				<canvas v-show="!isShowImage" ref="canvas" class="canvas"></canvas>
+				<canvas width="800px" height="800px" ref="canvas" class="canvas"></canvas>
 				<ul class="clipping-box" ref="clippingBox" id="clippingBox" :style="style">
 					<li class="tl"></li>
 					<li class="tm"></li>
@@ -31,10 +36,16 @@
 					<li class="bl"></li>
 					<li class="lm"></li>
 				</ul>
-				<show-image v-show="isShowImage" @showSuccess="showSuccess" />
 				<!-- <img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage"> -->
 			</div>
 		</div>
+		<el-dialog title="请选择需要裁剪的图片" :visible.sync="dialogVisible">
+			<show-image @showSuccess="showSuccess" />
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button type="primary" @click="pictureConversion">确 定</el-button>
+			</span>
+		</el-dialog>
     </div>
 </template>
 
@@ -77,11 +88,11 @@ export default {
 				height: 600
 			},
 			lock: true,
-			isShowImage: true, // 选择的图片，canvas 画完图之后隐藏
+			dialogVisible: false,
+			imageInfo: {}, // 原图片信息
 		}
 	},
 	mounted () {
-		// this.pictureConversion()
 		this.registerEvents()
 	},
 	methods: {
@@ -321,44 +332,43 @@ export default {
 			this.Drag = new Drag({ vue: this })
 		},
 		// image => canvas 图片转换
-		pictureConversion (imageEle) {
-			imageEle.addEventListener('load', e => {
-				const imageInfo = imageEle.getBoundingClientRect()
-				const canvas = this.$refs.canvas
-				const parentInfo = this.$refs.contentRegion.getBoundingClientRect()
-				this.canvas.width = parentInfo.width
-				canvas.width = this.canvas.width
-				canvas.height = this.canvas.height
-				let width = imageInfo.width
-				let height = imageInfo.height
-				let proportion = 0
-				let top = 0
-				let left = 0
-				// 根据图片大小设置画布大小
-				canvas.width = width
-				canvas.height = height
-				// if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
-				// 	if (imageInfo.width > imageInfo.height) {
-				// 		proportion = canvas.width / imageInfo.width
-				// 		width = canvas.width
-				// 		height = imageInfo.height * proportion
-				// 		top = (canvas.height - height) / 2
-				// 	} else {
-				// 		proportion = canvas.height / imageInfo.height
-				// 		width = imageInfo.width * proportion
-				// 		height = canvas.height
-				// 		left = (canvas.width - width) / 2
-				// 	}
-				// } else {
-				// 	top = (canvas.height - height) / 2
-				// 	left = (canvas.width - width) / 2
-				// }
-				this.ctx = canvas.getContext('2d')
-				// 将图片转换为canvas
-				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
-				// 隐藏原图片
-				this.isShowImage = false
-			})
+		pictureConversion () {
+			const imageEle = this.imageInfo.ele
+			const imageInfo = imageEle.getBoundingClientRect()
+			const canvas = this.$refs.canvas
+			const parentInfo = this.$refs.contentRegion.getBoundingClientRect()
+			this.canvas.width = parentInfo.width
+			canvas.width = this.canvas.width
+			canvas.height = this.canvas.height
+			let width = imageInfo.width
+			let height = imageInfo.height
+			// let proportion = 0
+			let top = 0
+			let left = 0
+			// 根据图片大小设置画布大小
+			canvas.width = width
+			canvas.height = height
+			// if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
+			// 	if (imageInfo.width > imageInfo.height) {
+			// 		proportion = canvas.width / imageInfo.width
+			// 		width = canvas.width
+			// 		height = imageInfo.height * proportion
+			// 		top = (canvas.height - height) / 2
+			// 	} else {
+			// 		proportion = canvas.height / imageInfo.height
+			// 		width = imageInfo.width * proportion
+			// 		height = canvas.height
+			// 		left = (canvas.width - width) / 2
+			// 	}
+			// } else {
+			// 	top = (canvas.height - height) / 2
+			// 	left = (canvas.width - width) / 2
+			// }
+			this.ctx = canvas.getContext('2d')
+			// 将图片转换为canvas
+			this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
+			this.dialogVisible = false
+			console.log(this.dialogVisible, 'this.dialogVisible')
 		},
 		// 裁剪
 		confirmCrop () {
@@ -387,10 +397,9 @@ export default {
 			}
 			this.ctx.fill()
 			// 核心-end
-			console.log(this.ctx, 'this.ctx')
-			console.log(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.imageUrl = this.$refs.canvas.toDataURL()
+			this.$message.success('裁剪成功，点击图片即可下载~')
 		},
 		// 点击圆
 		clickCircular () {
@@ -405,14 +414,15 @@ export default {
 		// 裁剪初始化
 		cropInit () {
 			this.zoom = 50
-			const proportion = this.canvas.width / 100 * this.zoom
-			let left = this.canvas.width / 2 - proportion / 2
+			const canvas = this.$refs.canvas.getBoundingClientRect()
+			const proportion = canvas.width / 100 * this.zoom
+			let left = canvas.width / 2 - proportion / 2
 			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
 		},
-		// 显示图片
-		showSuccess(imageInfo) {
-			this.pictureConversion(imageInfo.ele)
-		}
+		// 选择图片成功后更新图片信息
+		showSuccess (imageInfo) {
+			this.imageInfo = imageInfo
+		},
 	},
 	watch: {
 		zoom (newValue, oldValue) {
@@ -420,12 +430,13 @@ export default {
 			this.$nextTick(() => {
 				setTimeout(() => {
 					this.lock = false
-					const proportion = this.canvas.width / 100 * newValue
+					const canvas = this.$refs.canvas.getBoundingClientRect()
+					const proportion = canvas.width / 100 * newValue
 					const ele = this.$refs.clippingBox
 					const width = ele.style.width.split('px')[0]
 					// const height = ele.style.height.split('px')[0]
-					let top = this.canvas.width / 2 - proportion / 2
-					let left = this.canvas.width / 2 - proportion / 2
+					let top = canvas.width / 2 - proportion / 2
+					let left = canvas.width / 2 - proportion / 2
 					if (newValue > oldValue) {
 						// 放大
 						let difference = (proportion * 100 - width * 100) / 100 / 2
@@ -453,15 +464,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-	box-sizing: border-box;
+.si-add {
+	top: 50%;
+	left: 50%;
+	color: $secondary;
+	text-align: center;
+	position: absolute;
+	transform: translate(-50%, -50%);
+
+	i {
+		width: 40px;
+		height: 40px;
+		display: block;
+		cursor: pointer;
+		line-height: 40px;
+		border-radius: 50%;
+		margin: 0 auto 10px;
+		border: 1px dashed $secondary;
+	}
 }
 
 .image-clipper {
 
 	.handle-region {
 		width: 300px;
-		height: 500px;
+		min-height: 500px;
 		float: left;
 		padding: 20px;
 		text-align: left;
@@ -487,9 +514,11 @@ export default {
 			border-radius: 50%;
 		}
 
-		// .rectangle {
-			
-		// }
+		.el-icon-picture, .jiandao {
+			font-size: 30px;
+			cursor: pointer;
+			color: $theme-color;
+		}
 	}
 
 	.content-region {
