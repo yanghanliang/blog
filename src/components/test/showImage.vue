@@ -10,6 +10,9 @@
 </template>
 
 <script>
+/**
+ * 此组件可以用来显示本地的图片
+ */
 export default {
 	name: 'getImageInfo',
 	props: {
