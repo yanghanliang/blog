@@ -4,7 +4,7 @@
 			<i class="my-icon-jia"></i>
 			<span>请选择需要显示的图片</span>
 		</div>
-        <img :src="imgSrc" alt="">
+        <img :src="imgSrc" alt="" ref="img">
         <input class="file" type="file" @change="getImageInfo" ref="file" accept="image/*" />
     </div>
 </template>
@@ -63,6 +63,9 @@ export default {
 			// 图片读取完成后执行
 			reader.onload = () => {
 				this.imgSrc = reader.result
+				// 图片展示成功后，将图片信息通过以下方法暴露出去
+				Object.assign(file, { ele: this.$refs.img})
+				this.$emit('showSuccess', file)
 			}
 		}
 	},

@@ -4,10 +4,10 @@
 		<!-- <contract-seal></contract-seal> -->
 		<!-- <picture-synthesis></picture-synthesis> -->
 		<!-- <u-key></u-key> -->
-		<!-- <image-clipper></image-clipper> -->
+		<image-clipper></image-clipper>
 		<!-- <content-block></content-block> -->
 		<!-- <my-crumbs></my-crumbs> -->
-		<show-image />
+		<!-- <show-image /> -->
     </div>
 </template>
 
@@ -16,10 +16,10 @@
 // import contractSeal from '@/components/webs/public/contractSeal/index.vue'
 // import pictureSynthesis from '@/components/canvas/pictureSynthesis/index.vue'
 // import uKey from '@/components/ukey'
-// import imageClipper from '@/components/canvas/imageClipper/index'
+import imageClipper from '@/components/canvas/imageClipper/index'
 // import contentBlock from '@/components/webs/public/contentBlock/index'
 // import myCrumbs from '@/components/webs/public/myCrumbs'
-import showImage from '@/components/test/showImage'
+// import showImage from '@/components/test/showImage'
 
 export default {
 	components: {
@@ -27,10 +27,10 @@ export default {
 		// contractSeal,
 		// uKey,
 		// pictureSynthesis,
-		// imageClipper,
+		imageClipper,
 		// contentBlock,
 		// myCrumbs,
-		showImage
+		// showImage
 	},
 	methods: {
 		handleDelete (data) {

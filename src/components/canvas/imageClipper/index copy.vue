@@ -20,7 +20,7 @@
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
 			<div v-show="!imageUrl" ref="cRBox" :class="['clipping-region', status]">
-				<canvas v-show="!isShowImage" ref="canvas" class="canvas"></canvas>
+				<canvas ref="canvas" class="canvas"></canvas>
 				<ul class="clipping-box" ref="clippingBox" id="clippingBox" :style="style">
 					<li class="tl"></li>
 					<li class="tm"></li>
@@ -31,8 +31,7 @@
 					<li class="bl"></li>
 					<li class="lm"></li>
 				</ul>
-				<show-image v-show="isShowImage" @showSuccess="showSuccess" />
-				<!-- <img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage"> -->
+				<img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage">
 			</div>
 		</div>
     </div>
@@ -50,8 +49,6 @@
  * 点击的时候回显示8个点，其中4个是夹角，当选择夹角的时候已对角作为参考。
  * 当选择一个边的时候，已另一个边作为参考
  */
-import showImage from '@/components/test/showImage'
-
 export default {
 	name: 'imageClipper', // 图片裁剪
 	props: {
@@ -59,9 +56,6 @@ export default {
 		// 	type: String,
 		// 	default: '',
 		// }
-	},
-	components: {
-		showImage
 	},
 	data () {
 		return {
@@ -76,12 +70,11 @@ export default {
 				width: 600,
 				height: 600
 			},
-			lock: true,
-			isShowImage: true, // 选择的图片，canvas 画完图之后隐藏
+			lock: true
 		}
 	},
 	mounted () {
-		// this.pictureConversion()
+		this.pictureConversion()
 		this.registerEvents()
 	},
 	methods: {
@@ -321,7 +314,8 @@ export default {
 			this.Drag = new Drag({ vue: this })
 		},
 		// image => canvas 图片转换
-		pictureConversion (imageEle) {
+		pictureConversion () {
+			const imageEle = this.$refs.bgImage
 			imageEle.addEventListener('load', e => {
 				const imageInfo = imageEle.getBoundingClientRect()
 				const canvas = this.$refs.canvas
@@ -356,8 +350,6 @@ export default {
 				this.ctx = canvas.getContext('2d')
 				// 将图片转换为canvas
 				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
-				// 隐藏原图片
-				this.isShowImage = false
 			})
 		},
 		// 裁剪
@@ -408,10 +400,6 @@ export default {
 			const proportion = this.canvas.width / 100 * this.zoom
 			let left = this.canvas.width / 2 - proportion / 2
 			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
-		},
-		// 显示图片
-		showSuccess(imageInfo) {
-			this.pictureConversion(imageInfo.ele)
 		}
 	},
 	watch: {
@@ -487,9 +475,9 @@ export default {
 			border-radius: 50%;
 		}
 
-		// .rectangle {
+		.rectangle {
 			
-		// }
+		}
 	}
 
 	.content-region {
@@ -505,11 +493,11 @@ export default {
 				background-color: #ffffff;
 			}
 
-			// img {
-			// 	left: 0;
-			// 	visibility: hidden;
-			// 	position: absolute;
-			// }
+			img {
+				left: 0;
+				visibility: hidden;
+				position: absolute;
+			}
 
 			.clipping-box {
 				display: none;
