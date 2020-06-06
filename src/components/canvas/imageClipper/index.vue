@@ -1,19 +1,37 @@
 <template>
     <div class="image-clipper clearfix">
-		<div class="handle-region">
-			<span @click="clickCircular">圆</span>
-			<hr>
-			<span @click="clickRectangle">方形</span>
-			<hr>
-			<el-slider v-model="zoom"></el-slider>
-			<hr>
-			<span @click="confirmCrop">裁剪</span>
-		</div>
+		<ul class="handle-region clearfix">
+			<li>工具栏</li>
+			<li>请选择裁剪形状</li>
+			<li>
+				<div class="circular mr20" @click="clickCircular">圆</div>
+				<div class="rectangle" @click="clickRectangle">方形</div>
+			</li>
+			<li>请选择裁剪范围</li>
+			<li>
+				<el-slider v-model="zoom"></el-slider>
+			</li>
+			<li>
+				<el-button type="success" icon="el-icon-check" circle @click="confirmCrop" title="裁剪"></el-button>
+			</li>
+		</ul>
 		<div class="content-region" ref="contentRegion">
 			<a v-show="imageUrl" :href="imageUrl" download="beautifulGirl" title="点击下载">
 				<img :src="imageUrl" alt="裁剪后的图片" ref="synthesis">
 			</a>
 			<div v-show="!imageUrl" ref="cRBox" :class="['clipping-region', status]">
+				<el-upload class="upload-demo"
+					:action="`${Global.baseURL}uploadFile`"
+					:before-upload="beforeupload"
+					:show-file-list="false"
+					:http-request="httpRequest"
+					drag
+					style="margin-left:80px;"
+				>
+					<i class="el-icon-upload"></i>
+					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+					<div class="el-upload__tip" slot="tip">文件大小不能超过1MB</div>
+				</el-upload>
 				<canvas ref="canvas" class="canvas"></canvas>
 				<ul class="clipping-box" ref="clippingBox" id="clippingBox" :style="style">
 					<li class="tl"></li>
@@ -322,23 +340,27 @@ export default {
 				let proportion = 0
 				let top = 0
 				let left = 0
-				if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
-					if (imageInfo.width > imageInfo.height) {
-						proportion = canvas.width / imageInfo.width
-						width = canvas.width
-						height = imageInfo.height * proportion
-						top = (canvas.height - height) / 2
-					} else {
-						proportion = canvas.height / imageInfo.height
-						width = imageInfo.width * proportion
-						height = canvas.height
-						left = (canvas.width - width) / 2
-					}
-				} else {
-					top = (canvas.height - height) / 2
-					left = (canvas.width - width) / 2
-				}
+				// 根据图片大小设置画布大小
+				canvas.width = width
+				canvas.height = height
+				// if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
+				// 	if (imageInfo.width > imageInfo.height) {
+				// 		proportion = canvas.width / imageInfo.width
+				// 		width = canvas.width
+				// 		height = imageInfo.height * proportion
+				// 		top = (canvas.height - height) / 2
+				// 	} else {
+				// 		proportion = canvas.height / imageInfo.height
+				// 		width = imageInfo.width * proportion
+				// 		height = canvas.height
+				// 		left = (canvas.width - width) / 2
+				// 	}
+				// } else {
+				// 	top = (canvas.height - height) / 2
+				// 	left = (canvas.width - width) / 2
+				// }
 				this.ctx = canvas.getContext('2d')
+				// 将图片转换为canvas
 				this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
 			})
 		},
@@ -442,7 +464,32 @@ export default {
 		height: 500px;
 		float: left;
 		padding: 20px;
+		text-align: left;
 		border: 1px solid #ddd;
+
+		>li {
+			margin-bottom: 20px;
+			padding-bottom: 20px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.circular, .rectangle {
+			width: 70px;
+			height: 70px;
+			cursor: pointer;
+			line-height: 70px;
+			text-align: center;
+			display: inline-block;
+			border: 1px solid #ddd;
+		}
+
+		.circular {
+			border-radius: 50%;
+		}
+
+		.rectangle {
+			
+		}
 	}
 
 	.content-region {

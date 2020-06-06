@@ -2,7 +2,7 @@
 	<width-auto>
 		<my-nav slot="layout-left" />
 		<section slot="layout-right">
-			<keep-alive include="articleList">
+			<keep-alive :include="keepAlive">
 				<router-view />
 			</keep-alive>
 		</section>
@@ -28,6 +28,7 @@ export default {
 	data () {
 		return {
 			isCollapse: true,
+			keepAlive: ''
 		}
 	},
 	beforeCreate () {
@@ -44,6 +45,15 @@ export default {
 			this.$router.push({
 				name: 'login'
 			})
+		}
+	},
+	watch: {
+		'$route.path': function (newVal, oldVal) {
+			if (oldVal.includes('addArticle')) {
+				this.keepAlive = ''
+			} else {
+				this.keepAlive = 'articleList'
+			}
 		}
 	},
 }

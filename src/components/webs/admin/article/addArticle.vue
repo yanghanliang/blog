@@ -184,7 +184,7 @@ export default {
 		// 点击取消时执行
 		handleCancel () {
 			window.sessionStorage.removeItem('articleData')
-			$router.push({ name: 'articleList' })
+			this.$router.push({ name: 'articleList' })
 		}
 	},
 	watch: {
