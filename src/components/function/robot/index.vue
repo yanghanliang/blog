@@ -175,7 +175,7 @@ export default {
     .my-icon-jiqiren {
         font-size: 50px;
         cursor: pointer;
-        margin-right: 20px;
+		color: $theme-color2;
     }
 
 	&:hover {

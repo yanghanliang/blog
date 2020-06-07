@@ -11,17 +11,29 @@ export default {
 	},
 	data () {
 		return {
-			ip: returnCitySN['cip'],
-			region: returnCitySN['cname'], // 地域
+			ip: '',
 			ipInfo: null,
 			time: new Date().getTime(),
+			sumTime: 0
 		}
 	},
 	created () {
+		this.getUserIp()
 		this.getUserJurisdiction()
-		this.ipIsExistence()
+	},
+	mounted () {
+		window.addEventListener('beforeunload', () => {
+			const sumTime = Number(window.localStorage.getItem('time') || this.sumTime) + new Date().getTime() - this.time // 毫秒
+			window.localStorage.setItem('time', sumTime)
+		})
 	},
 	methods: {
+		async getUserIp () {
+			const data = await this.$http.get('user/ip')
+			this.ip = data
+			await this.ipIsExistence()
+			await this.addBrowseUser()
+		},
 		// 获取用户权限
 		async getUserJurisdiction () {
 			try {
@@ -39,7 +51,21 @@ export default {
 					ip: this.ip
 				})
 				if (data.length > 0) {
+					const sumTime = window.localStorage.getItem('time')
+					if (sumTime) {
+						data[0].sum_time = sumTime
+					} else {
+						window.localStorage.setItem('time', data[0].sum_time)
+					}
 					this.ipInfo = data[0]
+					const h = this.$createElement
+					const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
+					this.$notify({
+						offset: 100,
+						duration: 30000,
+						title: '欢迎浏览~',
+						message: h('i', { style: 'color: teal; font-style: normal;' }, `(｡･∀･)ﾉﾞ嗨！您已浏览此网站共${showTime}分钟`)
+					})
 				} else {
 					const h = this.$createElement
 					this.$notify({
@@ -49,20 +75,18 @@ export default {
 						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人`)
 					})
 				}
-				this.addBrowseUser()
 			} catch (e) {
 				console.log(e, 'e')
 			}
 		},
+		// 添加浏览用户
 		async addBrowseUser () {
 			if (this.ipInfo) {
 				// 第二次浏览本站
 				try {
-					// const postData = {
-					// 	id: this.ipInfo.id,
-					// 	sumTime: new Date().getTime() - this.time + this.ipInfo.sum_time, // 毫秒
-					// }
-					const sumTime = new Date().getTime() - this.time + this.ipInfo.sum_time // 毫秒
+					// 防止用户切换浏览器或者更换电脑时丢失数据
+					this.sumTime = this.ipInfo.sum_time
+					const sumTime = window.localStorage.getItem('time') || 0 // 毫秒
 					await this.$http.get(`echarts/update/browse/user?id=${this.ipInfo.id}&sumTime=${sumTime}`)
 				} catch (e) {
 					console.log(e)
@@ -71,13 +95,10 @@ export default {
 				// 第一次浏览本站
 				try {
 					const postData = {
-						ip: this.ip,
-						sumTime: new Date().getTime() - this.time, // 毫秒
+						ip: this.ip
 					}
-					console.log(postData, 'postData', this.time)
-					if (!postData.sumTime) {
-						return false
-					}
+
+					// window.localStorage.setItem('time', sumTime)
 					await this.$http.post('echarts/add/browse/user', postData)
 				} catch (e) {
 					console.log(e)

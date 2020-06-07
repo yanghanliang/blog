@@ -539,7 +539,8 @@ export default {
 		z-index: 0;
 		overflow: hidden;
         border-radius: 50%;
-        position: absolute;
+		position: absolute;
+		text-align: center;
         border: 6px solid #ddd;
         transform: translate(-50%, -50%);
 
