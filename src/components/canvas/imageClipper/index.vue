@@ -2,7 +2,7 @@
     <div class="image-clipper clearfix">
 		<ul class="handle-region clearfix">
 			<li>工具栏</li>
-			<li>请选择图片</li>
+			<li>请选择需要裁剪的图片</li>
 			<li>
 				<i class="el-icon-picture" @click="dialogVisible = true"></i>
 			</li>
@@ -14,6 +14,10 @@
 			<li>请选择裁剪范围</li>
 			<li>
 				<el-slider v-model="zoom"></el-slider>
+			</li>
+			<li>请选择背景颜色</li>
+			<li>
+				<photoshop-picker v-model="backgroundColor"></photoshop-picker>
 			</li>
 			<li>确定裁剪</li>
 			<li>
@@ -39,11 +43,11 @@
 				<!-- <img src="../../../assets/backgroundImages/headPortrait/gn.jpeg" alt="需要裁剪的图片" ref="bgImage"> -->
 			</div>
 		</div>
-		<el-dialog title="请选择需要裁剪的图片" :visible.sync="dialogVisible">
+		<el-dialog class="ta-center" title="请选择需要裁剪的图片" :visible.sync="dialogVisible">
 			<show-image @showSuccess="showSuccess" />
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="pictureConversion">确 定</el-button>
+				<el-button @click="dialogVisible = false">取 消</el-button>
 			</span>
 		</el-dialog>
     </div>
@@ -62,17 +66,13 @@
  * 当选择一个边的时候，已另一个边作为参考
  */
 import showImage from '@/components/test/showImage'
+import { Photoshop } from 'vue-color'
 
 export default {
 	name: 'imageClipper', // 图片裁剪
-	props: {
-		// imageUrl: {
-		// 	type: String,
-		// 	default: '',
-		// }
-	},
 	components: {
-		showImage
+		showImage,
+		'photoshop-picker': Photoshop
 	},
 	data () {
 		return {
@@ -90,6 +90,7 @@ export default {
 			lock: true,
 			dialogVisible: false,
 			imageInfo: {}, // 原图片信息
+			backgroundColor: { r: 255, g: 255, b: 255 }
 		}
 	},
 	mounted () {
@@ -337,17 +338,36 @@ export default {
 			const imageInfo = imageEle.getBoundingClientRect()
 			const canvas = this.$refs.canvas
 			const parentInfo = this.$refs.contentRegion.getBoundingClientRect()
-			this.canvas.width = parentInfo.width
-			canvas.width = this.canvas.width
-			canvas.height = this.canvas.height
+			// this.canvas.width = parentInfo.width
+			// canvas.width = this.canvas.width
+			// canvas.height = this.canvas.height
 			let width = imageInfo.width
 			let height = imageInfo.height
 			// let proportion = 0
+			// 根据图片大小设置画布大小
+			// const maxWH = Math.max(imageInfo.width, imageInfo.height, parentInfo.width, parentInfo.height)
+			// console.log(maxWH, 'maxWH', imageInfo.height)
+			// let top = maxWH / 2 - imageInfo.height / 2
+			// let left = maxWH / 2 - imageInfo.width / 2
 			let top = 0
 			let left = 0
-			// 根据图片大小设置画布大小
-			canvas.width = width
-			canvas.height = height
+			if (imageInfo.width > parentInfo.width) {
+				canvas.width = imageInfo.width
+			} else {
+				canvas.width = parentInfo.width
+				left = (parentInfo.width - imageInfo.width) / 2
+				console.log(left, 'left')
+			}
+			if (imageInfo.height > parentInfo.height) {
+				canvas.height = imageInfo.height
+			} else {
+				canvas.height = parentInfo.height
+				top = (parentInfo.height - imageInfo.height) / 2
+				console.log(top, 'top')
+			}
+
+			// canvas.width = maxWH
+			// canvas.height = maxWH
 			// if (imageInfo.width > canvas.width || imageInfo.height > canvas.height) {
 			// 	if (imageInfo.width > imageInfo.height) {
 			// 		proportion = canvas.width / imageInfo.width
@@ -376,12 +396,13 @@ export default {
 			// 别给 clipping-box 裁剪盒子设置 transform: translate(-50%, 10px);
 			const clippingBoxEle = document.querySelector('.clipping-box')
 			const clippingBoxInfo = clippingBoxEle.getBoundingClientRect()
-			let x = clippingBoxEle.offsetLeft
-			let y = clippingBoxEle.offsetTop
-			if (this.isMove) {
-				x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
-				y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
-			}
+			// let x = clippingBoxEle.offsetLeft
+			// let y = clippingBoxEle.offsetTop
+			// console.log(x, y, '????')
+			// if (this.isMove) {
+			let x = clippingBoxEle.offsetLeft + clippingBoxInfo.width / 2
+			let y = clippingBoxEle.offsetTop + clippingBoxInfo.height / 2
+			// }
 
 			const r = clippingBoxInfo.height / 2
 			const top = clippingBoxEle.offsetTop
@@ -395,6 +416,7 @@ export default {
 			} else if (this.status === 'rectangle') {
 				this.ctx.rect(clippingBoxEle.offsetLeft, clippingBoxEle.offsetTop, clippingBoxInfo.width, clippingBoxInfo.height)
 			}
+			this.ctx.fillStyle = this.backgroundColor.hex8
 			this.ctx.fill()
 			// 核心-end
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
@@ -404,20 +426,12 @@ export default {
 		// 点击圆
 		clickCircular () {
 			this.status = 'circular'
-			this.cropInit()
+			this.zoom = 50
 		},
 		// 点击矩形
 		clickRectangle () {
 			this.status = 'rectangle'
-			this.cropInit()
-		},
-		// 裁剪初始化
-		cropInit () {
 			this.zoom = 50
-			const canvas = this.$refs.canvas.getBoundingClientRect()
-			const proportion = canvas.width / 100 * this.zoom
-			let left = canvas.width / 2 - proportion / 2
-			this.style = `width: ${proportion}px; height: ${proportion}px; top: ${left}px; left: ${left}px;` // 600 是clipping-box的宽度
 		},
 		// 选择图片成功后更新图片信息
 		showSuccess (imageInfo) {
@@ -435,8 +449,8 @@ export default {
 					const ele = this.$refs.clippingBox
 					const width = ele.style.width.split('px')[0]
 					// const height = ele.style.height.split('px')[0]
-					let top = canvas.width / 2 - proportion / 2
-					let left = canvas.width / 2 - proportion / 2
+					let top = canvas.height / 2 - proportion / 2
+					let left = canvas.width / 2 - proportion / 2 + this.$refs.canvas.offsetLeft
 					if (newValue > oldValue) {
 						// 放大
 						let difference = (proportion * 100 - width * 100) / 100 / 2
@@ -487,7 +501,7 @@ export default {
 .image-clipper {
 
 	.handle-region {
-		width: 300px;
+		width: 510px;
 		min-height: 500px;
 		float: left;
 		padding: 20px;
@@ -523,22 +537,17 @@ export default {
 
 	.content-region {
 		height: 100%;
-		margin-left: 300px;
+		margin-left: 552px;
 
 		.clipping-region {
+			width: 100%;
 			position: relative;
 			display: inline-block;
 
 			canvas {
-				float: left;
+				// float: left;
 				background-color: #ffffff;
 			}
-
-			// img {
-			// 	left: 0;
-			// 	visibility: hidden;
-			// 	position: absolute;
-			// }
 
 			.clipping-box {
 				display: none;
