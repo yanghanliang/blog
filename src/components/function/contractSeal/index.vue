@@ -2,10 +2,11 @@
     <div class="signature">
 		<button @click="pictureSynthesis">合成</button>
 		<img src="" alt="合成后的图片" class="synthesis">
+		<a href="http://www.xdocin.com/xdoc?_func=to&amp;_format=html&amp;_cache=1&amp;_xdoc=http://192.168.43.136:3001/uploadFile/pdf/user.doc" target="_blank" rel="nofollow">XDOC</a>
 		<div class="clearfix">
 			<div class="s-left fl" id="chapter-box">
 				<!-- draggable="false" 禁用默认拖动效果 -->
-				<img src="../../../../assets/backgroundImages/headPortrait/chapter.jpg" draggable="false" class="chapter" id="chapter">
+				<img src="./images/chapter.png" draggable="false" class="chapter" id="chapter">
 			</div>
 			<div class="s-right fr">
 				<canvas ref='canvas'></canvas>
@@ -21,7 +22,7 @@ export default {
 	name: 'signature', // 签章
 	data () {
 		return {
-			pdfurl: 'http://47.98.182.149:3001/uploadFileURl/pdf/user.pdf', // pdf链接地址
+			pdfurl: 'http://localhost:3001/uploadFile/pdf/user.doc', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
 			currentPage: 1, // 当前页
 			scale: 1.4, // 放大倍数
