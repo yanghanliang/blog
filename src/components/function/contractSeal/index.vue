@@ -2,10 +2,11 @@
     <div class="signature">
 		<ul class="handle-region">
 			<li>签章</li>
-			<li>请上传您需要签章的合同</li>
+			<li class="no" attr-no="1">请上传您需要签章的合同</li>
 			<li>
 				<i class="el-icon-picture" @click="dialogVisible = true"></i>
 			</li>
+			<li class="no" attr-no="2">把章拖到您想盖的地方</li>
 			<li>
 				<div id="chapter-box" class="chapter-box">
 					<!-- draggable="false" 禁用默认拖动效果 -->
@@ -13,7 +14,7 @@
 					<img src="./images/chapter.png" draggable="false" class="chapter" id="chapter">
 				</div>
 			</li>
-			<li>盖章</li>
+			<li class="no" attr-no="3">确认盖章</li>
 			<li>
 				<i class="my-icon-gaizhang" @click="pictureSynthesis"></i>
 			</li>
@@ -23,6 +24,15 @@
 			<a v-show="src" :href="src" download="beautifulGirl" title="点击下载">
 				<img v-show="src" :src="src" alt="合成后的图片" class="synthesis">
 			</a>
+			<el-pagination
+				background
+				v-if="total > 1"
+				class="mt10 mb10"
+				layout="prev, pager, next"
+				@current-change="renderPage"
+				:page-size="1"
+				:total="total">
+			</el-pagination>
 		</div>
 
 		<el-dialog class="ta-center" title="请选择合同" :visible.sync="dialogVisible">
@@ -46,14 +56,15 @@ export default {
 	},
 	data () {
 		return {
-			pdfurl: 'http://47.98.182.149:3001/uploadFile/word/upload_47362e33d9654e49c45edd496ab423b8.pdf', // pdf链接地址
+			pdfurl: 'http://47.98.182.149:3001/uploadFile/word/upload_2196cb95e3e3526fe7bde659ee810c6c.pdf', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
 			currentPage: 1, // 当前页
 			scale: 1.4, // 放大倍数
 			canvas: null, // pdf的canvas元素
 			coordinate: [], // 章的坐标
 			dialogVisible: false,
-			src: ''
+			src: '',
+			total: 0
 		}
 	},
 	computed: {
@@ -88,7 +99,9 @@ export default {
 			// 初始化pdf
 			PDFJS.getDocument(this.pdfurl).then((pdfDoc_) => {
 				this.pdfDoc = pdfDoc_
-				this.page_count = this.pdfDoc.numPages
+				console.log(this.pdfDoc, 'this.pdfDoc', this)
+				this.total = this.pdfDoc._pdfInfo.numPages
+				console.log(this.total, 'this.total')
 				this.renderPage(this.currentPage)
 			}).catch(function (err) {
 				if (err) {

@@ -2,24 +2,24 @@
     <div class="image-clipper clearfix">
 		<ul class="handle-region clearfix">
 			<li>工具栏</li>
-			<li>请选择需要裁剪的图片</li>
+			<li class="no" attr-no="1">请选择需要裁剪的图片</li>
 			<li>
 				<i class="el-icon-picture" @click="dialogVisible = true"></i>
 			</li>
-			<li>请选择裁剪形状</li>
+			<li class="no" attr-no="2">请选择裁剪形状</li>
 			<li>
 				<div class="circular mr20" @click="clickCircular">圆</div>
 				<div class="rectangle" @click="clickRectangle">方形</div>
 			</li>
-			<li>请选择裁剪范围</li>
+			<li class="no" attr-no="3">请选择裁剪范围</li>
 			<li>
 				<el-slider v-model="zoom"></el-slider>
 			</li>
-			<li>请选择背景颜色</li>
+			<li class="no" attr-no="4">请选择背景颜色</li>
 			<li>
 				<photoshop-picker v-model="backgroundColor"></photoshop-picker>
 			</li>
-			<li>确定裁剪</li>
+			<li class="no" attr-no="5">确定裁剪</li>
 			<li>
 				<my-icon identification="jiandao" class="jiandao" @click.native="confirmCrop"></my-icon>
 			</li>
