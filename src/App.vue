@@ -28,10 +28,10 @@ export default {
 		})
 	},
 	methods: {
-		async getUserIp () {
-			const data = await this.$http.get('user/ip')
-			this.ip = data
-		},
+		// async getUserIp () {
+		// 	const data = await this.$http.get('user/ip')
+		// 	this.ip = data
+		// },
 		// 获取用户权限
 		async getUserJurisdiction () {
 			try {
@@ -56,15 +56,16 @@ export default {
 						window.localStorage.setItem('time', data[0].sum_time)
 					}
 					this.ipInfo = data[0]
-					// const h = this.$createElement
-					// const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
-					// this.$notify({
-					// 	offset: 100,
-					// 	duration: 30000,
-					// 	title: '欢迎浏览~',
-					// 	message: h('i', { style: 'color: teal; font-style: normal;' }, `(｡･∀･)ﾉﾞ嗨！您已浏览此网站共${showTime}分钟`)
-					// })
+					const h = this.$createElement
+					const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
+					this.$notify({
+						offset: 100,
+						duration: 30000,
+						title: '欢迎浏览~',
+						message: h('i', { style: 'color: teal; font-style: normal;' }, `(｡･∀･)ﾉﾞ嗨！您已浏览此网站共${showTime}分钟`)
+					})
 				} else {
+					window.localStorage.setItem('time', 0)
 					const h = this.$createElement
 					this.$notify({
 						offset: 100,
