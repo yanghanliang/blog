@@ -11,19 +11,19 @@ export default {
 	},
 	data () {
 		return {
-			ip: '',
+			ip: returnCitySN.cip,
 			ipInfo: null,
 			time: new Date().getTime(),
 			sumTime: 0
 		}
 	},
 	created () {
-		this.getUserIp()
+		this.ipIsExistence()
 		this.getUserJurisdiction()
 	},
 	mounted () {
 		window.addEventListener('beforeunload', () => {
-			const sumTime = Number(window.localStorage.getItem('time') || this.sumTime) + new Date().getTime() - this.time // 毫秒
+			let sumTime = Number(window.localStorage.getItem('time') || this.sumTime) + new Date().getTime() - this.time // 毫秒
 			window.localStorage.setItem('time', sumTime)
 		})
 	},
@@ -31,8 +31,6 @@ export default {
 		async getUserIp () {
 			const data = await this.$http.get('user/ip')
 			this.ip = data
-			await this.ipIsExistence()
-			await this.addBrowseUser()
 		},
 		// 获取用户权限
 		async getUserJurisdiction () {
@@ -75,6 +73,8 @@ export default {
 						message: h('i', { style: 'color: teal' }, `本站是一个前后端分离的项目，前端用vue、vue-router、element-ui，后端是express、mysql搭建的，本站的主要功能有: 权限控制、文章管理、分类管理、用户管理、图片上传等，站长做了一个百度翻译的小功能机器人`)
 					})
 				}
+
+				this.addBrowseUser()
 			} catch (e) {
 				console.log(e, 'e')
 			}
@@ -85,7 +85,7 @@ export default {
 				// 第二次浏览本站
 				try {
 					// 防止用户切换浏览器或者更换电脑时丢失数据
-					this.sumTime = this.ipInfo.sum_time
+					this.sumTime = this.ipInfo.sum_time === 'NaN' ? 0 : this.ipInfo.sum_time
 					const sumTime = window.localStorage.getItem('time') || 0 // 毫秒
 					await this.$http.get(`echarts/update/browse/user?id=${this.ipInfo.id}&sumTime=${sumTime}`)
 				} catch (e) {
