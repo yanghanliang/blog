@@ -2,28 +2,11 @@
 	<right-auto class="components">
 		<div class="left-box" slot="layout-left">
 			<logo class="logo"></logo>
-			<ul>
-				<span class="lb-class">canvas</span>
-				<li><a href="progress">progress 进度条</a></li>
-				<li><a href="imageclipper">imageClipper 图片裁剪</a></li>
-				<li><a href="contractseal">signature 签章</a></li>
-			</ul>
-			<ul>
-				<span class="lb-class">小玩意</span>
-				<li><a href="circular">随机分布 圆</a></li>
-				<li><a href="square">随机分布 方形</a></li>
-			</ul>
-			<ul>
-				<span class="lb-class">dom</span>
-				<li><a href="slider">滑块</a></li>
-			</ul>
-			<ul>
-				<span class="lb-class">svg</span>
-				<li><a href="connection">connection 连线</a></li>
-			</ul>
-			<ul>
-				<span class="lb-class">echarts</span>
-				<li><a href="echarts">myEcharts</a></li>
+			<ul v-for="(item, index) in navList" :key="index">
+				<span class="lb-class">{{ item.className }}</span>
+				<li v-for="(ite, inde) in item.children" :class="{ active: $route.path.includes(ite.route) }" :key="inde">
+					<router-link :to="ite.route">{{ ite.text }}</router-link>
+				</li>
 			</ul>
 		</div>
 		<router-view slot="layout-right" />
@@ -42,6 +25,68 @@ export default {
 	},
 	data () {
 		return {
+			navList: [
+				{
+					className: 'canvas',
+					children: [
+						{
+							route: 'progress',
+							text: 'progress 进度条'
+						},
+						{
+							route: 'imageclipper',
+							text: 'imageClipper 图片裁剪'
+						},
+						{
+							route: 'contractseal',
+							text: 'signature 签章'
+						}
+					]
+				},
+				{
+					className: '小玩意',
+					children: [
+						{
+							route: 'circular',
+							text: '随机分布 圆'
+						},
+						{
+							route: 'square',
+							text: '随机分布 方形'
+						}
+					]
+				},
+				{
+					className: 'dom',
+					children: [
+						{
+							route: 'slider',
+							text: '滑块'
+						}
+					]
+				},
+				{
+					className: 'svg',
+					children: [
+						{
+							route: 'connection',
+							text: 'connection 连线'
+						},
+						{
+							route: ''
+						}
+					]
+				},
+				{
+					className: '二次封装',
+					children: [
+						{
+							route: 'echarts',
+							text: 'myEcharts'
+						}
+					]
+				}
+			]
 		}
 	},
 	mounted () {
@@ -259,6 +304,10 @@ export default {
 
 					&:nth-last-child(1) {
 						margin-bottom: 0;
+					}
+
+					&.active a {
+						color: $theme-color2;
 					}
 
 					a {
