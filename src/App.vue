@@ -56,8 +56,8 @@ export default {
 						window.localStorage.setItem('time', data[0].sum_time)
 					}
 					this.ipInfo = data[0]
-					const h = this.$createElement
-					const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
+					// const h = this.$createElement
+					// const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
 					// this.$notify({
 					// 	offset: 100,
 					// 	duration: 30000,
