@@ -18,6 +18,7 @@
 			<li>
 				<i class="my-icon-gaizhang" @click="pictureSynthesis"></i>
 			</li>
+			<li>此功能目前只是实现了功能，但还没来得及优化</li>
 		</ul>
 		<div class="content-region" ref="contentRegion">
 			<canvas v-show="!src" ref='canvas' id="canvas"></canvas>
