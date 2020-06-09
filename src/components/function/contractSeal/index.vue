@@ -56,7 +56,7 @@ export default {
 	},
 	data () {
 		return {
-			pdfurl: 'http://47.98.182.149:3001/uploadFile/word/upload_2196cb95e3e3526fe7bde659ee810c6c.pdf', // pdf链接地址
+			pdfurl: 'http://47.98.182.149:3001/uploadFile/pdf/contract_seal.pdf', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
 			currentPage: 1, // 当前页
 			scale: 1.4, // 放大倍数

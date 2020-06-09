@@ -90,7 +90,8 @@ export default {
 			lock: true,
 			dialogVisible: false,
 			imageInfo: {}, // 原图片信息
-			backgroundColor: { r: 255, g: 255, b: 255 }
+			backgroundColor: '#ffffff',
+			step: 1
 		}
 	},
 	mounted () {
@@ -392,6 +393,10 @@ export default {
 		},
 		// 裁剪
 		confirmCrop () {
+			// 验证
+			if (!this.verification()) {
+				return false
+			}
 			const synthesis = this.$refs.synthesis
 			// 别给 clipping-box 裁剪盒子设置 transform: translate(-50%, 10px);
 			const clippingBoxEle = document.querySelector('.clipping-box')
@@ -416,7 +421,7 @@ export default {
 			} else if (this.status === 'rectangle') {
 				this.ctx.rect(clippingBoxEle.offsetLeft, clippingBoxEle.offsetTop, clippingBoxInfo.width, clippingBoxInfo.height)
 			}
-			this.ctx.fillStyle = this.backgroundColor.hex8
+			this.ctx.fillStyle = this.backgroundColor.hex8 ? this.backgroundColor.hex8 : '#fff'
 			this.ctx.fill()
 			// 核心-end
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
@@ -427,16 +432,31 @@ export default {
 		clickCircular () {
 			this.status = 'circular'
 			this.zoom = 50
+			this.step = 3
 		},
 		// 点击矩形
 		clickRectangle () {
 			this.status = 'rectangle'
 			this.zoom = 50
+			this.step = 3
 		},
 		// 选择图片成功后更新图片信息
 		showSuccess (imageInfo) {
 			this.imageInfo = imageInfo
+			this.step = 2
 		},
+		// 做一个简单的验证
+		verification () {
+			if (this.step === 1) {
+				this.$message.info('请您先选择需要裁剪的图片')
+				return false
+			} else if (this.step === 2) {
+				this.$message.info('请您选择裁剪形状')
+				return false
+			} else {
+				return true
+			}
+		}
 	},
 	watch: {
 		zoom (newValue, oldValue) {
