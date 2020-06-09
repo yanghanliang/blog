@@ -2,27 +2,23 @@
     <div class="signature">
 		<ul class="handle-region">
 			<li>签章</li>
-			<li>请上传您需要签章的合同</li>
+			<li>请选择合同</li>
 			<li>
 				<i class="el-icon-picture" @click="dialogVisible = true"></i>
 			</li>
 			<li>
 				<div id="chapter-box" class="chapter-box">
 					<!-- draggable="false" 禁用默认拖动效果 -->
-					<!-- 选择的章分辨率必须和图片大小一致 -->
 					<img src="./images/chapter.png" draggable="false" class="chapter" id="chapter">
 				</div>
 			</li>
-			<li>盖章</li>
 			<li>
-				<i class="my-icon-gaizhang" @click="pictureSynthesis"></i>
+				<button @click="pictureSynthesis">合成</button>
 			</li>
 		</ul>
-		<div class="content-region" ref="contentRegion">
-			<canvas v-show="!src" ref='canvas' id="canvas"></canvas>
-			<a v-show="src" :href="src" download="beautifulGirl" title="点击下载">
-				<img v-show="src" :src="src" alt="合成后的图片" class="synthesis">
-			</a>
+		<div class="content-region">
+			<canvas ref='canvas' id="canvas"></canvas>
+			<img src="" alt="合成后的图片" class="synthesis">
 		</div>
 
 		<el-dialog class="ta-center" title="请选择合同" :visible.sync="dialogVisible">
@@ -53,7 +49,6 @@ export default {
 			canvas: null, // pdf的canvas元素
 			coordinate: [], // 章的坐标
 			dialogVisible: false,
-			src: ''
 		}
 	},
 	computed: {
@@ -63,7 +58,6 @@ export default {
 	},
 	mounted () {
 		this.initPdf()
-		this.registerEvents()
 	},
 	methods: {
 		// 渲染pdf
@@ -79,6 +73,7 @@ export default {
 					viewport: viewport
 				}
 				page.render(renderContext)
+				this.registerEvents()
 			})
 		},
 		// 初始化PDF
@@ -122,13 +117,13 @@ export default {
 			// 元素按下
 			Drag.prototype.mousedown = function () {
 				let parent = document.querySelector('#chapter-box')
+				console.log('??')
 				parent.addEventListener('mousedown', e => {
 					if (e.target.className.includes('chapter')) {
 						this.ele = e.target
 						document.body.style.cursor = 'pointer'
 						let cloneEle = this.ele.cloneNode(true)
 						cloneEle.removeAttribute('id')
-						cloneEle.className = 'chapter clone'
 						parent.appendChild(cloneEle)
 
 						this.eleInfo = cloneEle.getBoundingClientRect()
@@ -155,11 +150,12 @@ export default {
 				document.addEventListener('mouseup', e => {
 					this.isDown = false
 					document.body.style.cursor = 'default'
+
 					if (e.target.className.includes('chapter')) {
 						// 保存坐标
 						let coordinate = {
 							x: this.x - this.eleInfo.width / 2,
-							y: this.y - this.eleInfo.height / 2 + this.scrollTop - this.vue.$refs.contentRegion.offsetTop
+							y: this.y + this.scrollTop - this.eleInfo.height / 2
 						}
 						this.vue.coordinate.push(coordinate)
 					}
@@ -170,6 +166,7 @@ export default {
 			Drag.prototype.scroll = function () {
 				document.addEventListener('scroll', e => {
 					this.scrollTop = document.documentElement.scrollTop
+					console.log(this.scrollTop, 'this.scrollTop')
 					this.move()
 				})
 			}
@@ -190,21 +187,17 @@ export default {
 		pictureSynthesis () {
 			const imgEle = document.querySelector('#chapter')
 			const imgInfo = imgEle.getBoundingClientRect()
-			const canvas = this.canvas.getBoundingClientRect()
-			const cloneAll = document.querySelectorAll('.clone')
+			console.log(imgInfo, 'imgInfo')
+			const canvas = document.querySelector('canvas').getBoundingClientRect()
+			console.log(canvas, 'canvas')
 
 			for (let i = 0, length = this.coordinate.length; i < length; i++) {
 				let item = this.coordinate[i]
-				this.ctx.drawImage(imgEle, 0, 0, imgInfo.width, imgInfo.height, item.x - canvas.x, item.y, imgInfo.width, imgInfo.height)
+				console.log(imgEle, 0, 0, 150, 150, item.x - canvas.x, item.y - canvas.y, 150, 150)
+				this.ctx.drawImage(imgEle, 0, 0, 150, 150, item.x - canvas.x, item.y - canvas.y, 150 / 1.4, 150 / 1.4)
 			}
 
-			document.querySelector('#chapter').removeAttribute('style')
-			this.src = this.canvas.toDataURL()
-			cloneAll.forEach((item) => {
-				item.remove()
-			})
-			this.$message.success('签章成功，点击图片即可下载~')
-			// document.querySelector('.synthesis').setAttribute('src', this.canvas.toDataURL())
+			document.querySelector('.synthesis').setAttribute('src', this.canvas.toDataURL())
 		},
 		// 点击下载
 		clickDownload () {
@@ -214,6 +207,7 @@ export default {
 		wordToPdf (url) {
 			this.pdfurl = url
 			this.dialogVisible = false
+			console.log(this.pdfurl, 'this.pdfurl')
 			this.initPdf()
 		}
 	},
@@ -246,9 +240,10 @@ export default {
 			border-radius: 50%;
 			line-height: 150px;
 			text-align: center;
+			background-color: pink;
 		}
 
-		.el-icon-picture, .my-icon-gaizhang {
+		.el-icon-picture {
 			font-size: 30px;
 			cursor: pointer;
 			color: $theme-color;
@@ -264,10 +259,6 @@ export default {
 		text-align: center;
 		position: relative;
 		margin-left: 343px;
-
-		canvas {
-			box-shadow: 0 0 10px -3px #0000004f;
-		}
 	}
 }
 </style>

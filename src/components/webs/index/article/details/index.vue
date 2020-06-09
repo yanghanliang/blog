@@ -217,7 +217,6 @@
 
 				<div class="head_portrait_preview">
 					<my-progress
-						ref="myProgress"
 						:showPercentage="false"
 						:showSlider="false"
 						:progressValue="progressPercent"

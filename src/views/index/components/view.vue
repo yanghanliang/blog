@@ -6,6 +6,7 @@
 				<span class="lb-class">canvas</span>
 				<li><a href="progress">progress 进度条</a></li>
 				<li><a href="imageclipper">imageClipper 图片裁剪</a></li>
+				<li><a href="contractseal">signature 签章</a></li>
 			</ul>
 			<ul>
 				<span class="lb-class">小玩意</span>

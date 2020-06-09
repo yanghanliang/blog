@@ -5,6 +5,7 @@ const catalogList = () => import('@/components/webs/index/catalog/catalogList')
 const componentsViews = () => import('@/views/index/components/view')
 const progress = () => import('@/views/index/components/document/progress')
 const imageClipper = () => import('@/views/index/components/document/imageClipper')
+const contractSeal = () => import('@/views/index/components/document/contractSeal')
 const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
@@ -50,6 +51,11 @@ export default [
 				path: 'imageclipper',
 				name: 'imageClipper',
 				component: imageClipper
+			},
+			{
+				path: 'contractseal',
+				name: 'contractSeal',
+				component: contractSeal
 			},
 			{
 				path: 'circular',
