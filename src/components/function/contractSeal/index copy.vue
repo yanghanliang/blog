@@ -39,7 +39,7 @@ export default {
 	name: 'helpCenter',
 	data () {
 		return {
-			pdfurl: 'http://47.98.182.149:3001/uploadFileURl/pdf/user.pdf', // pdf链接地址
+			pdfurl: 'http://47.98.182.149:3001/uploadFile/pdf/user.pdf', // pdf链接地址
 			pdfDoc: null, // pdfjs 生成的对象
 			pageNum: 1, //
 			pageRendering: false,

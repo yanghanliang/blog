@@ -64,8 +64,8 @@
 			<el-menu-item index="/test">test</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
-				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
-				<el-menu-item index=""><a href="https://github.com/yanghanliang/blog-api" target="_blank">git-api</a>
+				<el-menu-item index=""><a class="display-b" href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
+				<el-menu-item index=""><a class="display-b" href="https://github.com/yanghanliang/blog-api" target="_blank">git-api</a>
 				</el-menu-item>
 			</el-submenu>
 		</el-menu>

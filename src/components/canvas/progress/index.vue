@@ -1,7 +1,7 @@
 <template>
     <div class="box" :style="style">
         <div class="min-box slider"></div>
-        <canvas id="canvas"></canvas>
+        <canvas id="canvas" ref="slider"></canvas>
         <div class="content">
 			<slot name="content">
 				<ul>
@@ -81,7 +81,7 @@ export default {
 			let that = this
 
 			var My = function (params) {
-				this.canvas = document.querySelector('#canvas')
+				this.canvas = that.$refs.slider
 				this.box = this.canvas.parentElement
 				this.slider = this.box.querySelector('.slider') // 滑块
 				this.sliderInfo = this.slider.getBoundingClientRect()
@@ -539,7 +539,8 @@ export default {
 		z-index: 0;
 		overflow: hidden;
         border-radius: 50%;
-        position: absolute;
+		position: absolute;
+		text-align: center;
         border: 6px solid #ddd;
         transform: translate(-50%, -50%);
 

@@ -1,20 +1,12 @@
 <template>
-    <div class="w components-box clearfix body-box">
-		<!-- <div class="components-box">
-			<my-progress></my-progress>
-		</div>
-		<div class="components-box">
-			<i class="my-icon-ai244" @click="refreshCircular('showSquare')"></i>
-			<my-square ref="square" v-if="showSquare"></my-square>
-		</div>
-		<div class="components-box">
-			<my-slider></my-slider>
-		</div> -->
-		<div class="left-box">
+	<right-auto class="components">
+		<div class="left-box" slot="layout-left">
 			<logo class="logo"></logo>
 			<ul>
 				<span class="lb-class">canvas</span>
 				<li><a href="progress">progress 进度条</a></li>
+				<li><a href="imageclipper">imageClipper 图片裁剪</a></li>
+				<li><a href="contractseal">signature 签章</a></li>
 			</ul>
 			<ul>
 				<span class="lb-class">小玩意</span>
@@ -34,29 +26,29 @@
 				<li><a href="echarts">myEcharts</a></li>
 			</ul>
 		</div>
-		<div class="right-box">
-			<router-view />
-		</div>
-    </div>
+		<router-view slot="layout-right" />
+	</right-auto>
 </template>
 
 <script>
 import logo from '@/components/canvas/logo'
+import rightAuto from '@/components/webs/public/layout/content/main/rightAuto'
 
 export default {
 	name: 'componentsViews',
 	components: {
 		logo,
+		rightAuto
 	},
 	data () {
 		return {
 		}
 	},
 	mounted () {
-		this.effect()
+		// this.effect()
 	},
 	beforeDestroy () {
-		this.removeCanvas()
+		// this.removeCanvas()
 	},
 	methods: {
 		// 刷新圆
@@ -226,71 +218,68 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-</style>
-
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
-.components-box {
-	position: relative;
-	background-color: #fff;
-    box-shadow: 0 0 20px -10px black;
-	// background: linear-gradient(40deg, #71cbee, #ff708a);
-
-	.left-box {
-		top: 0;
-		bottom: 0;
+.components {
+	>>> .layout-left {
 		width: 2.1rem;
-		text-align: left;
-		position: absolute;
-		border-right: 1px solid $border-color;
-		padding: 1rem 0.2rem 0.2rem 0.2rem;
+		border-top-right-radius: 40px;
+		border-bottom-right-radius: 40px;
+		box-shadow: 0 0 7px -2px #00000059;
+		background-color: #fff;
 
-		span {
-			font-size: 12px;
-		}
-
-		.logo {
-			top: -55px;
-			left: -50px;
+		.left-box {
+			top: 0;
+			bottom: 0;
+			text-align: left;
 			position: absolute;
-			transform: scale(.5);
-		}
+			padding: 1rem 0.2rem 0.2rem 0.2rem;
 
-		.lb-class {
-			color: $ash;
-			line-height: 40px;
-		}
+			span {
+				font-size: 12px;
+			}
 
-		ul {
-			line-height: 0;
-			margin-bottom: 5px;
+			.logo {
+				top: -55px;
+				left: -50px;
+				position: absolute;
+				transform: scale(.5);
+			}
 
-			li {
-				margin-bottom: 10px;
+			.lb-class {
+				color: $ash;
+				line-height: 40px;
+			}
 
-				&:nth-last-child(1) {
-					margin-bottom: 0;
-				}
+			ul {
+				line-height: 0;
+				margin-bottom: 5px;
 
-				a {
-					height: 20px;
-					display: block;
-					color: $main-font;
-					line-height: 20px;
+				li {
+					margin-bottom: 10px;
+
+					&:nth-last-child(1) {
+						margin-bottom: 0;
+					}
+
+					a {
+						height: 20px;
+						display: block;
+						color: $main-font;
+						line-height: 20px;
+					}
 				}
 			}
-		}
 
+		}
 	}
 
-	.right-box {
-		width: 908px;
-		min-height: 787px;
-		float: right;
+	>>> .layout-right {
 		padding: 20px;
+		margin-left: 234px;
+		background-color: #fff;
+		border-top-left-radius: 30px;
+		border-bottom-left-radius: 30px;
+		box-shadow: 0 0 8px -2px #00000059;
 	}
 }
 </style>

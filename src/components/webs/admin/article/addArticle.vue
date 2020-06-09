@@ -150,10 +150,9 @@ export default {
 		async imgAdd (pos, $file) {
 			var formdata = new FormData()
 			formdata.append('file', $file)
-			formdata.append('url', '/uploadFileURl/article')
 			try {
 				let { data } = await this.$http({
-					url: 'uploadFile?uploadDir=./uploadFileURl/article',
+					url: 'uploadFile?uploadDir=./uploadFile/article&type=image',
 					method: 'post',
 					data: formdata, // 必须是 FormData 对象
 					headers: {'Content-Type': 'multipart/form-data'},
@@ -169,7 +168,7 @@ export default {
 		},
 		// 删除图片
 		async imgDel (files) {
-			let index = files[0].indexOf('uploadFileURl')
+			let index = files[0].indexOf('uploadFile')
 			let path = './' + files[0].slice(index)
 			const postData = {
 				path: path
@@ -184,7 +183,7 @@ export default {
 		// 点击取消时执行
 		handleCancel () {
 			window.sessionStorage.removeItem('articleData')
-			$router.push({ name: 'articleList' })
+			this.$router.push({ name: 'articleList' })
 		}
 	},
 	watch: {

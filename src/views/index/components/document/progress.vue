@@ -14,11 +14,11 @@
             :boxShadow="false">
         </mavon-editor>
         <el-table :data="tableData" style="width: 100%" >
-            <el-table-column prop="params" label="参数" width="180"></el-table-column>
-            <el-table-column prop="explain" label="说明" width="180"></el-table-column>
-            <el-table-column prop="type" label="类型" width="180"></el-table-column>
-            <el-table-column prop="option" label="可选值" width="180"></el-table-column>
-            <el-table-column prop="default" label="默认值" width="180"></el-table-column>
+            <el-table-column prop="params" label="参数"></el-table-column>
+            <el-table-column prop="explain" label="说明"></el-table-column>
+            <el-table-column prop="type" label="类型"></el-table-column>
+            <el-table-column prop="option" label="可选值"></el-table-column>
+            <el-table-column prop="default" label="默认值"></el-table-column>
         </el-table>
     </div>
 </template>
