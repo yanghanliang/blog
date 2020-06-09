@@ -58,12 +58,12 @@ export default {
 					this.ipInfo = data[0]
 					const h = this.$createElement
 					const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
-					this.$notify({
-						offset: 100,
-						duration: 30000,
-						title: '欢迎浏览~',
-						message: h('i', { style: 'color: teal; font-style: normal;' }, `(｡･∀･)ﾉﾞ嗨！您已浏览此网站共${showTime}分钟`)
-					})
+					// this.$notify({
+					// 	offset: 100,
+					// 	duration: 30000,
+					// 	title: '欢迎浏览~',
+					// 	message: h('i', { style: 'color: teal; font-style: normal;' }, `(｡･∀･)ﾉﾞ嗨！您已浏览此网站共${showTime}分钟`)
+					// })
 				} else {
 					const h = this.$createElement
 					this.$notify({
