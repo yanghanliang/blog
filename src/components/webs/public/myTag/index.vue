@@ -25,7 +25,7 @@
                 </template>
                 <template v-else-if="status === 'edit'">
                     <i @click="handleConfig" class="my-icon-queding" title="确定"></i>
-                    <i @click="status = 'defalut'" class="my-icon-xianshi_quxiao" title="取消"></i>
+                    <i @click="handleCannel" class="my-icon-xianshi_quxiao" title="取消"></i>
                 </template>
             </div>
         </div>
@@ -92,6 +92,7 @@ export default {
 				let sel = window.getSelection()
 				sel.removeAllRanges()
 				sel.addRange(range)
+				ele.scrollLeft = 1000
 
 				// input 的方式 (不好做宽度自适应)
 				// ele.focus()
@@ -105,6 +106,13 @@ export default {
 			this.status = 'defalut'
 			this.tagData[this.field] = value
 			this.$emit('handleConfirm', this.tagData)
+			this.$refs.content.scrollLeft = 0
+		},
+		// 点击取消时执行
+		handleCannel () {
+			this.$refs.content.scrollLeft = 0
+			this.status = 'defalut'
+			this.$refs.content.innerText = this.tagData[this.field]
 		},
 		// 点击删除时执行
 		handleDelete () {
@@ -134,6 +142,10 @@ export default {
 		box-sizing: border-box;
 	}
 
+	&:not(.edit) .div-input {
+		text-overflow: ellipsis;
+	}
+
     .div-input {
 		float: left;
 		height: 100%;
@@ -144,7 +156,6 @@ export default {
 		overflow-y: hidden;
 		outline-style: none;
 		white-space: nowrap;
-		text-overflow: ellipsis;
 		background-color: transparent;
 
 		&::-webkit-scrollbar {

@@ -62,6 +62,10 @@ export default {
 						{
 							route: 'slider',
 							text: '滑块'
+						},
+						{
+							route: 'tag',
+							text: '编辑标签'
 						}
 					]
 				},
@@ -71,9 +75,6 @@ export default {
 						{
 							route: 'connection',
 							text: 'connection 连线'
-						},
-						{
-							route: ''
 						}
 					]
 				},

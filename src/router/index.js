@@ -60,6 +60,7 @@ variableList.forEach(function (name) {
 const requireModule = require.context('./main', true, /\.js$/)
 // 循环导入
 requireModule.keys().forEach(fileName => {
+	// console.log(fileName, 'fileName')
 	// 把路径 ./index.js 变成 index
 	let variableName = fileName.match(/[a-zA-Z0-9]+/)[0]
 	// 如果导入的这个模块时定义要导入的则赋值

@@ -9,6 +9,7 @@ const contractSeal = () => import('@/views/index/components/document/contractSea
 const circular = () => import('@/views/index/components/document/circular')
 const square = () => import('@/views/index/components/document/square')
 const slider = () => import('@/views/index/components/document/slider')
+const tag = () => import('@/views/index/components/document/tag')
 const connection = () => import('@/views/index/components/document/connection')
 const myEcharts = () => import('@/views/index/components/document/echarts')
 const personalResume = () => import('@/views/index/personalResume')
@@ -71,6 +72,11 @@ export default [
 				path: 'slider',
 				name: 'slider',
 				component: slider
+			},
+			{
+				path: 'tag',
+				name: 'tag',
+				component: tag
 			},
 			{
 				path: 'connection',
