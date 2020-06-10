@@ -195,12 +195,6 @@ export default {
 				}
 			}
 		}
-
-		.category {
-			.s_box {
-				// height: 347px;
-			}
-		}
 	}
 }
 </style>
