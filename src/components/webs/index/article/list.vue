@@ -1,5 +1,12 @@
 <template>
     <div class="content-left" @scroll.passive="scroll($event)" ref="contentLeft">
+		<div v-if="articleLoading" class="article-loading">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
         <div class="cl_box" v-for="data in article" :key="data.id">
             <div class="clb_top clearfix">
 				<div class="clbt_left">
@@ -76,6 +83,7 @@ export default {
 			article: [], // 文章数据
 			xAxisData: ['阅读数', '点赞数', '转载数', '评论数', '打赏数'],
 			loading: false,
+			articleLoading: false, // 首屏的loading
 			pageData: {
 				currentPage: 2, // 当前页（由于默认第一次获取5条数据，所以从5开始
 				pageSize: 5, // 每页条数
@@ -84,7 +92,7 @@ export default {
 				tips: '', // 提示
 				searchData: '', // 搜索内容
 				classname: '', // 分类名称
-			}
+			},
 		}
 	},
 	created () {
@@ -127,13 +135,16 @@ export default {
 		},
 		// 搜索内容
 		async searchFn () {
+			// 开启首屏loading
+			this.articleLoading = true
 			this.pageData.lock = false
 			this.pageData.currentPage = 1
 			const { data } = await this.$http.post('searchData', {
 				searchData: this.searchData
 			})
 			if (data.getData.status === 200) {
-				this.article = data.getData.data // 显示内容
+				// 显示内容
+				this.article = data.getData.data
 				// 给出提示
 				this.searchData && this.$message({
 					message: `搜索到与 "${this.searchData}" 相关的数据共有 ${data.getNumber} 条!`,
@@ -143,10 +154,16 @@ export default {
 				this.$emit('noData', data.getData.msg)
 			}
 			this.pageData.lock = true
-			this.$refs.contentLeft.scrollTop = 0 // 重置内容元素向上卷曲的距离
-			this.pageData.currentPage = 2 // 重置当前页
-			this.pageData.tips = '' // 重置提示
-			this.pageData.classname = '' // 重置分类
+			// 重置内容元素向上卷曲的距离
+			this.$refs.contentLeft.scrollTop = 0
+			// 重置当前页
+			this.pageData.currentPage = 2
+			// 重置提示
+			this.pageData.tips = ''
+			// 重置分类
+			this.pageData.classname = ''
+			// 关闭首屏loading
+			this.articleLoading = false
 		},
 		async clickRead (id) { // 点击阅读全文时执行
 			// 跳转文章详情页
@@ -187,6 +204,7 @@ export default {
 	height: 7.1rem;
 	overflow-y: scroll;
 	overflow-x: auto;
+	position: relative;
 
 	&::-webkit-scrollbar {
 		display: none;
@@ -275,6 +293,55 @@ export default {
 		text-align: center;
 		border-radius: 0.05rem;
 		background-color: #e6e6e6;
+	}
+
+	.article-loading {
+		top: 50%;
+		left: 50%;
+		width: 150px;
+		height: 15px;
+		margin: 0 auto;
+		margin-top:100px;
+		position: absolute;
+		transform: translate(-50%, -50%);
+
+        span {
+            display: inline-block;
+            width: 15px;
+            height: 100%;
+            margin-right: 5px;
+            background: lightgreen;
+            transform-origin: right bottom;
+            animation: load 1s ease infinite;
+		}
+
+        span:last-child {
+            margin-right: 0px;
+        }
+        @keyframes load{
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+                -webkit-transform: rotate(90deg);
+            }
+        }
+        span:nth-child(1){
+            animation-delay:0.13s;
+        }
+        span:nth-child(2){
+            animation-delay:0.26s;
+        }
+        span:nth-child(3){
+            animation-delay:0.39s;
+        }
+        span:nth-child(4){
+            animation-delay:0.52s;
+        }
+        span:nth-child(5){
+            animation-delay:0.65s;
+        }
 	}
 }
 

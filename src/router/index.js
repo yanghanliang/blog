@@ -129,14 +129,19 @@ router.beforeEach((to, from, next) => {
 		next({
 			path: from.path
 		})
+	}
+
+	console.log(Global.equipment, 'Global.equipment')
+	if (Global.equipment === 'mobile') {
+		const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
+		next({ path: toPath })
 	} else {
-		if (Global.equipment === 'mobile') {
-			const toPath = to.path.includes('mobile') ? to.path.includes('mobile') : '/mobile' + to.path
-			next({ path: toPath })
-		} else {
-			next()
+		if (to.path.includes('/mobile')) {
+			next({ path: to.path.replace('/mobile', '') })
 		}
 	}
+
+	next()
 })
 
 export default router
