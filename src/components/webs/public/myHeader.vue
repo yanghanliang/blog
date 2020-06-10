@@ -252,8 +252,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 /* reset-style-start */
 .el-menu--horizontal>.el-menu-item a {
 	display: inline-block;

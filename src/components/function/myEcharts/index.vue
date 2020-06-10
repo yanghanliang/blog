@@ -284,8 +284,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss';
-
 .echarts-box {
 	width: 100%;
 	height: 100%;

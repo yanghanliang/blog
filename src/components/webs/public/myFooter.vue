@@ -20,8 +20,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 footer {
     width: 100%;
     height: 50px;

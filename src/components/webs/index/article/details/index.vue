@@ -702,7 +702,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
 @import './index.scss';
 @import './media.scss';
 </style>

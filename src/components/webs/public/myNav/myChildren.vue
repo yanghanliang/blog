@@ -96,8 +96,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 .ml32 {
 	margin-left: 32px;
 }

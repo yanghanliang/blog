@@ -195,7 +195,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/css/loading/a.scss";
-@import '@/assets/css/color/index.scss'; // 使用方法
 
 .content-left {
 	float: left;
