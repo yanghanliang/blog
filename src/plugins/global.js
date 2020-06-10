@@ -25,7 +25,7 @@ export default {
 		}
 	},
 	// 用来判断是不是移动端
-	equipment: /Windows|Liunx|Mac/.test(navigator.userAgent) ? 'pc' : 'mobile',
+	equipment: /Mobile/.test(navigator.userAgent) ? 'mobile' : 'pc',
 	/**
 	 * 参数继承-如果传入的参数存在则替换掉默认值
 	 * 现在只支持对象的参数
