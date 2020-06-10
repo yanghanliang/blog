@@ -198,7 +198,7 @@ export default {
 
 		.category {
 			.s_box {
-				height: 3.18rem;
+				// height: 347px;
 			}
 		}
 	}

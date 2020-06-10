@@ -521,7 +521,7 @@ export default {
 .image-clipper {
 
 	.handle-region {
-		width: 510px;
+		width: 540px;
 		min-height: 500px;
 		float: left;
 		padding: 20px;

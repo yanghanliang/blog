@@ -220,13 +220,13 @@ export default {
 
 		.clb_top {
 			width: 100%;
-			height: 1.6rem;
+			height: 122px;
 			margin-bottom: 0.2rem;
 
 			.clbt_left {
 				float: left;
 				width: 2.7rem;
-				height: 1.7rem;
+				height: 134px;
 				border-radius: 5px;
 				background-size: cover;
 				background-image: url('../../../../assets/index/index/images/text02.jpg');
@@ -246,7 +246,7 @@ export default {
 
 			.clbt_right {
 				float: right;
-				width: 5rem;
+				width: 470px;
 				height: 100%;
 
 				p {

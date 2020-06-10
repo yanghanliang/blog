@@ -114,7 +114,7 @@ export default {
     /* s_box-start */
     .category .s_box {
         overflow: auto;
-        height: 3.2rem;
+        height: 347px;
         margin-top: 0.02rem;
         background-color: #fff;
         border-top: 8px solid #fff;
@@ -125,12 +125,10 @@ export default {
 
     .category .s_box span {
         float: left;
-        height: 0.24rem;
         color: #fff;
         cursor: pointer;
-        line-height: 0.24rem;
+        padding: 7px 10px;
         border-radius: 0.08rem;
-        padding: 0.03rem 0.1rem;
         margin: 0.1rem 0.1rem 0 0;
     }
 
