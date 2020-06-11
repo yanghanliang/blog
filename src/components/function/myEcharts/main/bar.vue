@@ -5,7 +5,6 @@
 <script>
 import echarts from 'echarts'
 import props from './props'
-import paramsInherit from '@/plugins/tool/my'
 // import typeOption from './typeOption.js'
 
 export default {
