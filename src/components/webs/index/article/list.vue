@@ -14,10 +14,10 @@
 						<!-- <img src="../../../../assets/index/index/images/text02.jpg" alt=""> -->
 					</template>
 					<template v-else-if="isExistence(data) === 4">
-						<my-echarts class="pie" :txt="xAxisData" :toolbox="{}" :title="data.title" :data="data | seriesData" type="pie" :seriesCenter="['50%', '70%']"></my-echarts>
+						<my-echarts class="pie" :txt="xAxisData" :toolbox="{}" :data="data | seriesData" type="pie" :seriesCenter="['50%', '70%']"></my-echarts>
 					</template>
 					<template v-else>
-						<my-echarts class="bar" :txt="xAxisData" :toolbox="{}" :axisLabel="{ interval: 0, rotate: -30 }" :title="data.title" :data="data | seriesData"></my-echarts>
+						<my-echarts class="bar" :txt="xAxisData" :toolbox="{}" :axisLabel="{ interval: 0, rotate: -30 }" :data="data | seriesData"></my-echarts>
 					</template>
 				</div>
                 <div class="clbt_right">

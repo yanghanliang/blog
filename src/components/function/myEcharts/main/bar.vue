@@ -5,6 +5,7 @@
 <script>
 import echarts from 'echarts'
 import props from './props'
+import paramsInherit from '@/plugins/tool/my'
 // import typeOption from './typeOption.js'
 
 export default {
@@ -63,10 +64,8 @@ export default {
 
 			// 可以直接传入echarts的配置项
 			if (this.option) {
-				option = this.Global.paramsInherit({
-					params: this.option,
-					defaultValue: option
-				})
+				this.option.color = this.color
+				option = this.option
 			}
 
 			// 绘制图表
