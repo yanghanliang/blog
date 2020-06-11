@@ -1,9 +1,11 @@
 <template>
     <div>
 		<h2>基于echarts的二次分装</h2>
-		<my-echarts></my-echarts>
-		<my-echarts type="line" class="mt20 mb20"></my-echarts>
-		<my-echarts type="pie"></my-echarts>
+		<div class="clearfix mb20">
+			<my-echarts width="48%" class="fl"></my-echarts>
+			<my-echarts width="48%" type="line" class="fr"></my-echarts>
+			<my-echarts width="48%" type="pie" class="fl mt20"></my-echarts>
+		</div>
 		<mavon-editor
 			class="mt20 mb20"
             v-model="echartsBase.content"
@@ -14,8 +16,10 @@
             :toolbarsFlag="edit"
             :boxShadow="false">
         </mavon-editor>
-		<my-echarts title="地理位置" class="mt20 mb20" :txt="['北京', '上海', '广东', '深圳']" :data="[600, 800, 200, 900]"></my-echarts>
-		<my-echarts :txt="['北京', '上海', '广东', '深圳']" title="站点信息" :getDataFn="configGetData" :time="3"></my-echarts>
+		<div class="clearfix mt20 mb20">
+			<my-echarts class="fl" width="48%" title="地理位置" :txt="['北京', '上海', '广东', '深圳']" :data="[600, 800, 200, 900]"></my-echarts>
+			<my-echarts class="fr" width="48%" :txt="['北京', '上海', '广东', '深圳']" title="站点信息" :getDataFn="configGetData" :time="3"></my-echarts>
+		</div>
 		<mavon-editor
 			class="mt20 mb20"
             v-model="configEcharts.content"
@@ -39,10 +43,10 @@
         </mavon-editor>
 		<el-table :data="tableData" style="width: 100%">
             <el-table-column prop="params" label="参数" width="180"></el-table-column>
-            <el-table-column prop="explain" label="说明" width="180" :show-overflow-tooltip="true"></el-table-column>
+            <el-table-column prop="explain" label="说明" :show-overflow-tooltip="true"></el-table-column>
             <el-table-column prop="type" label="类型" width="180" :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="option" label="可选值" width="180" :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="default" label="默认值" width="180"></el-table-column>
+            <el-table-column prop="option" label="可选值" :show-overflow-tooltip="true"></el-table-column>
+            <el-table-column prop="default" label="默认值"></el-table-column>
         </el-table>
     </div>
 </template>
@@ -144,6 +148,13 @@ export default {
 					type: 'string',
 					option: '*',
 					default: '标题'
+				},
+				{
+					params: 'seriesName',
+					explain: '鼠标悬浮时提示内容的标题，默认会取title',
+					type: 'string',
+					option: '*',
+					default: ''
 				},
 				{
 					params: 'txt',
