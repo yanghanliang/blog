@@ -283,10 +283,13 @@ export default {
 		setBoxWH () {
 			let height = ''
 			let boxInfo = this.$refs.echartsBox.parentElement.getBoundingClientRect()
+
 			if (this.height || boxInfo.height < 100 || boxInfo.height > this.defaultHeight) {
 				height = this.defaultHeight + 'px'
+				console.log(height, '1')
 			} else {
 				height = boxInfo.height + 'px'
+				console.log(height, '2')
 			}
 			this.style = `width:${this.width}; height: ${height};`
 		}
@@ -298,7 +301,6 @@ export default {
 .echarts-box {
 	width: 100%;
 	height: 100%;
-	min-height: 400px;
 	border-radius: 5px;
 	box-sizing: border-box;
 	box-shadow: 0 0 17px -4px #a6a6a6;

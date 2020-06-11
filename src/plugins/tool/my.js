@@ -36,5 +36,6 @@ export function paramsInherit (params) {
 	}
 
 	recursion(params.params, params.defaultValue)
+	console.log(params.defaultValue, 'params.defaultValue')
 	return params.defaultValue
 }

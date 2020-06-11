@@ -2,9 +2,9 @@
     <div>
 		<h2>基于echarts的二次分装</h2>
 		<div class="clearfix mb20">
-			<my-echarts width="48%" class="fl"></my-echarts>
-			<my-echarts width="48%" type="line" class="fr"></my-echarts>
-			<my-echarts width="48%" type="pie" class="fl mt20"></my-echarts>
+			<my-echarts width="48%" class="fl" height="400px"></my-echarts>
+			<my-echarts width="48%" type="line" class="fr" height="400px"></my-echarts>
+			<my-echarts width="48%" type="pie" class="fl mt20" height="400px"></my-echarts>
 		</div>
 		<code-block name="echartsBase" />
 		<div class="clearfix mt20 mb20">
@@ -12,8 +12,13 @@
 			<my-echarts class="fr" width="48%" :txt="['北京', '上海', '广东', '深圳']" title="站点信息" :getDataFn="configGetData" :time="3"></my-echarts>
 		</div>
 		<code-block name="configEcharts" />
-		<my-echarts key="def" :time="2" title="柱状图动画延迟" :option="option"></my-echarts>
+		<my-echarts key="def" :time="2" title="柱状图动画延迟" :option="optionA"></my-echarts>
 		<code-block name="optionEcharts" />
+		<div class="clearfix mb20">
+			<my-echarts class="fl" width="48%"  height="400px" :option="optionA"></my-echarts>
+			<my-echarts class="fr" width="48%"  height="400px" :option="optionB" :key="abc"></my-echarts>
+			<my-echarts class="fl mt20" width="48%" height="400px" :option="optionC"></my-echarts>
+		</div>
 		<el-table :data="tableData" style="width: 100%">
             <el-table-column prop="params" label="参数" width="180"></el-table-column>
             <el-table-column prop="explain" label="说明" :show-overflow-tooltip="true"></el-table-column>
@@ -28,61 +33,8 @@
 // 代码块
 import codeBlock from '@/components/webs/public/codeBlock/index'
 import myEcharts from '@/components/function/myEcharts'
-
-var xAxisData = []
-var data1 = []
-var data2 = []
-for (var i = 0; i < 100; i++) {
-	xAxisData.push('类目' + i)
-	data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5)
-	data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5)
-}
-
-let option = {
-	legend: {
-		data: ['bar', 'bar2']
-	},
-	toolbox: {
-		// y: 'bottom',
-		feature: {
-			magicType: {
-				type: ['stack', 'tiled']
-			},
-			dataView: {},
-			saveAsImage: {
-				pixelRatio: 2
-			}
-		}
-	},
-	tooltip: {},
-	xAxis: {
-		data: xAxisData,
-		splitLine: {
-			show: false
-		}
-	},
-	yAxis: {
-	},
-	series: [{
-		name: 'bar',
-		type: 'bar',
-		data: data1,
-		animationDelay: function (idx) {
-			return idx * 10
-		}
-	}, {
-		name: 'bar2',
-		type: 'bar',
-		data: data2,
-		animationDelay: function (idx) {
-			return idx * 10 + 100
-		}
-	}],
-	animationEasing: 'elasticOut',
-	animationDelayUpdate: function (idx) {
-		return idx * 5
-	}
-}
+import { optionA, optionB, optionC } from './options'
+console.log(optionA, 'optionA')
 
 export default {
 	components: {
@@ -91,7 +43,6 @@ export default {
 	},
 	data () {
 		return {
-			option: option,
 			tableData: [
 				{
 					params: 'type',
@@ -211,7 +162,10 @@ export default {
 					option: '-',
 					default: `['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642']`
 				}
-			]
+			],
+			optionA,
+			optionB,
+			optionC
 		}
 	},
 	methods: {
