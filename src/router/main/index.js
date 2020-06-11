@@ -12,6 +12,7 @@ const slider = () => import('@/views/index/components/document/slider')
 const tag = () => import('@/views/index/components/document/tag')
 const connection = () => import('@/views/index/components/document/connection')
 const myEcharts = () => import('@/views/index/components/document/echarts')
+const myFilters = () => import('@/views/index/components/document/filters')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 const bookmark = () => import('@/views/index/bookmark')
@@ -87,6 +88,11 @@ export default [
 				path: 'echarts',
 				name: 'myEcharts',
 				component: myEcharts
+			},
+			{
+				path: 'filters',
+				name: 'myFilters',
+				component: myFilters
 			}
 		]
 	},

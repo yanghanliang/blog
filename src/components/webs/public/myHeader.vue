@@ -232,6 +232,7 @@ export default {
 			}).then(() => {
 				window.localStorage.removeItem('token')
 				window.localStorage.removeItem('user')
+				window.localStorage.removeItem('_jurisdiction')
 				// this.$router.go(0)
 				window.location.reload()
 				this.$message({
@@ -241,6 +242,7 @@ export default {
 			}).catch(() => {
 				window.localStorage.removeItem('token')
 				window.localStorage.removeItem('user')
+				window.localStorage.removeItem('_jurisdiction')
 				this.$router.push({
 					name: 'login'
 				})

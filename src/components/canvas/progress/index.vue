@@ -124,9 +124,9 @@ export default {
 				this.canvas.width = this.boxInfo.width
 				this.canvas.height = this.boxInfo.height
 				let content = this.box.querySelector('.content')
-				let width = this.radius * 2 - this.lineWidth
-				content.style.width = width + 'px'
-				content.style.height = width + 'px'
+				// let width = this.radius * 2 - this.lineWidth
+				content.style.width = this.canvas.width + 'px'
+				content.style.height = this.canvas.width + 'px'
 			}
 
 			/**

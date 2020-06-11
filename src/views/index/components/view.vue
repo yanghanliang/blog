@@ -53,6 +53,10 @@ export default {
 						{
 							route: 'square',
 							text: '随机分布 方形'
+						},
+						{
+							route: 'filters',
+							text: '自己封装的过滤器'
 						}
 					]
 				},

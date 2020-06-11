@@ -6,41 +6,14 @@
 			<my-echarts width="48%" type="line" class="fr"></my-echarts>
 			<my-echarts width="48%" type="pie" class="fl mt20"></my-echarts>
 		</div>
-		<mavon-editor
-			class="mt20 mb20"
-            v-model="echartsBase.content"
-            :subfield="edit"
-			:tabSize="4"
-			@save="saveContent('echartsBase')"
-            defaultOpen="preview"
-            :toolbarsFlag="edit"
-            :boxShadow="false">
-        </mavon-editor>
+		<code-block name="echartsBase" />
 		<div class="clearfix mt20 mb20">
 			<my-echarts class="fl" width="48%" title="地理位置" :txt="['北京', '上海', '广东', '深圳']" :data="[600, 800, 200, 900]"></my-echarts>
 			<my-echarts class="fr" width="48%" :txt="['北京', '上海', '广东', '深圳']" title="站点信息" :getDataFn="configGetData" :time="3"></my-echarts>
 		</div>
-		<mavon-editor
-			class="mt20 mb20"
-            v-model="configEcharts.content"
-            :subfield="edit"
-			:tabSize="4"
-			@save="saveContent('configEcharts')"
-            defaultOpen="preview"
-            :toolbarsFlag="edit"
-            :boxShadow="false">
-        </mavon-editor>
+		<code-block name="configEcharts" />
 		<my-echarts key="def" :time="2" title="柱状图动画延迟" :option="option"></my-echarts>
-		<mavon-editor
-			class="mt20 mb20"
-            v-model="optionEcharts.content"
-            :subfield="edit"
-			:tabSize="4"
-			@save="saveContent('optionEcharts')"
-            defaultOpen="preview"
-            :toolbarsFlag="edit"
-            :boxShadow="false">
-        </mavon-editor>
+		<code-block name="optionEcharts" />
 		<el-table :data="tableData" style="width: 100%">
             <el-table-column prop="params" label="参数" width="180"></el-table-column>
             <el-table-column prop="explain" label="说明" :show-overflow-tooltip="true"></el-table-column>
@@ -52,6 +25,8 @@
 </template>
 
 <script>
+// 代码块
+import codeBlock from '@/components/webs/public/codeBlock/index'
 import myEcharts from '@/components/function/myEcharts'
 
 var xAxisData = []
@@ -111,29 +86,12 @@ let option = {
 
 export default {
 	components: {
-		myEcharts
-	},
-	computed: {
-		edit () {
-			return !this.noJurisdiction.includes('component')
-		}
+		myEcharts,
+		codeBlock
 	},
 	data () {
 		return {
-			echartsBase: {
-				name: 'echartsBase',
-				content: '',
-			},
-			noJurisdiction: window.localStorage.getItem('_jurisdiction'),
 			option: option,
-			optionEcharts: {
-				name: 'optionEcharts',
-				content: ''
-			},
-			configEcharts: {
-				name: 'configEcharts',
-				content: ''
-			},
 			tableData: [
 				{
 					params: 'type',
@@ -256,34 +214,7 @@ export default {
 			]
 		}
 	},
-	created () {
-		this.getComponentsDetails('echartsBase')
-		this.getComponentsDetails('optionEcharts')
-		this.getComponentsDetails('configEcharts')
-	},
 	methods: {
-		// 保存内容
-		async saveContent (current) {
-			let postData = {
-				name: this[current].name,
-				content: this[current].content
-			}
-			try {
-				const { data } = await this.$http.put('components/edit', postData)
-				this.$message.success(data.msg)
-			} catch (e) {
-				console.log(e)
-			}
-		},
-		// 获取组件详情
-		async getComponentsDetails (current) {
-			try {
-				const data = await this.$http.get(`components/details?name=${this[current].name}`)
-				this[current].content = data[0].content
-			} catch (e) {
-				console.log(e)
-			}
-		},
 		// 获取数据
 		configGetData (params) {
 			return [10, 40, 80, 120]
