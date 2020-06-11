@@ -259,8 +259,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 nav {
 	height: 100%;
 	position: relative;

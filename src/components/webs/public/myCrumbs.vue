@@ -86,9 +86,7 @@ export default {
 
 <style lang="scss" scoped>
 .crumbs {
-	height: 20px;
 	text-align: left;
-	line-height: 20px;
 	border-radius: 5px;
     margin-bottom: 10px;
 

@@ -1,9 +1,13 @@
 <template>
-	<div :class="['echarts-box', { 'pd20': !time }]" :style="style" ref="echartsBox">
-		<template v-if="time">
+	<div :class="['echarts-box', { 'pd20': !title }]" :style="style" ref="echartsBox">
+		<template v-if="title">
 			<div class="eb-header clearfix">
-				<span class="ebh-title">{{ title }}</span>
-				<my-data @dateChange="dateChange" :dateType="time"></my-data>
+				<slot name="header-left">
+					<span class="ebh-title">{{ title }}</span>
+				</slot>
+				<slot name="header-right">
+					<my-data v-if="time" class="ebh-time" @dateChange="dateChange" :dateType="time"></my-data>
+				</slot>
 			</div>
 			<div class="line"></div>
 		</template>
@@ -12,7 +16,7 @@
 				:option="option"
 				:xAxisData="xAxisData"
 				:seriesData="seriesData"
-				:seriesName="title"
+				:seriesName="sn"
 				:axisLabel="axisLabel"
 				:date="date"
 				:seriesCenter="seriesCenter"
@@ -20,9 +24,6 @@
 				:color="color"
 				>
 			</component>
-			<!-- <my-bar class="eb-content" v-if="type === 'bar'" :option="option" :xAxisData="txt" :seriesData="data" :seriesName="title" :axisLabel="axisLabel"></my-bar>
-			<my-pie class="eb-content" v-else-if="type === 'pie'" :xAxisData="txt" :seriesData="data" :seriesName="title" :seriesCenter="seriesCenter"></my-pie>
-			<my-line class="eb-content" v-else-if="type === 'line'" :xAxisData="txt" :seriesData="data" :date="date"></my-line> -->
 		</template>
 	</div>
 </template>
@@ -40,9 +41,12 @@ export default {
 			type: String,
 			default: 'bar'
 		},
+		seriesName: {
+			type: String,
+		},
 		title: {
 			type: String,
-			default: '标题'
+			default: ''
 		},
 		txt: {
 			type: Array,
@@ -244,6 +248,13 @@ export default {
 					return ['衬衫', '羊毛衫', '雪纺衫']
 				}
 			}
+		},
+		sn () {
+			if (this.seriesName) {
+				return this.seriesName
+			} else {
+				return this.title
+			}
 		}
 	},
 	mounted () {
@@ -284,30 +295,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss';
-
 .echarts-box {
 	width: 100%;
 	height: 100%;
+	min-height: 400px;
 	border-radius: 5px;
 	box-sizing: border-box;
 	box-shadow: 0 0 17px -4px #a6a6a6;
 
 	.eb-header {
 		height: 38px;
+		line-height: 28px;
 		padding: 5px 10px;
-		line-height: 38px;
 
 		.ebh-title {
 			float: left;
 			font-size: 16px;
+		}
+
+		.ebh-time {
+			height: 30px;
+			line-height: 30px;
+
+			>>> .el-icon-date {
+				line-height: 30px;
+			}
 		}
 	}
 
 	.eb-header ~ .eb-content {
 		padding: 10px;
 		box-sizing: border-box;
-		height: calc(100% - 38px - 10px);
+		height: calc(100% - 38px);
 	}
 
 	.line {

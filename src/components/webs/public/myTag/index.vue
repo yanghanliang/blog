@@ -123,8 +123,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss';
-
 .my-tag {
     padding: 0 10px;
     min-width: 100px;

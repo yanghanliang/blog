@@ -123,8 +123,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 .my-date {
 	width: 290px;
     float: right;

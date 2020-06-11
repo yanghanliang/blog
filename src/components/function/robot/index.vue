@@ -97,8 +97,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 .bubble {
     top: -50%;
     width: 100px;

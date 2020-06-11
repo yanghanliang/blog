@@ -204,8 +204,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss';
-
     .content_right>h4 {
 		color: $main-font;
         text-indent: 0.12rem;

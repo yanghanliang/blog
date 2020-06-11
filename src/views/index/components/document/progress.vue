@@ -3,16 +3,7 @@
         <my-progress class="progress" :progressValue="50">
 			<div slot="content">文字描述</div>
 		</my-progress>
-        <mavon-editor
-			class="rich-text"
-            v-model="content"
-            :subfield="edit"
-			:tabSize="4"
-			@save="saveContent"
-            defaultOpen="preview"
-            :toolbarsFlag="edit"
-            :boxShadow="false">
-        </mavon-editor>
+		<code-block name="progress" />
         <el-table :data="tableData" style="width: 100%" >
             <el-table-column prop="params" label="参数"></el-table-column>
             <el-table-column prop="explain" label="说明"></el-table-column>
@@ -24,11 +15,14 @@
 </template>
 
 <script>
+// 代码块
+import codeBlock from '@/components/webs/public/codeBlock/index'
 import myProgress from '@/components/canvas/progress/index'
 
 export default {
 	components: {
 		myProgress,
+		codeBlock
 	},
 	data () {
 		return {
@@ -94,47 +88,7 @@ export default {
 				},
 
 			],
-			content: '',
-			name: 'progress',
-			noJurisdiction: window.localStorage.getItem('_jurisdiction')
 		}
-	},
-	computed: {
-		edit () {
-			return !this.noJurisdiction.includes('component')
-		}
-	},
-	created () {
-		this.getComponentsDetails()
-	},
-	methods: {
-		// 保存内容
-		async saveContent (content) {
-			let postData = {
-				name: this.name,
-				content: content
-			}
-			try {
-				const { data } = await this.$http.put('components/edit', postData)
-				this.$message.success(data.msg)
-			} catch (e) {
-				console.log(e)
-			}
-		},
-		// 获取组件详情
-		async getComponentsDetails () {
-			try {
-				const data = await this.$http.get(`components/details?name=${this.name}`)
-				this.content = data[0].content
-			} catch (e) {
-				console.log(e)
-			}
-		}
-	},
-	watch: {
-		// content(v) {
-		// 	console.log(v, 'v')
-		// }
 	},
 }
 </script>

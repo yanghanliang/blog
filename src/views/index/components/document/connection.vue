@@ -138,8 +138,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 .connection {
     .co_left,.co_right {
         width: 100px;

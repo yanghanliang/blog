@@ -12,9 +12,6 @@ import ElementUI from 'element-ui'
 // Added non-passive event listener to a scroll-blocking 'touchstart' event. Consider marking event han
 // 兼容
 
-// 引入 moment 格式化时间
-import moment from 'moment'
-
 // 导入发送请求的插件
 import MyAxios from './plugins/myAxios'
 
@@ -40,7 +37,9 @@ import myIcon from '@/components/webs/public/myIcon'
 // public-start
 
 // 引入全局变量
-import global_ from '@/plugins/global' // 引用文件
+import global_ from '@/plugins/global'
+// 引入全局 filter
+import '@/plugins/filters/global/index'
 
 // Vue.config.devtools = true // 标记为开发环境，让 devtools 能够正常运行
 
@@ -58,14 +57,6 @@ Vue.component(myCrumbs.name, myCrumbs)
 
 // 调用自己的字体图标组件
 Vue.component(myIcon.name, myIcon)
-
-// 调用时间格式化 moment
-Vue.filter('formatDate', function (date, formateStr) {
-	if (date === null) {
-		return '暂无更新~'
-	}
-	return moment(date).format(formateStr)
-})
 
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {

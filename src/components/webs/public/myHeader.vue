@@ -232,6 +232,7 @@ export default {
 			}).then(() => {
 				window.localStorage.removeItem('token')
 				window.localStorage.removeItem('user')
+				window.localStorage.removeItem('_jurisdiction')
 				// this.$router.go(0)
 				window.location.reload()
 				this.$message({
@@ -241,6 +242,7 @@ export default {
 			}).catch(() => {
 				window.localStorage.removeItem('token')
 				window.localStorage.removeItem('user')
+				window.localStorage.removeItem('_jurisdiction')
 				this.$router.push({
 					name: 'login'
 				})
@@ -252,8 +254,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/css/color/index.scss'; // 使用方法
-
 /* reset-style-start */
 .el-menu--horizontal>.el-menu-item a {
 	display: inline-block;
