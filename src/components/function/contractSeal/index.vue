@@ -100,9 +100,7 @@ export default {
 			// 初始化pdf
 			PDFJS.getDocument(this.pdfurl).then((pdfDoc_) => {
 				this.pdfDoc = pdfDoc_
-				console.log(this.pdfDoc, 'this.pdfDoc', this)
 				this.total = this.pdfDoc._pdfInfo.numPages
-				console.log(this.total, 'this.total')
 				this.renderPage(this.currentPage)
 			}).catch(function (err) {
 				if (err) {

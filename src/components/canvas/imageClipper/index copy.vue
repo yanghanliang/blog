@@ -379,8 +379,6 @@ export default {
 			}
 			this.ctx.fill()
 			// 核心-end
-			console.log(this.ctx, 'this.ctx')
-			console.log(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.ctx.drawImage(synthesis, 0, 0, clippingBoxEle.width, clippingBoxEle.height, left, top, clippingBoxEle.width, clippingBoxEle.height)
 			this.imageUrl = this.$refs.canvas.toDataURL()
 		},

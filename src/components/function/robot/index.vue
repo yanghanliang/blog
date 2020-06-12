@@ -1,6 +1,7 @@
 <template>
     <div :class="['robot', {'active': reply}]" @click="tipsShow = !tipsShow">
-        <i class="my-icon-jiqiren"></i>
+        <i class="my-icon-jiqiren">
+		</i>
         <div :class="['bubble', {'no': length > 10}]">
             <div v-if="length <= 10">{{ reply }}</div>
 			<p v-else>{{ reply }}</p>
@@ -13,6 +14,7 @@
         <div class="input-box">
             <input type="text" v-model="value" @keyup.enter="getData" title="调用百度接口做的中英文翻译" placeholder="畅想未来">
         </div>
+		<i @click.stop="topping" :class="['my-icon-Top', 'animated', top ? 'bounceInRight display-b' : 'display-n']"></i>
     </div>
 </template>
 
@@ -29,12 +31,16 @@ export default {
 			length: 0, // 回复值的长度
 			radio: 1, // 模式
 			tipsShow: false, // 提示，默认隐藏
+			top: false, // 置顶
 		}
 	},
 	computed: {
 		to () {
 			return /[\u4e00-\u9fa5]/.test(this.value) ? 'en' : 'zh'
 		}
+	},
+	mounted () {
+		this.registerEvents()
 	},
 	methods: {
 		// 获取翻译数据
@@ -92,6 +98,19 @@ export default {
 				this.robot()
 			}
 		},
+		// 置顶
+		topping () {
+			document.body.scrollIntoView({behavior: 'smooth'})
+		},
+		registerEvents () {
+			window.addEventListener('scroll', (e) => {
+				if (document.documentElement.scrollTop > 300) {
+					this.top = true
+				} else {
+					this.top = false
+				}
+			})
+		}
 	}
 }
 </script>
@@ -174,6 +193,7 @@ export default {
         font-size: 50px;
         cursor: pointer;
 		color: $theme-color2;
+		position: relative;
     }
 
 	&:hover {
@@ -253,6 +273,18 @@ export default {
 		p {
 			margin-bottom: 10px;
 		}
+	}
+
+	.my-icon-Top {
+		// top: 50%;
+		// left: 0;
+		top: 14%;
+		left: -36px;
+		font-size: 30px;
+		cursor: pointer;
+		position: absolute;
+		color: $theme-color;
+		transform: translate(-120%, -50%);
 	}
 }
 </style>

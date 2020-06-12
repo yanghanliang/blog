@@ -10,6 +10,8 @@
 @import '@/assets/css/main/media/435.scss';
 // 特殊样式
 @import '@/assets/css/main/style.scss';
+// 动画（因为加上了自己需求所以没做cdn-可优化
+@import '@/assets/css/main/animation.scss';
 
 body {
     background-color: #f7f7f7;

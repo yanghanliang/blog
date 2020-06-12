@@ -117,7 +117,6 @@ export default {
 			// 元素按下
 			Drag.prototype.mousedown = function () {
 				let parent = document.querySelector('#chapter-box')
-				console.log('??')
 				parent.addEventListener('mousedown', e => {
 					if (e.target.className.includes('chapter')) {
 						this.ele = e.target
@@ -166,7 +165,6 @@ export default {
 			Drag.prototype.scroll = function () {
 				document.addEventListener('scroll', e => {
 					this.scrollTop = document.documentElement.scrollTop
-					console.log(this.scrollTop, 'this.scrollTop')
 					this.move()
 				})
 			}
@@ -187,13 +185,10 @@ export default {
 		pictureSynthesis () {
 			const imgEle = document.querySelector('#chapter')
 			const imgInfo = imgEle.getBoundingClientRect()
-			console.log(imgInfo, 'imgInfo')
 			const canvas = document.querySelector('canvas').getBoundingClientRect()
-			console.log(canvas, 'canvas')
 
 			for (let i = 0, length = this.coordinate.length; i < length; i++) {
 				let item = this.coordinate[i]
-				console.log(imgEle, 0, 0, 150, 150, item.x - canvas.x, item.y - canvas.y, 150, 150)
 				this.ctx.drawImage(imgEle, 0, 0, 150, 150, item.x - canvas.x, item.y - canvas.y, 150 / 1.4, 150 / 1.4)
 			}
 
@@ -207,7 +202,6 @@ export default {
 		wordToPdf (url) {
 			this.pdfurl = url
 			this.dialogVisible = false
-			console.log(this.pdfurl, 'this.pdfurl')
 			this.initPdf()
 		}
 	},

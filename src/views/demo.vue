@@ -46,7 +46,9 @@
 			<div slot="content" class="demo-content">
 				<div class="top clearfix">
 					<div class="logo fl">
-						<logo />
+						<router-link to="/">
+							<logo />
+						</router-link>
 					</div>
 					<ul class="nav clearfix fl">
 						<template v-for="(item, index) in navList">
