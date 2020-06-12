@@ -3,7 +3,7 @@
  */
 
 /**
- * 参数继承-如果传入的参数存在则替换掉默认值
+ * 参数继承-如果传入的参数没有默认值，则给传入的参数赋上默认值
  * 现在只支持对象的参数
  * @param {object}          params
  * @param {object}          params.params - 传入的参数
@@ -23,19 +23,14 @@ export function paramsInherit (params) {
 			if (type === 'object') {
 				recursion(param[key], defaultValue[key])
 			} else {
-				if (param[key] !== undefined) {
-					if (type === 'object') {
-						recursion(param[key], defaultValue[key])
-					} else {
-						// 不存在，则给参数补充上
-						defaultValue[key] = param[key]
-					}
+				// 如果传入的参数没有默认值，则给传入的参数赋上默认值
+				if (param[key] === undefined) {
+					param[key] = defaultValue[key]
 				}
 			}
 		}
 	}
 
 	recursion(params.params, params.defaultValue)
-	console.log(params.defaultValue, 'params.defaultValue')
-	return params.defaultValue
+	return params.params
 }

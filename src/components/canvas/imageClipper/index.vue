@@ -357,14 +357,12 @@ export default {
 			} else {
 				canvas.width = parentInfo.width
 				left = (parentInfo.width - imageInfo.width) / 2
-				console.log(left, 'left')
 			}
 			if (imageInfo.height > parentInfo.height) {
 				canvas.height = imageInfo.height
 			} else {
 				canvas.height = parentInfo.height
 				top = (parentInfo.height - imageInfo.height) / 2
-				console.log(top, 'top')
 			}
 
 			// canvas.width = maxWH
@@ -389,7 +387,6 @@ export default {
 			// 将图片转换为canvas
 			this.ctx.drawImage(imageEle, 0, 0, imageInfo.width, imageInfo.height, left, top, width, height)
 			this.dialogVisible = false
-			console.log(this.dialogVisible, 'this.dialogVisible')
 		},
 		// 裁剪
 		confirmCrop () {

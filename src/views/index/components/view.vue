@@ -272,7 +272,6 @@ export default {
 .components {
 	>>> .layout-left {
 		width: 2.1rem;
-		border-top-right-radius: 40px;
 		border-bottom-right-radius: 40px;
 		box-shadow: 0 0 7px -2px #00000059;
 		background-color: #fff;

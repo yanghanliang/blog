@@ -489,7 +489,6 @@ export default {
 			this.articleData = data[0] // 将数据赋值给 vue
 			// 兼容移动端
 			let bodyEle = null
-			console.log(this.Global.equipment, 'this.Global.equipment')
 			if (this.Global.equipment === 'pc') {
 				bodyEle = document.querySelector('html') // 获取 html 元素
 			} else {

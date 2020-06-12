@@ -5,6 +5,7 @@
 <script>
 import echarts from 'echarts'
 import props from './props'
+import { paramsInherit } from '@/plugins/tool/my'
 // import typeOption from './typeOption.js'
 
 export default {
@@ -74,14 +75,23 @@ export default {
 
 			// 可以直接传入echarts的配置项
 			if (this.option) {
-				option = this.Global.paramsInherit({
+				option = paramsInherit({
 					params: this.option,
-					defaultValue: option
+					defaultValue: {
+						color: this.color,
+						toolbox: this.toolbox,
+						title: {
+							text: '',
+							left: 'center'
+						},
+					}
 				})
 			}
 
 			// 绘制图表
 			myChart.setOption(option)
+			// 把实例传给父组件
+			this.$emit('getEchartsObj', myChart)
 		},
 	},
 	watch: {

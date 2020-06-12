@@ -22,7 +22,8 @@
 				:seriesCenter="seriesCenter"
 				:toolbox="toolbox"
 				:color="color"
-				>
+				@getEchartsObj="getEchartsObj"
+			>
 			</component>
 		</template>
 	</div>
@@ -132,6 +133,7 @@ export default {
 			style: '',
 			show: false,
 			fnGetData: [], // 调用方法获取的数据
+			echartsObj: null, // echarts 实例
 		}
 	},
 	computed: {
@@ -262,6 +264,7 @@ export default {
 		if (!this.time && this.getDataFn) {
 			this.fnGetData = this.getDataFn()
 		}
+		this.resize()
 	},
 	methods: {
 		// 时间改变时执行
@@ -282,16 +285,26 @@ export default {
 		// 宽度默认100%，可自定义高度
 		setBoxWH () {
 			let height = ''
-			let boxInfo = this.$refs.echartsBox.parentElement.getBoundingClientRect()
+			let boxInfo = this.$refs.echartsBox.getBoundingClientRect()
 
 			if (this.height || boxInfo.height < 100 || boxInfo.height > this.defaultHeight) {
 				height = this.defaultHeight + 'px'
-				console.log(height, '1')
 			} else {
 				height = boxInfo.height + 'px'
-				console.log(height, '2')
 			}
 			this.style = `width:${this.width}; height: ${height};`
+		},
+		// 注册事件
+		resize () {
+			const that = this
+			window.addEventListener('resize', function () {
+				setTimeout(() => {
+					that.echartsObj.resize()
+				})
+			})
+		},
+		getEchartsObj (echartsObj) {
+			this.echartsObj = echartsObj
 		}
 	},
 }

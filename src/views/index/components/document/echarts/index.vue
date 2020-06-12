@@ -2,9 +2,9 @@
     <div>
 		<h2>基于echarts的二次分装</h2>
 		<div class="clearfix mb20">
-			<my-echarts width="48%" class="fl" height="400px"></my-echarts>
-			<my-echarts width="48%" type="line" class="fr" height="400px"></my-echarts>
-			<my-echarts width="48%" type="pie" class="fl mt20" height="400px"></my-echarts>
+			<my-echarts width="48%" class="fl"></my-echarts>
+			<my-echarts width="48%" type="line" class="fr"></my-echarts>
+			<my-echarts width="48%" type="pie" class="fl mt20"></my-echarts>
 		</div>
 		<code-block name="echartsBase" />
 		<div class="clearfix mt20 mb20">
@@ -14,10 +14,9 @@
 		<code-block name="configEcharts" />
 		<my-echarts key="def" :time="2" title="柱状图动画延迟" :option="optionA"></my-echarts>
 		<code-block name="optionEcharts" />
-		<div class="clearfix mb20">
-			<my-echarts class="fl" width="48%"  height="400px" :option="optionA"></my-echarts>
-			<my-echarts class="fr" width="48%"  height="400px" :option="optionB" :key="abc"></my-echarts>
-			<my-echarts class="fl mt20" width="48%" height="400px" :option="optionC"></my-echarts>
+		<div class="clearfix mb20 mt20">
+			<my-echarts class="fr" width="48%"  :option="optionB" :key="abc"></my-echarts>
+			<my-echarts class="fl" width="48%" :option="optionC"></my-echarts>
 		</div>
 		<el-table :data="tableData" style="width: 100%">
             <el-table-column prop="params" label="参数" width="180"></el-table-column>
@@ -34,7 +33,6 @@
 import codeBlock from '@/components/webs/public/codeBlock/index'
 import myEcharts from '@/components/function/myEcharts'
 import { optionA, optionB, optionC } from './options'
-console.log(optionA, 'optionA')
 
 export default {
 	components: {
@@ -172,7 +170,7 @@ export default {
 		// 获取数据
 		configGetData (params) {
 			return [10, 40, 80, 120]
-		}
+		},
 	},
 }
 </script>
