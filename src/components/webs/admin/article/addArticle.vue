@@ -116,6 +116,8 @@ export default {
 				this.$router.push({
 					name: 'articleList'
 				})
+				// 清除无用的数据
+				window.sessionStorage.removeItem('articleData')
 			} else {
 				// 弹出提示框
 				data && this.$message({
@@ -196,6 +198,8 @@ export default {
 				this.buttonText = '修改文章'
 				this.url = `addArticle` // 修改url
 				this.type = 'post' // 修改请求类型
+			} else {
+				this.buttonText = '添加文章'
 			}
 		}
 	}
