@@ -49,6 +49,7 @@ const webMobile = () => import('@/views/mobile/index')
 // const robot = () => import('@/views/mobile/index/robot')
 // mobile-end
 const demo = () => import('@/views/demo')
+const webSocket = () => import('@/views/webSocket')
 
 // 需要导入的模块
 const variableList = ['index', 'admin', 'mobile']
@@ -117,7 +118,12 @@ const router = new Router({
 			path: '/demo',
 			name: 'demo',
 			component: demo
-		}
+		},
+		{
+			path: '/websocket',
+			name: 'webSocket',
+			component: webSocket
+		},
 	]
 })
 

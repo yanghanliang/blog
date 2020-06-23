@@ -1138,3 +1138,6 @@ new HtmlWebpackPlugin({
 ```html
 <link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
 ```
+
+### 预渲染-提高首页加载速度（待完成）
+
