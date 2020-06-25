@@ -62,7 +62,7 @@
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
 			<!-- <el-menu-item index="/bookmark">书签</el-menu-item> -->
 			<el-menu-item index="/demo">demo</el-menu-item>
-			<el-menu-item index="/webSocket">webSocket</el-menu-item>
+			<!-- <el-menu-item index="/webSocket">webSocket</el-menu-item> -->
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a class="display-b" href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
