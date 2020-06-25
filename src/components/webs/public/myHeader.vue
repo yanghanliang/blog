@@ -20,7 +20,7 @@
 				<!-- <router-link to="/catalogList">日志</router-link> -->
 				首页
 			</el-menu-item>
-			<!-- <el-submenu index="1">
+			<el-submenu index="1">
 				<template slot="title">分类</template>
 				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					<template slot="title">{{ catalog.classname }}</template>
@@ -52,7 +52,7 @@
 				</el-submenu>
 				<el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					{{ catalog.classname }}</el-menu-item>
-			</el-submenu> -->
+			</el-submenu>
 			<!-- <el-menu-item index="/catalogList">
 				日志
 			</el-menu-item> -->
@@ -62,6 +62,7 @@
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
 			<!-- <el-menu-item index="/bookmark">书签</el-menu-item> -->
 			<el-menu-item index="/demo">demo</el-menu-item>
+			<el-menu-item index="/webSocket">webSocket</el-menu-item>
 			<el-submenu index="git">
 				<template slot="title">GitHub</template>
 				<el-menu-item index=""><a class="display-b" href="https://github.com/yanghanliang/blog" target="_blank">git</a></el-menu-item>
