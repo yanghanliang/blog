@@ -34,3 +34,65 @@ export function paramsInherit (params) {
 	recursion(params.params, params.defaultValue)
 	return params.params
 }
+
+/**
+ * 判断数据类型
+ * @author                  yanghanliang
+ * @created                 2019-09-27
+ * @lastEditDate            2019-09-27
+ * @param {*}               value
+ * @return {string} type    DataType
+ */
+export function isType (value) {
+	// number boolean string array undefined null
+	var type = typeof value
+	if (type === 'object') {
+		if (value.length) {
+			return 'array'
+		} else {
+			return 'object'
+		}
+	} else {
+		// 不考虑 null, undefined
+		return 'string'
+	}
+}
+
+/**
+ * 深拷贝
+ * @author                  yanghanliang
+ * @created                 2019-09-27
+ * @lastEditDate            2019-09-27
+ * @param {object,array}    data
+ * @return {object,array}   dataCopy
+ */
+export function deepCopy (data) {
+	let type = isType(data)
+	if (type === 'array') {
+		let arr = []
+		for (let i = 0, length = data.length; i < length; i++) {
+			let item = data[i]
+			let itemType = isType(item)
+			if (itemType === 'object' || itemType === 'array') {
+				let value = deepCopy(item)
+				arr.push(value)
+			} else {
+				arr.push(item)
+			}
+		}
+		return arr
+	} else if (type === 'object') {
+		let obj = {}
+		for (let key in data) {
+			let item = data[key]
+			let itemType = isType(item)
+			if (itemType === 'object' || itemType === 'array') {
+				let value = deepCopy(item)
+				obj[key] = value
+			} else {
+				obj[key] = item
+			}
+		}
+		return obj
+	}
+}

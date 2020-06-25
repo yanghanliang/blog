@@ -20,7 +20,7 @@
 				<!-- <router-link to="/catalogList">日志</router-link> -->
 				首页
 			</el-menu-item>
-			<!-- <el-submenu index="1">
+			<el-submenu index="1">
 				<template slot="title">分类</template>
 				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					<template slot="title">{{ catalog.classname }}</template>
@@ -52,7 +52,7 @@
 				</el-submenu>
 				<el-menu-item v-if="!catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					{{ catalog.classname }}</el-menu-item>
-			</el-submenu> -->
+			</el-submenu>
 			<!-- <el-menu-item index="/catalogList">
 				日志
 			</el-menu-item> -->

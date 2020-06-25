@@ -90,6 +90,15 @@ export default {
 							text: 'myEcharts'
 						}
 					]
+				},
+				{
+					className: 'demo',
+					children: [
+						{
+							route: 'demo1',
+							text: 'demo1'
+						}
+					]
 				}
 			]
 		}
