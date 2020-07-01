@@ -100,6 +100,7 @@ export default {
 		},
 		// 置顶
 		topping () {
+			// 会滚动到“元素”的顶部，可以做类似描点链接的功能
 			document.body.scrollIntoView({behavior: 'smooth'})
 		},
 		registerEvents () {
