@@ -1,8 +1,5 @@
 <template>
     <div class="content_right form-box">
-        <!-- 调用自己封装的面包屑组件 -->
-        <my-crumbs :ri="routingInformation"></my-crumbs>
-
         <el-form ref="form" :rules="rules" :model="form" label-width="80px">
             <el-form-item label="权限名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入权限名称"></el-input>

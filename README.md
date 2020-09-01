@@ -1139,5 +1139,15 @@ new HtmlWebpackPlugin({
 <link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
 ```
 
+### 书签功能
 ### 预渲染-提高首页加载速度（待完成）
+### 个人中心
+  + 完善个人信息
+### 消息中心
+  + 及时通讯
+### 留言板
+  + 留言
+  + 预览留言
+### 文章添加权限的区别
+  + 有的文章你需要管理员权限才能查看
 

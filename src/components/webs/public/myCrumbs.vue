@@ -1,9 +1,9 @@
 <template>
-	<section :class="['crumbs', model]">
+	<div :class="['crumbs', model]">
 		<template v-for="(item, index) in routeInfo.path">
 			<router-link :key="index" :class="{ 'linker': index !== 0 }" :to="{ path: routeInfo.path[index] }">{{ routeInfo.title[index] }}</router-link>
 		</template>
-	</section>
+	</div>
 </template>
 
 <script>
@@ -78,6 +78,12 @@ export default {
 			}
 
 			recursion(routeList)
+			console.log(123)
+		}
+	},
+	watch: {
+		'$route': function () {
+			this.matchRoute()
 		}
 	},
 }

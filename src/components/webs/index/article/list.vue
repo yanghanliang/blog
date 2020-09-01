@@ -210,7 +210,7 @@ export default {
 	}
 
 	.cl_box {
-		width: 8rem;
+		// width: 8rem;
 		height: 2rem;
 		padding: 0.2rem;
 		margin-bottom: 0.1rem;

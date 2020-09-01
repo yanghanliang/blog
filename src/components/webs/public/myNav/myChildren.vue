@@ -1,12 +1,11 @@
 <template>
     <ul>
-        <li v-for="(item, index) in data" :key="index">
+        <li v-for="(item, index) in navList" :key="index">
             <div @click.stop="clickSwitch(item)" :class="['clearfix', $route.fullPath.includes(item.router) ? 'active' : '']">
-				<!-- {{ item }} -->
 				<!-- 是否可以编辑 -->
-				<a @click="jump(item.router)" href="javascript:;">
+				<a @click="jump(item)" href="javascript:;" :title="item.name">
 					<i v-if="item.children" :class="item | iconClass"></i>
-					<span :class="{ 'ml32': !item.children }" :style="item | style">{{ item.name }}</span>
+					<span :class="[{ 'ml32': !item.children }, 'ellipsis', 'display-b']" :style="item | style">{{ item.name }}</span>
 				</a>
 				<!-- <my-tag :tagData="item" field="name" class="fr" :simple="true"></my-tag> -->
 			</div>
@@ -37,6 +36,15 @@ export default {
 		isEdit: {
 			type: Boolean,
 			default: false
+		},
+		// 点击展开是否进行跳转
+		clickOpen: {
+			type: Boolean,
+		}
+	},
+	computed: {
+		navList: function() {
+			return this.data || []
 		}
 	},
 	components: {
@@ -67,6 +75,9 @@ export default {
 			return active
 		}
 	},
+	created () {
+		console.log(this.data, 'this.data')
+	},
 	methods: {
 		dataHandle () {
 		},
@@ -76,19 +87,30 @@ export default {
 			return false
 		},
 		// 组件跳转不刷新页面
-		jump (router) {
+		jump (item) {
 			if (this.isBlank) {
 				// 站外跳转
-				window.open(router, '_blank')
+				if (item.children) {
+					if (this.clickOpen) {
+						window.open(item.router, '_blank')
+					}
+				} else {
+					window.open(item.router, '_blank')
+				}
 			} else {
 				// 防止自己跳自己
-				if (this.$route.path !== router) {
+				if (this.$route.path !== item.router) {
 					// 站内跳转
 					this.$router.push({
-						path: router
+						path: item.router
 					})
 				}
 			}
+		}
+	},
+	watch: {
+		data (val) {
+			console.log(val, 'val')
 		}
 	},
 }

@@ -7,9 +7,8 @@
 				:class="{'active': item.status === 'open'}"
 				href="javascript:;"
 				:key="index"
-				:title="item.name"
 			>
-				<i :title="item.icon" :class="item.icon"></i>
+				<i :title="item.name" :class="item.icon"></i>
 			</a>
 		</div>
 		<div :class="['nav-right', {'open': navStatus}]">
@@ -17,7 +16,7 @@
 				<div class="title">
 					{{ currentTitle }}
 				</div>
-				<my-children :data="currentChildren" :isBlank="isBlank" :isEdit="isEdit">
+				<my-children :data="currentChildren" :isBlank="isBlank" :isEdit="isEdit" :clickOpen="clickOpen">
 					<div slot="content">a</div>
 				</my-children>
 			</div>
@@ -151,18 +150,20 @@ export default {
 						name: '书签',
 						level: 0,
 						status: 'close',
-						icon: 'my-icon-yonghufangkeshu',
-						router: '/admin/bookmark/add',
+						icon: 'my-icon-shuqianC',
+						router: '/admin/bookmark/list',
 						identification: 'bookmark',
 						children: [
 							{
-								name: '添加分类',
+								name: '添加书签',
 								level: 1,
+								status: 'close',
 								router: '/admin/bookmark/add',
 							},
 							{
 								name: '分类列表',
 								level: 1,
+								status: 'close',
 								router: '/admin/bookmark/list',
 							}
 						]
@@ -177,6 +178,11 @@ export default {
 		},
 		// 点击第一层级是否进行跳转
 		firstTrigger: {
+			type: Boolean,
+			default: true
+		},
+		// 点击展开是否进行跳转
+		clickOpen: {
 			type: Boolean,
 			default: true
 		},
@@ -209,6 +215,7 @@ export default {
 		mouseenter (item) {
 			this.currentChildren = item.children
 			this.currentTitle = item.name
+			console.log(this.currentChildren, 'currentChildren')
 			// 防止自己跳转到自己
 			if (item.router === this.$route.path) return false
 			this.data.forEach(obj => {
@@ -258,7 +265,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "@/assets/css/font/css/bookmark.scss";
+
 nav {
 	height: 100%;
 	position: relative;

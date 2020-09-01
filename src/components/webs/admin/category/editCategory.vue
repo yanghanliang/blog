@@ -1,5 +1,5 @@
 <template>
-    <div class="admin_category form-box">
+    <div class="form-box">
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="分类名称">
                 <el-input v-model="form.classname"></el-input>
@@ -45,10 +45,8 @@ export default {
 	},
 	methods: {
 		async getCategoryData () {
-			const {
-				data
-			} = await this.$http.get('category') // 获取分类数据
-			this.categoryData = data // 将分类数据赋值给 vue
+			const data = await this.$http.post('category') // 获取分类数据
+			this.categoryData = data.list // 将分类数据赋值给 vue
 		},
 		async getEditCategoryData () { // 获取需要修改的分类数据
 			const data = await this.$http.get(`editCategory/${this.form.id}`)
@@ -106,14 +104,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.admin_category {
-	top: 50%;
-	left: 50%;
-	padding: 20px;
-	position: absolute;
-	display: inline-block;
-	box-shadow: 0px 0px 4px black;
-    background-color: #8ababb;
-	transform: translate(-50%, -50%);
-}
 </style>

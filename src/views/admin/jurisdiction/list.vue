@@ -1,8 +1,5 @@
 <template>
     <div class="content_right">
-        <!-- 调用自己封装的面包屑组件 -->
-        <my-crumbs :ri="routingInformation"></my-crumbs>
-
 		<!-- dataTable -->
         <el-table
 			:data="tableData"
