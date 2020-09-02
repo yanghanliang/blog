@@ -43,7 +43,7 @@ export default {
 		}
 	},
 	computed: {
-		navList: function() {
+		navList: function () {
 			return this.data || []
 		}
 	},

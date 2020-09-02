@@ -64,7 +64,6 @@ export default {
 	},
 	filters: {
 		type (value) {
-			
 			let arr = value.split(',')
 			let newArr = []
 			const text = [

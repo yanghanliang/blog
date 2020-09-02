@@ -48,7 +48,7 @@ export default {
 			]
 		}
 	},
-	created() {
+	created () {
 		this.getCategoryData()
 	},
 	methods: {
