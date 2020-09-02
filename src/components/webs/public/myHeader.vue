@@ -22,7 +22,6 @@
 			</el-menu-item>
 			<el-submenu index="1">
 				<template slot="title">分类</template>
-				
 				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					<template slot="title">{{ catalog.classname }}</template>
 					<el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
