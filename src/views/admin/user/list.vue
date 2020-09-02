@@ -1,7 +1,7 @@
 <template>
     <div class="user-list">
         <!-- 调用自己封装的面包屑组件 -->
-        <my-crumbs :ri="routingInformation"></my-crumbs>
+        <!-- <my-crumbs :ri="routingInformation"></my-crumbs> -->
 		<!-- dataTable -->
         <el-table
 			:data="tableData"
@@ -10,6 +10,7 @@
 			row-key="id"
 			@expand-change="rowExpand"
 			:expand-row-keys="entexpands"
+			border
 		>
 			<el-table-column type="expand">
 				<template slot-scope="{row}">
@@ -201,7 +202,6 @@ export default {
 
 <style lang="scss" scoped>
 .user-list {
-	padding: 0 20px;
 	overflow: hidden;
 
 	.el-tag {

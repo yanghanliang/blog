@@ -2,8 +2,9 @@
 	<width-auto>
 		<my-nav slot="layout-left" />
 		<section slot="layout-right">
+			<my-crumbs />
 			<keep-alive :include="keepAlive">
-				<router-view />
+				<router-view class="r-content" />
 			</keep-alive>
 		</section>
 	</width-auto>
@@ -54,6 +55,7 @@ export default {
 			} else {
 				this.keepAlive = 'articleList'
 			}
+			console.log(this.keepAlive, 'this.keepAlive')
 		}
 	},
 }
@@ -61,19 +63,8 @@ export default {
 </script>
 
 <style lang="scss">
-.admin {
-	left: 0;
-    right: 0;
-    top: 60px;
-    bottom: 50px;
-	position: absolute;
-
-    .my-nav {
-        display: inline-block;
-    }
-
-    .right-content {
-        float: left;
-    }
+.r-content {
+	padding: 20px;
+	background-color: #fff;
 }
 </style>

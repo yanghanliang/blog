@@ -29,18 +29,16 @@ export default {
 	},
 	methods: {
 		async getCategoryData () { // 获取分类数据
-			const {
-				data
-			} = await this.$http.get('category?type=1') // 发送请求
+			const data = await this.$http.post('category') // 发送请求
 
 			if (this.categoryId) {
-				this.categoryData = data.filter(item => {
+				this.categoryData = data.list.filter(item => {
 					if (item.id === this.categoryId || item.pid === this.articleId) {
 						return item
 					}
 				})
 			} else {
-				this.categoryData = data // 将获取到的数据绑定到 vue 中
+				this.categoryData = data.list // 将获取到的数据绑定到 vue 中
 			}
 		},
 		getData (content) {

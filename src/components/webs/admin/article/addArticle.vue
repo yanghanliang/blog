@@ -104,11 +104,11 @@ export default {
 			window.sessionStorage.setItem('articleData', JSON.stringify(this.form))
 			const data = await this.$http[this.type](this.url, this.form)
 
-			if (data && data.data.status === 200) {
+			if (data.status === 200) {
 				// 弹出提示框
 				this.$message({
 					type: 'success',
-					message: data.data.msg,
+					message: data.msg,
 					center: true
 				})
 
@@ -122,7 +122,7 @@ export default {
 				// 弹出提示框
 				data && this.$message({
 					type: 'error',
-					message: data.data.msg,
+					message: data.msg,
 					center: true
 				})
 			}
@@ -143,10 +143,8 @@ export default {
 			this.type = 'put' // 修改请求类型
 		},
 		async getCategoryData () { // 获取分类数据
-			const {
-				data
-			} = await this.$http.get('category')
-			this.categoryData = data
+			const data = await this.$http.post('category')
+			this.categoryData = data.list
 		},
 		// 添加图片
 		async imgAdd (pos, $file) {

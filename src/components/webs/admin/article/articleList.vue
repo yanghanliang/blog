@@ -1,6 +1,5 @@
 <template>
     <div class="content_right">
-        <my-crumbs></my-crumbs>
         <!-- dataTable -->
         <el-table
 			:data="tableData"
@@ -39,13 +38,13 @@
 				</template>
 			</el-table-column> -->
             <el-table-column fixed="right" align="center" label="操作" width="200">
+                <template slot="header" slot-scope="scope">
+                    <el-input clearable v-model="sortData.searchData" size="mini" @keyup.enter.native="searchFn" @input="searchFn" placeholder="输入关键字搜索" />
+                </template>
                 <template slot-scope="scope">
                     <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
                     <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
                     </router-link>
-                </template>
-                <template slot="header" slot-scope="scope">
-                    <el-input v-model="sortData.searchData" size="mini" @input="searchFn" placeholder="输入关键字搜索" />
                 </template>
             </el-table-column>
         </el-table>
@@ -58,7 +57,7 @@
             </span>
         </el-dialog>
         <!-- 分页 -->
-        <el-pagination @size-change="handleSizeChange" @current-change="clickPage" :current-page="sortData.currentPage"
+        <el-pagination class="ta-right mt20" @size-change="handleSizeChange" @current-change="clickPage" :current-page="sortData.currentPage"
             :page-sizes="pageSizes" :page-size="sortData.pageSize" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
@@ -142,24 +141,35 @@ export default {
 				}
 			}
 		},
-		handleSizeChange (val) { // 每页条数改变时执行
-			this.sortData.pageSize = val // 更新每页条数
-			this.paging() // 获取分页数据并渲染
+		// 每页条数改变时执行
+		handleSizeChange (val) {
+			// 更新每页条数
+			this.sortData.pageSize = val
+			// 获取分页数据并渲染
+			this.paging()
 		},
-		clickPage (val) { // 点击页码
-			this.sortData.currentPage = val // 更新当前页码
-			this.paging() // 获取分页数据并渲染
+		// 点击页码
+		clickPage (val) {
+			// 更新当前页码
+			this.sortData.currentPage = val
+			// 获取分页数据并渲染
+			this.paging()
 		},
-		async paging () { // 分页
+		// 分页
+		async paging () {
 			const {
 				data
 			} = await this.$http.post('paging', this.sortData)
 			if (data.getData.status === 200 && this.sortData.searchData === '') {
-				this.total = this.retainTotal // 修改总条数
-				this.tableData = data.getData.data // 重新赋值
+				// 修改总条数
+				this.total = this.retainTotal
+				// 重新赋值
+				this.tableData = data.getData.data
 			} else {
-				this.tableData = data.getData.data // 重新赋值
-				this.total = data.getNumber // 修改总条数
+				// 重新赋值
+				this.tableData = data.getData.data
+				// 修改总条数
+				this.total = data.getNumber
 				if (data.getData.status !== 200) {
 					// 给出提示
 					this.$message({
@@ -169,16 +179,22 @@ export default {
 				}
 			}
 		},
-		searchFn () { // 搜索内容
-			this.sortData.currentPage = 1 // 重置当前页
+		// 搜索内容
+		searchFn () {
+			// 重置当前页
+			this.sortData.currentPage = 1
 			this.paging()
 		},
-		async sortChange (column) { // 排序方式改变时执行(文档说明)
+		// 排序方式改变时执行(文档说明)
+		async sortChange (column) {
 			// 因为第一次页面加载就执行此函数,故做此判断,减少请求,优化代码(自己测试得出)
 			if (this.sortData.sortField !== column.prop || this.sortData.orderBy !== column.order) {
-				this.sortData.sortField = column.prop // 修改排序字段
-				this.sortData.orderBy = column.order // 修改排序方式
-				this.paging() // 调用分页的方法
+				// 修改排序字段
+				this.sortData.sortField = column.prop
+				// 修改排序方式
+				this.sortData.orderBy = column.order
+				// 调用分页的方法
+				this.paging()
 			}
 		},
 		// 时间格式化
@@ -227,10 +243,4 @@ export default {
     .content_right>>>.el-pagination__total {
         color: #ffffff;
     }
-
-    .el-pagination {
-        margin-top: 10px;
-        text-align: center;
-    }
-
 </style>

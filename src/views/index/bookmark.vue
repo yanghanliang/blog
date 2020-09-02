@@ -1,6 +1,16 @@
 <template>
     <div class="w bookmark">
-		<my-nav :nav-status="true" :firstTrigger="false" :isEdit="true" :isView="true" :data="bookmarkData" ref="myNav" :isBlank="true"></my-nav>
+		<my-nav
+			:nav-status="true"
+			:firstTrigger="false"
+			:isEdit="true"
+			:isView="true"
+			:data="bookmarkData"
+			ref="myNav"
+			:isBlank="true"
+			:clickOpen="false"
+		>
+		</my-nav>
     </div>
 </template>
 
@@ -153,8 +163,9 @@ export default {
 	methods: {
 		// 获取书签数据
 		async getBookmarkData () {
-			let data = await this.$http.get('bookmark/list')
+			let data = await this.$http.get('bookmark/nav')
 			this.bookmarkData = this.handleData(data)
+			console.log(this.bookmarkData, 'bookmarkData')
 		},
 		// 处理数据
 		handleData (data) {
@@ -196,6 +207,7 @@ export default {
 					arr.push(ipc(item, 1))
 				}
 			}
+			console.log(JSON.stringify(arr), 'arr')
 			return arr
 		}
 	},

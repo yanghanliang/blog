@@ -11,6 +11,7 @@ const addJurisdiction = () => import('@/views/admin/jurisdiction/add')
 const editJurisdiction = () => import('@/views/admin/jurisdiction/edit')
 const userList = () => import('@/views/admin/user/list')
 const addBookmark = () => import('@/views/admin/bookmark/add')
+const bookmarkList = () => import('@/views/admin/bookmark/list')
 // admin-end
 
 export default [
@@ -78,6 +79,18 @@ export default [
 		path: 'bookmark/add',
 		name: 'addBookmark',
 		component: addBookmark,
-		meta: { title: '添加用户' },
+		meta: { title: '添加书签' },
+	},
+	{
+		path: 'bookmark/edit',
+		name: 'editBookmark',
+		component: addBookmark,
+		meta: { title: '修改书签' },
+	},
+	{
+		path: 'bookmark/list',
+		name: 'bookmarkList',
+		component: bookmarkList,
+		meta: { title: '书签列表' },
 	}
 ]

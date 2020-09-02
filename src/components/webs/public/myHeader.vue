@@ -1,6 +1,6 @@
 <template>
     <div class="header-box">
-		<el-menu :default-active="defaultActive" class="el-menu-demo" mode="horizontal" :router="true"
+		<el-menu default-active="/common" class="el-menu-demo" mode="horizontal" :router="true"
 			background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
 			<!-- <a href="#">logo</a> -->
 			<!-- <el-menu-item index="1">目录</el-menu-item> -->
@@ -22,6 +22,7 @@
 			</el-menu-item>
 			<el-submenu index="1">
 				<template slot="title">分类</template>
+				
 				<el-submenu v-if="catalog.children" v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
 					<template slot="title">{{ catalog.classname }}</template>
 					<el-menu-item v-if="!two.children" v-for="two in catalog.children" :index="two.index" :key="two.id">
@@ -60,7 +61,7 @@
 			<el-menu-item index="/views/components">小需求</el-menu-item>
 			<!-- <el-menu-item index="/personal/resume">个人简历</el-menu-item> -->
 			<el-menu-item index="/webinfo">站点信息</el-menu-item>
-			<!-- <el-menu-item index="/bookmark">书签</el-menu-item> -->
+			<el-menu-item index="/bookmark">书签</el-menu-item>
 			<el-menu-item index="/demo">demo</el-menu-item>
 			<!-- <el-menu-item index="/webSocket">webSocket</el-menu-item> -->
 			<el-submenu index="git">
@@ -176,9 +177,10 @@ export default {
 	methods: {
 		async loadData () { // 加载数据
 			const {
-				data
-			} = await this.$http.get('/category')
-			this.catalogs = this.InfinitePoleClassification(data) // 将数据修改成层级关系
+				list
+			} = await this.$http.post('/category')
+			this.catalogs = this.InfinitePoleClassification(list) // 将数据修改成层级关系
+			console.log(this.catalogs, 'this.catalogs')
 		},
 		InfinitePoleClassification (data) { // 无限极分类
 			const sourceData = Object.assign([], data) // 对象值传递
@@ -249,7 +251,12 @@ export default {
 				})
 			})
 		}
-	}
+	},
+	watch: {
+		catalogs (newVal) {
+			console.log(newVal, 'newVal')
+		}
+	},
 }
 
 </script>
@@ -305,6 +312,23 @@ export default {
 				&:hover {
 					background-color: $hover;
 				}
+			}
+		}
+
+		.message {
+			position: relative;
+
+			&::after {
+				content: attr(attr-number);
+				display: inline-block;
+				font-size: 12px;
+				top: -5px;
+				width: 7px;
+				height: 7px;
+				line-height: 1;
+				position: absolute;
+				border-radius: 50%;
+				background-color: #fff;
 			}
 		}
 	}

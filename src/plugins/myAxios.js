@@ -50,6 +50,8 @@ MyAxios.install = function (Vue) {
 				}
 			})
 			return
+		} else if (data.msg && data.type !== 'token') {
+			return data
 		}
 		return response
 	}, function (error) {

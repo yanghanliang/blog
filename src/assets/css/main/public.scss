@@ -82,6 +82,17 @@
     text-align: center;
 }
 
+.ta-right {
+    text-align: right;
+}
+
 .position-relative {
     position: relative;
+}
+
+// 省略号
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
