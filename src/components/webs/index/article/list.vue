@@ -209,6 +209,10 @@ export default {
 		display: none;
 	}
 
+	@media (max-device-width: 940px) {
+		height: 10.1rem;
+	}
+
 	.cl_box {
 		// width: 8rem;
 		height: 2rem;
