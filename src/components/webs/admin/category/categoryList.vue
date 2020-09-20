@@ -11,16 +11,11 @@
                     <span v-else>{{ row.pid_classname }}</span>
                 </template>
             </el-table-column>
-			<el-table-column prop="type" label="类型" sortable="custom">
-				<template slot-scope="{ row }">
-					<span>{{ row.type | type }}</span>
-				</template>
-			</el-table-column>
             <el-table-column label="操作" width="200">
                 <template slot="header" slot-scope="scope">
-                    <el-input v-model="sortData.searchData" size="mini" @input="searchFn" placeholder="输入类名搜索" />
+                    <el-input v-model="sortData.searchData" clearable size="mini" @input="searchFn" placeholder="输入类名搜索" />
                 </template>
-                <template slot-scope="row">
+                <template slot-scope="{row}">
                     <!-- <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button> -->
                     <el-button type="text" size="small" @click="showDialog(row)">删除</el-button>
                     <router-link class="edit" :to="'/admin/editCategory/'+ row.id">编辑</router-link>
@@ -52,7 +47,7 @@ export default {
 			dialogVisible: false,
 			row: {}, // 行数据
 			sortData: {
-				sortField: 'type', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
+				sortField: 'classname', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
 				orderBy: 'descending', // 排序方式
 				pageSize: 10, // 每页显示的条数(和后端数据接口一致)
 				currentNumber: 0, // 当前第几条 = (当前页-1) * 每页条数
@@ -60,31 +55,6 @@ export default {
 				searchData: '' // 搜索框中的数据
 			},
 			total: 0
-		}
-	},
-	filters: {
-		type (value) {
-			let arr = value.split(',')
-			let newArr = []
-			const text = [
-				{
-					id: 1,
-					name: '文章'
-				},
-				{
-					id: 2,
-					name: '书签'
-				}
-			]
-			arr.forEach(id => {
-				text.forEach(item => {
-					if (Number(id) === item.id) {
-						newArr.push(item.name)
-					}
-				})
-			})
-
-			return newArr.join('&&')
 		}
 	},
 	created () {
@@ -106,9 +76,7 @@ export default {
 		},
 		async deleteCategory () { // 删除分类数据
 			this.dialogVisible = false // 关闭对话框
-			const {
-				data
-			} = await this.$http.delete(`deleteCategory/${this.row.id}`)
+			const data = await this.$http.delete(`deleteCategory/${this.row.id}`)
 			if (data.status === 200) {
 				for (var i = 0; i < this.tableData.length; i++) { // 循环分类数据
 					if (this.tableData[i].id === this.row.id) { // 找到删除的数据

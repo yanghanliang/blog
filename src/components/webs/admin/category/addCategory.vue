@@ -4,12 +4,6 @@
             <el-form-item label="分类名称">
                 <el-input v-model="form.classname"></el-input>
             </el-form-item>
-			<el-form-item label="类型">
-                <el-select v-model="form.type" placeholder="请选择层级" @change="getCategoryData">
-                    <el-option v-for="(item, key) in typeList" :key="key" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item label="层级">
                 <el-select v-model="form.layername" placeholder="请选择层级">
                     <el-option v-for="data in categoryData" :key="data.id" :label="data.classname" :value="data.id">
@@ -35,17 +29,7 @@ export default {
 				pid: 0,
 				type: 1,
 				layername: '第一层级'
-			},
-			typeList: [
-				{
-					label: '文章',
-					value: 1
-				},
-				{
-					label: '书签',
-					value: 2
-				}
-			]
+			}
 		}
 	},
 	created () {
@@ -60,7 +44,6 @@ export default {
 		},
 		async addCategory () {
 			const data = await this.$http.post('addCategory', this.form)
-			console.log(data, 'data')
 			if (data.status === 200) {
 				this.$message({
 					message: data.msg,
