@@ -197,8 +197,15 @@
     background-color: #fff;
 }
 
-.content .left>>>.v-note-wrapper .v-note-panel {
-    border: none;
+.content .left>>>.v-note-wrapper {
+	@media screen and(-ms-high-contrast:active),(-ms-high-contrast:none){
+		/* 兼容IE11 */
+		display: block;
+	}
+
+	.v-note-panel {
+		border: none;
+	}	
 }
 /* reset-markdown-style-end */
 

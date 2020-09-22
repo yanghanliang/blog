@@ -1139,6 +1139,38 @@ new HtmlWebpackPlugin({
 <link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
 ```
 
+---
+
+#### 兼容IE11 （可以解决 includes 和 Promise 等es6问题）
+
++ 安装 `babel-polyfill`
+
+`npm install babel-polyfill -D`
+
++ build/webpack.base.conf.js
+
+```js
+
+entry: {
+  app: './src/main.js'
+},
+
+// 改成
+entry: {
+  app: ['babel-polyfill', './src/main.js']
+},
+
+```
+
++ src/main.js
+
+// 在最上面添加
+`import 'babel-polyfill'`
+
+安装后运行即可，若报这个包找不到，可以尝试用 `yarn add babel-polyfill -D`试试
+
+---
+
 ### 书签功能
 ### 预渲染-提高首页加载速度（待完成）
 ### 个人中心
