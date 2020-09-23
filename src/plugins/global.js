@@ -57,5 +57,6 @@ export default {
 
 		recursion(params.params, params.defaultValue)
 		return params.params
-	}
+	},
+	ip: returnCitySN.cip
 }
