@@ -21,8 +21,9 @@
 </template>
 
 <script>
+import Global from '@/plugins/global'
+const ws = new WebSocket(`ws://${Global.localhostIp}`)
 
-const ws = new WebSocket('ws://127.0.0.1:8090')
 export default {
 	name: 'webSocket',
 	data () {
@@ -101,11 +102,6 @@ export default {
 			this.$refs.input.focus()
 		}
 	},
-	watch: {
-		chatRecord(value) {
-			console.log(value, 'value')
-		}
-	}
 }
 </script>
 
