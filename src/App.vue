@@ -57,7 +57,7 @@ export default {
 					}
 					this.ipInfo = data[0]
 					const h = this.$createElement
-					const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
+					// const showTime = Math.ceil(this.ipInfo.sum_time / 1000 / 60)
 					// 您已浏览此网站共${showTime}分钟
 					this.$notify({
 						offset: 100,
