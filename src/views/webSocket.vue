@@ -1,7 +1,7 @@
 <template>
     <div class="websocket">
         <div class="tips" v-if="onlineNumber">在线人数：{{ onlineNumber }}</div>
-		<div class="list clearfix">
+		<div class="list clearfix scrollbar">
 			<div v-for="(item, index) in chatRecord" :key="index" :class="['list-item', id === item.id ? 'ta-right' : '']">
 				<template v-if="id === item.id">
 					<span>{{ item.content }}：</span>
@@ -12,6 +12,7 @@
 					<span>：{{ item.content }}</span>
 				</template>
 			</div>
+			<div ref="bottom"></div>
 		</div>
 		<div class="clearfix">
 			<el-input class="w80 fl" ref="input" v-model="message" placeholder="请输入内容" @keyup.enter.native="send"></el-input>
@@ -77,6 +78,10 @@ export default {
 					if (resData.type === 1) {
 						// 消息
 						resData.content && this.chatRecord.push(resData)
+						// 自动滚动到底部
+						this.$nextTick(() => {
+							this.$refs.bottom.scrollIntoView()
+						})
 					} else {
 						const h = this.$createElement
 						const text = resData.type === 2 ? '登录' : '跑'
