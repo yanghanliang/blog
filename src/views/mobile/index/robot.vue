@@ -16,7 +16,7 @@
 				</template>
 			</template>
 			<template v-else>
-				<div class="tips" v-if="onlineNumber">在线人数：{{ onlineNumber }}</div>
+				<div class="title" v-if="onlineNumber">在线人数：{{ onlineNumber }}</div>
 				<template v-for="(item, index) in chatRecord">
 					<div :key="index">
 						<div class="rc-right clearfix" v-if="id === item.id">
@@ -33,7 +33,8 @@
             <div class="show" ref="show"></div>
         </div>
         <div class="input-box clearfix">
-            <div class="input" contenteditable="true" @input="textChange" ref="input" placeholder="发送：/switch 即可切换机器人和即时聊天功能~"></div>
+			<p class="tips">发送：/switch 即可切换“机器人”或“即时聊天”功能~</p>
+            <div class="input" contenteditable="true" @input="textChange" ref="input" placeholder="面朝大海，春暖花开。"></div>
             <button @click="send">发送</button>
         </div>
     </div>
@@ -207,7 +208,7 @@ export default {
 		overflow: auto;
 		position: relative;
 
-		.tips {
+		.title {
 			top: 20px;
 			left: 50%;
 			width: 100px;
@@ -297,6 +298,12 @@ export default {
         padding: 10px 20px;
         position: absolute;
 		box-sizing: border-box;
+
+		.tips {
+			margin-bottom: 5px;
+			color: $main-font;
+			font-weight: bold;
+		}
 
         .input {
             width: 82%;
