@@ -299,7 +299,7 @@ export default {
 		box-sizing: border-box;
 
         .input {
-            width: 86%;
+            width: 82%;
             float: left;
             padding: 0 10px;
             min-height: 30px;
