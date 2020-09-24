@@ -34,8 +34,8 @@ export default [
 		component: inDevelopment
 	},
 	{
-		path: 'robot',
-		name: 'robot',
+		path: 'webSocket',
+		name: 'webSocket',
 		component: robot
 	}
 ]

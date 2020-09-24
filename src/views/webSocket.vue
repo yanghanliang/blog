@@ -30,8 +30,7 @@ export default {
 	data () {
 		return {
 			// 聊天记录
-			chatRecord: [
-			],
+			chatRecord: [],
 			message: '',
 			id: '',
 			// 头像列表
@@ -48,7 +47,7 @@ export default {
 			// var mess = document.getElementById('mess')
 			if (window.WebSocket) {
 				ws.onopen = (e) => {
-					console.log('连接服务器成功')
+					// console.log('连接服务器成功')
 					// let sendData = JSON.stringify({
 					// 	headPortraitList: this.headPortraitList[index%4]
 					// })
@@ -56,11 +55,11 @@ export default {
 				}
 
 				ws.onclose = function (e) {
-					console.log('服务器关闭')
+					// console.log('服务器关闭')
 				}
 
 				ws.onerror = function () {
-					console.log('连接出错')
+					// console.log('连接出错')
 				}
 
 				// 收到消息处理
@@ -97,6 +96,7 @@ export default {
 				}
 			}
 		},
+		// 发送聊天消息
 		send () {
 			let req = JSON.stringify({
 				id: this.id,
@@ -117,6 +117,10 @@ export default {
 	border-radius: 5px;
 	margin: 100px auto;
 	border: 1px solid $border-color;
+
+	@media (max-device-width: 435px) {
+		width: 300px;
+	}
 
 	.tips {
 		text-align: center;
