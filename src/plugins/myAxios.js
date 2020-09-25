@@ -38,7 +38,7 @@ MyAxios.install = function (Vue) {
 		if (data.data && data.type !== 'token') {
 			// 这样做之后取数据的时候可以少取一层
 			return data.data
-		} else if (data.type === 'token' && data.status === 201) {
+		} else if (data.type === 'token' && data.status === 401) {
 			// 清空登录状态
 			window.localStorage.removeItem('token')
 			window.localStorage.removeItem('user')
@@ -50,7 +50,10 @@ MyAxios.install = function (Vue) {
 				}
 			})
 			return
-		} else if (data.msg && data.type !== 'token') {
+		} else if (data.status === 403) {
+			Message.info({
+				message: data.msg,
+			})
 			return data
 		}
 		return response

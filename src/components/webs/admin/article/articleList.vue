@@ -111,25 +111,29 @@ export default {
 		},
 		async deleteData () { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
-			const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
-			this.total = data.getArticleNumber
-			if (data.deleteData && data.deleteData.status === 200) {
-				// 为了减轻服务器压力,所做的js优化(使用分页后不行了)
-				// this.deleteTableData(this.id)
-				this.getData()
-				// 弹出提示框
-				this.$message({
-					type: 'success',
-					message: data.deleteData.msg,
-					center: true
-				})
-			} else {
-				// 弹出提示框
-				this.$message({
-					type: 'error',
-					message: data.msg,
-					center: true
-				})
+			try {
+				const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
+				this.total = data.getArticleNumber
+				if (data.deleteData && data.deleteData.status === 200) {
+					// 为了减轻服务器压力,所做的js优化(使用分页后不行了)
+					// this.deleteTableData(this.id)
+					this.getData()
+					// 弹出提示框
+					this.$message({
+						type: 'success',
+						message: data.deleteData.msg,
+						center: true
+					})
+				} else {
+					// 弹出提示框
+					this.$message({
+						type: 'error',
+						message: data.msg,
+						center: true
+					})
+				}
+			} catch (e) {
+				console.log(e)
 			}
 		},
 		deleteTableData (id) { // 删除表格数据

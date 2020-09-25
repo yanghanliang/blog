@@ -82,6 +82,7 @@ export default {
 				}
 			} catch (e) {
 				console.log(e)
+				this.getTableData()
 			}
 		},
 		// 删除权限
