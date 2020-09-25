@@ -131,10 +131,11 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 	let _jurisdiction = JSON.parse(window.localStorage.getItem('_jurisdiction')) || []
 	if (_jurisdiction.includes(to.name)) {
-		Message.error('您没有此权限')
+		Message.error('您没有访问此页面的权限，若有需要请联系下面站长邮箱~')
 		next({
 			path: from.path
 		})
+		return
 	}
 
 	if (Global.equipment === 'mobile') {
