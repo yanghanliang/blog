@@ -355,6 +355,7 @@ export default {
 @media (max-device-width: 435px) {
 	.content-left {
 		width: 100%;
+        height: 704px;
 
 		.cl_box {
 			width: 100%;
