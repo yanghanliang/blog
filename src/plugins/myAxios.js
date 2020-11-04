@@ -35,10 +35,10 @@ MyAxios.install = function (Vue) {
 		const {
 			data
 		} = response
-		if (data.data && data.type !== 'token') {
-			// 这样做之后取数据的时候可以少取一层
+		if ((data.data && data.type !== 'token') || data.data === false) {
+            // 这样做之后取数据的时候可以少取一层
 			return data.data
-		} else if (data.type === 'token' && data.status === 401) {
+		} else if (data.status === 401) {
 			// 清空登录状态
 			window.localStorage.removeItem('token')
 			window.localStorage.removeItem('user')
