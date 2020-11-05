@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 // 引入全局变量
 import Global from '@/plugins/global'
+import router from '@/router/index'
 
 const MyAxios = {}
 
@@ -36,12 +37,12 @@ MyAxios.install = function (Vue) {
 			data
 		} = response
 		if ((data.data && data.type !== 'token') || data.data === false) {
-            // 这样做之后取数据的时候可以少取一层
+			// 这样做之后取数据的时候可以少取一层
 			return data.data
 		} else if (data.status === 401) {
 			// 清空登录状态
-			window.localStorage.removeItem('token')
-			window.localStorage.removeItem('user')
+			// window.localStorage.removeItem('token')
+			// window.localStorage.removeItem('user')
 
 			Message.info({
 				message: data.msg,
@@ -54,7 +55,8 @@ MyAxios.install = function (Vue) {
 			Message.info({
 				message: data.msg,
 			})
-			return data
+			router.go(-1)
+			return
 		}
 		return response
 	}, function (error) {

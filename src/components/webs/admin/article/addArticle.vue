@@ -37,23 +37,23 @@
 export default {
 	name: 'handleArticle',
 	data () {
-        const titleVerification = async (rule, value, callback) => {
-            // 编辑的时候不验证
-            if (this.isEdit && value === this.initFormData.title) {
-                return callback()
-            }
+		const titleVerification = async (rule, value, callback) => {
+			// 编辑的时候不验证
+			if (this.isEdit && value === this.initFormData.title) {
+				return callback()
+			}
 			if (!value) {
-				return callback(new Error('请输入标题'));
-            }
+				return callback(new Error('请输入标题'))
+			}
 
-            const isExistence = await this.$http.get(`article/isExistence?title=${value}`)
-            if (isExistence) {
-                return callback(new Error('此标题已存在，请重新输入标题'));
-            }
-            callback()
+			const isExistence = await this.$http.get(`article/isExistence?title=${value}`)
+			if (isExistence) {
+				return callback(new Error('此标题已存在，请重新输入标题'))
+			}
+			callback()
 		}
 		return {
-            // 表单数据
+			// 表单数据
 			form: {
 				title: '', // 文章标题
 				classname: '', // 文章类名
@@ -63,11 +63,11 @@ export default {
 				id: '', // 文章 id(修改时才用到)
 				original: 0, // 默认是原创文章
 				userId: [0], // 用户 ID
-            },
-            // 文章的初始数据
-            initFormData: {
-                title: ''
-            },
+			},
+			// 文章的初始数据
+			initFormData: {
+				title: ''
+			},
 			buttonText: '添加文章', // 默认提交按钮文字
 			url: 'addArticle', // 默认提交地址
 			type: 'post', // 默认请求方式
@@ -85,12 +85,12 @@ export default {
 				]
 			}
 		}
-    },
-    computed: {
-        isEdit () {
-            return this.$route.path.includes('/admin/editArticle')
-        }
-    },
+	},
+	computed: {
+		isEdit () {
+			return this.$route.path.includes('/admin/editArticle')
+		}
+	},
 	created () {
 		// 获取分类数据
 		this.getCategoryData()
@@ -135,7 +135,7 @@ export default {
 
 			// 操作前先将数据保存，防止登录验证时自动跳转导致数据丢失
 			window.sessionStorage.setItem('articleData', JSON.stringify(this.form))
-            const { data } = await this.$http[this.type](this.url, this.form)
+			const { data } = await this.$http[this.type](this.url, this.form)
 
 			if (data.status === 200) {
 				// 弹出提示框
@@ -162,15 +162,14 @@ export default {
 		},
 		// 获取修改数据
 		async getEditData (articleId) {
-			let { data } = await this.$http.get(`articleDetails/${articleId}`)
-            data = data[0]
-            let userId = []
-            if (data.user_id) {
-                userId = data.user_id.split(',')
-                userId = userId.map(item => Number(item))
-            }
-            this.form.title = data.title
-            this.initFormData.title = data.title
+			const data = await this.$http.get(`articleDetails/${articleId}`)
+			let userId = []
+			if (data.user_id) {
+				userId = data.user_id.split(',')
+				userId = userId.map(item => Number(item))
+			}
+			this.form.title = data.title
+			this.initFormData.title = data.title
 			this.form.classname = data.classname
 			this.form.categoryId = data.category_id // 保存原类名 ID
 			this.form.synopsis = data.synopsis
@@ -179,8 +178,8 @@ export default {
 			this.form.userId = userId
 			this.buttonText = '修改文章'
 			this.url = `editArticle/${articleId}` // 修改url
-            this.type = 'put' // 修改请求类型
-            console.log(this.form.userId, 'this.form.userId')
+			this.type = 'put' // 修改请求类型
+			console.log(this.form.userId, 'this.form.userId')
 		},
 		// 获取分类数据
 		async getCategoryData () {
