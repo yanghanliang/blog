@@ -42,7 +42,7 @@
                     <el-input clearable v-model="sortData.searchData" size="mini" @keyup.enter.native="searchFn" @input="searchFn" placeholder="输入关键字搜索" />
                 </template>
                 <template slot-scope="scope">
-                    <el-button @click="deleteArticle(scope.row.id)" type="text" size="small">删除</el-button>
+                    <el-button @click="deleteArticle(scope.row)" type="text" size="small">删除</el-button>
                     <router-link class="edit" :to="{ name: 'editArticle', params: { articleId: scope.row.id }}">编辑
                     </router-link>
                 </template>
@@ -50,7 +50,7 @@
         </el-table>
         <!-- 删除的弹窗 -->
         <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-            <span>您确定删除此文章吗？</span>
+            <span>您确定删除 {{ currentData.title }} 文章吗？</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="deleteData">确 定</el-button>
@@ -73,7 +73,7 @@ export default {
 		return {
 			tableData: [], // 表格中的所有数据
 			dialogVisible: false, // 弹窗(显示||隐藏)
-			id: '',
+			currentData: '', // 删除时，当前文章的数据
 			total: 0, // 文章表中所有的条数
 			sortData: {
 				sortField: 'createtime', // 排序的字段  排序的数据(设置首次排序[需要和element设置的一致])
@@ -105,18 +105,18 @@ export default {
 			}
 			return str
 		},
-		deleteArticle (id) { // 点击删除按钮时执行
+		deleteArticle (currentData) { // 点击删除按钮时执行
 			this.dialogVisible = true // 显示弹窗
-			this.id = id // 保存 id
+            this.currentData = currentData // 保存当前数据
 		},
 		async deleteData () { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
 			try {
-				const { data } = await this.$http.delete(`deleteArticle/${this.id}`)
+				const { data } = await this.$http.delete(`deleteArticle/${this.currentData.id}`)
 				this.total = data.getArticleNumber
 				if (data.deleteData && data.deleteData.status === 200) {
 					// 为了减轻服务器压力,所做的js优化(使用分页后不行了)
-					// this.deleteTableData(this.id)
+					// this.deleteTableData(this.currentData.id)
 					this.getData()
 					// 弹出提示框
 					this.$message({

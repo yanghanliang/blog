@@ -325,7 +325,7 @@ export default {
 				canvas.height = this.canvas.height
 				let width = imageInfo.width
 				let height = imageInfo.height
-				let proportion = 0
+				// let proportion = 0
 				let top = 0
 				let left = 0
 				// 根据图片大小设置画布大小
