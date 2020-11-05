@@ -107,7 +107,7 @@ export default {
 		},
 		deleteArticle (currentData) { // 点击删除按钮时执行
 			this.dialogVisible = true // 显示弹窗
-            this.currentData = currentData // 保存当前数据
+			this.currentData = currentData // 保存当前数据
 		},
 		async deleteData () { // 删除数据(在删除弹窗里,点击确定按钮时执行)
 			this.dialogVisible = false // 隐藏弹窗
