@@ -20,45 +20,6 @@
 				<!-- <router-link to="/catalogList">日志</router-link> -->
 				首页
 			</el-menu-item>
-			<el-submenu index="1">
-				<template slot="title">分类</template>
-				<!-- v-if="catalog.children" -->
-				<el-submenu v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
-					<template slot="title">{{ catalog.classname }}</template>
-					<!-- v-if="!two.children" -->
-					<el-menu-item v-for="two in catalog.children" :index="two.index" :key="two.id">
-						{{ two.classname }}</el-menu-item>
-					<!-- v-if="two.children" -->
-					<el-submenu v-for="two in catalog.children" :index="two.index" :key="two.id">
-						<template slot="title">{{ two.classname }}</template>
-						<!-- v-if="!three.children" -->
-						<el-menu-item v-for="three in two.children" :index="three.index"
-							:key="three.id">
-							{{ three.classname }}</el-menu-item>
-						<!-- v-if="three.children" -->
-						<el-submenu v-for="three in two.children" :index="three.index"
-							:key="three.id">
-							<template slot="title">{{ three.classname }}</template>
-							<!-- v-if="!four.children" -->
-							<el-menu-item v-for="four in three.children" :index="four.index"
-								:key="four.id">
-								{{ four.classname }}</el-menu-item>
-							<!-- v-if="four.children" -->
-							<el-submenu v-for="four in three.children" :index="four.index"
-								:key="four.id">
-								<template slot="title">{{ four.classname }}</template>
-								<!-- v-if="!five.children" -->
-								<el-menu-item v-for="five in four.children" :index="five.index"
-									:key="five.id">
-									{{ five.classname }}</el-menu-item>
-							</el-submenu>
-						</el-submenu>
-					</el-submenu>
-				</el-submenu>
-				<!-- v-if="!catalog.children" -->
-				<el-menu-item v-for="catalog in catalogs" :index="catalog.index" :key="catalog.id">
-					{{ catalog.classname }}</el-menu-item>
-			</el-submenu>
 			<!-- <el-menu-item index="/catalogList">
 				日志
 			</el-menu-item> -->
