@@ -1,9 +1,6 @@
 export default {
 	baseURL: 'http://47.98.182.149:3001/', // 接口基地址
-<<<<<<< HEAD
-=======
 	localhostIp: '47.98.182.149:8090', // 本地的 ip
->>>>>>> e0f42d9e9cab7a79a5665bae445391d087f4d851
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法
 		// const verification =  await this.Global.verification(this, 'form')
