@@ -1,5 +1,5 @@
 export default {
-	baseURL: 'http://47.98.182.149:3001/', // 接口基地址
+	baseURL: 'http://localhost:3001/', // 接口基地址
 	localhostIp: '47.98.182.149:8090', // 本地的 ip
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法
