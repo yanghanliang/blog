@@ -184,7 +184,7 @@ export default {
 		// 图片合成
 		pictureSynthesis () {
 			const imgEle = document.querySelector('#chapter')
-			const imgInfo = imgEle.getBoundingClientRect()
+			// const imgInfo = imgEle.getBoundingClientRect()
 			const canvas = document.querySelector('canvas').getBoundingClientRect()
 
 			for (let i = 0, length = this.coordinate.length; i < length; i++) {

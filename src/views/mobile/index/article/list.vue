@@ -8,9 +8,9 @@
             </div>
             <div class="mo-nav clearfix line">
                 <ul>
-                    <router-link to="/mobile/robot">
+                    <router-link to="/mobile/webSocket">
                         <li><i class="my-icon-jiqiren"></i></li>
-                        <li>机器人</li>
+                        <li>聊天</li>
                     </router-link>
                 </ul>
                 <ul>

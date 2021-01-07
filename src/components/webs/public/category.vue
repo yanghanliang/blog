@@ -66,7 +66,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     /* category-start */
     .category {
         margin-top: 0.1rem;
@@ -119,6 +119,10 @@ export default {
         border-left: 20px solid #fff;
         border-right: 20px solid #fff;
         border-bottom: 20px solid #fff;
+
+        @media (max-device-width: 2560px) {
+            height: auto;
+        }
     }
 
     .category .s_box span {

@@ -213,6 +213,10 @@ export default {
 		height: 10.1rem;
 	}
 
+	@media (max-device-width: 2560px) {
+		height: 10.32rem;
+	}
+
 	.cl_box {
 		// width: 8rem;
 		height: 2rem;
@@ -351,6 +355,7 @@ export default {
 @media (max-device-width: 435px) {
 	.content-left {
 		width: 100%;
+        height: 704px;
 
 		.cl_box {
 			width: 100%;

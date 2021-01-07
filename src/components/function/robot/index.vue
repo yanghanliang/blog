@@ -187,7 +187,8 @@ export default {
     top: 60%;
 	right: 30px;
 	z-index: 9999;
-    position: fixed;
+	position: fixed;
+	padding-bottom: 70px;
     transform: translateY(-50%);
 
     .my-icon-jiqiren {

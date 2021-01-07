@@ -75,9 +75,9 @@ Vue.directive('focus', {
 
 + 添加序列号 （可以不用考虑 vue）
   + 去除两边的换行 (为了下面的`html`结构好看-换行书写-于是引出以下问题)
-    + 因为下面还需要使用正则,所以一开始我想用正则匹配，于是发现了 `/^a(.*)a$/` 
+    + 因为下面还需要使用正则,所以一开始我想用正则匹配，于是发现了 `/^a(.*)a$/`
     ```js
-      var str = 'abcdehjjsajhjjajhja' 
+      var str = 'abcdehjjsajhjjajhja'
       str.replace(/^a(.*)a$/, function(input, $1){return $1}) // 可以获得去除两边a后的字符串 bcdehjjsajhjjajhj
     ```
       + 然后出现一个问题,正则怎么匹配 "包括换行"的任意字符(除换行外的任意单个字符是 . )
@@ -112,7 +112,7 @@ item.innerHTML = '<ol><li>  ' + str.replace(/\n/g, '\n</li><li>  ') + '\n</li></
 ```js
 let str = item.innerText.trim()
 item.innerHTML = '<ol><li>  ' + str.replace(/\n/g, '\n</li><li>  ') + '\n</li></ol><div class="copy" style="top: 10px; right: 20px; color: #333; font-size: 12px; cursor: pointer; position: absolute; padding: 2px 10px; text-align: center; border-radius: 3px; background-color: #fff; font-family: 微软雅黑, 宋体;">复制</div>'
-```        
+```
   + 单纯的实现点击复杂当前按钮下的代码块,很简单(不考虑 vue)
     + 直接写一个方法在 <javascript>function copy(that) {}</javascript>
     + <div onclick="copy(this)"> 在 div 中添加点击事件
@@ -266,7 +266,7 @@ element-ui.common.js?ccbf:10621 [Violation] Added non-passive event listener to 
 
 + 进入上面的网站查看 ：
 
-被动事件监听器： 
+被动事件监听器：
 在EventListenerOptions字典中公开“被动”布尔值。实现关于调度被动EventListeners的行为，以便在执行被动注册的回调内部调用preventDefault只会向控制台生成警告。可用于显着提高滚动性能。
 
 解决：
@@ -274,10 +274,10 @@ http://www.it1352.com/818517.html
 
 简而言之：
 document.addEventListener（'touchstart'，handler，true）;
-变成这样： 
+变成这样：
 document.addEventListener（'touchstart'，handler，{capture：true}）;
 因为在您的情况下，您将触发器的事件监听器附加到它应该是这样的：
-document.addEventListener（'touchstart'，handler，{passive：true}）; 
+document.addEventListener（'touchstart'，handler，{passive：true}）;
 
 
 我是找到提示的文件
@@ -354,10 +354,10 @@ modalDom.addEventListener('touchmove', function (event) {
 
 ## 路由
 
-要解决的问题是在进入页面或加载某一父级路由时默认加载其某一特定路由． 
+要解决的问题是在进入页面或加载某一父级路由时默认加载其某一特定路由．
 进入 /admin 时,默认进入他下面的字路由 articleList
 
-加上 `redirect: '/admin/articleList'`, 
+加上 `redirect: '/admin/articleList'`,
 
 设置 `redirect` 属性为对应子路由路径, 即转发到默认的子路由路径即可
 
@@ -440,7 +440,7 @@ watch: {
 watch: {
   $route() { // 监听路由变化
     this.loadData()
-  } 
+  }
 }
 
 ## 父组件给子组件传值以 “对象” 的方式
@@ -744,7 +744,7 @@ meteorShower()
 
 
 
-## 项目打包 
+## 项目打包
 
 ### 1. `npm run build`
 
@@ -1138,6 +1138,38 @@ new HtmlWebpackPlugin({
 ```html
 <link rel="shortcut icon" href="static/logo.ico" type="image/x-icon"/>
 ```
+
+---
+
+#### 兼容IE11 （可以解决 includes 和 Promise 等es6问题）
+
++ 安装 `babel-polyfill`
+
+`npm install babel-polyfill -D`
+
++ build/webpack.base.conf.js
+
+```js
+
+entry: {
+  app: './src/main.js'
+},
+
+// 改成
+entry: {
+  app: ['babel-polyfill', './src/main.js']
+},
+
+```
+
++ src/main.js
+
+// 在最上面添加
+`import 'babel-polyfill'`
+
+安装后运行即可，若报这个包找不到，可以尝试用 `yarn add babel-polyfill -D`试试
+
+---
 
 ### 书签功能
 ### 预渲染-提高首页加载速度（待完成）
