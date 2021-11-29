@@ -15,7 +15,7 @@
     "axios": "^0.18.0",
     "echarts": "^4.6.0",
     "element-ui": "^2.13.0",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "md5": "^2.2.1",
     "moment": "^2.23.0",
     "vue": "^2.5.2",
