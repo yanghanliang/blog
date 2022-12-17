@@ -1,6 +1,6 @@
 export default {
-	baseURL: 'http://116.205.136.244:3001/', // 接口基地址
-	localhostIp: '116.205.136.244:8090', // 本地的 ip
+	baseURL: 'https://www.openinfo.cloud/api/', // 接口基地址
+	localhostIp: 'https://www.openinfo.cloud/api/', // 本地的 ip
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法
 		// const verification =  await this.Global.verification(this, 'form')
