@@ -23,7 +23,7 @@
 
 <script>
 import Global from '@/plugins/global'
-const ws = new WebSocket(`ws://${Global.localhostIp}`)
+const ws = new WebSocket(`wss://${Global.localhostIp}`)
 
 export default {
 	name: 'webSocket',
