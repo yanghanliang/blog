@@ -5,10 +5,10 @@
 			<div v-for="(item, index) in chatRecord" :key="index" :class="['list-item', id === item.id ? 'ta-right' : '']">
 				<template v-if="id === item.id">
 					<span>{{ item.content }}：</span>
-					<img v-if="item.headPortraitUrl" :src="Global.baseURL + item.headPortraitUrl" alt="头像">
+					<img v-if="item.headPortraitUrl" :src="item.headPortraitUrl" alt="头像">
 				</template>
 				<template v-else>
-					<img v-if="item.headPortraitUrl" :src="Global.baseURL + item.headPortraitUrl" alt="头像">
+					<img v-if="item.headPortraitUrl" :src="item.headPortraitUrl" alt="头像">
 					<span>：{{ item.content }}</span>
 				</template>
 			</div>
