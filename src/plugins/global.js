@@ -1,5 +1,5 @@
 export default {
-	baseURL: 'https://www.openinfo.cloud/api/', // 接口基地址
+	baseURL: process.env.NODE_ENV === 'production' ? 'https://www.openinfo.cloud/api/' : 'http://localhost:3001/', // 接口基地址
 	localhostIp: 'www.openinfo.cloud/wss/', // 本地的 ip
 	verification: async (that, formName) => { // 表单验证
 		// 使用方法

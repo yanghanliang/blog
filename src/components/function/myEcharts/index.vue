@@ -2,12 +2,14 @@
 	<div :class="['echarts-box', { 'pd20': !title }]" :style="style" ref="echartsBox">
 		<template v-if="title">
 			<div class="eb-header clearfix">
-				<slot name="header-left">
-					<span class="ebh-title">{{ title }}</span>
-				</slot>
-				<slot name="header-right">
-					<my-data v-if="time" class="ebh-time" @dateChange="dateChange" :dateType="time"></my-data>
-				</slot>
+        <!-- header-left -->
+				<slot name="header-left" v-if="$slots['header-left']">
+        </slot>
+        <span class="ebh-title" v-else>{{ title }}</span>
+        <!-- header-right -->
+				<slot name="header-right" v-if="$slots['header-right']">
+        </slot>
+        <my-data v-else-if="time" class="ebh-time" @dateChange="dateChange" :dateType="time"></my-data>
 			</div>
 			<div class="line"></div>
 		</template>
@@ -34,6 +36,8 @@ import myData from '@/components/function/date/index'
 import myLine from '@/components/function/myEcharts/main/line'
 import myBar from '@/components/function/myEcharts/main/bar'
 import myPie from '@/components/function/myEcharts/main/pie'
+// 导入时间类型
+import dateType from '@/components/function/date/dateType'
 
 export default {
 	name: 'myEcharts',
@@ -259,10 +263,11 @@ export default {
 			}
 		}
 	},
-	mounted () {
+	async mounted () {
 		this.setBoxWH()
 		if (!this.time && this.getDataFn) {
-			this.fnGetData = this.getDataFn()
+      const data = await this.getDataFn(dateType[this.time])
+			this.fnGetData = data
 		}
 		this.resize()
 	},

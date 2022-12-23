@@ -99,6 +99,15 @@ export default {
 							text: 'demo1'
 						}
 					]
+				},
+				{
+					className: 'work',
+					children: [
+						{
+							route: 'tapd',
+							text: 'tapd'
+						},
+					]
 				}
 			]
 		}

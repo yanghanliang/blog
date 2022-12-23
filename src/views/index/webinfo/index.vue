@@ -1,7 +1,14 @@
 <template>
     <div class="webinfo w">
 		<div class="we-content clearfix">
-			<my-echarts :txt="xAxisData" title="站点信息" type="line" :getDataFn="getData" :time="7" class="echarts fl"></my-echarts>
+			<my-echarts
+        :txt="xAxisData"
+        title="站点信息"
+        type="line"
+        :getDataFn="getData"
+        :time="7"
+        class="echarts fl"
+      />
 			<my-echarts class="min-echarts mt20 fl" title="文章详情" width="48%" height="300px" :txt="barData.xAxisData" :data="barData.seriesData" :axisLabel="{}"></my-echarts>
 			<my-echarts class="min-echarts mt20 fr" type="pie" width="48%" seriesName="文章出自" height="300px" :txt="article.xAxisData" :data="article.seriesData" :axisLabel="{}"></my-echarts>
 			<my-echarts class="min-echarts mt20 fl" type="pie" width="48%" height="300px" seriesName="文章评论" :txt="comment.xAxisData" :data="comment.seriesData" :axisLabel="{}"></my-echarts>

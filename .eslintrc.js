@@ -28,7 +28,8 @@ module.exports = {
     // 函数后面不需要加空格
     // 'space-before-function-paren': 'off',
     // 用于选项卡式缩进
-    'indent': ['error', 'tab'],
+    // 'indent': ['error', 'tab'],
+    'indent': 'off',
     // 关闭tab的检测
     'no-tabs': 'off',
     // 允许但不要求在属性后面加逗号

@@ -14,6 +14,7 @@ const connection = () => import('@/views/index/components/document/connection')
 const myEcharts = () => import('@/views/index/components/document/echarts/index')
 const myFilters = () => import('@/views/index/components/document/filters')
 const demo1 = () => import('@/views/index/components/document/interview/demo1/index')
+const tapd = () => import('@/views/index/components/document/tapd/index')
 const personalResume = () => import('@/views/index/personalResume')
 const webinfo = () => import('@/views/index/webinfo/index')
 const bookmark = () => import('@/views/index/bookmark')
@@ -99,6 +100,11 @@ export default [
 				path: 'demo1',
 				name: 'demo1',
 				component: demo1
+			},
+			{
+				path: 'tapd',
+				name: 'tapd',
+				component: tapd
 			}
 		]
 	},

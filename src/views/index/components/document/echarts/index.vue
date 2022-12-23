@@ -19,12 +19,12 @@
 			<my-echarts class="fl" width="48%" :option="optionC"></my-echarts>
 		</div>
 		<el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="params" label="参数" width="180"></el-table-column>
-            <el-table-column prop="explain" label="说明" :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="type" label="类型" width="180" :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="option" label="可选值" :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="default" label="默认值"></el-table-column>
-        </el-table>
+      <el-table-column prop="params" label="参数" width="180"></el-table-column>
+      <el-table-column prop="explain" label="说明" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="type" label="类型" width="180" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="option" label="可选值" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="default" label="默认值"></el-table-column>
+  </el-table>
     </div>
 </template>
 

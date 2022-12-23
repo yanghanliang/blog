@@ -23,7 +23,11 @@
     <router-view id="app"></router-view>
     <!-- 注意引入的先后顺序 -->
     <script src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
-    <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
+    <% } else { %>
+      <script src="https://cdn.bootcss.com/vue/2.5.2/vue.js"></script>
+    <% } %>
     <script src="https://cdn.bootcss.com/element-ui/2.13.0/index.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
