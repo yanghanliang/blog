@@ -23,7 +23,7 @@ let props = {
 		type: Object,
 	},
 	color: {
-		type: Object,
+		type: Array,
 	},
 	seriesData: {
 		type: Array,
