@@ -39,13 +39,7 @@ export default {
 				yAxis: {
 					// minInterval: 1, // y轴坐标值的差值如设置 10，则y轴展示 10 20 30 40 ...
 				},
-				grid: {
-					// 组件离容器的距离（边距）
-					left: 30,
-					top: 30,
-					bottom: 30,
-					right: 15,
-				},
+				grid: this.grid,
 				series: [{
 					name: this.seriesName,
 					type: 'bar',

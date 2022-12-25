@@ -16,11 +16,11 @@
 		<template v-if="style">
 			<component class="eb-content" :is="currentComponent"
 				:option="option"
-				:xAxisData="xAxisData"
-				:seriesData="seriesData"
+				:xAxisData="getXAxisData"
+				:seriesData="getSeriesData"
 				:seriesName="sn"
 				:axisLabel="axisLabel"
-				:date="date"
+        :grid="grid"
 				:seriesCenter="seriesCenter"
 				:toolbox="toolbox"
 				:color="color"
@@ -38,16 +38,15 @@ import myBar from '@/components/function/myEcharts/main/bar'
 import myPie from '@/components/function/myEcharts/main/pie'
 // 导入时间类型
 import dateType from '@/components/function/date/dateType'
+import props from '@/components/function/myEcharts/main/props'
 
 export default {
 	name: 'myEcharts',
+  mixins: [props],
 	props: {
 		type: {
 			type: String,
 			default: 'bar'
-		},
-		seriesName: {
-			type: String,
 		},
 		title: {
 			type: String,
@@ -58,12 +57,6 @@ export default {
 		},
 		data: {
 			type: Array,
-		},
-		axisLabel: {
-			type: Object,
-			default: function () {
-				return {}
-			}
 		},
 		time: {
 			type: Number,
@@ -107,13 +100,6 @@ export default {
 				}
 			}
 		},
-		// 主题颜色
-		color: {
-			type: Array,
-			default: function () {
-				return ['#1785FF', '#2FC25B', '#FACC14', '#223273', '#8A52D9', '#FF6642']
-			}
-		},
 	},
 	components: {
 		myBar,
@@ -133,7 +119,6 @@ export default {
 					name: 'myBar'
 				}
 			],
-			date: [],
 			style: '',
 			show: false,
 			fnGetData: [], // 调用方法获取的数据
@@ -164,7 +149,7 @@ export default {
 				}
 			}
 		},
-		seriesData () {
+		getSeriesData () {
 			if (this.getDataFn) {
 				return this.fnGetData
 			} else {
@@ -242,7 +227,7 @@ export default {
 				}
 			}
 		},
-		xAxisData () {
+		getXAxisData () {
 			if (this.txt) {
 				return this.txt
 			} else {
@@ -310,6 +295,7 @@ export default {
 		},
 		getEchartsObj (echartsObj) {
 			this.echartsObj = echartsObj
+      this.$emit('getEchartsObj', echartsObj)
 		}
 	},
 }
